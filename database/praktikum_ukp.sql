@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2022 at 05:44 PM
+-- Generation Time: Mar 01, 2022 at 03:58 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.22
 
@@ -192,6 +192,13 @@ CREATE TABLE `mahasiswa` (
   `last_login` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` tinyint(1) NOT NULL COMMENT '0=nonactive; 1=active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `mahasiswa`
+--
+
+INSERT INTO `mahasiswa` (`id`, `NRP`, `nama`, `angkatan`, `ips`, `ipk`, `password`, `email`, `last_login`, `status`) VALUES
+(1, 'm26415008', 'TANU WIJAYA SARIDIN', '2015', 0.00, 2.79, '41500', 'm26415008@john.petra.ac.id', '2022-03-01 11:16:29', 1);
 
 -- --------------------------------------------------------
 
@@ -450,7 +457,7 @@ ALTER TABLE `laboratorium`
 -- AUTO_INCREMENT for table `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa_matakuliah`

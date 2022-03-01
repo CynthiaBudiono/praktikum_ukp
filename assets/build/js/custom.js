@@ -49,6 +49,7 @@ var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
     $NAV_MENU = $('.nav_menu'),
     $FOOTER = $('footer');
 
+    // print("AAAAAA");
 // Sidebar
 function init_sidebar() {
     // TODO: This is some kind of easy fix, maybe we can improve this

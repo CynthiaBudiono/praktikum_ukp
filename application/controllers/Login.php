@@ -14,12 +14,6 @@ class Login extends CI_Controller {
 
 		$this->load->view('general/header');
 
-		$this->load->view('general/sidebar');
-
-		$this->load->view('general/navbar');
-
-		$this->load->view('content/dashboard');
-
-		$this->load->view('general/footer');
+		$this->load->view('general/login');
 	}
 }

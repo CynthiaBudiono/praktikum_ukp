@@ -9,8 +9,22 @@ class Mahasiswa extends CI_Controller {
 	// 	if($this->session->userdata('user_type') == 'fasilitator') redirect('fasilitator_area');
 	// }
 
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->database();
+	}
+
+
 	public function index()
 	{
+
+		$this->load->model('mahasiswa_model');
+
+		$data['mahasiswa'] = $this->mahasiswa_model->getallopen();
+
+		// var_dump("MAHASISWA ", $data['mahasiswa']); exit;
+		$data['title'] = "Mahasiswa";
 
 		$this->load->view('general/header');
 
@@ -18,7 +32,7 @@ class Mahasiswa extends CI_Controller {
 
 		$this->load->view('general/navbar');
 
-		$this->load->view('content/mahasiswa');
+		$this->load->view('content/mahasiswa', $data);
 
 		$this->load->view('general/footer');
 	}
