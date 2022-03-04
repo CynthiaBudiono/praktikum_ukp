@@ -1,3 +1,83 @@
+<style>
+  body{
+    background-color: white;
+  }
+  .nav_title, .left_col, .main_container{
+    background-color: white;
+    
+  }
+
+  .profile_info h2{
+    color: #868e96;
+  }
+  .nav.side-menu>li>a{
+    color: #868e96;
+  }
+  .nav.side-menu>li>a:hover{
+    color: #82b19b !important;
+  }
+  nav.side-menu>li.current-page, .nav.side-menu>li.active {
+    /* box-shadow: 0 4px 8px #acb5f6;; */
+    /* border-right: 5px solid #1ABB9C; */
+  }
+
+  .nav.side-menu>li.active>a{
+    background: white;
+    text-shadow: none;
+  }
+
+  .menu_section h3{
+    color: #868e96;
+    text-shadow: none;
+  }
+
+  .nav.child_menu>li>a{
+    color: #868e96;
+  }
+
+  .nav>li>a:hover, .nav>li>a:focus {
+    color: #82b19b;
+    background: #F4F9F9;
+  }
+  .nav li li.current-page a{
+    color: #82b19b;
+  }
+
+  .nav.side-menu>li.current-page, .nav.side-menu>li.active, .current-page.fa{
+    border-right: 5px solid #82b19b;
+    border-radius: 5px;
+    color: #82b19b !important;
+  }
+
+  .green{
+    color : #82b19b !important;
+  }
+
+  .bg-green{
+    background: #82b19b !important;
+    border: 1px solid #82b19b !important;
+    color: #fff;
+  }
+
+  .nav-md ul.nav.child_menu li:before { /* pentol sidebar */
+    background: #3e405b;
+    bottom: auto;
+    content: "";
+    height: 8px;
+    left: 23px;
+    margin-top: 15px;
+    position: absolute;
+    right: auto;
+    width: 8px;
+    z-index: 1;
+    border-radius: 50%;
+}
+
+  .profile_info i{
+    color: #f2cc8e !important;
+    margin-top: 6px;
+  }
+</style>
 <body class="nav-md">
     <div class="container body">
       <div class="main_container">
@@ -17,10 +97,10 @@
               </div>
               <div class="profile_info">
                 <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html" style="float : right">
-                    <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                    <i class="glyphicon glyphicon-off" aria-hidden="true"></i>
                 </a>
                 <span>Welcome,</span>
-                <h2>John Doe</h2>
+                <h2>Admin</h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -42,7 +122,7 @@
                       <li><a href="index3.html">Mata Kuliah</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-home"></i> Jadwal <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-desktop"></i> Jadwal <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="<?= UPLOAD_URL ?>pendaftaran_praktikum">Periode Pendaftaran</a></li>
                       <li><a href="index2.html">Periode Rekrutmen</a></li>
@@ -53,7 +133,7 @@
                   </li>
                   <li><a><i class="fa fa-home"></i> Penerimaan <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="<?= UPLOAD_URL ?>mahasiswa">Ambil Praktikum</a></li>
+                      <li><a href="#">Ambil Praktikum</a></li>
                       <li><a href="index2.html">Asdos</a></li>
                       <li><a href="index3.html">Penilaian</a></li>
                     </ul>
@@ -61,7 +141,7 @@
                   <li><a><i class="fa fa-home"></i> Laporan</span></a></li>
                   <li><a><i class="fa fa-home"></i> Manajemen User <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="<?= UPLOAD_URL ?>mahasiswa">Kelompok Akses</a></li>
+                      <li><a href="#">Kelompok Akses</a></li>
                       <li><a href="index2.html">User</a></li>
                     </ul>
                   </li>

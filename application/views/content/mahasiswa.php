@@ -27,7 +27,7 @@
                     <div class="clearfix"></div>
                   </div>
                   <div>
-                    <button type="button" class="btn btn-secondary btn-lg">Update All!</button>
+                    <button type="button" class="btn btn-lg bg-green">Update All!</button>
                   </div>
                   <div class="x_content">
                       <div class="row">

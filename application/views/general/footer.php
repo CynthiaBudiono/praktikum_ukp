@@ -1,7 +1,8 @@
 <!-- footer content -->
 <footer>
           <div class="pull-right">
-            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+            &copy; Copyright <span><?= date('Y') ?> All Rights Reserved. 
+            <a href="https://informatika.petra.ac.id/">Informatics Engineering Petra Christian University</a>
           </div>
           <div class="clearfix"></div>
         </footer>
