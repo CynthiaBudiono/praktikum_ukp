@@ -122,6 +122,7 @@ function init_sidebar() {
     $SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('current-page');
 
     $SIDEBAR_MENU.find('a').filter(function () {
+        // console.log('AAAAAAA' + $SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('current-page'));
         return this.href == CURRENT_URL;
     }).parent('li').addClass('current-page').parents('ul').slideDown(function () {
         setContentHeight();

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 04, 2022 at 02:43 AM
+-- Generation Time: Mar 05, 2022 at 05:43 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.22
 
@@ -32,14 +32,16 @@ CREATE TABLE `ambil_praktikum` (
   `id_pendaftaran_praktikum` int(11) NOT NULL,
   `id_mahasiswa_matakuliah` int(11) NOT NULL,
   `NRP` varchar(11) NOT NULL,
-  `id_subject` int(11) NOT NULL,
+  `kode_mk` varchar(6) NOT NULL,
   `pil1` int(11) NOT NULL,
   `pil2` int(11) DEFAULT NULL COMMENT 'id_kelas_praktikum',
   `pil3` int(11) DEFAULT NULL,
   `pil4` int(11) DEFAULT NULL,
   `PP` tinyint(1) NOT NULL,
   `status` tinyint(1) NOT NULL COMMENT '0= nonactive; 1=active;',
-  `terpilih` int(11) NOT NULL
+  `terpilih` int(11) NOT NULL,
+  `semester` tinyint(4) NOT NULL,
+  `tahun_ajaran` varchar(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -56,20 +58,6 @@ CREATE TABLE `asisten_dosen` (
   `password` varchar(255) NOT NULL,
   `status` tinyint(1) NOT NULL COMMENT '0= nonactive; 1=active',
   `keterangan` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `backup_log`
---
-
-CREATE TABLE `backup_log` (
-  `id` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `is_success` tinyint(1) NOT NULL COMMENT '0=gagal; 1=berhasil',
-  `keterangan` text NOT NULL,
-  `created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -94,7 +82,9 @@ CREATE TABLE `calon_asisten_dosen` (
   `kelebihan` text NOT NULL,
   `kekurangan` text NOT NULL,
   `pengalaman` text NOT NULL,
-  `keterangan` text NOT NULL
+  `status` tinyint(1) NOT NULL COMMENT '0= nonactive; 1=active',
+  `keterangan` text NOT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -106,8 +96,25 @@ CREATE TABLE `calon_asisten_dosen` (
 CREATE TABLE `dosen` (
   `NIP` int(11) NOT NULL,
   `nama` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `last_login` timestamp NOT NULL DEFAULT current_timestamp()
+  `last_login` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` tinyint(1) NOT NULL COMMENT '0= nonactive; 1=active;'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `informasi_umum`
+--
+
+CREATE TABLE `informasi_umum` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `logo` varchar(255) NOT NULL,
+  `link_footer` varchar(255) NOT NULL,
+  `semester` tinyint(1) NOT NULL,
+  `tahun_ajaran` varchar(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -148,8 +155,9 @@ CREATE TABLE `jadwal_wawancara` (
 CREATE TABLE `kelas_praktikum` (
   `id` int(11) NOT NULL,
   `kode_kelas_praktikum` varchar(7) NOT NULL,
-  `id_subject` int(11) NOT NULL,
-  `id_laboratorium` int(11) NOT NULL,
+  `id_pendaftaran_praktikum` int(11) NOT NULL,
+  `kode_mk` varchar(6) NOT NULL,
+  `kode_lab` varchar(5) NOT NULL,
   `hari` varchar(12) NOT NULL,
   `jam` varchar(12) NOT NULL,
   `durasi` int(11) NOT NULL,
@@ -167,10 +175,18 @@ CREATE TABLE `kelas_praktikum` (
 --
 
 CREATE TABLE `laboratorium` (
-  `kode_lab` varchar(2) NOT NULL,
+  `kode_lab` varchar(5) NOT NULL,
   `nama` varchar(50) NOT NULL,
-  `quota_max` tinyint(3) NOT NULL
+  `quota_max` tinyint(3) NOT NULL,
+  `status` tinyint(1) NOT NULL COMMENT '0= nonactive; 1=active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `laboratorium`
+--
+
+INSERT INTO `laboratorium` (`kode_lab`, `nama`, `quota_max`, `status`) VALUES
+('MM', 'Multimedia', 18, 0);
 
 -- --------------------------------------------------------
 
@@ -206,7 +222,7 @@ INSERT INTO `mahasiswa` (`NRP`, `nama`, `angkatan`, `ips`, `ipk`, `password`, `e
 CREATE TABLE `mahasiswa_matakuliah` (
   `id` int(11) NOT NULL,
   `NRP` int(11) NOT NULL,
-  `id_subject` int(11) NOT NULL,
+  `kode_mk` varchar(6) NOT NULL,
   `kelas_paralel` char(1) NOT NULL,
   `semester` tinyint(1) NOT NULL,
   `tahun_ajaran` varchar(9) NOT NULL
@@ -272,9 +288,8 @@ CREATE TABLE `pendaftaran_praktikum` (
 --
 
 CREATE TABLE `subject` (
-  `id` int(11) NOT NULL,
   `kode_mk` varchar(6) NOT NULL,
-  `id_dosen` int(11) NOT NULL,
+  `NIPDosen` varchar(11) NOT NULL,
   `nama` varchar(30) NOT NULL,
   `kelas_paralel` char(1) NOT NULL,
   `status_praktikum` tinyint(1) NOT NULL COMMENT '0=tidak ada; 1=ada',
@@ -294,9 +309,31 @@ CREATE TABLE `user` (
   `password` varchar(255) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
   `level` tinyint(2) DEFAULT NULL COMMENT '1=admin; 2=kepala lab; 3=astap',
-  `id_lab` int(11) DEFAULT NULL,
+  `kode_lab` varchar(5) DEFAULT NULL,
   `last_login` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_history`
+--
+
+CREATE TABLE `user_history` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `table_name` varchar(100) NOT NULL,
+  `action` varchar(10) NOT NULL,
+  `keterangan` text NOT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user_history`
+--
+
+INSERT INTO `user_history` (`id`, `id_user`, `table_name`, `action`, `keterangan`, `created`) VALUES
+(1, 1, 'laboratorium', 'CREATE', 'a new record has been created by admin : {\"kode_lab\":\"MM\",\"nama\":\"Multimedia\",\"quota_max\":18,\"status\":1}; ', '2022-03-05 09:12:19');
 
 --
 -- Indexes for dumped tables
@@ -315,12 +352,6 @@ ALTER TABLE `asisten_dosen`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `backup_log`
---
-ALTER TABLE `backup_log`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `calon_asisten_dosen`
 --
 ALTER TABLE `calon_asisten_dosen`
@@ -331,6 +362,12 @@ ALTER TABLE `calon_asisten_dosen`
 --
 ALTER TABLE `dosen`
   ADD PRIMARY KEY (`NIP`);
+
+--
+-- Indexes for table `informasi_umum`
+--
+ALTER TABLE `informasi_umum`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `jadwal_berhalangan`
@@ -384,12 +421,18 @@ ALTER TABLE `pendaftaran_praktikum`
 -- Indexes for table `subject`
 --
 ALTER TABLE `subject`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`kode_mk`);
 
 --
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_history`
+--
+ALTER TABLE `user_history`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -409,15 +452,15 @@ ALTER TABLE `asisten_dosen`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `backup_log`
---
-ALTER TABLE `backup_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `calon_asisten_dosen`
 --
 ALTER TABLE `calon_asisten_dosen`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `informasi_umum`
+--
+ALTER TABLE `informasi_umum`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -457,16 +500,16 @@ ALTER TABLE `pendaftaran_praktikum`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `subject`
---
-ALTER TABLE `subject`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `user_history`
+--
+ALTER TABLE `user_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

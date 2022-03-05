@@ -1,11 +1,11 @@
 <?php
 
-class Mahasiswa_model extends CI_Model {
+class Dosen_model extends CI_Model {
 
     public function getallopen() {
-		$this->db->select('mahasiswa.*');
+		$this->db->select('dosen.*');
 
-		$query = $this->db->get('mahasiswa');
+		$query = $this->db->get('dosen');
 
 		if ($query->num_rows() > 0)
 
@@ -17,9 +17,9 @@ class Mahasiswa_model extends CI_Model {
 
 	}
 
-    public function get($nrp) {
+    public function get($nip) {
 
-		$query = $this->db->where('NRP', $nrp)->get('mahasiswa', 1, 0);
+		$query = $this->db->where('NIP', $nip)->get('dosen', 1, 0);
 
 		if ($query->num_rows() > 0)
 
@@ -35,7 +35,7 @@ class Mahasiswa_model extends CI_Model {
 
         $this->db->trans_start();
 
-        $this->db->insert('mahasiswa',$data);
+        $this->db->insert('dosen',$data);
 
         $insert_id = $this->db->insert_id();
 
@@ -47,14 +47,14 @@ class Mahasiswa_model extends CI_Model {
 
     public function update($data) {
 
-		$array = array('NRP'=>$data['NRP']);
+		$array = array('NIP'=>$data['NIP']);
 
-		$this->db->where($array)->update('mahasiswa', $data);
+		$this->db->where($array)->update('dosen', $data);
 
     }
 
-    public function delete($nrp) {
+    public function delete($nip) {
 
-		$this->db->where('NRP = '.$nrp)->delete('mahasiswa');
+		$this->db->where('NIP = '.$nip)->delete('dosen');
 	}
 }

@@ -1,6 +1,7 @@
 <style>
   body{
     background-color: white;
+    color: black !important;
   }
   .nav_title, .left_col, .main_container{
     background-color: white;
@@ -16,10 +17,10 @@
   .nav.side-menu>li>a:hover{
     color: #82b19b !important;
   }
-  nav.side-menu>li.current-page, .nav.side-menu>li.active {
-    /* box-shadow: 0 4px 8px #acb5f6;; */
-    /* border-right: 5px solid #1ABB9C; */
-  }
+  /* nav.side-menu>li.current-page, .nav.side-menu>li.active {
+    box-shadow: 0 4px 8px #acb5f6;;
+    border-right: 5px solid #1ABB9C;
+  } */
 
   .nav.side-menu>li.active>a{
     background: white;
@@ -59,6 +60,10 @@
     color: #fff;
   }
 
+  .bg-danger{
+    color: #fff
+  }
+
   .nav-md ul.nav.child_menu li:before { /* pentol sidebar */
     background: #3e405b;
     bottom: auto;
@@ -79,77 +84,77 @@
   }
 </style>
 <body class="nav-md">
-    <div class="container body">
-      <div class="main_container">
-        <div class="col-md-3 left_col">
-          <div class="left_col scroll-view">
-            <div class="navbar nav_title" style="border: 0;">
-              <a href="<?= UPLOAD_URL ?>dashboard"><img src="<?= UPLOAD_URL ?>/assets/images/logo_informatika.png" alt="..." style="width : 100%"></a>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <br>
-            <!-- menu profile quick info -->
-            <div class="profile clearfix">
-              <div class="profile_pic">
-                <img src="<?= UPLOAD_URL ?>/assets/images/user.png" alt="..." class="img-circle profile_img">
-              </div>
-              <div class="profile_info">
-                <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html" style="float : right">
-                    <i class="glyphicon glyphicon-off" aria-hidden="true"></i>
-                </a>
-                <span>Welcome,</span>
-                <h2>Admin</h2>
-              </div>
-            </div>
-            <!-- /menu profile quick info -->
-
-            <br />
-
-            <!-- sidebar menu -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              <div class="menu_section">
-                <h3>General</h3>
-                <ul class="nav side-menu">
-                  <li><a href="<?= UPLOAD_URL ?>dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
-                  <li><a><i class="fa fa-home"></i> Master Data <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="<?= UPLOAD_URL ?>mahasiswa">Mahasiswa</a></li>
-                      <li><a href="index2.html">Dosen</a></li>
-                      <li><a href="index3.html">Calon Asdos</a></li>
-                      <li><a href="index3.html">Laboratorium</a></li>
-                      <li><a href="index3.html">Mata Kuliah</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-desktop"></i> Jadwal <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="<?= UPLOAD_URL ?>pendaftaran_praktikum">Periode Pendaftaran</a></li>
-                      <li><a href="index2.html">Periode Rekrutmen</a></li>
-                      <li><a href="index3.html">Praktikum</a></li>
-                      <li><a href="index3.html">Berhalangan Pengajar</a></li>
-                      <li><a href="index3.html">Wawancara Asdos</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-home"></i> Penerimaan <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="#">Ambil Praktikum</a></li>
-                      <li><a href="index2.html">Asdos</a></li>
-                      <li><a href="index3.html">Penilaian</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-home"></i> Laporan</span></a></li>
-                  <li><a><i class="fa fa-home"></i> Manajemen User <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="#">Kelompok Akses</a></li>
-                      <li><a href="index2.html">User</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-home"></i> Backup Data</span></a></li>
-              </div>
-              
-
-            </div>
-            <!-- /sidebar menu -->
+  <div class="container body">
+    <div class="main_container">
+      <div class="col-md-3 left_col">
+        <div class="left_col scroll-view">
+          <div class="navbar nav_title" style="border: 0;">
+            <a href="<?= UPLOAD_URL ?>dashboard"><img src="<?= UPLOAD_URL ?>/assets/images/logo_informatika.png" alt="..." style="width : 100%"></a>
           </div>
-        </div>
+
+          <div class="clearfix"></div>
+
+          <br>
+          <!-- menu profile quick info -->
+          <div class="profile clearfix">
+            <div class="profile_pic">
+              <img src="<?= UPLOAD_URL ?>/assets/images/user.png" alt="..." class="img-circle profile_img">
+            </div>
+            <div class="profile_info">
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html" style="float : right">
+                  <i class="glyphicon glyphicon-off" aria-hidden="true"></i>
+              </a>
+              <span>Welcome,</span>
+              <h2>Admin</h2>
+            </div>
+          </div>
+          <!-- /menu profile quick info -->
+
+          <br />
+
+          <!-- sidebar menu -->
+          <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+            <div class="menu_section">
+              <h3>General</h3>
+              <ul class="nav side-menu">
+                <li><a href="<?= UPLOAD_URL ?>dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
+                <li><a><i class="fa fa-home"></i> Master Data <span class="fa fa-chevron-down"></span></a>
+                  <ul class="nav child_menu">
+                    <li><a href="<?= UPLOAD_URL ?>mahasiswa">Mahasiswa</a></li>
+                    <li><a href="<?= base_url('dosen') ?>">Dosen</a></li>
+                    <li><a href="<?= base_url('calon_asisten_dosen') ?>">Calon Asdos</a></li>
+                    <li><a href="<?= base_url('laboratorium') ?>">Laboratorium</a></li>
+                    <li><a href="<?= base_url('subject') ?>">Mata Kuliah</a></li>
+                  </ul>
+                </li>
+                <li><a><i class="fa fa-desktop"></i> Jadwal <span class="fa fa-chevron-down"></span></a>
+                  <ul class="nav child_menu">
+                    <li><a href="<?= base_url('pendaftaran_praktikum') ?>">Periode Pendaftaran</a></li>
+                    <li><a href="index2.html">Periode Rekrutmen</a></li>
+                    <li><a href="index3.html">Praktikum</a></li>
+                    <li><a href="index3.html">Berhalangan Pengajar</a></li>
+                    <li><a href="index3.html">Wawancara Asdos</a></li>
+                  </ul>
+                </li>
+                <li><a><i class="fa fa-home"></i> Penerimaan <span class="fa fa-chevron-down"></span></a>
+                  <ul class="nav child_menu">
+                    <li><a href="#">Ambil Praktikum</a></li>
+                    <li><a href="index2.html">Asdos</a></li>
+                    <li><a href="index3.html">Penilaian</a></li>
+                  </ul>
+                </li>
+                <li><a><i class="fa fa-home"></i> Laporan</span></a></li>
+                <li><a><i class="fa fa-home"></i> Manajemen User <span class="fa fa-chevron-down"></span></a>
+                  <ul class="nav child_menu">
+                    <li><a href="#">Kelompok Akses</a></li>
+                    <li><a href="index2.html">User</a></li>
+                  </ul>
+                </li>
+                <li><a><i class="fa fa-home"></i> Backup Data</span></a></li>
+            </div>
+            
+
+          </div>
+          <!-- /sidebar menu -->
+        </div> <!-- /scroll view -->
+      </div>
