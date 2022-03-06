@@ -9,7 +9,7 @@
             <div class="col-md-12 col-sm-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Add</h2>
+                        <h2><?php if(isset($detil[0]['kode_lab'])) if($detil[0]['kode_lab'] != "" || $detil[0]['kode_lab'] != NULL) echo 'Update'; else echo 'Add'; ?></h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -25,7 +25,7 @@
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 ">Kode Lab</label>
                                 <div class="col-md-9 col-sm-9 ">
-                                    <input type="text" class="form-control" name="kodelab" id="kodelab" placeholder="ex. JK" required value="<?= (isset($detil[0]['kode_lab'])) ? $detil[0]['kode_lab'] : '' ?>" <?= (isset($detil[0]['kode_lab'])) ? 'disabled' : '' ?>>
+                                    <input type="text" class="form-control" name="kodelab" id="kodelab" placeholder="ex. JK" required value="<?= (isset($detil[0]['kode_lab'])) ? $detil[0]['kode_lab'] : '' ?>" <?= (isset($detil[0]['kode_lab'])) ? 'readonly="readonly"' : '' ?>>
                                 </div>
                             </div>
 

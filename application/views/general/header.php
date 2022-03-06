@@ -42,8 +42,8 @@
     <link href="<?= base_url() ?>assets/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
-  
-    
+    <!-- Tinymce -->
+    <script src="https://cdn.tiny.cloud/1/q86l3hmvr5trq75iei6knx8tb82tvmdjdg14y1epqp8gkfr5/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
     <!-- Custom Theme Style -->
     <link href="<?= base_url() ?>assets/build/css/custom.min.css" rel="stylesheet">

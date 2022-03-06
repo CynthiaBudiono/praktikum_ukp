@@ -98,14 +98,14 @@
           <!-- menu profile quick info -->
           <div class="profile clearfix">
             <div class="profile_pic">
-              <img src="<?= UPLOAD_URL ?>/assets/images/user.png" alt="..." class="img-circle profile_img">
+              <img src="<?= base_url() ?>/assets/images/user.png" alt="..." class="img-circle profile_img">
             </div>
             <div class="profile_info">
-              <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html" style="float : right">
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="<?= base_url('auth/logout') ?>" style="float : right">
                   <i class="glyphicon glyphicon-off" aria-hidden="true"></i>
               </a>
               <span>Welcome,</span>
-              <h2>Admin</h2>
+              <h2><?= $this->session->userdata('logged_name');?></h2>
             </div>
           </div>
           <!-- /menu profile quick info -->
@@ -117,10 +117,10 @@
             <div class="menu_section">
               <h3>General</h3>
               <ul class="nav side-menu">
-                <li><a href="<?= UPLOAD_URL ?>dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
+                <li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-home"></i> Dashboard</a></li>
                 <li><a><i class="fa fa-home"></i> Master Data <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
-                    <li><a href="<?= UPLOAD_URL ?>mahasiswa">Mahasiswa</a></li>
+                    <li><a href="<?= base_url('mahasiswa') ?>">Mahasiswa</a></li>
                     <li><a href="<?= base_url('dosen') ?>">Dosen</a></li>
                     <li><a href="<?= base_url('calon_asisten_dosen') ?>">Calon Asdos</a></li>
                     <li><a href="<?= base_url('laboratorium') ?>">Laboratorium</a></li>
@@ -130,24 +130,25 @@
                 <li><a><i class="fa fa-desktop"></i> Jadwal <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                     <li><a href="<?= base_url('pendaftaran_praktikum') ?>">Periode Pendaftaran</a></li>
-                    <li><a href="index2.html">Periode Rekrutmen</a></li>
-                    <li><a href="index3.html">Praktikum</a></li>
-                    <li><a href="index3.html">Berhalangan Pengajar</a></li>
-                    <li><a href="index3.html">Wawancara Asdos</a></li>
+                    <li><a href="<?= base_url('pendaftaran_asisten_dosen') ?>">Periode Rekrutmen</a></li>
+                    <li><a href="<?= base_url('kelas_praktikum') ?>">Praktikum</a></li>
+                    <li><a href="<?= base_url('jadwal_berhalangan') ?>">Berhalangan Pengajar</a></li>
+                    <li><a href="<?= base_url('jadwal_wawancara') ?>">Wawancara Asdos</a></li>
                   </ul>
                 </li>
                 <li><a><i class="fa fa-home"></i> Penerimaan <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
-                    <li><a href="#">Ambil Praktikum</a></li>
-                    <li><a href="index2.html">Asdos</a></li>
-                    <li><a href="index3.html">Penilaian</a></li>
+                    <li><a href="<?= base_url('ambil_praktikum') ?>">Ambil Praktikum</a></li>
+                    <li><a href="<?= base_url('asisten_dosen') ?>">Asdos</a></li>
+                    <li><a href="<?= base_url('mahasiswa_nilai') ?>">Penilaian</a></li>
                   </ul>
                 </li>
-                <li><a><i class="fa fa-home"></i> Laporan</span></a></li>
+                <li><a href="<?= base_url('laporan') ?>"><i class="fa fa-home"></i> Laporan</span></a></li>
+                <li><a href="<?= base_url('informasi_umum') ?>"><i class="fa fa-exclamation-circle"></i> Informasi Umum</span></a></li>
                 <li><a><i class="fa fa-home"></i> Manajemen User <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
-                    <li><a href="#">Kelompok Akses</a></li>
-                    <li><a href="index2.html">User</a></li>
+                    <li><a href="<?= base_url('user_group') ?>">Kelompok Akses</a></li>
+                    <li><a href="<?= base_url('user') ?>">User</a></li>
                   </ul>
                 </li>
                 <li><a><i class="fa fa-home"></i> Backup Data</span></a></li>
