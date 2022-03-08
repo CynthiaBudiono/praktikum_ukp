@@ -1,4 +1,9 @@
 <!-- page content -->
+<style>
+    html{
+        scroll-behavior: smooth;
+    }
+</style>
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
@@ -12,37 +17,37 @@
         <div class="col-md-12 col-sm-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Add</h2>
+                        <h2 id="action_title">Add</h2>
                         <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            <li><a class="collapse-link"><i class="fa fa-chevron-down" id='collapse-add'></i></a>
                             </li>
                             <li><a class="close-link"><i class="fa fa-close"></i></a>
                             </li>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="x_content">
+                    <div class="x_content" id="content-add" style="display: none;">
                         <br />
-                        <form class="form-horizontal form-label-left">
-
+                        <form action="<?php if(isset($detil[0]['kode_lab'])) if($detil[0]['kode_lab'] != "" || $detil[0]['kode_lab'] != NULL) echo (base_url('laboratorium/update')); else echo (base_url('laboratorium/add')); ?>" method="post" class="form-horizontal form-label-left">
+                        
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 ">Kode Lab</label>
                                 <div class="col-md-9 col-sm-9 ">
-                                    <input type="text" class="form-control" placeholder="ex. JK">
+                                    <input type="text" class="form-control" name="kodelab" id="kodelab" placeholder="ex. JK" required value="<?= (isset($detil[0]['kode_lab'])) ? $detil[0]['kode_lab'] : '' ?>" <?= (isset($detil[0]['kode_lab'])) ? 'readonly="readonly"' : '' ?>>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 ">Nama</label>
                                 <div class="col-md-9 col-sm-9 ">
-                                    <input type="text" class="form-control" placeholder="ex. Jaringan Komputer">
+                                    <input type="text" class="form-control" name="nama" id="nama" placeholder="ex. Jaringan Komputer" required value="<?= (isset($detil[0]['nama'])) ? $detil[0]['nama'] : '' ?>">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 ">Quota Maksimum</label>
                                 <div class="col-md-9 col-sm-9 ">
-                                    <input type="number" class="form-control" placeholder="quota max" min=1>
+                                    <input type="number" class="form-control" name="quota" id="quota" placeholder="quota max" min=1 required value="<?= (isset($detil[0]['quota_max'])) ? $detil[0]['quota_max'] : '' ?>">
                                 </div>
                             </div>
 
@@ -51,7 +56,7 @@
                                 <div class="col-md-9 col-sm-9 ">
                                     <div class="">
                                         <label>
-                                            <input type="checkbox" class="js-switch" checked />
+                                            <input type="checkbox" name="status" id="status" class="js-switch"/>
                                         </label>
                                     </div>
                                 </div>
@@ -60,9 +65,9 @@
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-9 col-sm-9">
-                                    <button type="button" class="btn btn-danger">Cancel</button>
+                                    <!-- <button type="button" class="btn btn-danger">Cancel</button> -->
                                     <button type="reset" class="btn btn-warning">Reset</button>
-                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <button type="button" class="btn btn-success" id="btnsubmit" onclick="add()">Submit</button>
                                 </div>
                             </div>
 
@@ -76,7 +81,7 @@
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2><?= isset($title) ? $title : "-" ?></h2>
+                    <h2>Data</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                         <li><a class="close-link"><i class="fa fa-close"></i></a></li>
@@ -100,27 +105,7 @@
                                         <th>Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                <?php if(isset($laboratorium)) : ?>
-                                    <?php if(is_array($laboratorium)) : ?>
-                                        <?php foreach($laboratorium as $key) : ?>
-                                        <tr>
-                                            <td>
-                                                <!-- <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a> -->
-                                                <a href="<?php echo base_url("laboratorium/updates/"); echo base64_encode($key['kode_lab']);?>" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
-                                                <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a>
-                                            </td>
-                                            <td><?= (isset($key['kode_lab'])) ? $key['kode_lab'] : '' ?></td>
-                                            <td><?= (isset($key['nama'])) ? $key['nama'] : '' ?></td>
-                                            <td><?= (isset($key['quota_max'])) ? $key['quota_max'] : '' ?></td>
-                                            <td>
-                                                <?php 
-                                                    if(isset($key['status'])) if($key['status']==1) echo '<span class="badge bg-green">active</span>'; else echo '<span class="badge bg-danger">non active</span>';?>
-                                            </td>
-                                        </tr>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                <?php endif; ?>
+                                <tbody id="data_laboratorium">
                                 </tbody>
                                 </table>
                             </div>
@@ -131,3 +116,112 @@
         </div>
     </div>
 </div>
+
+<script>
+    var baseurl = "<?php echo base_url(); ?>";
+    // view();
+    $(document).ready(function() {	
+        // alert("masukkkkkkkk ready");	
+        view()
+    });
+    function add(){
+        $.post(baseurl + "laboratorium/add", {
+			kodelab: $('#kodelab').val(),
+            nama: $('#nama').val(),
+            quota: $('#quota').val(),
+            status: $('#status').is(':checked'),
+		},
+		function(result) {
+            alert(result);
+            $('#kodelab').val("");
+            $('#nama').val("");
+            $('#quota').val("");
+            $("#status").prop("checked", false);
+
+			if(result == 'success'){
+                view()
+            }
+			
+		});
+    }
+
+    function updates($kodelab){
+        // alert($kodelab)
+        $.post(baseurl + "laboratorium/updates", {
+            kode_lab : $kodelab,
+        },function(result){
+            var arr = JSON.parse(result);
+            
+            $('#content-add').css('display', 'block');
+            
+            // make scroll top
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+
+            $('#action_title').html(arr['title']);
+
+            $('#kodelab').prop("readonly", true);
+            $('#kodelab').val(arr['detil'][0]['kode_lab']);
+
+            $('#nama').val(arr['detil'][0]['nama']);
+
+            $('#quota').val(arr['detil'][0]['quota_max']);
+            if(arr['detil'][0]['status'] == 1){
+                $("#status").prop("checked", true);
+            }
+
+            $("#btnsubmit").attr("onclick","update()");
+        });
+    }
+
+    function update($kodelab){
+        $.post(baseurl + "laboratorium/update", {
+            kode_lab : $kodelab,
+        },function(result){
+
+            if(result == 'success'){
+                view()
+
+                $('#action_title').html("Add");
+
+                $('#kodelab').val("");
+                $('#nama').val("");
+                $('#quota').val("");
+                $("#status").prop("checked", false);
+
+                $("#btnsubmit").attr("onclick","add()");
+            }
+            
+        });
+    }
+
+    function view(){
+        // alert("masuk");
+        // alert(baseurl+ "laboratorium/get");
+        $.post(baseurl + "laboratorium/get", {
+
+        },
+		function(result) {
+            // alert(result);
+            var arr = JSON.parse(result);
+            var kal = "";
+
+            for(var i = 0; i < arr.length; i++){
+                kal += '<tr>';
+                kal += '<td>';
+                    kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ arr[i]['kode_lab'] +'")><i class="fa fa-pencil"></i> Edit</button>';
+                    kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['kode_lab'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
+                kal += '</td>';
+                kal += '<td>'+ arr[i]['kode_lab'] +'</td>';
+                kal += '<td>'+ arr[i]['nama'] +'</td>';
+                kal += '<td>'+ arr[i]['quota_max'] +'</td>';
+                kal += '<td>';
+                    kal += (arr[i]['status'] == 1) ? '<span class="badge bg-green">active</span>' : '<span class="badge bg-danger">non active</span>';
+                kal += '</td>';
+                kal += '</tr>';
+            }
+            
+            $("#data_laboratorium").html(kal); 
+        });
+    }
+</script>

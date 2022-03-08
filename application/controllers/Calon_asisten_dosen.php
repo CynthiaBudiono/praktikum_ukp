@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class User_group extends CI_Controller {
+class Calon_asisten_dosen extends CI_Controller {
 
 	public function __construct()
 	{
@@ -13,11 +13,11 @@ class User_group extends CI_Controller {
 	public function index()
 	{
 
-		$this->load->model('user_group_model');
+		$this->load->model('calon_asisten_dosen_model');
 
-		$data['user_group'] = $this->user_group_model->getallopen();
+		$data['calon_asisten_dosen'] = $this->calon_asisten_dosen_model->getallopen();
 
-		$data['title'] = "user group";
+		$data['title'] = "calon asisten dosen";
 
 		$this->load->view('general/header');
 
@@ -25,14 +25,14 @@ class User_group extends CI_Controller {
 
 		$this->load->view('general/navbar');
 
-		$this->load->view('content/user_group', $data);
+		$this->load->view('content/calon_asisten_dosen', $data);
 
 		$this->load->view('general/footer');
 	}
 
     public function adds(){
 
-        $data['title'] = "Add user group";
+        $data['title'] = "Add calon asisten dosen";
 
 		$this->load->view('general/header');
 
@@ -40,7 +40,7 @@ class User_group extends CI_Controller {
 
 		$this->load->view('general/navbar');
 
-		$this->load->view('content/user_group-add', $data);
+		$this->load->view('content/calon_asisten_dosen-add', $data);
 
 		$this->load->view('general/footer');
 
@@ -53,15 +53,15 @@ class User_group extends CI_Controller {
 
         $id = base64_decode($id);
 
-        $this->load->model('user_group_model');
+        $this->load->model('calon_asisten_dosen_model');
 
-		$res = $this->user_group_model->get($id);
+		$res = $this->calon_asisten_dosen_model->get($id);
 
         if ($res == 0) redirect('dashboard');
 
         $data['detil'] = $res;
         
-        $data['title'] = "Edit user_group";
+        $data['title'] = "Edit calon asisten dosen";
 
 		$this->load->view('general/header');
 
@@ -69,29 +69,43 @@ class User_group extends CI_Controller {
 
 		$this->load->view('general/navbar');
 
-		$this->load->view('content/user_group-add', $data);
+		$this->load->view('content/calon_asisten_dosen-add', $data);
 
 		$this->load->view('general/footer');
 
     }
 
     public function add(){
-        // var_dump("AAAAAAAAAAAA"); exit;
+        
         $this->load->helper(array('form', 'url'));
         // $this->load->library('form_validation');
         
         $status = ($this->input->post('status')=='on') ? 1 : 0;
 
         $data = array(
-            'nama' => $this->input->post('nama'),
+            'NRP' => $this->input->post('nrp'),
+            'id_pendaftaran_praktikum' => $this->input->post('id_pendaftaran_praktikum'),
+            'upload_transkrip' => $this->input->post('upload_transkrip'),
+            'upload_foto' => $this->input->post('upload_foto'),
+            'gender' => $this->input->post('gender'),
+            'alamat' => $this->input->post('alamat'),
+            'no_hp' => $this->input->post('no_hp'),
+            'line_id' => $this->input->post('line_id'),
+            'ipk' => $this->input->post('ipk'),
+            'motivasi' => $this->input->post('motivasi'),
+            'komitmen' => $this->input->post('komitmen'),
+            'kelebihan' => $this->input->post('kelebihan'),
+            'kekurangan' => $this->input->post('kekurangan'),
+            'pengalaman' => $this->input->post('pengalaman'),
             'status' => $status,
             'keterangan' => $this->input->post('keterangan'),
+            'created' => date('Y-m-d H:i:s'),
         );
 
         // var_dump("masuk add ", $data); exit;
 
-        $this->load->model('user_group_model');
-        if($this->user_group_model->get($data['id']) == 0){
+        $this->load->model('calon_asisten_dosen_model');
+        if($this->calon_asisten_dosen_model->get($data['id']) == 0){
             // var_dump("masuk tak kembar"); exit;
 
         
@@ -106,7 +120,7 @@ class User_group extends CI_Controller {
             else {
                 $this->load->helper(array('form', 'url'));
 
-                $this->user_group_model->add($data);
+                $this->calon_asisten_dosen_model->add($data);
 
                 // insert log
                 $keterangan = '';
@@ -114,7 +128,7 @@ class User_group extends CI_Controller {
 
                 $logs_insert = array(
                     "id_user" => $this->session->userdata('user_id'),
-                    "table_name" => 'user_group',
+                    "table_name" => 'calon_asisten_dosen',
                     "action" => 'CREATE',
                     "keterangan" => "a new record has been created by ".$this->session->userdata('logged_name')." : ".$keterangan,
                     "created" => date('Y-m-d H:i:s')
@@ -122,7 +136,7 @@ class User_group extends CI_Controller {
                 $this->load->model('user_history_model');
                 $this->user_history_model->add($logs_insert);
 
-                redirect('user_group');
+                redirect('calon_asisten_dosen');
             }
         }
         else{
@@ -136,11 +150,24 @@ class User_group extends CI_Controller {
         $status = ($this->input->post('status')=='on') ? 1 : 0;
 
         $data = array(
-            'id' => $this->input->post('idusergroup'),
-            'nama' => $this->input->post('nama'),
+            'id' => $this->input->post('idcalon'),
+            'NRP' => $this->input->post('nrp'),
+            'id_pendaftaran_praktikum' => $this->input->post('id_pendaftaran_praktikum'),
+            'upload_transkrip' => $this->input->post('upload_transkrip'),
+            'upload_foto' => $this->input->post('upload_foto'),
+            'gender' => $this->input->post('gender'),
+            'alamat' => $this->input->post('alamat'),
+            'no_hp' => $this->input->post('no_hp'),
+            'line_id' => $this->input->post('line_id'),
+            'ipk' => $this->input->post('ipk'),
+            'motivasi' => $this->input->post('motivasi'),
+            'komitmen' => $this->input->post('komitmen'),
+            'kelebihan' => $this->input->post('kelebihan'),
+            'kekurangan' => $this->input->post('kekurangan'),
+            'pengalaman' => $this->input->post('pengalaman'),
             'status' => $status,
             'keterangan' => $this->input->post('keterangan'),
-            "updated" => date('Y-m-d H:i:s')
+            'created' => date('Y-m-d H:i:s'),
         );
 
         // var_dump("masuk update ", $data);
@@ -157,12 +184,12 @@ class User_group extends CI_Controller {
         else {
             $this->load->helper(array('form', 'url'));
 
-            $this->load->model('user_group_model');
+            $this->load->model('calon_asisten_dosen_model');
             // var_dump("AAAAA", $data['id']); exit;
-            $old_data = $this->user_group_model->get($data['id']);
+            $old_data = $this->calon_asisten_dosen_model->get($data['id']);
 
             // var_dump("OLD DATA: ", $old_data); exit;
-            $this->user_group_model->update($data);
+            $this->calon_asisten_dosen_model->update($data);
 
             // insert log
             $keterangan = '';
@@ -172,7 +199,7 @@ class User_group extends CI_Controller {
 
             $logs_insert = array(
                 "id_user" => $this->session->userdata('user_id'),
-                "table_name" => 'user_group',
+                "table_name" => 'calon_asisten_dosen',
                 "action" => 'UPDATE',
                 "keterangan" => $this->session->userdata('logged_name')." updated record # : ".$data[0]['id']. ": ". $keterangan,
                 "created" => date('Y-m-d H:i:s')
@@ -180,7 +207,7 @@ class User_group extends CI_Controller {
             $this->load->model('user_history_model');
             $this->user_history_model->add($logs_insert);
 
-            redirect('user_group');
+            redirect('calon_asisten_dosen');
         }    
     }
 }

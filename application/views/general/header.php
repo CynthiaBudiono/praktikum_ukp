@@ -47,4 +47,6 @@
 
     <!-- Custom Theme Style -->
     <link href="<?= base_url() ?>assets/build/css/custom.min.css" rel="stylesheet">
+
+    <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery-3.6.0.js"></script>
   </head>

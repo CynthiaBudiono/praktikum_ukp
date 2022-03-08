@@ -21,6 +21,7 @@ class Auth extends CI_Controller
             if ($this->form_validation->run() !== false) {
 
                 $this->load->model('user_model');
+                $this->load->model('user_group_model');
                 $this->load->model('mahasiswa_model');
                 $this->load->model('dosen_model');
                 $this->load->model('asisten_dosen_model');
@@ -28,9 +29,11 @@ class Auth extends CI_Controller
                 $user = $this->user_model->getbyusername($this->input->post('username'));
 
                 if($user){
+                    $getusergroup = $this->user_group_model->get($user[0]['id_user_group']);
                     $data_login = array(
                         'logged_in' => true,
                         'from_table' => 'user',
+                        'user_type' => $getusergroup[0]['nama'],
                         'user_id' => $user[0]['id'],
                         'logged_name' => $user[0]['username']
                     );
@@ -42,6 +45,7 @@ class Auth extends CI_Controller
                         $data_login = array(
                             'logged_in' => true,
                             'from_table' => 'mahasiswa',
+                            'user_type' => 'mahasiswa',
                             'user_id' => $user[0]['NRP'],
                             'logged_name' => $user[0]['nama']
                         );
@@ -53,6 +57,7 @@ class Auth extends CI_Controller
                             $data_login = array(
                                 'logged_in' => true,
                                 'from_table' => 'dosen',
+                                'user_type' => 'dosen',
                                 'user_id' => $user[0]['NIP'],
                                 'logged_name' => $user[0]['nama']
                             );
@@ -65,6 +70,7 @@ class Auth extends CI_Controller
                                 $data_login = array(
                                     'logged_in' => true,
                                     'from_table' => 'asisten_dosen',
+                                    'user_type' => 'asisten_dosen',
                                     'user_id' => $user[0]['id'],
                                     'logged_name' => $get_mahasiswa[0]['nama']
                                 );

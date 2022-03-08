@@ -134,6 +134,7 @@
                     <li><a href="<?= base_url('kelas_praktikum') ?>">Praktikum</a></li>
                     <li><a href="<?= base_url('jadwal_berhalangan') ?>">Berhalangan Pengajar</a></li>
                     <li><a href="<?= base_url('jadwal_wawancara') ?>">Wawancara Asdos</a></li>
+                    <li><a href="<?= base_url('prs') ?>">PRS Mahasiswa</a></li>
                   </ul>
                 </li>
                 <li><a><i class="fa fa-home"></i> Penerimaan <span class="fa fa-chevron-down"></span></a>

@@ -20,7 +20,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-lg bg-green">Tambah</button>
+                    <button type="button" class="btn btn-sm bg-green">Tambah</button>
                 </div>
                 <div class="x_content">
                     <div class="row">
@@ -30,9 +30,12 @@
                                 <thead>
                                     <tr>
                                         <th>Actions</th>
-                                        <th>Kode lab</th>
+                                        <th>Kode MK</th>
+                                        <th>NIP</th>
                                         <th>Nama</th>
-                                        <th>Quota</th>
+                                        <th>kelas paralel</th>
+                                        <th>Status praktikum</th>
+                                        <th>Status transfer nilai</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
@@ -43,12 +46,18 @@
                                         <tr>
                                             <td>
                                                 <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a>
-                                                <a href="#" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
-                                                <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a>
+                                                <!-- <a href="#" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
+                                                <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
                                             </td>
-                                            <td><?= (isset($key['kode_lab'])) ? $key['kode_lab'] : '' ?></td>
+                                            <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?></td>
+                                            <td><?= (isset($key['NIPDosen'])) ? $key['NIPDosen'] : '' ?></td>
                                             <td><?= (isset($key['nama'])) ? $key['nama'] : '' ?></td>
-                                            <td><?= (isset($key['quota_max'])) ? $key['quota_max'] : '' ?></td>
+                                            <td>
+                                                <?php if(isset($key['status_praktikum'])) if($key['status_praktikum']==1) echo '<span class="badge bg-green">ada</span>'; else '<span class="badge bg-danger">tidak ada</span>'; ?>
+                                            </td>
+                                            <td>
+                                                <?php if(isset($key['status_transfer_nilai'])) if($key['status_transfer_nilai']==1) echo '<span class="badge bg-green">boleh</span>'; else '<span class="badge bg-danger">tidak boleh</span>'; ?>
+                                            </td>
                                             <td>
                                                 <?php if(isset($key['status'])) if($key['status']==1) echo '<span class="badge bg-green">active</span>'; else '<span class="badge bg-danger">non active</span>'; ?>
                                             </td>

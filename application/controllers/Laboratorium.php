@@ -5,8 +5,8 @@ class Laboratorium extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-        //if($this->session->userdata('logged_in')) redirect('login');
-	    // if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
+        if(!$this->session->userdata('logged_in')) redirect('login');
+	    if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
 	}
 
 
@@ -47,42 +47,38 @@ class Laboratorium extends CI_Controller {
 
     }
 
-    public function updates($kode_lab = null){
+    public function updates(){
 
-        // $check = $this->access_group_model->getbynama($this->session->userdata('user_level'));
-		// if ($check == 0) redirect('dashboard');
-
-        $kode_lab = base64_decode($kode_lab);
+        $kode_lab = $this->input->post('kode_lab');
 
         $this->load->model('laboratorium_model');
 
 		$res = $this->laboratorium_model->get($kode_lab);
 
-        if ($res == 0) redirect('dashboard');
-
-        $data['primary'] = $kode_lab;
+        // if ($res == 0) redirect('laboratorium');
 
         $data['detil'] = $res;
         
         $data['title'] = "Edit Laboratorium";
 
-		$this->load->view('general/header');
+        echo json_encode($data);
 
-		$this->load->view('general/sidebar');
+    }
 
-		$this->load->view('general/navbar');
+    public function get(){
 
-		$this->load->view('content/laboratorium-add', $data);
+        $this->load->model('laboratorium_model');
 
-		$this->load->view('general/footer');
+		$laboratorium = $this->laboratorium_model->getallopen();
 
+        echo json_encode($laboratorium);
     }
 
     public function add(){
         $this->load->helper(array('form', 'url'));
         // $this->load->library('form_validation');
         
-        $status = ($this->input->post('status')=='on') ? 1 : 0;
+        $status = ($this->input->post('status')=='true') ? 1 : 0;
 
         $data = array(
             'kode_lab' => strtoupper($this->input->post('kodelab')),
@@ -125,24 +121,23 @@ class Laboratorium extends CI_Controller {
                 $this->load->model('user_history_model');
                 $this->user_history_model->add($logs_insert);
 
-                redirect('laboratorium');
+                // redirect('laboratorium');
+                echo 'success';
             }
         }
         else{
-            var_dump("DATA KEMBAR"); exit;
+            echo 'data kembar';
         }
     }
 
     public function update(){
         // $kode_lab = base64_decode($kode_lab);
 
-        $kodee = $this->input->post('kodelab');
-
         // var_dump("AAAAAA", $kodee); exit;
-        $status = ($this->input->post('status')=='on') ? 1 : 0;
+        $status = ($this->input->post('status')=='true') ? 1 : 0;
 
         $data = array(
-            'kode_lab' => strtoupper($this->input->post('kodelab')),
+            'kode_lab' => strtoupper($this->input->post('kode_lab')),
             'nama' => $this->input->post('nama'),
             'quota_max' => (int) $this->input->post('quota'),
             'status' => $status
