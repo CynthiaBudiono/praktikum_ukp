@@ -30,6 +30,8 @@
                         <br />
                         <form action="<?php if(isset($detil[0]['kode_lab'])) if($detil[0]['kode_lab'] != "" || $detil[0]['kode_lab'] != NULL) echo (base_url('laboratorium/update')); else echo (base_url('laboratorium/add')); ?>" method="post" class="form-horizontal form-label-left">
                         
+                        <input type="hidden" class="form-control" name="mode" id="mode" value="add">
+
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 ">Kode Lab</label>
                                 <div class="col-md-9 col-sm-9 ">
@@ -67,7 +69,7 @@
                                 <div class="col-md-9 col-sm-9">
                                     <!-- <button type="button" class="btn btn-danger">Cancel</button> -->
                                     <button type="reset" class="btn btn-warning">Reset</button>
-                                    <button type="button" class="btn btn-success" id="btnsubmit" onclick="add()">Submit</button>
+                                    <button type="button" class="btn btn-success" id="btnsubmit" onclick="addupdate()"><a href="#data_table" style="color: white;">Submit</a></button>
                                 </div>
                             </div>
 
@@ -80,7 +82,7 @@
         <!-- VIEW -->
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
-                <div class="x_title">
+                <div class="x_title" id="data_table">
                     <h2>Data</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
@@ -88,9 +90,9 @@
                     </ul>
                     <div class="clearfix"></div>
                 </div>
-                <div>
+                <!-- <div>
                     <a class="btn btn-sm bg-green" href="<?php echo base_url("laboratorium/adds"); ?>">Tambah</a>
-                </div>
+                </div> -->
                 <div class="x_content">
                     <div class="row">
                         <div class="col-sm-12">
@@ -124,25 +126,50 @@
         // alert("masukkkkkkkk ready");	
         view()
     });
-    function add(){
-        $.post(baseurl + "laboratorium/add", {
-			kodelab: $('#kodelab').val(),
+
+    function addupdate(){
+        // alert('masuk func' + $('#mode').val());
+        // alert($('#kodelab').val());
+        // alert(baseurl + "laboratorium/" + $('#mode').val());
+        $.post(baseurl + "laboratorium/" + $('#mode').val(), {
+            kodelab: $('#kodelab').val(),
             nama: $('#nama').val(),
             quota: $('#quota').val(),
             status: $('#status').is(':checked'),
-		},
-		function(result) {
-            alert(result);
-            $('#kodelab').val("");
-            $('#nama').val("");
-            $('#quota').val("");
-            $("#status").prop("checked", false);
-
-			if(result == 'success'){
+        },
+        function(result) {
+            // alert(result);
+            if(result == 'success'){
                 view()
+                
+                $('#kodelab').val("");
+                $('#nama').val("");
+                $('#quota').val("");
+                $("#status").prop("checked", false);
+
+                if($('#mode').val() == 'update'){
+                    $('#action_title').html("Add");
+                    $('#kodelab').prop("readonly", false);
+                    $('#mode').val('add');
+                }
+
+
             }
-			
-		});
+            else{
+                alert(result);
+            }
+        });
+    }
+
+    function adds(){
+        $('#content-add').css('display', 'block');
+            
+        // make scroll top
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+
+        $('#action_title').html('Add Laboratorium');
+        $('#mode').val('add');
     }
 
     function updates($kodelab){
@@ -166,38 +193,16 @@
             $('#nama').val(arr['detil'][0]['nama']);
 
             $('#quota').val(arr['detil'][0]['quota_max']);
+
             if(arr['detil'][0]['status'] == 1){
                 $("#status").prop("checked", true);
             }
 
-            $("#btnsubmit").attr("onclick","update()");
-        });
-    }
-
-    function update($kodelab){
-        $.post(baseurl + "laboratorium/update", {
-            kode_lab : $kodelab,
-        },function(result){
-
-            if(result == 'success'){
-                view()
-
-                $('#action_title').html("Add");
-
-                $('#kodelab').val("");
-                $('#nama').val("");
-                $('#quota').val("");
-                $("#status").prop("checked", false);
-
-                $("#btnsubmit").attr("onclick","add()");
-            }
-            
+            $('#mode').val('update');
         });
     }
 
     function view(){
-        // alert("masuk");
-        // alert(baseurl+ "laboratorium/get");
         $.post(baseurl + "laboratorium/get", {
 
         },

@@ -22,7 +22,7 @@
     border-right: 5px solid #1ABB9C;
   } */
 
-  .nav.side-menu>li.active>a{
+  .nav.side-menu>li.active>a, .nav-sm ul.nav.child_menu{
     background: white;
     text-shadow: none;
   }
@@ -35,7 +35,6 @@
   .nav.child_menu>li>a{
     color: #868e96;
   }
-
   .nav>li>a:hover, .nav>li>a:focus {
     color: #82b19b;
     background: #F4F9F9;
@@ -44,7 +43,7 @@
     color: #82b19b;
   }
 
-  .nav.side-menu>li.current-page, .nav.side-menu>li.active, .current-page.fa{
+  .nav.side-menu>li.current-page, .nav.side-menu>li.active, .current-page.fa, .nav-sm .nav.side-menu li.active-sm {
     border-right: 5px solid #82b19b;
     border-radius: 5px;
     color: #82b19b !important;
@@ -117,8 +116,8 @@
             <div class="menu_section">
               <h3>General</h3>
               <ul class="nav side-menu">
-                <li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-home"></i> Dashboard</a></li>
-                <li><a><i class="fa fa-home"></i> Master Data <span class="fa fa-chevron-down"></span></a>
+                <li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li><a><i class="fa fa-database"></i> Master Data <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                     <li><a href="<?= base_url('mahasiswa') ?>">Mahasiswa</a></li>
                     <li><a href="<?= base_url('dosen') ?>">Dosen</a></li>
@@ -137,22 +136,23 @@
                     <li><a href="<?= base_url('prs') ?>">PRS Mahasiswa</a></li>
                   </ul>
                 </li>
-                <li><a><i class="fa fa-home"></i> Penerimaan <span class="fa fa-chevron-down"></span></a>
+                <li><a><i class="fa fa-flag"></i> Penerimaan <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                     <li><a href="<?= base_url('ambil_praktikum') ?>">Ambil Praktikum</a></li>
                     <li><a href="<?= base_url('asisten_dosen') ?>">Asdos</a></li>
                     <li><a href="<?= base_url('mahasiswa_nilai') ?>">Penilaian</a></li>
                   </ul>
                 </li>
-                <li><a href="<?= base_url('laporan') ?>"><i class="fa fa-home"></i> Laporan</span></a></li>
+                <li><a href="<?= base_url('laporan') ?>"><i class="fa fa-archive"></i> Laporan</span></a></li>
                 <li><a href="<?= base_url('informasi_umum') ?>"><i class="fa fa-exclamation-circle"></i> Informasi Umum</span></a></li>
-                <li><a><i class="fa fa-home"></i> Manajemen User <span class="fa fa-chevron-down"></span></a>
+                <li><a href="<?= base_url('pengumuman') ?>"><i class="fa fa-bullhorn"></i> Pengumuman</span></a></li>
+                <li><a><i class="fa fa-users"></i> Manajemen User <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                     <li><a href="<?= base_url('user_group') ?>">Kelompok Akses</a></li>
                     <li><a href="<?= base_url('user') ?>">User</a></li>
                   </ul>
                 </li>
-                <li><a><i class="fa fa-home"></i> Backup Data</span></a></li>
+                <li><a><i class="fa fa-floppy-o"></i> Backup Data</span></a></li>
             </div>
             
 

@@ -174,7 +174,7 @@ class User_group extends CI_Controller {
                 "id_user" => $this->session->userdata('user_id'),
                 "table_name" => 'user_group',
                 "action" => 'UPDATE',
-                "keterangan" => $this->session->userdata('logged_name')." updated record # : ".$data[0]['id']. ": ". $keterangan,
+                "keterangan" => $this->session->userdata('logged_name')." updated record # : ".$data['id']. ": ". $keterangan,
                 "created" => date('Y-m-d H:i:s')
             );
             $this->load->model('user_history_model');

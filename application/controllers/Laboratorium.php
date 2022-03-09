@@ -30,22 +30,22 @@ class Laboratorium extends CI_Controller {
 		$this->load->view('general/footer');
 	}
 
-    public function adds(){
+    // public function adds(){
 
-        // $data['action'] = "add";
-        $data['title'] = "Add Laboratorium";
+    //     // $data['action'] = "add";
+    //     $data['title'] = "Add Laboratorium";
 
-		$this->load->view('general/header');
+	// 	$this->load->view('general/header');
 
-		$this->load->view('general/sidebar');
+	// 	$this->load->view('general/sidebar');
 
-		$this->load->view('general/navbar');
+	// 	$this->load->view('general/navbar');
 
-		$this->load->view('content/laboratorium-add', $data);
+	// 	$this->load->view('content/laboratorium-add', $data);
 
-		$this->load->view('general/footer');
+	// 	$this->load->view('general/footer');
 
-    }
+    // }
 
     public function updates(){
 
@@ -100,7 +100,7 @@ class Laboratorium extends CI_Controller {
 
             if ($this->form_validation->run() == FALSE) {
                 $detil[0] = $data;
-                $this->adds(validation_errors(), $detil);
+                echo validation_errors();
             }
             else {
                 $this->load->helper(array('form', 'url'));
@@ -137,13 +137,11 @@ class Laboratorium extends CI_Controller {
         $status = ($this->input->post('status')=='true') ? 1 : 0;
 
         $data = array(
-            'kode_lab' => strtoupper($this->input->post('kode_lab')),
+            'kode_lab' => strtoupper($this->input->post('kodelab')),
             'nama' => $this->input->post('nama'),
             'quota_max' => (int) $this->input->post('quota'),
             'status' => $status
         );
-
-        // var_dump("masuk update ", $data);
 
         //check validasi
         $this->form_validation->set_data($data);
@@ -151,17 +149,15 @@ class Laboratorium extends CI_Controller {
 
         if ($this->form_validation->run() == FALSE) {
             $detil[0] = $data;
-            $this->adds(validation_errors(), $detil);
+            echo validation_errors();
             // var_dump("LOHH MASUK SINI"); exit;
         }
         else {
             $this->load->helper(array('form', 'url'));
 
             $this->load->model('laboratorium_model');
-            // var_dump("AAAAA", $data['kode_lab']); exit;
             $old_data = $this->laboratorium_model->get($data['kode_lab']);
 
-            // var_dump("OLD DATA: ", $old_data); exit;
             $this->laboratorium_model->update($data);
 
             // insert log
@@ -174,13 +170,13 @@ class Laboratorium extends CI_Controller {
                 "id_user" => $this->session->userdata('user_id'),
                 "table_name" => 'laboratorium',
                 "action" => 'UPDATE',
-                "keterangan" => $this->session->userdata('logged_name')." updated record # : ".$data[0]['kode_lab']. ": ". $keterangan,
+                "keterangan" => $this->session->userdata('logged_name')." updated record # : ".$data['kode_lab']. ": ". $keterangan,
                 "created" => date('Y-m-d H:i:s')
             );
             $this->load->model('user_history_model');
             $this->user_history_model->add($logs_insert);
 
-            redirect('laboratorium');
+            echo 'success';
         }    
     }
 }

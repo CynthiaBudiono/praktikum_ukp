@@ -115,7 +115,7 @@ class Calon_asisten_dosen extends CI_Controller {
 
             if ($this->form_validation->run() == FALSE) {
                 $detil[0] = $data;
-                $this->adds(validation_errors(), $detil);
+                $data['error_msg'] = validation_errors();
             }
             else {
                 $this->load->helper(array('form', 'url'));
@@ -178,7 +178,7 @@ class Calon_asisten_dosen extends CI_Controller {
 
         if ($this->form_validation->run() == FALSE) {
             $detil[0] = $data;
-            $this->adds(validation_errors(), $detil);
+            $data['error_msg'] = validation_errors();
             // var_dump("LOHH MASUK SINI"); exit;
         }
         else {
@@ -201,7 +201,7 @@ class Calon_asisten_dosen extends CI_Controller {
                 "id_user" => $this->session->userdata('user_id'),
                 "table_name" => 'calon_asisten_dosen',
                 "action" => 'UPDATE',
-                "keterangan" => $this->session->userdata('logged_name')." updated record # : ".$data[0]['id']. ": ". $keterangan,
+                "keterangan" => $this->session->userdata('logged_name')." updated record # : ".$data['id']. ": ". $keterangan,
                 "created" => date('Y-m-d H:i:s')
             );
             $this->load->model('user_history_model');
