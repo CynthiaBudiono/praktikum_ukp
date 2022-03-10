@@ -66,6 +66,12 @@
     <script src="<?= base_url() ?>assets/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
     <!-- starrr -->
     <script src="<?= base_url() ?>assets/vendors/starrr/dist/starrr.js"></script>
+    <!-- Dropzone.js -->
+    <!-- <script src="<?= base_url() ?>assets/vendors/dropzone/dist/min/dropzone.min.js"></script> -->
+
+    <!-- jQuery Smart Wizard -->
+    <script src="<?= base_url() ?>assets/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+
 
     <!-- Datatables -->
     <script src="<?= base_url() ?>assets/vendors/datatables.net/js/jquery.dataTables.min.js"></script>

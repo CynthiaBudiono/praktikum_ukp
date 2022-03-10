@@ -72,7 +72,6 @@
                                     <button type="button" class="btn btn-success" id="btnsubmit" onclick="addupdate()"><a href="#data_table" style="color: white;">Submit</a></button>
                                 </div>
                             </div>
-
                         </form>
                     </div> <!-- /x_content -->
                 </div>
@@ -210,7 +209,9 @@
             // alert(result);
             var arr = JSON.parse(result);
             var kal = "";
-
+            
+            $("#datatable-buttons").DataTable();
+            
             for(var i = 0; i < arr.length; i++){
                 kal += '<tr>';
                 kal += '<td>';
@@ -226,7 +227,8 @@
                 kal += '</tr>';
             }
             
-            $("#data_laboratorium").html(kal); 
+            $("#data_laboratorium").html(kal);
+            
         });
     }
 </script>

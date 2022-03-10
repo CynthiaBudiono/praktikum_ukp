@@ -45,6 +45,24 @@ class User_model extends CI_Model {
 
 	}
 
+	public function getprofile($id) {
+
+		$this->db->select('user.*, user_group.nama as nama_user_group, laboratorium.nama as nama_laboratorium');
+		$this->db->join('user_group', 'user_group.id = user.id_user_group', 'left');
+		$this->db->join('laboratorium', 'laboratorium.kode_lab = user.kode_lab', 'left');
+
+		$query = $this->db->where('user.id', $id)->where('user.status', 1)->get('user', 1, 0);
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+
+	}
+
     public function add($data) {
 
         $this->db->trans_start();
