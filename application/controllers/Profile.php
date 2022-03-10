@@ -16,11 +16,11 @@ class Profile extends CI_Controller {
 
         // var_dump($model); exit;
 		$this->load->model($this->session->userdata('from_table') . '_model');
-        $this->load->model('user_history_model');
+        // $this->load->model('user_history_model');
 
 		$data['profile'] = $this->$model->getprofile($this->session->userdata('user_id'));
 
-        $data['activities'] = $this->user_history_model->getbyIDuser($this->session->userdata('user_id'));
+        // $data['activities'] = $this->user_history_model->getbyIDuser($this->session->userdata('user_id'));
 
         // var_dump($data['profile']); exit;
 
@@ -35,5 +35,19 @@ class Profile extends CI_Controller {
 		$this->load->view('content/profile', $data);
 
 		$this->load->view('general/footer');
+	}
+
+	public function getactivitiesbydate(){
+
+		$start_date = $this->input->post('start_date');
+		$end_date = $this->input->post('end_date');
+
+		// var_dump($end_date); exit;
+		$this->load->model('user_history_model');
+
+		$activities = $this->user_history_model->getbyfilter($this->session->userdata('user_id'), $start_date, $end_date);
+
+		echo json_encode($activities);
+
 	}
 }

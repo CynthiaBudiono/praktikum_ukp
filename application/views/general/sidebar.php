@@ -77,9 +77,23 @@
     border-radius: 50%;
 }
 
+
   .profile_info i{
     color: #f2cc8e !important;
     margin-top: 6px;
+  }
+
+   /* recent activities profile */
+   ul.messages li .message_wrapper {
+        margin: 0px;
+    }
+
+    /* date range picker profile, pendaftaran */
+  .daterangepicker td.active, .daterangepicker td.active:hover,
+  .daterangepicker .ranges li.active, .daterangepicker .ranges li:hover ,
+  .daterangepicker td.active, .daterangepicker td.active:hover {
+    background-color: #82b19b;
+    border : 1px solid #F4F9F9;
   }
 </style>
 <body class="nav-md">

@@ -72,6 +72,9 @@
     <!-- jQuery Smart Wizard -->
     <script src="<?= base_url() ?>assets/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
 
+    <!-- morris.js -->
+    <script src="<?= base_url() ?>assets/vendors/raphael/raphael.min.js"></script>
+    <script src="<?= base_url() ?>assets/vendors/morris.js/morris.min.js"></script>
 
     <!-- Datatables -->
     <script src="<?= base_url() ?>assets/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
