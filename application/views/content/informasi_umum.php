@@ -61,14 +61,14 @@
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 ">Nama Link Footer</label>
                                 <div class="col-md-9 col-sm-9 ">
-                                    <input type="text" class="form-control" name="nama_link_footer" id="nama_link_footer" placeholder=" Informatics..." required value="<?= (isset($detil[0]['nama'])) ? $detil[0]['nama'] : '' ?>">
+                                    <input type="text" class="form-control" name="nama_link_footer" id="nama_link_footer" placeholder="Informatics..." required value="<?= (isset($nama_footer)) ? $nama_footer : '-' ?>">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 ">Link Footer</label>
                                 <div class="col-md-9 col-sm-9 ">
-                                    <input type="url" class="form-control" name="link_footer" id="link_footer" placeholder="http.." required value="<?= (isset($detil[0]['nama'])) ? $detil[0]['nama'] : '' ?>">
+                                    <input type="url" class="form-control" name="link_footer" id="link_footer" placeholder="http.." required value="<?= (isset($link_footer)) ? $link_footer : '-' ?>">
                                 </div>
                             </div>
 
@@ -93,12 +93,15 @@
             autoclose: true,
             format: " yyyy",
             viewMode: "years",
-            minViewMode: "years"
+            minViewMode: "years",
+            // maxDate: "+1y"
+            yearRange: "2022:2025"
         });
         $(this).datepicker('clearDates');
 
         $('#start_year').change( function(){
-            $('#end_year').val(new Date($('#start_year').val()+1).getFullYear());
+            alert(new Date($('#start_year')).getFullYear());
+            $('#end_year').val(new Date($('#start_year')).getFullYear() + 1);
         });
     });
     

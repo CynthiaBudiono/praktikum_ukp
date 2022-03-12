@@ -2,7 +2,7 @@
     <footer>
       <div class="pull-right">
         &copy; Copyright <span><?= date('Y') ?> All Rights Reserved. 
-        <a href="https://informatika.petra.ac.id/">Informatics Engineering Petra Christian University</a>
+        <a target="_blank" href="<?= isset($link_footer) ? $link_footer : "-" ?>"><?= isset($nama_footer) ? $nama_footer : "-" ?></a>
       </div>
       <div class="clearfix"></div>
     </footer>

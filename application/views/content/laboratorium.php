@@ -1,9 +1,4 @@
 <!-- page content -->
-<style>
-    html{
-        scroll-behavior: smooth;
-    }
-</style>
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">

@@ -27,6 +27,7 @@
         <a id="menu_toggle"><i class="fa fa-bars"></i></a>
       </div>
       <nav class="nav navbar-nav">
+        <!-- <span>Periode</span> -->
         <ul class=" navbar-right">
           <li class="nav-item dropdown open" style="padding-left: 15px;">
             <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
@@ -36,6 +37,9 @@
               <a class="dropdown-item"  href="<?= base_url('profile') ?>"> Profile</a>
               <a class="dropdown-item"  href="<?= base_url('auth/logout') ?>"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
             </div>
+          </li>
+          <li class="nav-item">
+              <h6 style="margin-top:5px; margin-bottom:0px;"><?= isset($semester) ? $semester : "-" ?> <?= isset($tahun_ajaran) ? $tahun_ajaran : "-" ?></h6>
           </li>
         </ul>
     </nav>

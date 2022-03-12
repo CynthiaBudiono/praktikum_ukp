@@ -6,43 +6,58 @@ class Calon_asisten_dosen extends CI_Controller {
 	{
 		parent::__construct();
         if(!$this->session->userdata('logged_in')) redirect('login');
-	    if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
 	}
 
 
 	public function index()
 	{
+        if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
 
+        $this->load->model('informasi_umum_model');
 		$this->load->model('calon_asisten_dosen_model');
 
 		$data['calon_asisten_dosen'] = $this->calon_asisten_dosen_model->getallopen();
 
 		$data['title'] = "calon asisten dosen";
 
+        $data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
+		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "ganjil" : "genap" ;
+		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
+		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
+		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
+
 		$this->load->view('general/header');
 
-		$this->load->view('general/sidebar');
+		$this->load->view('general/sidebar', $data);
 
-		$this->load->view('general/navbar');
+		$this->load->view('general/navbar', $data);
 
 		$this->load->view('content/calon_asisten_dosen', $data);
 
-		$this->load->view('general/footer');
+		$this->load->view('general/footer', $data);
 	}
 
     public function adds(){
 
+        $this->load->model('informasi_umum_model');
+
         $data['title'] = "Add calon asisten dosen";
+
+        $data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
+		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "ganjil" : "genap" ;
+		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
+		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
+		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
 
 		$this->load->view('general/header');
 
-		$this->load->view('general/sidebar');
+		$this->load->view('general/sidebar', $data);
 
-		$this->load->view('general/navbar');
+		$this->load->view('general/navbar', $data);
 
 		$this->load->view('content/calon_asisten_dosen-add', $data);
 
-		$this->load->view('general/footer');
+		$this->load->view('general/footer', $data);
 
     }
 
@@ -50,6 +65,8 @@ class Calon_asisten_dosen extends CI_Controller {
 
         // $check = $this->access_group_model->getbynama($this->session->userdata('user_level'));
 		// if ($check == 0) redirect('dashboard');
+
+        $this->load->model('informasi_umum_model');
 
         $id = base64_decode($id);
 
@@ -63,15 +80,21 @@ class Calon_asisten_dosen extends CI_Controller {
         
         $data['title'] = "Edit calon asisten dosen";
 
+        $data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
+		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "ganjil" : "genap" ;
+		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
+		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
+		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
+
 		$this->load->view('general/header');
 
-		$this->load->view('general/sidebar');
+		$this->load->view('general/sidebar', $data);
 
-		$this->load->view('general/navbar');
+		$this->load->view('general/navbar', $data);
 
 		$this->load->view('content/calon_asisten_dosen-add', $data);
 
-		$this->load->view('general/footer');
+		$this->load->view('general/footer', $data);
 
     }
 

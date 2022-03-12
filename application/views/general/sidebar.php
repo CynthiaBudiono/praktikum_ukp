@@ -63,6 +63,10 @@
     color: #fff
   }
 
+  .color-red{
+    color: #F47174;
+  }
+
   .nav-md ul.nav.child_menu li:before { /* pentol sidebar */
     background: #3e405b;
     bottom: auto;
@@ -75,6 +79,10 @@
     width: 8px;
     z-index: 1;
     border-radius: 50%;
+}
+
+html{
+  scroll-behavior: smooth;
 }
 
 
