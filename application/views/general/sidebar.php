@@ -110,7 +110,7 @@ html{
       <div class="col-md-3 left_col">
         <div class="left_col scroll-view">
           <div class="navbar nav_title" style="border: 0;">
-            <a href="<?= UPLOAD_URL ?>dashboard"><img src="<?= UPLOAD_URL ?>/assets/images/logo_informatika.png" alt="..." style="width : 100%"></a>
+            <a href="<?= base_url() ?>dashboard"><img src="<?= base_url() ?>/assets/images/<?= isset($logo) ? $logo : "" ?>" alt="..." style="max-width : 100%; max-height 80px;"></a>
           </div>
 
           <div class="clearfix"></div>
@@ -167,7 +167,7 @@ html{
                 </li>
                 <li><a href="<?= base_url('laporan') ?>"><i class="fa fa-archive"></i> Laporan</span></a></li>
                 <li><a href="<?= base_url('informasi_umum') ?>"><i class="fa fa-exclamation-circle"></i> Informasi Umum</span></a></li>
-                <li><a href="<?= base_url('pengumuman') ?>"><i class="fa fa-bullhorn"></i> Pengumuman</span></a></li>
+                <li><a href="<?= base_url('berita') ?>"><i class="fa fa-bullhorn"></i> Pengumuman</span></a></li>
                 <li><a><i class="fa fa-users"></i> Manajemen User <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                     <li><a href="<?= base_url('user_group') ?>">Kelompok Akses</a></li>

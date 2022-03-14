@@ -89,29 +89,35 @@
             var arr = JSON.parse(result);
             var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             var kal = "";
-            for(var i = 0; i < arr.length; i++){
-                
-                kal += '<li>';
-                    kal += '<div class="row">';
-                        kal += '<div class="col-md-10">';
-                            kal += '<div class="message_wrapper">';
-                                kal += '<h4 class="heading">'+ arr[i]['table_name'] +'  <small> ~ '+ arr[i]['action'] +'</small></h4>';
-                                kal += '<blockquote class="message">'+ arr[i]['keterangan'] +'</blockquote>';
-                                kal += '<br />';
+            alert(arr.length);
+            if(arr.length>1){
+                for(var i = 0; i < arr.length; i++){
+                    kal += '<li>';
+                        kal += '<div class="row">';
+                            kal += '<div class="col-md-10">';
+                                kal += '<div class="message_wrapper">';
+                                    kal += '<h4 class="heading">'+ arr[i]['table_name'] +'  <small> ~ '+ arr[i]['action'] +'</small></h4>';
+                                    kal += '<blockquote class="message">'+ arr[i]['keterangan'] +'</blockquote>';
+                                    kal += '<br />';
+                                kal += '</div>';
+                            kal += '</div>';
+                            kal += '<div class="col-md-2">';
+                                kal += '<div class="message_date text-center">';
+                                    kal += '<h4 class="date text-info">'+ new Date(arr[i]['created']).getDate() +'</h4>';
+                                    kal += '<span class="date text-info">'+ months[new Date(arr[i]['created']).getMonth()] +'</span>';
+                                    kal += '<p class="month">'+ new Date(arr[i]['created']).getHours() + ":" + new Date(arr[i]['created']).getMinutes()+ ":" + new Date(arr[i]['created']).getSeconds() +'</p>';
+                                kal += '</div>';
                             kal += '</div>';
                         kal += '</div>';
-                        kal += '<div class="col-md-2">';
-                            kal += '<div class="message_date text-center">';
-                                kal += '<h4 class="date text-info">'+ new Date(arr[i]['created']).getDate() +'</h4>';
-                                kal += '<span class="date text-info">'+ months[new Date(arr[i]['created']).getMonth()] +'</span>';
-                                kal += '<p class="month">'+ new Date(arr[i]['created']).getHours() + ":" + new Date(arr[i]['created']).getMinutes()+ ":" + new Date(arr[i]['created']).getSeconds() +'</p>';
-                            kal += '</div>';
-                        kal += '</div>';
-                    kal += '</div>';
-                kal += '</li>';
+                    kal += '</li>';
 
-                $("#recent_activities").html(kal);
+                    $("#recent_activities").html(kal);
+                }
             }
+            else{
+                kal += "AAAAAAAAAAAAAAAAAAAA";
+            }
+            
         });
     }
 

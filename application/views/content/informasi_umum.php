@@ -26,24 +26,29 @@
                     </div>
                     <div class="x_content">
                         <br />
-                        <form action="" method="post" class="form-horizontal form-label-left">
+                        <form action="<?= base_url('informasi_umum/update') ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
                         
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 ">Logo</label>
                                 <div class="col-md-9 col-sm-9 ">
-                                    
+                                    <img id="preview1" name="preview1" class="thumbnail" src="<?= UPLOAD_URL ?>assets/images/<?= (isset($logo)) ? $logo : '-' ?>" title="Preview Logo">
+                                    <input type="file" name="logo_web" id="logo_web" onchange="tampilkanPreview(this,'preview1')"><br><br>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 ">Semester</label>
-                                <div id="semester" class="col-md-9 col-sm-9 btn-group" data-toggle="buttons">
-                                    <label class="btn btn-info" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                        <input type="radio" name="semester" value="1" class="join-btn"> &nbsp; Ganjil &nbsp;
-                                    </label>
-                                    <label class="btn btn-warning" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                        <input type="radio" name="semester" value="2" class="join-btn"> Genap
-                                    </label>
+                                <div id="semester" class="col-md-9 col-sm-9 btn-group">
+                                    <div class="col-md-6">
+                                        <div class="radio">
+                                            <label><input type="radio" <?php if(isset($semester)) if($semester=='ganjil') echo 'checked'; ?> value="1" id="radioGanjil" name="semester"> Ganjil</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="radio">
+                                            <label><input type="radio" <?php if(isset($semester)) if($semester=='genap') echo 'checked'; ?> value="2" id="radioGenap" name="semester"> Genap</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -51,9 +56,9 @@
                                 <label class="control-label col-md-3 col-sm-3 ">Tahun Ajaran</label>
                                 <div class="col-md-9 col-sm-9 ">
                                     <div class="input-group input-daterange" id="tahun_ajaran">
-                                        <input type="text" class="form-control" id="start_year" value="<?= $start_year ?>"> <!-- value="<?= $start_year ?>" value="2012-04-05"-->
+                                        <input type="text" class="form-control" id="start_year" name="start_year" value="<?= $start_year ?>"> <!-- value="<?= $start_year ?>" value="2012-04-05"-->
                                         <div class="input-group-addon">-</div>
-                                        <input type="text" class="form-control" id="end_year" value="<?= $end_year ?>"> <!-- value="<?= $end_year ?>" value="2012-04-19" -->
+                                        <input type="text" class="form-control" id="end_year" name="end_year" value="<?= $end_year ?>"> <!-- value="<?= $end_year ?>" value="2012-04-19" -->
                                     </div>
                                 </div>
                             </div>
@@ -106,8 +111,43 @@
     });
     
 
-  $("#semester").on("click" , function () {
-    alert($("input[type='radio']:checked").val());
-  })
+    // $("#semester").on("click" , function () {
+    //     alert($("input[type='radio']:checked").val());
+    // });
 
- </script>
+
+    function tampilkanPreview(userfile, idpreview){
+
+        var gb = userfile.files;
+
+        for (var i = 0; i < gb.length; i++){
+
+            var gbPreview = gb[i];
+
+            var imageType = /image.*/;
+
+            var preview = document.getElementById(idpreview);
+
+            var reader = new FileReader();
+
+            if (gbPreview.type.match(imageType))
+            {
+                //jika tipe data sesuai
+                preview.file = gbPreview;
+                reader.onload = (function(element)
+                    {
+                        return function(e)
+                        {
+                            element.src = e.target.result;
+                        };
+                    })(preview);
+                //membaca data URL gambar
+                reader.readAsDataURL(gbPreview);
+            }
+            else{
+                //jika tipe data tidak sesuai
+                alert("Tipe file tidak sesuai. Gambar harus bertipe .png, .gif atau .jpg.");
+            }
+        }
+    }
+</script>

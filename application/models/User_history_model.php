@@ -47,8 +47,8 @@ class User_history_model extends CI_Model {
 
 	public function getbyfilter($id_user, $start_date, $end_date){
 
-		$this->db->where('created >=',$start_date);
-		$this->db->where('created <=',$end_date);
+		$this->db->where('created >=',$start_date. ' 00:00:00');
+		$this->db->where('created <=',$end_date. ' 23:59:59');
 		$query = $this->db->where('id_user', $id_user)->get('user_history');
 		if ($query->num_rows() > 0)
 
