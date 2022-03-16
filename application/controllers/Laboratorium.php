@@ -82,6 +82,14 @@ class Laboratorium extends CI_Controller {
         echo json_encode($laboratorium);
     }
 
+    public function getactivelab(){
+        $this->load->model('laboratorium_model');
+
+		$laboratorium = $this->laboratorium_model->getactivelab();
+
+        echo json_encode($laboratorium);
+    }
+
     public function add(){
         $this->load->helper(array('form', 'url'));
         // $this->load->library('form_validation');

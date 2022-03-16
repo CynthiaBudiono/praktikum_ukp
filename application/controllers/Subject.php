@@ -37,4 +37,12 @@ class Subject extends CI_Controller {
 
 		$this->load->view('general/footer', $data);
 	}
+
+	public function gethavepraktikum(){
+		$this->load->model('subject_model');
+
+		$subject = $this->subject_model->gethavepraktikum();
+		
+        echo json_encode($subject);
+	}
 }

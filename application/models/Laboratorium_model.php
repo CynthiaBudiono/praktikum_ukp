@@ -31,6 +31,21 @@ class Laboratorium_model extends CI_Model {
 
 	}
 
+	public function getactivelab() {
+
+		$this->db->order_by('nama', 'ASC');
+		$query = $this->db->where('status', 1)->get('laboratorium');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+
+	}
+
     public function add($data) {
 
         $this->db->trans_start();

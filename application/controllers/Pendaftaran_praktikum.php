@@ -68,6 +68,15 @@ class Pendaftaran_praktikum extends CI_Controller {
         echo json_encode($pendaftaran_praktikum);
     }
 
+    public function getlastrecord(){
+
+        $this->load->model('pendaftaran_praktikum_model');
+
+		$pendaftaran_praktikum = $this->pendaftaran_praktikum_model->getlastrecord();
+
+        echo json_encode($pendaftaran_praktikum);
+    }
+
     public function add(){
         $this->load->helper(array('form', 'url'));
 

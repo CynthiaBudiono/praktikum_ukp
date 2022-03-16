@@ -17,9 +17,9 @@ class Informasi_umum extends CI_Controller {
 		$data['informasi_umum'] = $this->informasi_umum_model->getallopen();
 
 		// var_dump($data['informasi_umum']); exit;
-        $data['start_year'] = date("Y");
+        // $data['start_year'] = date("Y");
 
-        $data['end_year'] = date('Y', strtotime("1 year"));
+        // $data['end_year'] = date('Y', strtotime("1 year"));
 
 		$data['title'] = "Informasi Umum";
 		
@@ -47,7 +47,7 @@ class Informasi_umum extends CI_Controller {
 		$data = array(
             'logo' => $_FILES['logo_web']['name'],
             'semester' => $this->input->post('semester'),
-            'tahun_ajaran' => $this->input->post('start_year').'-'.$this->input->post('end_year'),
+            'tahun_ajaran' => $this->input->post('tahun_ajaran'),
             'nama_footer' => $this->input->post('nama_link_footer'),
             'link_footer' => $this->input->post('link_footer')
         );
@@ -165,7 +165,7 @@ class Informasi_umum extends CI_Controller {
             $this->load->model('user_history_model');
             $this->user_history_model->add($logs_insert);
 
-            echo 'success';
+            redirect('informasi_umum');
         }
 		
 	}

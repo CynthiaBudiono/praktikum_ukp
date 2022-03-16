@@ -79,7 +79,21 @@
     width: 8px;
     z-index: 1;
     border-radius: 50%;
-}
+  }
+  /* .nav-md ul.nav.child_menu li.current-page {
+    background: #82b19b;
+    bottom: auto;
+    content: "";
+    height: 8px;
+    left: 23px;
+    margin-top: 15px;
+    position: absolute;
+    right: auto;
+    width: 8px;
+    z-index: 1;
+    border-radius: 50%;
+  } */
+
 
 html{
   scroll-behavior: smooth;
@@ -103,6 +117,22 @@ html{
     background-color: #82b19b;
     border : 1px solid #F4F9F9;
   }
+
+  input[type=file]::file-selector-button {
+    border: 2px solid #82b19b;
+    padding: .2em .4em;
+    border-radius: .2em;
+    background-color: #82b19b;
+    transition: 1s;
+    color: #fff;
+    }
+
+    input[type=file]::file-selector-button:hover {
+    background-color: #688d7c;
+    border: 2px solid #688d7c;
+    color: #fff;
+    }
+
 </style>
 <body class="nav-md">
   <div class="container body">
@@ -155,7 +185,7 @@ html{
                     <li><a href="<?= base_url('kelas_praktikum') ?>">Praktikum</a></li>
                     <li><a href="<?= base_url('jadwal_berhalangan') ?>">Berhalangan Pengajar</a></li>
                     <li><a href="<?= base_url('jadwal_wawancara') ?>">Wawancara Asdos</a></li>
-                    <li><a href="<?= base_url('prs') ?>">PRS Mahasiswa</a></li>
+                    <li><a href="<?= base_url('mahasiswa_matakuliah') ?>">PRS Mahasiswa</a></li>
                   </ul>
                 </li>
                 <li><a><i class="fa fa-flag"></i> Penerimaan <span class="fa fa-chevron-down"></span></a>

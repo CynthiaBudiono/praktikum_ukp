@@ -1,9 +1,60 @@
-<!-- Yearpicker -->
-<link href="https://adminlte.io/themes/AdminLTE/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
-<script src="https://adminlte.io/themes/AdminLTE/bower_components/jquery/dist/jquery.min.js"></script>
-<script src="https://adminlte.io/themes/AdminLTE/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-<script src="https://adminlte.io/themes/AdminLTE/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    
+<style>
+    .wrapper-radio{
+        display: inline-flex;
+    }
+    .wrapper-radio .option{
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        margin: 0 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        padding: 0 10px;
+        border: 2px solid lightgrey;
+        transition: all 0.3s ease;
+    }
+    .wrapper-radio .option .dot{
+        height: 15px;
+        width: 15px;
+        background: #d9d9d9;
+        border-radius: 50%;
+        position: relative;
+    }
+    .wrapper-radio .option .dot::before{
+        position: absolute;
+        content: "";
+        border-radius: 50%;
+        opacity: 0;
+        transform: scale(1.5);
+        transition: all 0.3s ease;
+    }
+    input[type="radio"]{
+        display: none;
+    }
+    #radioGanjil:checked:checked ~ .radioGanjil,
+    #radioGenap:checked:checked ~ .radioGenap{
+        border-color: #82b19b;
+        background: #82b19b;
+    }
+    #radioGanjil:checked:checked ~ .radioGanjil .dot,
+    #radioGenap:checked:checked ~ .radioGenap .dot{
+        background: url(<?php echo base_url('assets/icons/checkmark.svg');?>);
+    }
+    #radioGanjil:checked:checked ~ .radioGanjil .dot::before,
+    #radioGenap:checked:checked ~ .radioGenap .dot::before{
+        opacity: 1;
+        transform: scale(1);
+    }
+    .wrapper-radio .option span{
+        font-size: 12px;
+        color: #808080;
+    }
+    #radioGanjil:checked:checked ~ .radioGanjil span,
+    #radioGenap:checked:checked ~ .radioGenap span{
+        color: #fff;
+    }
+</style>
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
@@ -39,27 +90,31 @@
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 ">Semester</label>
                                 <div id="semester" class="col-md-9 col-sm-9 btn-group">
-                                    <div class="col-md-6">
-                                        <div class="radio">
-                                            <label><input type="radio" <?php if(isset($semester)) if($semester=='ganjil') echo 'checked'; ?> value="1" id="radioGanjil" name="semester"> Ganjil</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="radio">
-                                            <label><input type="radio" <?php if(isset($semester)) if($semester=='genap') echo 'checked'; ?> value="2" id="radioGenap" name="semester"> Genap</label>
-                                        </div>
-                                    </div>
+                                <div class="wrapper-radio">
+                                    <input type="radio" <?php if(isset($semester)) if($semester=='ganjil') echo 'checked'; ?> value="1" id="radioGanjil" name="semester">
+                                    <input type="radio" <?php if(isset($semester)) if($semester=='genap') echo 'checked'; ?> value="2" id="radioGenap" name="semester">
+                                    <label for="radioGanjil" class="option radioGanjil">
+                                        <div class="dot"></div>
+                                        <span>Ganjil</span>
+                                        </label>
+                                    <label for="radioGenap" class="option radioGenap">
+                                        <div class="dot"></div>
+                                        <span>Genap</span>
+                                    </label>
+                                </div>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 ">Tahun Ajaran</label>
                                 <div class="col-md-9 col-sm-9 ">
-                                    <div class="input-group input-daterange" id="tahun_ajaran">
-                                        <input type="text" class="form-control" id="start_year" name="start_year" value="<?= $start_year ?>"> <!-- value="<?= $start_year ?>" value="2012-04-05"-->
+                                    <!-- <div class="input-group input-daterange" id="tahun_ajaran"> -->
+                                        <input type="text" class="form-control" name="tahun_ajaran" id="tahun_ajaran" data-inputmask="'mask': '9999-9999'" onchange="tahunajaranval()" value="<?= (isset($tahun_ajaran)) ? $tahun_ajaran : '' ?>">
+                                        <!-- <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span> -->
+                                        <!-- <input type="text" class="form-control" id="start_year" name="start_year" value="<?= $start_year ?>">
                                         <div class="input-group-addon">-</div>
-                                        <input type="text" class="form-control" id="end_year" name="end_year" value="<?= $end_year ?>"> <!-- value="<?= $end_year ?>" value="2012-04-19" -->
-                                    </div>
+                                        <input type="text" class="form-control" id="end_year" name="end_year" value="<?= $end_year ?>"> -->
+                                    <!-- </div> -->
                                 </div>
                             </div>
 
@@ -93,26 +148,31 @@
 </div>
 
 <script>
-    $('#tahun_ajaran input').each(function () {
-        $(this).datepicker({
-            autoclose: true,
-            format: " yyyy",
-            viewMode: "years",
-            minViewMode: "years",
-            // maxDate: "+1y"
-            yearRange: "2022:2025"
-        });
-        $(this).datepicker('clearDates');
+    // $('#tahun_ajaran').onchange( function(){
+    //     alert($('#tahun_ajaran').val());
+    // });
+    // $('#tahun_ajaran input').each(function () {
+    //     $(this).datepicker({
+    //         autoclose: true,
+    //         format: " yyyy",
+    //         viewMode: "years",
+    //         minViewMode: "years",
+    //         // maxDate: "+1y"
+    //         yearRange: "2022:2025"
+    //     });
+    //     $(this).datepicker('clearDates');
 
-        $('#start_year').change( function(){
-            alert(new Date($('#start_year')).getFullYear());
-            $('#end_year').val(new Date($('#start_year')).getFullYear() + 1);
-        });
-    });
-    
+    //     $('#start_year').change( function(){
+    //         alert(new Date($('#start_year')).getFullYear());
+    //         $('#end_year').val(new Date($('#start_year')).getFullYear() + 1);
+    //     });
+    // });
+    // function tahunajaranval(){
+    //     alert($('#tahun_ajaran').val());
+    // }
 
-    // $("#semester").on("click" , function () {
-    //     alert($("input[type='radio']:checked").val());
+    // $("#tahun_ajaran").on("change" , function () {
+    //     alert($('#tahun_ajaran').val());
     // });
 
 

@@ -158,32 +158,29 @@ $(function() {
 
 <script>
     var baseurl = "<?php echo base_url(); ?>";
-    // view();
+    
     $(document).ready(function() {	
-        // alert("masukkkkkkkk ready");	
         view()
 
-        $('#divmore').css('display', 'none')
-        // $('#divtitle').css('display', 'none');
-        // $('#divketerangan').css('display', 'none');
-        // $('#divstatus').css('display', 'none');
+        $('#divmore').css('display', 'none');
     });
 
     function isiberita(){
         if($('#selecttipe').val() == ''){
-            $('#divmore').css('display', 'none')
-            // $('#divtitle').css('display', 'none');
-            // $('#divketerangan').css('display', 'none');
-            // $('#divstatus').css('display', 'none');
+            $('#divmore').css('display', 'none');
         }
         else{
-            $('#divmore').css('display', 'block')
-            // $('#divtitle').css('display', 'block');
-            // $('#divketerangan').css('display', 'block');
-            // $('#divstatus').css('display', 'block');
+            $('#divmore').css('display', 'block');
 
             if($('#selecttipe').val() == 'praktikum'){
-                tinymce.get("keterangan").setContent("<p>praktikum!</p>");
+                $.post(baseurl + "pendaftaran_praktikum/getlastrecord", {
+                },
+                function(result) {
+                    // alert(result);
+                    var arr = JSON.parse(result);
+                    tinymce.get("keterangan").setContent("<p>Pendaftaran Praktikum (PP) " + arr[0]['PP'] + " dimulai tanggal " + arr[0]['waktu_start']+ " dan berakhir pada tanggal " + arr[0]['waktu_end'] + ".</p>");
+                });
+               
             }
             else if($('#selecttipe').val() == 'rekrutmen'){
                 tinymce.get("keterangan").setContent("<p>rekrutmen!</p>");
@@ -195,12 +192,9 @@ $(function() {
     }
 
     function addupdate(){
-        // alert('masuk func' + $('#mode').val());
-        // alert($('#id').val());
-        // alert(baseurl + "berita/" + $('#mode').val());
-        alert($('#daterange').val());
+        // alert($('#daterange').val());
         $waktu = ($('#daterange').val()).split(" - ");
-        alert($waktu);
+        // alert($waktu);
         $.post(baseurl + "berita/" + $('#mode').val(), {
             id: $('#id').val(),
             tanggal_start: $waktu[0],
@@ -226,7 +220,6 @@ $(function() {
                     $('#id').prop("readonly", false);
                     $('#mode').val('add');
                 }
-
 
             }
             else{

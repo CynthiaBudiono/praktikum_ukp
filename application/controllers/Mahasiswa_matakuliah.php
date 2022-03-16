@@ -1,23 +1,23 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Dosen extends CI_Controller {
-
+class mahasiswa_matakuliah extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+
         if(!$this->session->userdata('logged_in')) redirect('login');
 	    if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
 	}
 
-
 	public function index()
 	{
 
-		$this->load->model('dosen_model');
+		$this->load->model('mahasiswa_matakuliah_model');
 
-		$data['dosen'] = $this->dosen_model->getallopen();
+		$data['mahasiswa_matakuliah'] = $this->mahasiswa_matakuliah_model->getallopen();
 
-		$data['title'] = "Dosen";
+		// var_dump("mahasiswa_matakuliah ", $data['mahasiswa_matakuliah']); exit;
+		$data['title'] = "mahasiswa matakuliah";
 
 		$this->load->model('informasi_umum_model');
 		
@@ -33,17 +33,8 @@ class Dosen extends CI_Controller {
 
 		$this->load->view('general/navbar', $data);
 
-		$this->load->view('content/dosen', $data);
+		$this->load->view('content/mahasiswa_matakuliah', $data);
 
 		$this->load->view('general/footer', $data);
-	}
-
-	public function getactivepengajar(){
-		$this->load->model('dosen_model');
-		$this->load->model('asisten_dosen_model');
-
-		$pengajar = array_merge($this->dosen_model->getallactive(), $this->asisten_dosen_model->getallactive());
-		
-        echo json_encode($pengajar);
 	}
 }

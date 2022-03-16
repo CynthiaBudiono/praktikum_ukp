@@ -50,5 +50,16 @@
     <!-- Custom Theme Style -->
     <link href="<?= base_url() ?>assets/build/css/custom.min.css" rel="stylesheet">
 
+    <!-- bootstrap-datetimepicker -->
+    <link href="<?= base_url() ?>assets/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <!-- Ion.RangeSlider -->
+    <link href="<?= base_url() ?>assets/vendors/normalize-css/normalize.css" rel="stylesheet">
+    <link href="<?= base_url() ?>assets/vendors/ion.rangeSlider/css/ion.rangeSlider.css" rel="stylesheet">
+    <link href="<?= base_url() ?>assets/vendors/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+    <!-- Bootstrap Colorpicker -->
+    <link href="<?= base_url() ?>assets/vendors/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+
+    <!-- <link href="<?= base_url() ?>assets/vendors/cropper/dist/cropper.min.css" rel="stylesheet"> -->
+
     <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery-3.6.0.js"></script>
   </head>

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Dosen extends CI_Controller {
+class Laporan extends CI_Controller {
 
 	public function __construct()
 	{
@@ -12,12 +12,7 @@ class Dosen extends CI_Controller {
 
 	public function index()
 	{
-
-		$this->load->model('dosen_model');
-
-		$data['dosen'] = $this->dosen_model->getallopen();
-
-		$data['title'] = "Dosen";
+		$data['title'] = "laporan";
 
 		$this->load->model('informasi_umum_model');
 		
@@ -33,17 +28,8 @@ class Dosen extends CI_Controller {
 
 		$this->load->view('general/navbar', $data);
 
-		$this->load->view('content/dosen', $data);
+		$this->load->view('content/laporan', $data);
 
 		$this->load->view('general/footer', $data);
-	}
-
-	public function getactivepengajar(){
-		$this->load->model('dosen_model');
-		$this->load->model('asisten_dosen_model');
-
-		$pengajar = array_merge($this->dosen_model->getallactive(), $this->asisten_dosen_model->getallactive());
-		
-        echo json_encode($pengajar);
 	}
 }

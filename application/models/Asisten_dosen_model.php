@@ -17,6 +17,22 @@ class Asisten_dosen_model extends CI_Model {
 
 	}
 
+	public function getallactive() {
+		$this->db->select('asisten_dosen.*, mahasiswa.nama as nama');
+		$this->db->join('mahasiswa', 'mahasiswa.NRP = asisten_dosen.NRP');
+		$this->db->order_by('nama', 'ASC');
+		$query = $this->db->where('asisten_dosen.status', 1)->get('asisten_dosen');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+
+	}
+
     public function get($id) {
 
 		$query = $this->db->where('id', $id)->get('asisten_dosen', 1, 0);

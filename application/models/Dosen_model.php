@@ -17,6 +17,21 @@ class Dosen_model extends CI_Model {
 
 	}
 
+	public function getallactive() {
+		$this->db->select('dosen.*');
+		$this->db->order_by('nama', 'ASC');
+		$query = $this->db->where('status', 1)->get('dosen');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+
+	}
+
     public function get($nip) {
 
 		$query = $this->db->where('NIP', $nip)->get('dosen', 1, 0);

@@ -38,20 +38,17 @@
                     <tr>
                       <th>Actions</th>
                       <th>NRP</th>
-                      <th>Nama</th>
-                      <th>Angkatan</th>
-                      <th>IPS</th>
-                      <th>IPK</th>
-                      <th>Email</th>
-                      <th>Last login</th>
-                      <th>Status</th>
+                      <th>Kode MK</th>
+                      <th>Kelas Paralel</th>
+                      <th>Semester</th>
+                      <th>Tahun Ajaran</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                  <?php if(isset($mahasiswa)) : ?>
-                      <?php if(is_array($mahasiswa)) : ?>
-                          <?php foreach($mahasiswa as $key) : ?>
+                  <?php if(isset($mahasiswa_matakuliah)) : ?>
+                      <?php if(is_array($mahasiswa_matakuliah)) : ?>
+                          <?php foreach($mahasiswa_matakuliah as $key) : ?>
                             <tr>
                               <td>
                               <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a>
@@ -59,13 +56,10 @@
                               <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
                               </td>
                               <td><?= (isset($key['NRP'])) ? $key['NRP'] : '' ?></td>
-                              <td><?= (isset($key['nama'])) ? $key['nama'] : '' ?></td>
-                              <td><?= (isset($key['angkatan'])) ? $key['angkatan'] : '' ?></td>
-                              <td><?= (isset($key['ips'])) ? $key['ips'] : '' ?></td>
-                              <td><?= (isset($key['ipk'])) ? $key['ipk'] : '' ?></td>
-                              <td><?= (isset($key['email'])) ? $key['email'] : '' ?></td>
-                              <td><?= (isset($key['last_login'])) ? $key['last_login'] : '' ?></td>
-                              <td><?php if(isset($key['status'])) if($key['status']==1) echo '<span class="badge bg-green">active</span>'; else '<span class="badge bg-danger">non active</span>'; ?></td>
+                              <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?></td>
+                              <td><?= (isset($key['kelas_paralel'])) ? $key['kelas_paralel'] : '' ?></td>
+                              <td><?= (isset($key['semester'])) ? $key['semester'] : '' ?></td>
+                              <td><?= (isset($key['tahun_ajaran'])) ? $key['tahun_ajaran'] : '' ?></td>
                             </tr>
                           <?php endforeach; ?>
                       <?php endif; ?>

@@ -31,6 +31,20 @@ class Pendaftaran_praktikum_model extends CI_Model {
 
 	}
 
+	public function getlastrecord() {
+
+		$query = $this->db->order_by('id','desc')->get('pendaftaran_praktikum', 1, 0);
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+
+	}
+
     public function add($data) {
 
         $this->db->trans_start();

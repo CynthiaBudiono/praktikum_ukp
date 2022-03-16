@@ -37,6 +37,13 @@ class Auth extends CI_Controller
                         'user_id' => $user[0]['id'],
                         'logged_name' => $user[0]['username']
                     );
+
+                    $data_last_login = array(
+                        'id' => $user[0]['id'],
+                        'last_login' => date('Y-m-d H:i:s')
+                    );
+                    $this->user_model->update($data_last_login);
+
                 }
                 else{
                     $user = $this->mahasiswa_model->get($this->input->post('username'));
@@ -49,6 +56,13 @@ class Auth extends CI_Controller
                             'user_id' => $user[0]['NRP'],
                             'logged_name' => $user[0]['nama']
                         );
+
+                        $data_last_login = array(
+                            'NRP' => $user[0]['NRP'],
+                            'last_login' => date('Y-m-d H:i:s')
+                        );
+                        $this->mahasiswa_model->update($data_last_login);
+
                     }
                     else{
                         $user = $this->dosen_model->get($this->input->post('username'));
@@ -61,6 +75,12 @@ class Auth extends CI_Controller
                                 'user_id' => $user[0]['NIP'],
                                 'logged_name' => $user[0]['nama']
                             );
+
+                            $data_last_login = array(
+                                'NIP' => $user[0]['NIP'],
+                                'last_login' => date('Y-m-d H:i:s')
+                            );
+                            $this->dosen_model->update($data_last_login);
                         }
                         else{
                             $user = $this->asisten_dosen_model->getbyNIP($this->input->post('username'));
@@ -74,6 +94,13 @@ class Auth extends CI_Controller
                                     'user_id' => $user[0]['id'],
                                     'logged_name' => $get_mahasiswa[0]['nama']
                                 );
+
+                                $data_last_login = array(
+                                    'id' => $user[0]['id'],
+                                    'last_login' => date('Y-m-d H:i:s')
+                                );
+                                $this->asisten_dosen_model->update($data_last_login);
+
                             }
                         }
                     }
