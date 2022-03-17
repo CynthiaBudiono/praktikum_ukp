@@ -7,22 +7,16 @@ class Profile extends CI_Controller {
 		parent::__construct();
 
         if(!$this->session->userdata('logged_in')) redirect('login');
-	    if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
+	    // if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
 	}
 
 	public function index()
 	{
         $model = $this->session->userdata('from_table') . "_model";
 
-        // var_dump($model); exit;
 		$this->load->model($this->session->userdata('from_table') . '_model');
-        // $this->load->model('user_history_model');
 
 		$data['profile'] = $this->$model->getprofile($this->session->userdata('user_id'));
-
-        // $data['activities'] = $this->user_history_model->getbyIDuser($this->session->userdata('user_id'));
-
-        // var_dump($data['profile']); exit;
 
 		$data['title'] = "Profile";
 

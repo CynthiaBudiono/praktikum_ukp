@@ -229,7 +229,17 @@ $(function() {
 
             $waktu = moment(arr['detil'][0]['waktu_start'].toString(), 'Y-m-d H:i:s').format("Y/MM/DD HH:mm");
 
-            alert($waktu);
+            $('input[name="datetimes"]').daterangepicker({
+                timePicker: true,
+                startDate: moment(arr['detil'][0]['waktu_start'].toString()),
+                endDate: moment(arr['detil'][0]['waktu_end'].toString()),
+                minDate: moment(),
+                timePicker24Hour: true,
+                locale: {
+                format: 'Y/MM/DD HH:mm'
+                }
+            });
+            // alert(moment(arr['detil'][0]['waktu_start'].toString()));
             // $('#waktu_start').val(arr['detil'][0]['waktu_start']);
 
             // $('#waktu_end').val(arr['detil'][0]['waktu_end']);

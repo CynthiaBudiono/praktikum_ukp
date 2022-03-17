@@ -90,7 +90,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="card-box table-responsive">
-                                <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
+                                <table id="datatable-periode-ini" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Actions</th>
@@ -169,7 +169,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="card-box table-responsive">
-                                <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
+                                <table id="datatable-periode-lama" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Actions</th>
@@ -230,3 +230,61 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    $(document).ready(function() {
+        $('#datatable-periode-ini').DataTable( {
+            dom: "Blfrtip",
+            buttons: [
+                {
+                    extend: "copy",
+                    className: "btn-sm"
+                },
+                {
+                    extend: "csv",
+                    className: "btn-sm"
+                },
+                {
+                    extend: "excel",
+                    className: "btn-sm"
+                },
+                {
+                    extend: "pdfHtml5",
+                    className: "btn-sm"
+                },
+                {
+                    extend: "print",
+                    className: "btn-sm"
+                },
+            ],
+            responsive: true
+        });
+        $('#datatable-periode-lama').DataTable( {
+            dom: "Blfrtip",
+            buttons: [
+                {
+                    extend: "copy",
+                    className: "btn-sm"
+                },
+                {
+                    extend: "csv",
+                    className: "btn-sm"
+                },
+                {
+                    extend: "excel",
+                    className: "btn-sm"
+                },
+                {
+                    extend: "pdfHtml5",
+                    className: "btn-sm"
+                },
+                {
+                    extend: "print",
+                    className: "btn-sm"
+                },
+            ],
+            responsive: true
+        });
+    });
+</script>

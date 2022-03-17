@@ -31,6 +31,19 @@ class Mahasiswa_model extends CI_Model {
 
 	}
 
+	public function getprofile($nrp) {
+
+		$query = $this->db->where('NRP', $nrp)->get('mahasiswa', 1, 0);
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
     public function add($data) {
 
         $this->db->trans_start();

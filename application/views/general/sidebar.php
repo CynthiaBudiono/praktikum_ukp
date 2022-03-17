@@ -63,6 +63,10 @@
     color: #fff
   }
 
+  .bg-yellow{
+    background: #f2cc8e;
+  }
+
   .color-red{
     color: #F47174;
   }
@@ -131,6 +135,13 @@ html{
     background-color: #688d7c;
     border: 2px solid #688d7c;
     color: #fff;
+    }
+
+    .btn-group{
+        display: block;
+    }
+    .dataTables_length{
+        float: left;
     }
 
 </style>

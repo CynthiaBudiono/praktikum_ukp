@@ -278,8 +278,7 @@ $(function() {
             // alert(result);
             var arr = JSON.parse(result);
             var kal = "";
-            
-            $("#datatable-buttons").DataTable();
+
             
             for(var i = 0; i < arr.length; i++){
                 kal += '<tr>';

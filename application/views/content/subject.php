@@ -52,6 +52,7 @@
                                             <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?></td>
                                             <td><?= (isset($key['NIPDosen'])) ? $key['NIPDosen'] : '' ?></td>
                                             <td><?= (isset($key['nama'])) ? $key['nama'] : '' ?></td>
+                                            <td><?= (isset($key['kelas_paralel'])) ? $key['kelas_paralel'] : '' ?></td>
                                             <td>
                                                 <?php if(isset($key['status_praktikum'])) if($key['status_praktikum']==1) echo '<span class="badge bg-green">ada</span>'; else '<span class="badge bg-danger">tidak ada</span>'; ?>
                                             </td>

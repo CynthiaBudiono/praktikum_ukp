@@ -1,3 +1,8 @@
+<style>
+    .fa-files-o{
+        color: #82b19b;
+    }
+</style>
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
@@ -31,12 +36,21 @@
                             <h3><?= $this->session->userdata('logged_name');?></h3>
 
                             <ul class="list-unstyled user_data">
-                            <li><i class="fa fa-male user-profile-icon"></i>&nbsp;&nbsp;&nbsp;<?= (isset($profile[0]['nama_user_group'])) ? $profile[0]['nama_user_group'] : '-' ?></li>
-                            <li><i class="fa fa-envelope user-profile-icon"></i>&nbsp; <?= (isset($profile[0]['email'])) ? $profile[0]['email'] : '-' ?></li>
-                            <li><i class="fa fa-flask user-profile-icon"></i>&nbsp;&nbsp; <?= (isset($profile[0]['nama_laboratorium'])) ? $profile[0]['nama_laboratorium'] : '-' ?></li>
+                                <?php if($this->session->userdata('from_table') == "user"){ ?>
+                                    <li><i class="fa fa-male user-profile-icon"></i>&nbsp;&nbsp;&nbsp;<?= (isset($profile[0]['nama_user_group'])) ? $profile[0]['nama_user_group'] : '-' ?></li>
+                                    <li><i class="fa fa-envelope user-profile-icon"></i>&nbsp; <?= (isset($profile[0]['email'])) ? $profile[0]['email'] : '-' ?></li>
+                                    <li><i class="fa fa-flask user-profile-icon"></i>&nbsp;&nbsp; <?= (isset($profile[0]['nama_laboratorium'])) ? $profile[0]['nama_laboratorium'] : '-' ?></li>
+                                    <li><i class="fa fa-sign-in user-profile-icon"></i>&nbsp;&nbsp; <?= (isset($profile[0]['last_login'])) ? $profile[0]['last_login'] : '-' ?></li>
+                                <?php } elseif($this->session->userdata('from_table') == "mahasiswa"){ ?>
+                                    <li><i class="fa fa-male user-profile-icon"></i>&nbsp;&nbsp;&nbsp;<?= (isset($profile[0]['NRP'])) ? $profile[0]['NRP'] : '-' ?> ~ <?= (isset($profile[0]['nama'])) ? $profile[0]['nama'] : '-' ?></li>
+                                    <li><i class="fa fa-envelope user-profile-icon"></i>&nbsp; <?= (isset($profile[0]['email'])) ? $profile[0]['email'] : '-' ?></li>
+                                    <li><i class="fa fa-flag user-profile-icon"></i>&nbsp;&nbsp; <?= (isset($profile[0]['ips'])) ? $profile[0]['ips'] : '-' ?></li>
+                                    <li><i class="fa fa-flag-o user-profile-icon"></i>&nbsp;&nbsp; <?= (isset($profile[0]['ipk'])) ? $profile[0]['ipk'] : '-' ?></li>
+                                    <li><i class="fa fa-sign-in user-profile-icon"></i>&nbsp;&nbsp; <?= (isset($profile[0]['last_login'])) ? $profile[0]['last_login'] : '-' ?></li>
+                                <?php } ?>
                             </ul>
 
-                            <a class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>change password</a>
+                            <a class="btn btn-success" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-edit m-right-xs"></i>change password</a>
                         </div>
                         <div class="col-md-9 col-sm-9 ">
 
@@ -67,6 +81,32 @@
 </div>
 <!-- /page content -->
 
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel2">Change Password</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <h6>Masukkan password lama dan password baru yang dikehendaki</h6>
+        <!-- <label for="fullname">Password Lama * :</label> -->
+		<input type="password" id="old_password" class="form-control" name="old_password" placeholder="Password Lama" required />
+        <br>
+        <input type="password" id="new_password" class="form-control" name="new_password" placeholder="Password Baru" required />
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn bg-green">Simpan</button>
+    </div>
+
+    </div>
+</div>
+</div>
+<!-- /modals -->
+
 <script type="text/javascript">
 
     var baseurl = "<?php echo base_url(); ?>";
@@ -80,6 +120,7 @@
     function cb(start, end) {
         $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
 
+        // alert(start.format('YYYY-MM-DD'));
         $.post(baseurl + "profile/getactivitiesbydate", {
             start_date : start.format('YYYY-MM-DD'),
             end_date : end.format('YYYY-MM-DD')
@@ -89,7 +130,7 @@
             var arr = JSON.parse(result);
             var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             var kal = "";
-            alert(arr.length);
+            // alert(arr.length);
             if(arr.length>1){
                 for(var i = 0; i < arr.length; i++){
                     kal += '<li>';
@@ -110,13 +151,20 @@
                             kal += '</div>';
                         kal += '</div>';
                     kal += '</li>';
-
-                    $("#recent_activities").html(kal);
                 }
             }
             else{
-                kal += "AAAAAAAAAAAAAAAAAAAA";
+                kal = '<br><div class="row">';
+                    kal += '<div class="col-md-12 col-sm-12">';
+                        kal += '<div class="card text-center shadow p-3 mb-5 rounded" style="width:100%">';
+                            kal += '<h3><i class="fa fa-files-o fa-4x" aria-hidden="true"></i></h3>';
+                            kal += '<h4 style="margin-bottom: 0; font-weight:bold;">Nothing to shown</h4>';
+                        kal += '</div>';
+                    kal += '</div>';
+                kal += '</div>';
             }
+
+            $("#recent_activities").html(kal);
             
         });
     }
