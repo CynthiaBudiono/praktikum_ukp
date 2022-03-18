@@ -54,7 +54,9 @@
   }
 
   .bg-green{
-    background: #82b19b !important;
+    background: #82b19b !important;  
+    /* greenColor */
+    /* background: #60d5e2 !important; */ /* blueColor */
     border: 1px solid #82b19b !important;
     color: #fff;
   }

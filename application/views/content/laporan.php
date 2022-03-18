@@ -24,7 +24,7 @@
             <div class="x_content">
                 
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-md-4 col-sm-4">
                         <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Laporan Kelas</h5>
@@ -33,18 +33,27 @@
                         </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-md-4 col-sm-4">
                         <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Laporan Nilai Kelas Praktikum</h5>
-                            <p class="card-text">Dapat memperoleh laporan nilai kelas praktikum yang ada pada periode saat ini</p>
+                            <h5 class="card-title">Laporan Lulus Praktikum</h5>
+                            <p class="card-text">Dapat memperoleh laporan mahasiswa yang lulus praktikum yang ada pada periode saat ini</p>
+                            <a href="#" class="btn bg-green">View</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                        <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Laporan Tidak Lulus Praktikum</h5>
+                            <p class="card-text">Dapat memperoleh laporan mahasiswa yang tidak lulus praktikum yang ada pada periode saat ini</p>
                             <a href="#" class="btn bg-green">View</a>
                         </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-md-4 col-sm-4">
                         <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Laporan Detail Kelas Praktikum</h5>
@@ -53,7 +62,16 @@
                         </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-md-4 col-sm-4">
+                        <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Laporan Nilai Kelas Praktikum</h5>
+                            <p class="card-text">Dapat memperoleh laporan nilai kelas praktikum yang ada pada periode saat ini</p>
+                            <a href="#" class="btn bg-green">View</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
                         <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Laporan Mahasiswa</h5>
@@ -64,7 +82,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-md-4 col-sm-4">
                         <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Laporan Mahasiswa Tertolak</h5>
@@ -73,7 +91,7 @@
                         </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-md-4 col-sm-4">
                         <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Laporan Transfer Nilai</h5>

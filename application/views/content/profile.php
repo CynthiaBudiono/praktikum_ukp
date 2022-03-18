@@ -50,7 +50,7 @@
                                 <?php } ?>
                             </ul>
 
-                            <a class="btn btn-success" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-edit m-right-xs"></i>change password</a>
+                            <!-- <a class="btn btn-success" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-edit m-right-xs"></i>change password</a> -->
                         </div>
                         <div class="col-md-9 col-sm-9 ">
 
@@ -81,7 +81,7 @@
 </div>
 <!-- /page content -->
 
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
 <div class="modal-dialog modal-sm">
     <div class="modal-content">
 
@@ -92,7 +92,6 @@
     </div>
     <div class="modal-body">
         <h6>Masukkan password lama dan password baru yang dikehendaki</h6>
-        <!-- <label for="fullname">Password Lama * :</label> -->
 		<input type="password" id="old_password" class="form-control" name="old_password" placeholder="Password Lama" required />
         <br>
         <input type="password" id="new_password" class="form-control" name="new_password" placeholder="Password Baru" required />
@@ -104,7 +103,7 @@
 
     </div>
 </div>
-</div>
+</div> -->
 <!-- /modals -->
 
 <script type="text/javascript">

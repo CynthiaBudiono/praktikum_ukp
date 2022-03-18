@@ -4,7 +4,10 @@
 </style> -->
 <style>
   .nav_menu{
-    background-color: #82b19b;
+    background-color: #82b19b; 
+    /* GreenColor */
+    /* background-color: #82b19b;  */
+    /* BlueColor */
   }
 
   #menu_toggle{

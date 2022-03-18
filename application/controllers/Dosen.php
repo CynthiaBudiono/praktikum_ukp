@@ -40,9 +40,11 @@ class Dosen extends CI_Controller {
 
 	public function getactivepengajar(){
 		$this->load->model('dosen_model');
-		$this->load->model('asisten_dosen_model');
+		$this->load->model('mahasiswa_model');
 
-		$pengajar = array_merge($this->dosen_model->getallactive(), $this->asisten_dosen_model->getallactive());
+		$pengajar = $this->dosen_model->getallactive();
+
+		// $pengajar = array_merge($this->dosen_model->getallactive(), $this->asisten_dosen_model->getallactive());
 		
         echo json_encode($pengajar);
 	}
