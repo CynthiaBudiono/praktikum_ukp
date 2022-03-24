@@ -53,6 +53,14 @@
     color : #82b19b !important;
   }
 
+  .text-green{
+    color : #82b19b !important;
+  }
+
+  .border-green{
+    color : #82b19b !important;
+  }
+
   .bg-green{
     background: #82b19b !important;  
     /* greenColor */
@@ -146,6 +154,50 @@ html{
         float: left;
     }
 
+    /* TOOGLE STATUS */
+    input[type=checkbox] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+  }
+  input[type=checkbox]:focus {
+    outline: 0;
+  }
+
+  .toggle-switch {
+    height: 25px;
+    width: 34px;
+    border-radius: 16px;
+    display: inline-block;
+    position: relative;
+    margin: 0;
+    border: 2px solid #dfdfdf;
+    /* background: linear-gradient(180deg, #2D2F39 0%, #1F2027 100%); */
+    transition: all 0.2s ease;
+  }
+  .toggle-switch:after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 1px 2px rgba(44, 44, 44, 0.2);
+    /* box-shadow: rgb(223 223 223) 0px 0px 0px 0px inset; */
+    /* box-shadow: 0 1px 3px rgb(0 0 0 / 40%); */
+    transition: all 0.2s cubic-bezier(0.5, 0.1, 0.75, 1.35);
+    /* transition: background-color 0.4s ease 0s, left 0.2s ease 0s; */
+  }
+  .toggle-switch:checked {
+    border-color: #F4F9F9;
+    background: #82b19b;
+  }
+  .toggle-switch:checked:after {
+    transform: translatex(10px);
+  }
+  /* TOOGLE STATUS */
 </style>
 <body class="nav-md">
   <div class="container body">
@@ -188,7 +240,7 @@ html{
                     <li><a href="<?= base_url('dosen') ?>">Dosen</a></li>
                     <li><a href="<?= base_url('calon_asisten_dosen') ?>">Calon Asdos</a></li>
                     <li><a href="<?= base_url('laboratorium') ?>">Laboratorium</a></li>
-                    <li><a href="<?= base_url('subject') ?>">Mata Kuliah</a></li>
+                    <li><a href="<?= base_url('subject') ?>">Mata Kuliah/Pedoman</a></li>
                   </ul>
                 </li>
                 <li><a><i class="fa fa-desktop"></i> Jadwal <span class="fa fa-chevron-down"></span></a>
@@ -196,6 +248,7 @@ html{
                     <li><a href="<?= base_url('pendaftaran_praktikum') ?>">Periode Pendaftaran</a></li>
                     <li><a href="<?= base_url('pendaftaran_asisten_dosen') ?>">Periode Rekrutmen</a></li>
                     <li><a href="<?= base_url('kelas_praktikum') ?>">Praktikum</a></li>
+                    <li><a href="<?= base_url('jadwal_perkuliahan') ?>">Perkuliahan</a></li>
                     <li><a href="<?= base_url('jadwal_berhalangan') ?>">Berhalangan Pengajar</a></li>
                     <li><a href="<?= base_url('jadwal_wawancara') ?>">Wawancara Asdos</a></li>
                     <li><a href="<?= base_url('mahasiswa_matakuliah') ?>">PRS Mahasiswa</a></li>

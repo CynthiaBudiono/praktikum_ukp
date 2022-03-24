@@ -37,6 +37,35 @@ class Calon_asisten_dosen extends CI_Controller {
 		$this->load->view('general/footer', $data);
 	}
 
+    public function getactiveperiodnow(){
+        $this->load->model('informasi_umum_model');
+        $this->load->model('pendaftaran_asisten_dosen_model');
+        $this->load->model('calon_asisten_dosen_model');
+        
+        $idpendaftaran = $this->pendaftaran_asisten_dosen_model->getlastactive($this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+        // var_dump($idpendaftaran); exit;
+        if($idpendaftaran != null){
+            $calon_asisten_dosen = $this->calon_asisten_dosen_model->getactiveperiodnow($idpendaftaran[0]['id']);
+            echo json_encode($calon_asisten_dosen);
+        }
+        else{
+            echo "";
+        }
+        
+        
+    }
+
+    public function getidbyactiveperiod(){
+        $this->load->model('informasi_umum_model');
+        $this->load->model('pendaftaran_asisten_dosen_model');
+        $this->load->model('calon_asisten_dosen_model');
+        
+        $idpendaftaran = $this->pendaftaran_asisten_dosen_model->getlastactive($this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+        $calon_asisten_dosen = $this->calon_asisten_dosen_model->getidbyactiveperiod($idpendaftaran[0]['id'], $this->input->post('nrp'));
+
+        echo json_encode($calon_asisten_dosen);
+    }
+
     public function adds(){
 
         $this->load->model('informasi_umum_model');

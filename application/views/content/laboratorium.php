@@ -56,7 +56,7 @@
                                 <div class="col-md-9 col-sm-9 ">
                                     <div class="">
                                         <label>
-                                            <input type="checkbox" name="status" id="status" class="js-switch"/>
+                                            <input type="checkbox" class="toggle-switch" name="status" id="status" checked>
                                         </label>
                                     </div>
                                 </div>

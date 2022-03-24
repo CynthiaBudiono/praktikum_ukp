@@ -61,5 +61,13 @@
 
     <!-- <link href="<?= base_url() ?>assets/vendors/cropper/dist/cropper.min.css" rel="stylesheet"> -->
 
+    <!-- FullCalendar -->
+    <link href="<?= base_url() ?>assets/vendors/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet">
+    <link href="<?= base_url() ?>assets/vendors/fullcalendar/dist/fullcalendar.print.css" rel="stylesheet" media="print">
+
+
     <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery-3.6.0.js"></script>
+
+
+    <?php date_default_timezone_set('Asia/Jakarta'); ?>
   </head>

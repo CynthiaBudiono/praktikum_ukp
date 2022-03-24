@@ -2388,10 +2388,11 @@ function init_calendar() {
         categoryClass;
 
     var calendar = $('#calendar').fullCalendar({
+        changeView: 'agendaWeek',
         header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'month,agendaWeek,agendaDay,listMonth'
+            // left: 'prev,next today',
+            // center: 'title',
+            right: 'agendaWeek'
         },
         selectable: true,
         selectHelper: true,

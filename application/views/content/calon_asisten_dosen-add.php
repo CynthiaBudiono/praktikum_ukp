@@ -1,3 +1,61 @@
+<style>
+    .wrapper-radio{
+        display: inline-flex;
+        padding:4px;
+    }
+    .wrapper-radio .option{
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        margin: 0 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        padding: 5px 10px;
+        border: 2px solid lightgrey;
+        transition: all 0.3s ease;
+    }
+    .wrapper-radio .option .dot{
+        height: 15px;
+        width: 15px;
+        background: #d9d9d9;
+        border-radius: 50%;
+        position: relative;
+    }
+    .wrapper-radio .option .dot::before{
+        position: absolute;
+        content: "";
+        border-radius: 50%;
+        opacity: 0;
+        transform: scale(1.5);
+        transition: all 0.3s ease;
+    }
+    input[type="radio"]{
+        display: none;
+    }
+    #radioPria:checked:checked ~ .radioPria,
+    #radioWanita:checked:checked ~ .radioWanita{
+        border-color: #82b19b;
+        background: #82b19b;
+    }
+    #radioPria:checked:checked ~ .radioPria .dot,
+    #radioWanita:checked:checked ~ .radioWanita .dot{
+        background: url(<?php echo base_url('assets/icons/checkmark.svg');?>);
+    }
+    #radioPria:checked:checked ~ .radioPria .dot::before,
+    #radioWanita:checked:checked ~ .radioWanita .dot::before{
+        opacity: 1;
+        transform: scale(1);
+    }
+    .wrapper-radio .option span{
+        font-size: 12px;
+        color: #808080;
+    }
+    #radioPria:checked:checked ~ .radioPria span,
+    #radioWanita:checked:checked ~ .radioWanita span{
+        color: #fff;
+    }
+</style>
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
@@ -21,7 +79,7 @@
                     </div>
                     <div class="x_content">
                         <!-- Smart Wizard -->
-                        <p>This is a basic form wizard example that inherits the colors from the selected scheme.</p>
+                        <p>Pendaftaran Asisten Dosen periode <?= isset($semester) ? $semester : "-" ?> <?= isset($tahun_ajaran) ? $tahun_ajaran : "-" ?></p>
                         <div id="wizard" class="form_wizard wizard_horizontal">
                         <ul class="wizard_steps">
                             <li>
@@ -29,7 +87,7 @@
                                     <span class="step_no">1</span>
                                     <span class="step_descr">
                                         Step 1<br />
-                                        <small>Step 1 description</small>
+                                        <small>Registration</small>
                                     </span>
                                 </a>
                             </li>
@@ -38,7 +96,7 @@
                                     <span class="step_no">2</span>
                                     <span class="step_descr">
                                         Step 2<br />
-                                        <small>Step 2 description</small>
+                                        <small>Upload Berkas</small>
                                     </span>
                                 </a>
                             </li>
@@ -47,16 +105,7 @@
                                     <span class="step_no">3</span>
                                     <span class="step_descr">
                                         Step 3<br />
-                                        <small>Step 3 description</small>
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#step-4">
-                                    <span class="step_no">4</span>
-                                    <span class="step_descr">
-                                        Step 4<br />
-                                        <small>Step 4 description</small>
+                                        <small>Information</small>
                                     </span>
                                 </a>
                             </li>
@@ -64,84 +113,89 @@
                         <div id="step-1">
                             <form class="form-horizontal form-label-left">
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">First Name <span class="required">*</span></label>
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="full-name">Full Name <span class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6 ">
-                                        <input type="text" id="first-name" required="required" class="form-control  ">
+                                        <input type="text" id="full_name" name="full_name" required="required" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Last Name <span class="required">*</span>
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="alamat">Alamat <span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 ">
-                                    <input type="text" id="last-name" name="last-name" required="required" class="form-control ">
+                                    <input type="text" id="alamat" name="alamat" required="required" class="form-control ">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Middle Name / Initial</label>
+                                    <label for="lineid" class="col-form-label col-md-3 col-sm-3 label-align">line ID<span class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6 ">
-                                    <input id="middle-name" class="form-control col" type="text" name="middle-name">
+                                    <input type="text" id="lineid" name="lineid" class="form-control col" required="required">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-form-label col-md-3 col-sm-3 label-align">Gender</label>
                                     <div class="col-md-6 col-sm-6 ">
-                                    <div id="gender" class="btn-group" data-toggle="buttons">
-                                        <label class="btn btn-secondary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-                                        <input type="radio" name="gender" value="male" class="join-btn"> &nbsp; Male &nbsp;
-                                        </label>
-                                        <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-                                        <input type="radio" name="gender" value="female" class="join-btn"> Female
+                                    <div class="wrapper-radio">
+                                        <input type="radio" <?php if(isset($gender)) if($gender=='Pria') echo 'checked'; ?> value="Pria" id="radioPria" name="gender">
+                                        <input type="radio" <?php if(isset($gender)) if($gender=='Wanita') echo 'checked'; ?> value="Wanita" id="radioWanita" name="gender">
+                                        <label for="radioPria" class="option radioPria">
+                                            <div class="dot"></div>
+                                            <span>Pria</span>
+                                            </label>
+                                        <label for="radioWanita" class="option radioWanita">
+                                            <div class="dot"></div>
+                                            <span>Wanita</span>
                                         </label>
                                     </div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-3 col-sm-3 label-align">Date Of Birth <span class="required">*</span>
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align">Motivasi<span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 ">
-                                    <input id="birthday" class="date-picker form-control" required="required" type="text">
+                                        <textarea id="motivasi" name="motivasi" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align">Kelebihan<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <textarea id="kelebihan" name="kelebihan" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align">Kekurangan<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <textarea id="kekurangan" name="kekurangan" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align">Pengalaman<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <textarea id="pengalaman" name="pengalaman" class="form-control"></textarea>
                                     </div>
                                 </div>
                             </form>
 
                         </div>
                         <div id="step-2">
-                            <h2 class="StepTitle">Step 2 Content</h2>
-                            <p>
-                            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                            fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
-                            <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                            in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
+                            <h2 class="StepTitle">Upload Berkas</h2>
+                            1. Transkrip Lokal & KHS Terbaru
+                            2. KTP 
+                            3. Surat Lamaran
+                            4. Curriculum Vitae (disertai dengan foto)
+                            Semuanya jadikan satu file dengan format .pdf
                         </div>
                         <div id="step-3">
-                            <h2 class="StepTitle">Step 3 Content</h2>
+                            <h2 class="StepTitle">Information</h2>
                             <p>
-                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                            eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                Jadwal wawancara akan dikontak langsung oleh dosen
                             </p>
                             <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                            in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                Informasi lebih lanjut silahkan hubungi koordinator
                             </p>
                         </div>
-                        <div id="step-4">
-                            <h2 class="StepTitle">Step 4 Content</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
-                            <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                            in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
-                            <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                            in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
-                        </div>
-
                         </div><!-- End SmartWizard Content -->
                     </div>
                 </div>

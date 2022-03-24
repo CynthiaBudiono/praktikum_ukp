@@ -12,7 +12,10 @@ class Dashboard extends CI_Controller {
 	{
 
 		$this->load->model('informasi_umum_model');
-		
+		$this->load->model('berita_model');
+
+		$data['berita'] = $this->berita_model->getshowberita();
+
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
 		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "ganjil" : "genap" ;
 		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];

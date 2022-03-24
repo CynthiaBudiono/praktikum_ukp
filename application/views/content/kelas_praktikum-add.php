@@ -1,48 +1,4 @@
 <style>
-input[type=checkbox] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
-}
-input[type=checkbox]:focus {
-  outline: 0;
-}
-
-.toggle-switch {
-  height: 25px;
-  width: 34px;
-  border-radius: 16px;
-  display: inline-block;
-  position: relative;
-  margin: 0;
-  border: 2px solid #dfdfdf;
-  /* background: linear-gradient(180deg, #2D2F39 0%, #1F2027 100%); */
-  transition: all 0.2s ease;
-}
-.toggle-switch:after {
-  content: "";
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0 1px 2px rgba(44, 44, 44, 0.2);
-  /* box-shadow: rgb(223 223 223) 0px 0px 0px 0px inset; */
-  /* box-shadow: 0 1px 3px rgb(0 0 0 / 40%); */
-  transition: all 0.2s cubic-bezier(0.5, 0.1, 0.75, 1.35);
-  /* transition: background-color 0.4s ease 0s, left 0.2s ease 0s; */
-}
-.toggle-switch:checked {
-  border-color: #F4F9F9;
-  background: #82b19b;
-}
-.toggle-switch:checked:after {
-  transform: translatex(10px);
-}
-
-
 .pop-over-style{
     background-color: #fef7ea;
     border: 1px solid #ed9500;
@@ -61,7 +17,7 @@ input[type=checkbox]:focus {
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3><?= isset($title) ? $title : "-" ?><small>Untuk Periode- <?= isset($semester) ? $semester : "-" ?> <?= isset($tahun_ajaran) ? $tahun_ajaran : "-" ?></small></h3>
+                <h3><?= isset($title) ? $title : "-" ?><small> Untuk Periode- <?= isset($semester) ? $semester : "-" ?> <?= isset($tahun_ajaran) ? $tahun_ajaran : "-" ?></small></h3>
             </div>
         </div>
 
@@ -77,6 +33,7 @@ input[type=checkbox]:focus {
             </div>
 
             <div id="container-form">
+            <input type="hidden" id="total_row" name="total_row">
             <?php //if(isset($kelas_praktikum)) : ?>
                 <?php //if(is_array($kelas_praktikum)) : ?>
                     <?php //foreach($kelas_praktikum as $key) : ?>
@@ -241,47 +198,44 @@ $(document).ready(function() {
     }
 
     function confirmdelete(el, index) {
-
+        alert("masuk confirmdelete");
         if (window.confirm("Menghapus Item ini?")) {
 
             var element = el.parentNode.parentNode.parentNode.parentNode;
 
             element = element.parentNode;
 
-            // alert(element);
-
             element.remove();
+            $('#status_row'+ index).val("nonactive");
         } 
         else {
         }
     }
 
     function getjadwalpengajar($row, $idinput){
-        // alert(row);
+        // alert($('#id_nip1'+ row).val());
         // alert($('#nip1'+ row).val());
         // hari: "senin",
         // jam: "12:00",
         // durasi: "180"
         $.post(baseurl + "jadwal_berhalangan/getbypengajar", {
-            pengajar: "c14180210",
+            pengajar: $('#id_nip1'+ row).val(),
         },
         function(result) {
-            alert("AAAAAAA " + result);
-            // var arr = JSON.parse(result);
-            // var lab = []
-            // for(var i=0; i<arr.length; i++){
-            //     lab.push({value: arr[i]['nama'], data: arr[i]['kode_lab']})
-            // }
-            // if(result !=0){
-            //     $('#have_warning' + row).css('display', 'block');
-            //     if(arr[0]['role'] == 'mahasiswa'){
-            //         $('#error_msg' + row).html("jadwal "+ arr[0]['nama_mahasiswa'] +" berhalangan");
-            //     }
-            //     else if(arr[0]['role'] == 'dosen'){
-            //         $('#error_msg' + row).html("jadwal "+ arr[0]['nama_dosen'] +" berhalangan");
-            //     }
-            //     $('#div_alert' + row).css('display', 'block');
-            // }
+            // console.log("AAAAAAA " + result);
+            
+            if(result != 0){
+                // var arr = JSON.parse(result);
+
+                $('#have_warning' + row).css('display', 'block');
+                if(arr[0]['role'] == 'mahasiswa'){
+                    $('#error_msg' + row).html("jadwal "+ arr[0]['nama_mahasiswa'] +" berhalangan");
+                }
+                else if(arr[0]['role'] == 'dosen'){
+                    $('#error_msg' + row).html("jadwal "+ arr[0]['nama_dosen'] +" berhalangan");
+                }
+                $('#div_alert' + row).css('display', 'block');
+            }
         });
     }
 
@@ -311,12 +265,13 @@ $(document).ready(function() {
                         kal +='<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>';
                         kal +='<strong>Warning.</strong> <span id="error_msg' + row + '">check yo self, youre not looking too good.</span>';
                     kal +='</div>';
-                    // kal +='<input type="hidden" id="number_row' + row + '" name="number_row' + row + '" value="' + row + '">';
+                    kal +='<input type="hidden" id="status_row' + row + '" name="status_row' + row + '" value="active">';
                 
                     kal +='<div class="form-group row">';
                         kal +='<label class="col-form-label col-md-3 col-sm-3 ">Matakuliah</label>';
                         kal +='<div class="col-md-9 col-sm-9 form-group has-feedback">';
                             kal +='<input type="text" id="subject' + row + '" name="subject' + row + '" placeholder="MatKul" class="form-control" required="required">';
+                            kal +='<input type="hidden" id="id_subject' + row + '" name="id_subject' + row + '" class="form-control">';
                             kal +='<span class="fa fa-book form-control-feedback right" aria-hidden="true"></span>';
                         kal +='</div>';
                     kal +='</div>';
@@ -333,6 +288,7 @@ $(document).ready(function() {
                         kal +='<label class="col-form-label col-md-3 col-sm-3 ">Laboratorium</label>';
                         kal +='<div class="col-md-9 col-sm-9 form-group has-feedback">';
                             kal +='<input type="text" name="laboratorium' + row + '" id="laboratorium' + row + '" placeholder="lab" class="form-control" required="required"/>';
+                            kal +='<input type="hidden" name="id_laboratorium' + row + '" id="id_laboratorium' + row + '" class="form-control"/>';
                             kal +='<span class="fa fa-map-marker form-control-feedback right" aria-hidden="true"></span>';
                         kal +='</div>';
                     kal +='</div>';
@@ -387,12 +343,15 @@ $(document).ready(function() {
                         kal +='<div class="col-md-9 col-sm-9 form-group" style="padding: 0px;">';
                             kal +='<div class="col-md-4 col-sm-6">';
                                 kal +='<input type="text" name="nip1' + row + '" id="nip1' + row + '" placeholder="pengajar1" required="required" class="form-control" />';
+                                kal +='<input type="hidden" name="id_nip1' + row + '" id="id_nip1' + row + '" class="form-control" />';
                             kal +='</div>';
                             kal +='<div class="col-md-4 col-sm-6">';
-                                kal +='<input type="text" name="nip2' + row + '" id="nip2' + row + '" placeholder="pengajar2" class="form-control" />';                                    
+                                kal +='<input type="text" name="nip2' + row + '" id="nip2' + row + '" placeholder="pengajar2" class="form-control" />'; 
+                                kal +='<input type="hidden" name="id_nip2' + row + '" id="id_nip2' + row + '" class="form-control" />';                                   
                             kal +='</div>';
                             kal +='<div class="col-md-4 col-sm-6">';
                                 kal +='<input type="text" name="nip3' + row + '" id="nip3' + row + '" placeholder="pengajar3" class="form-control has-feedback-right" />';
+                                kal +='<input type="hidden" name="id_nip3' + row + '" id="id_nip3' + row + '" class="form-control" />';
                             kal +='</div>';
                             kal +='<span class="fa fa-book form-control-feedback right" aria-hidden="true"></span>';
                         kal +='</div>';
@@ -403,7 +362,7 @@ $(document).ready(function() {
 
         $('#container-form').append(kal);
         
-
+        $('#total_row').val(row);
         // Data yang ditamilkan pada autocomplete.
         $.post(baseurl + "subject/gethavepraktikum", {},
         function(result) {
@@ -415,6 +374,11 @@ $(document).ready(function() {
             // Selector input yang akan menampilkan autocomplete.
             $( '#subject' + row ).autocomplete({
                 lookup: subject,
+                onSelect: function(suggestion){
+                    // alert(suggestion.data);
+                    // return suggestion.data;
+                    $('#id_subject' + row).val(suggestion.data);
+                }
             });
         });
 
@@ -427,30 +391,44 @@ $(document).ready(function() {
             }
             // Selector input yang akan menampilkan autocomplete.
             $( '#laboratorium' + row ).autocomplete({
-                lookup: lab
+                lookup: lab,
+                onSelect: function(suggestion){
+                    // alert(suggestion.data);
+                    // return suggestion.data;
+                    $('#id_laboratorium' + row).val(suggestion.data);
+                }
             });
         });
 
         $.post(baseurl + "dosen/getactivepengajar", {}, //DOSEN & Asisten Dosen
         function(result) {
             var arr = JSON.parse(result);
-            var pengajar = []
+            var pengajar = [];
             for(var i=0; i<arr.length; i++){
-                pengajar.push({value: arr[i]['nama'], data: arr[i]['pengajar_id']})
+                pengajar.push({value: arr[i]['nama'], data: arr[i]['NIP']})
             }
             // Selector input yang akan menampilkan autocomplete.
             $( '#nip1' + row ).autocomplete({
                 lookup: pengajar,
-                select : function(event, ui) {    //when we select something from the dropdown
-                    this.value = ui.item.data;
-                    return false;
-                },
+                onSelect: function(suggestion){
+                    // alert(suggestion.data);
+                    // return suggestion.data;
+                    $('#id_nip1' + row).val(suggestion.data);
+                }
             });
             $( '#nip2' + row ).autocomplete({
-                lookup: pengajar
+                lookup: pengajar,
+                onSelect: function(suggestion){
+                    // return suggestion.data;
+                    $('#id_nip2' + row).val(suggestion.data);
+                }
             });
             $( '#nip3' + row ).autocomplete({
-                lookup: pengajar
+                lookup: pengajar,
+                onSelect: function(suggestion){
+                    // return suggestion.data;
+                    $('#id_nip3' + row).val(suggestion.data);
+                }
             });
         });
 

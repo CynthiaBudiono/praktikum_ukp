@@ -9,8 +9,12 @@ class Login extends CI_Controller {
 	public function index()
 	{
 
+		$this->load->model('informasi_umum_model');
+		
+		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
+		
 		$this->load->view('general/header');
 
-		$this->load->view('general/login');
+		$this->load->view('general/login', $data);
 	}
 }

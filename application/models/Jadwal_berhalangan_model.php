@@ -38,7 +38,7 @@ class Jadwal_berhalangan_model extends CI_Model {
         $this->db->join('mahasiswa', 'mahasiswa.NRP = jadwal_berhalangan.pengajar_id', 'left');
         $this->db->where('semester', $semester);
         $this->db->where('tahun_ajaran', $tahunajaran);
-		$query = $this->db->where('pengajar_id', $pengajarid)->where('jadwal_berhalangan.status', 1)->get('jadwal_berhalangann');
+		$query = $this->db->where('pengajar_id', $pengajarid)->where('jadwal_berhalangan.status', 1)->get('jadwal_berhalangan');
 
 		if ($query->num_rows() > 0)
 

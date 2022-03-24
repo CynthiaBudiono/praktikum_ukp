@@ -5,7 +5,7 @@ class Pendaftaran_praktikum_model extends CI_Model {
     public function getallopen() {
 		$this->db->select('pendaftaran_praktikum.*');
 
-		$query = $this->db->get('pendaftaran_praktikum');
+		$query = $this->db->order_by('id', 'DESC')->get('pendaftaran_praktikum');
 
 		if ($query->num_rows() > 0)
 
@@ -33,7 +33,7 @@ class Pendaftaran_praktikum_model extends CI_Model {
 
 	public function getlastrecord() {
 
-		$query = $this->db->order_by('id','desc')->get('pendaftaran_praktikum', 1, 0);
+		$query = $this->db->where('status', 1)->order_by('id','desc')->get('pendaftaran_praktikum', 1, 0);
 
 		if ($query->num_rows() > 0)
 

@@ -1,5 +1,26 @@
 <!-- page content -->
 <div class="right_col" role="main">
+
+  <?php if(isset($berita)) : ?>
+    <?php if(is_array($berita)) : ?>
+        <?php foreach($berita as $key) : ?>
+          <div class="col-md-3 col-sm-3">
+            <div class="card border-green mb-3" style="max-width: 18rem;">
+              <div class="card-header bg-green">
+                <?= (isset($key['title'])) ? $key['title'] : '' ?> 
+                <?php if(isset($key['link']))
+                  if($key['link'] != ''){ ?><label style="float:right; margin-bottom:0px;"><a href="<?= $key['link']?> "><i class="fa fa-arrow-right" aria-hidden="true"></i></a></label><?php } ?>
+              </div>
+              <div class="card-body" style="color: black;">
+                <?= (isset($key['keterangan'])) ? $key['keterangan'] : '' ?>
+              </div>
+            </div>
+          </div>
+      <?php endforeach; ?>
+    <?php endif; ?>
+  <?php endif; ?>
+
+
     <!-- top tiles -->
     <div class="row" style="display: inline-block; width:100%;" >
     <div class="tile_count">

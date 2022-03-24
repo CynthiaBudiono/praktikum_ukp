@@ -8,6 +8,7 @@
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
+            <a href="<?= base_url() ?>dashboard"><img src="<?= base_url() ?>/assets/images/<?= isset($logo) ? $logo : "" ?>" alt="..." style="max-width : 100%; max-height 80px;"></a>
             <form action="<?= base_url('auth') ?>" method="post" id="login_form">
               <h1>Login Form</h1>
               <?php if (isset($error_msg)) : ?>

@@ -3,7 +3,7 @@
 class Dosen_model extends CI_Model {
 
     public function getallopen() {
-		$this->db->select('dosen.*');
+		$this->db->select('dosen.*, dosen.nama as nama_pengajar, dosen.NIP as kode_pengajar, dosen.NIP as id');
 
 		$query = $this->db->get('dosen');
 

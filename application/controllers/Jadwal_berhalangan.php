@@ -13,9 +13,13 @@ class Jadwal_berhalangan extends CI_Controller {
 	public function index()
 	{
 
-		$this->load->model('jadwal_berhalangan_model');
+		// $this->load->model('jadwal_berhalangan_model');
 
-		$data['jadwal_berhalangan'] = $this->jadwal_berhalangan_model->getallopen();
+		// $data['jadwal_berhalangan'] = $this->jadwal_berhalangan_model->getallopen();
+
+        $this->load->model('dosen_model');
+
+        $data['pengajar'] = $this->dosen_model->getallopen();
 
 		$data['title'] = "jadwal berhalangan";
 
@@ -41,17 +45,33 @@ class Jadwal_berhalangan extends CI_Controller {
     public function getbypengajar(){
         $this->load->model('jadwal_berhalangan_model');
         $this->load->model('informasi_umum_model');
+    
+        $jadwal_berhalangan = $this->jadwal_berhalangan_model->getbypengajar($this->input->post('pengajar'), $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
 
-        $pengajar = $this->input->post('pengajar');
-
-        echo $pengajar;
-        // $jadwal_berhalangan = $this->jadwal_berhalangan_model->getbypengajar($this->input->post('pengajar'), $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
-
-        // echo json_encode($jadwal_berhalangan);
+        echo json_encode($jadwal_berhalangan);
     }
 
-    public function adds(){
+    public function adds($id){
+        $id = base64_decode($id);
 
+        // var_dump($id); exit;
+
+        $this->load->model('dosen_model');
+        $this->load->model('mahasiswa_model');
+        $this->load->model('jadwal_berhalangan_model');
+        $this->load->model('mahasiswa_matakuliah_model');
+        $this->load->model('jadwal_perkuliahan_model');
+
+        $data['getinfo'] = $this->dosen_model->get($id);
+        if($data['getinfo'] == 0){ //MAHASISWA
+            $data['getinfo'] = $this->mahasiswa_model->get($id);
+            $data['jadwal'] = $this->mahasiswa_matakuliah_model->get($id);
+        }
+        else{ //DOSEN
+            $data['jadwal'] = $this->jadwal_perkuliahan_model->getbyNIP($id);
+        }
+
+        // var_dump($data['jadwal']);exit;
         $data['title'] = "Add jadwal berhalangan";
 
         $this->load->model('informasi_umum_model');

@@ -66,58 +66,55 @@ class Berita extends CI_Controller {
     }
 
     public function add(){
+        $this->load->model('berita_model');
         $this->load->helper(array('form', 'url'));
         // $this->load->library('form_validation');
         
         $status = ($this->input->post('status')=='true') ? 1 : 0;
 
+        // var_dump($this->input->post('tanggal_start'), " ", $this->input->post('tanggal_end')); exit;
         $data = array(
-            'id' => strtoupper($this->input->post('kodelab')),
-            'nama' => $this->input->post('nama'),
-            'quota_max' => (int) $this->input->post('quota'),
-            'status' => $status
+            'tanggal_start' => date("Y-m-d H:i:s", strtotime($this->input->post('tanggal_start'))),
+            'tanggal_end' => date("Y-m-d H:i:s", strtotime($this->input->post('tanggal_end'))),
+            'title' => $this->input->post('title'),
+            'link' => $this->input->post('link'),
+            'keterangan' => $this->input->post('keterangan'),
+            'tipe' => $this->input->post('tipe'),
+            'status' => $status,
+            "created" => date('Y-m-d H:i:s')
         );
 
         // var_dump("masuk add ", $data); exit;
 
-        $this->load->model('berita_model');
-        if($this->berita_model->get($data['id']) == 0){
-            // var_dump("masuk tak kembar"); exit;
-
         
-            //check validasi
-            $this->form_validation->set_data($data);
-            // $this->form_validation->set_rules('id', 'ID', 'trim|required|max_length[5]');
+        //check validasi
+        $this->form_validation->set_data($data);
+        $this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
 
-            if ($this->form_validation->run() == FALSE) {
-                $detil[0] = $data;
-                echo validation_errors();
-            }
-            else {
-                $this->load->helper(array('form', 'url'));
-
-                $this->berita_model->add($data);
-
-                // insert log
-                $keterangan = '';
-                $keterangan .= json_encode($data).'.';
-
-                $logs_insert = array(
-                    "id_user" => $this->session->userdata('user_id'),
-                    "table_name" => 'berita',
-                    "action" => 'CREATE',
-                    "keterangan" => "a new record has been created by ". $this->session->userdata('logged_name') ." : ".$keterangan,
-                    "created" => date('Y-m-d H:i:s')
-                );
-                $this->load->model('user_history_model');
-                $this->user_history_model->add($logs_insert);
-
-                // redirect('berita');
-                echo 'success';
-            }
+        if ($this->form_validation->run() == FALSE) {
+            $detil[0] = $data;
+            echo validation_errors();
+            var_dump("masuk add ", validation_errors()); exit;
         }
-        else{
-            echo 'data kembar';
+        else {
+            $this->berita_model->add($data);
+
+            // insert log
+            $keterangan = '';
+            $keterangan .= json_encode($data).'.';
+
+            $logs_insert = array(
+                "id_user" => $this->session->userdata('user_id'),
+                "table_name" => 'berita',
+                "action" => 'CREATE',
+                "keterangan" => "a new record has been created by ". $this->session->userdata('logged_name') ." : ".$keterangan,
+                "created" => date('Y-m-d H:i:s')
+            );
+            $this->load->model('user_history_model');
+            $this->user_history_model->add($logs_insert);
+
+            // redirect('berita');
+            echo 'success';
         }
     }
 
@@ -128,15 +125,20 @@ class Berita extends CI_Controller {
         $status = ($this->input->post('status')=='true') ? 1 : 0;
 
         $data = array(
-            'id' => strtoupper($this->input->post('kodelab')),
-            'nama' => $this->input->post('nama'),
-            'quota_max' => (int) $this->input->post('quota'),
-            'status' => $status
+            'id' => $this->input->post('id'),
+            'tanggal_start' => $this->input->post('tanggal_start'),
+            'tanggal_end' => $this->input->post('tanggal_end'),
+            'title' => $this->input->post('title'),
+            'link' => $this->input->post('link'),
+            'keterangan' => $this->input->post('keterangan'),
+            'tipe' => $this->input->post('tipe'),
+            'status' => $status,
+            "updated" => date('Y-m-d H:i:s')
         );
 
         //check validasi
         $this->form_validation->set_data($data);
-        $this->form_validation->set_rules('id', 'kode lab', 'trim|required|max_length[5]');
+        // $this->form_validation->set_rules('id', 'kode lab', 'trim|required|max_length[5]');
 
         if ($this->form_validation->run() == FALSE) {
             $detil[0] = $data;
@@ -153,8 +155,12 @@ class Berita extends CI_Controller {
 
             // insert log
             $keterangan = '';
-            $keterangan .= $old_data[0]['nama']. ' to '. $data['nama'].'; ';
-            $keterangan .= $old_data[0]['quota_max']. ' to '. $data['quota_max'].'; ';
+            $keterangan .= $old_data[0]['tanggal_start']. ' to '. $data['tanggal_start'].'; ';
+            $keterangan .= $old_data[0]['tanggal_end']. ' to '. $data['tanggal_end'].'; ';
+            $keterangan .= $old_data[0]['title']. ' to '. $data['title'].'; ';
+            $keterangan .= $old_data[0]['link']. ' to '. $data['link'].'; ';
+            $keterangan .= $old_data[0]['keterangan']. ' to '. $data['keterangan'].'; ';
+            $keterangan .= $old_data[0]['tipe']. ' to '. $data['tipe'].'; ';
             $keterangan .= $old_data[0]['status']. ' to '. $data['status'].';';
 
             $logs_insert = array(

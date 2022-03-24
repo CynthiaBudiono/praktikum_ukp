@@ -54,7 +54,7 @@
                             <div class="col-md-9 col-sm-9 ">
                                 <div class="">
                                     <label>
-                                        <input type="checkbox" name="status" id="status" class="js-switch"/>
+                                        <input type="checkbox" class="toggle-switch" name="status" id="status" checked>
                                     </label>
                                 </div>
                             </div>
@@ -176,9 +176,16 @@ $(function() {
                 if(result == 'success'){
                     view()
                     
-                    // perlu panggil func awal (?)
-                    $('#waktu_start').val("");
-                    $('#waktu_end').val("");
+                    $('input[name="datetimes"]').daterangepicker({
+                        timePicker: true,
+                        startDate: moment().startOf('hour'),
+                        endDate: moment().startOf('hour').add(48, 'hour'),
+                        minDate: moment(),
+                        timePicker24Hour: true,
+                        locale: {
+                        format: 'Y/MM/DD HH:mm'
+                        }
+                    });
                     $('#ppke').val("");
                     $("#status").prop("checked", false);
                     tinymce.get("keterangan").setContent("");
@@ -227,7 +234,7 @@ $(function() {
 
             $('#id').val(arr['detil'][0]['id']);
 
-            $waktu = moment(arr['detil'][0]['waktu_start'].toString(), 'Y-m-d H:i:s').format("Y/MM/DD HH:mm");
+            // $waktu = moment(arr['detil'][0]['waktu_start'].toString(), 'Y-m-d H:i:s').format("Y/MM/DD HH:mm");
 
             $('input[name="datetimes"]').daterangepicker({
                 timePicker: true,

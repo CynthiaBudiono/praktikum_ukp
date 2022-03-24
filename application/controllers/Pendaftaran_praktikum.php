@@ -133,18 +133,25 @@ class Pendaftaran_praktikum extends CI_Controller {
         // $id = base64_decode($id);
 
         // var_dump("AAAAAA", $kodee); exit;
+        $this->load->model('informasi_umum_model');
+
         $status = ($this->input->post('status')=='true') ? 1 : 0;
 
         $data = array(
-            'id' => strtoupper($this->input->post('kodelab')),
-            'nama' => $this->input->post('nama'),
-            'quota_max' => (int) $this->input->post('quota'),
-            'status' => $status
+            'id' => strtoupper($this->input->post('id')),
+            'waktu_start' => date("Y-m-d H:i:s", strtotime($this->input->post('waktu_start'))),
+            'waktu_end' => date("Y-m-d H:i:s", strtotime($this->input->post('waktu_end'))),
+			'PP' => (int) $this->input->post('ppke'),
+			'semester' => $this->informasi_umum_model->get(2)[0]['nilai'],
+			'tahun_ajaran' => $this->informasi_umum_model->get(3)[0]['nilai'],
+            'status' => $status,
+			'keterangan' => $this->input->post('keterangan')
         );
 
         //check validasi
         $this->form_validation->set_data($data);
-        $this->form_validation->set_rules('id', 'kode lab', 'trim|required|max_length[5]');
+        $this->form_validation->set_rules('PP', 'periode pendaftaran', 'required');
+		$this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
 
         if ($this->form_validation->run() == FALSE) {
             $detil[0] = $data;
@@ -161,9 +168,11 @@ class Pendaftaran_praktikum extends CI_Controller {
 
             // insert log
             $keterangan = '';
-            $keterangan .= $old_data[0]['nama']. ' to '. $data['nama'].'; ';
-            $keterangan .= $old_data[0]['quota_max']. ' to '. $data['quota_max'].'; ';
+            $keterangan .= $old_data[0]['waktu_start']. ' to '. $data['waktu_start'].'; ';
+            $keterangan .= $old_data[0]['waktu_end']. ' to '. $data['waktu_end'].'; ';
+            $keterangan .= $old_data[0]['PP']. ' to '. $data['PP'].'; ';
             $keterangan .= $old_data[0]['status']. ' to '. $data['status'].';';
+            $keterangan .= $old_data[0]['keterangan']. ' to '. $data['keterangan'].'; ';
 
             $logs_insert = array(
                 "id_user" => $this->session->userdata('user_id'),

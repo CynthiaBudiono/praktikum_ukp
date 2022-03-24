@@ -108,6 +108,9 @@
     <script src="<?= base_url() ?>assets/vendors/jquery-knob/dist/jquery.knob.min.js"></script>
     <!-- Cropper -->
     <!-- <script src="<?= base_url() ?>assets/vendors/cropper/dist/cropper.min.js"></script> -->
-	
+    
+    <!-- FullCalendar -->
+    <script src="<?= base_url() ?>assets/vendors/moment/min/moment.min.js"></script>
+    <script src="<?= base_url() ?>assets/vendors/fullcalendar/dist/fullcalendar.min.js"></script>
   </body>
 </html>

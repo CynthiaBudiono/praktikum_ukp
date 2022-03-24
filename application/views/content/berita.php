@@ -56,6 +56,15 @@
                                 </div>
                             </div>
 
+                            <div id="divmore">
+                            <div class="form-group row">
+                                <label class="control-label col-md-3 col-sm-3 ">Link (optional) untuk readmore</label>
+                                <div class="col-md-9 col-sm-9 ">
+                                    <input type="url" class="form-control" name="link" id="link" placeholder="http.." value="<?= (isset($detil[0]['link'])) ? $detil[0]['link'] : '-' ?>">
+                                </div>
+                            </div>
+                            
+
                             <div class="form-group row" id="divketerangan">
                                 <label class="control-label col-md-3 col-sm-3 ">Keterangan</label>
                                 <div class="col-md-9 col-sm-9 ">
@@ -149,6 +158,8 @@
 $(function() {
   $('input[name="daterange"]').daterangepicker({
     opens: 'left',
+    // startDate: moment().startOf('hour'),
+    // endDate: moment().startOf('hour').add(48, 'hour'),
     minDate: moment(),
   }, function(start, end, label) {
     console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
@@ -192,7 +203,7 @@ $(function() {
     }
 
     function addupdate(){
-        // alert($('#daterange').val());
+        alert($('#daterange').val());
         $waktu = ($('#daterange').val()).split(" - ");
         // alert($waktu);
         $.post(baseurl + "berita/" + $('#mode').val(), {
@@ -200,17 +211,19 @@ $(function() {
             tanggal_start: $waktu[0],
             tanggal_end: $waktu[1],
             title: $('#title').val(),
+            link: $('#link').val(),
             keterangan: tinymce.get("keterangan").getContent(),
             tipe: $('#selecttipe').val(),
             status: $('#status').is(':checked'),
         },
         function(result) {
-            // alert(result);
+            // alert("result: " + result);
             if(result == 'success'){
                 view()
                 
                 $('#id').val("");
                 $('#title').val("");
+                $('#link').val("");
                 tinymce.get("keterangan").setContent("");
                 $('#selecttipe').val("");
                 $("#status").prop("checked", false);
@@ -258,6 +271,8 @@ $(function() {
 
             $('#title').val(arr['detil'][0]['title']);
 
+            $('#link').val(arr['detil'][0]['link']);
+
             tinymce.get("keterangan").setContent(arr['detil'][0]['title']);
 
             $('#selecttipe').val(arr['detil'][0]['tipe']);
@@ -286,9 +301,11 @@ $(function() {
                     kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ arr[i]['id'] +'")><i class="fa fa-pencil"></i> Edit</button>';
                     kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['id'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
                 kal += '</td>';
-                kal += '<td>'+ arr[i]['id'] +'</td>';
-                kal += '<td>'+ arr[i]['nama'] +'</td>';
-                kal += '<td>'+ arr[i]['quota_max'] +'</td>';
+                kal += '<td>'+ arr[i]['tanggal_start'] +'</td>';
+                kal += '<td>'+ arr[i]['tanggal_end'] +'</td>';
+                kal += '<td>'+ arr[i]['title'] +'</td>';
+                kal += '<td>'+ arr[i]['keterangan'] +'</td>';
+                kal += '<td>'+ arr[i]['tipe'] +'</td>';
                 kal += '<td>';
                     kal += (arr[i]['status'] == 1) ? '<span class="badge bg-green">active</span>' : '<span class="badge bg-danger">non active</span>';
                 kal += '</td>';

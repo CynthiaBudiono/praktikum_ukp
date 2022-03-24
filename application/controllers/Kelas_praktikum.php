@@ -79,7 +79,7 @@ class Kelas_praktikum extends CI_Controller {
 
         $data['detil'] = $res;
         
-        $data['title'] = "Edit kelas_praktikum";
+        $data['title'] = "Edit kelas praktikum";
 
         $this->load->model('informasi_umum_model');
 		
@@ -106,54 +106,49 @@ class Kelas_praktikum extends CI_Controller {
         $this->load->helper(array('form', 'url'));
         // $this->load->library('form_validation');
         
-        $status = ($this->input->post('status')=='on') ? 1 : 0;
+        // $status = ($this->input->post('status')=='on') ? 1 : 0;
 
-        $data = array(
-            'nama' => $this->input->post('nama'),
-            'status' => $status,
-            'keterangan' => $this->input->post('keterangan'),
-        );
+        var_dump($this->input->post('total_row')); exit;
+
+        
+        // $data = array(
+        //     'nama' => $this->input->post('nama'),
+        //     'status' => $status,
+        //     'keterangan' => $this->input->post('keterangan'),
+        // );
 
         // var_dump("masuk add ", $data); exit;
 
         $this->load->model('kelas_praktikum_model');
-        if($this->kelas_praktikum_model->get($data['id']) == 0){
-            // var_dump("masuk tak kembar"); exit;
+        //check validasi
+        // $this->form_validation->set_data($data);
+        // $this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
 
-        
-            //check validasi
-            $this->form_validation->set_data($data);
-            $this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
+        // if ($this->form_validation->run() == FALSE) {
+        //     $detil[0] = $data;
+        //     $this->adds(validation_errors(), $detil);
+        // }
+        // else {
+        //     $this->load->helper(array('form', 'url'));
 
-            if ($this->form_validation->run() == FALSE) {
-                $detil[0] = $data;
-                $this->adds(validation_errors(), $detil);
-            }
-            else {
-                $this->load->helper(array('form', 'url'));
+        //     $this->kelas_praktikum_model->add($data);
 
-                $this->kelas_praktikum_model->add($data);
+        //     // insert log
+        //     $keterangan = '';
+        //     $keterangan .= json_encode($data).'.';
 
-                // insert log
-                $keterangan = '';
-                $keterangan .= json_encode($data).'.';
+        //     $logs_insert = array(
+        //         "id_user" => $this->session->userdata('user_id'),
+        //         "table_name" => 'kelas_praktikum',
+        //         "action" => 'CREATE',
+        //         "keterangan" => "a new record has been created by ".$this->session->userdata('logged_name')." : ".$keterangan,
+        //         "created" => date('Y-m-d H:i:s')
+        //     );
+        //     $this->load->model('user_history_model');
+        //     $this->user_history_model->add($logs_insert);
 
-                $logs_insert = array(
-                    "id_user" => $this->session->userdata('user_id'),
-                    "table_name" => 'kelas_praktikum',
-                    "action" => 'CREATE',
-                    "keterangan" => "a new record has been created by ".$this->session->userdata('logged_name')." : ".$keterangan,
-                    "created" => date('Y-m-d H:i:s')
-                );
-                $this->load->model('user_history_model');
-                $this->user_history_model->add($logs_insert);
-
-                redirect('kelas_praktikum');
-            }
-        }
-        else{
-            var_dump("DATA KEMBAR"); exit;
-        }
+        //     redirect('kelas_praktikum');
+        // }
     }
 
     public function update(){
