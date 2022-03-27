@@ -20,9 +20,9 @@
                 <h3><?= isset($title) ? $title : "-" ?><small> Untuk Periode- <?= isset($semester) ? $semester : "-" ?> <?= isset($tahun_ajaran) ? $tahun_ajaran : "-" ?></small></h3>
             </div>
         </div>
-
+        <input type="hidden" id="mode" name="mode" value="<?= isset($mode) ? $mode : "-"?>">
         
-        <form action="<?php if(isset($detil[0]['id'])) { if($detil[0]['id'] != "" || $detil[0]['id'] != NULL){ echo (base_url('kelas_praktikum/update'));}} else { echo (base_url('kelas_praktikum/add')); } ?>" method="post" class="form-horizontal form-label-left">
+        <form action="<?php if(isset($mode)) { if($mode == 'update'){ echo (base_url('kelas_praktikum/update'));}} else { echo (base_url('kelas_praktikum/add')); } ?>" method="post" class="form-horizontal form-label-left">
         
             <div class="title_right" style="float:right;">
                 <button type="button" onclick="summary()" class="btn bg-yellow">Summary</button>
@@ -160,7 +160,40 @@
 var baseurl = "<?php echo base_url(); ?>";
 var row = 0;
 $(document).ready(function() {
-    addrow();
+    
+    alert($('#mode').val());
+    if($('#mode').val() == 'add'){
+        addrow();
+    }
+    else if($('#mode').val() == 'update'){
+        $.post(baseurl + "kelas_praktikum/getperiodnow", {},
+        function(result) {
+            alert(result);
+           
+            var arr = JSON.parse(result);
+            for(var i = 0; i < arr.length; i++){
+                addrow();
+                alert((i+1) + " " + arr[i]['hari']);
+                // $("#hari-summary1").val(arr[i]['hari']);
+                $("#hari-summary"+(i+1)).val(arr[i]['hari']);
+                $("#jam-summary"+(i+1)).val(arr[i]['jam']);
+                $("#durasi-summary"+(i+1)).val(arr[i]['durasi']);
+                $("#subject-summary"+(i+1)).val(arr[i]['nama_subject']);
+                $("#kelas_paralel-summary"+(i+1)).val(arr[i]['kelas_paralel']);
+
+                // if(arr[i]['status'] == 1){
+                //     $("#status"+(i+1)).prop("checked", true);
+                // }
+                // else{
+                //     $("#status"+(i+1)).prop("checked", true);
+                // }
+                
+
+            }
+        });
+    }
+
+
     // $("#status").prop("checked", false);
 
     // $( "#subject" ).on( 
@@ -198,7 +231,7 @@ $(document).ready(function() {
     }
 
     function confirmdelete(el, index) {
-        alert("masuk confirmdelete");
+        // alert("masuk confirmdelete");
         if (window.confirm("Menghapus Item ini?")) {
 
             var element = el.parentNode.parentNode.parentNode.parentNode;
@@ -251,7 +284,7 @@ $(document).ready(function() {
                         kal +='<ul class="nav navbar-right panel_toolbox">';
                             kal +='<li style="margin-right: 6px; padding-top: 6px;"><input type="checkbox" class="toggle-switch" name="status' + row + '" id="status' + row + '" checked></li>';
                             kal +='<li name="have_warning' + row + '" id="have_warning' + row + '" style="margin: 0px 10px; padding-top: 4px; display:none;"><i class="fa fa-exclamation-circle fa-2x" aria-hidden="true" style="color:#ee9500;"></i></li>';
-                            kal +='<li style="margin: 0px 10px; padding-top: 4px;"><i class="fa fa-trash color-red fa-2x" onclick=confirmdelete(this, ' + row + ') aria-hidden="true"></i></li>';
+                            kal +='<li style="margin: 0px 10px; padding-top: 4px;"><i class="fa fa-trash color-red fa-2x" onclick=confirmdelete(this,' + row + ') aria-hidden="true"></i></li>';
                             kal +='<li><a data-toggle="collapse" href="#datacollapse' + row + '" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-chevron-up"></i></a></li>';
                         kal +='</ul>';
                     kal +='</div>';
@@ -270,7 +303,7 @@ $(document).ready(function() {
                     kal +='<div class="form-group row">';
                         kal +='<label class="col-form-label col-md-3 col-sm-3 ">Matakuliah</label>';
                         kal +='<div class="col-md-9 col-sm-9 form-group has-feedback">';
-                            kal +='<input type="text" id="subject' + row + '" name="subject' + row + '" placeholder="MatKul" class="form-control" required="required">';
+                            kal +='<input type="text" id="subject' + row + '" name="subject' + row + '" placeholder="MatKul" class="subject_input form-control" required="required">';
                             kal +='<input type="hidden" id="id_subject' + row + '" name="id_subject' + row + '" class="form-control">';
                             kal +='<span class="fa fa-book form-control-feedback right" aria-hidden="true"></span>';
                         kal +='</div>';
@@ -279,7 +312,7 @@ $(document).ready(function() {
                     kal +='<div class="form-group row">';
                         kal +='<label class="col-form-label col-md-3 col-sm-3 ">Kelas Paralel</label>';
                         kal +='<div class="col-md-9 col-sm-9 form-group has-feedback">';
-                            kal +='<input type="text" id="kelas_paralel' + row + '" name="kelas_paralel' + row + '" placeholder="ex. A" class="form-control" required="required" maxlength="1">';
+                            kal +='<input type="text" id="kelas_paralel' + row + '" name="kelas_paralel' + row + '" placeholder="ex. A" class="kelas_paralel_input form-control" required="required" maxlength="1">';
                             kal +='<span class="fa fa-gavel form-control-feedback right" aria-hidden="true"></span>';
                         kal +='</div>';
                     kal +='</div>';
@@ -287,7 +320,7 @@ $(document).ready(function() {
                     kal +='<div class="form-group row">';
                         kal +='<label class="col-form-label col-md-3 col-sm-3 ">Laboratorium</label>';
                         kal +='<div class="col-md-9 col-sm-9 form-group has-feedback">';
-                            kal +='<input type="text" name="laboratorium' + row + '" id="laboratorium' + row + '" placeholder="lab" class="form-control" required="required"/>';
+                            kal +='<input type="text" name="laboratorium' + row + '" id="laboratorium' + row + '" placeholder="lab" class="laboratorium_input form-control" required="required"/>';
                             kal +='<input type="hidden" name="id_laboratorium' + row + '" id="id_laboratorium' + row + '" class="form-control"/>';
                             kal +='<span class="fa fa-map-marker form-control-feedback right" aria-hidden="true"></span>';
                         kal +='</div>';
@@ -298,7 +331,7 @@ $(document).ready(function() {
                         kal +='<div class="col-md-9 col-sm-9 form-group has-feedback">';
                             kal +='<div class="row">';
                                 kal +='<div class="col-md-6 col-sm-6  form-group has-feedback" style="padding-left: 10px;">';
-                                kal +='<select class="select2_single form-control has-feedback-left" name ="hari' + row + '" id="hari' + row + '" tabindex="-1" required="required">';
+                                kal +='<select class="hari_input select2_single form-control has-feedback-left" name ="hari' + row + '" id="hari' + row + '" tabindex="-1" required="required">';
                                     kal +='<option>--choose hari--</option>';
                                     kal +='<option value="Senin">Senin</option>';
                                     kal +='<option value="Selasa">Selasa</option>';
@@ -312,7 +345,7 @@ $(document).ready(function() {
 
                                 kal +='<div class="col-md-6 col-sm-6" style="padding-right: 10px;">';
                                     kal +='<div class="input-group date" id="timepicker' + row + '">';
-                                        kal +='<input type="text" required="required" name ="jam' + row + '" id="jam' + row + '" class="form-control"/>';
+                                        kal +='<input type="text" required="required" name ="jam' + row + '" id="jam' + row + '" class="jam_input form-control"/>';
                                         kal +='<span class="input-group-addon">';
                                             kal +='<span class="fa fa-calendar"></span>';
                                         kal +='</span>';
@@ -325,7 +358,7 @@ $(document).ready(function() {
                     kal +='<div class="form-group row">';
                         kal +='<label class="col-form-label col-md-3 col-sm-3 ">Durasi</label>';
                         kal +='<div class="col-md-9 col-sm-9 form-group has-feedback">';
-                            kal +='<input class="form-control" type="number" class="number" name="durasi' + row + '" id="durasi' + row + '" min="1" max="300" required="required" placeholder="menit">';
+                            kal +='<input class="durasi_input form-control" type="number" class="number" name="durasi' + row + '" id="durasi' + row + '" min="1" max="300" required="required" placeholder="menit">';
                             kal +='<span class="fa fa-book form-control-feedback right" aria-hidden="true"></span>';
                         kal +='</div>';
                     kal +='</div>';
@@ -436,36 +469,45 @@ $(document).ready(function() {
             format: 'H:mm'
         });
 
-
-        $('#subject'+ row).on("change paste keyup select", function() {
+        $('.subject_input').on("change paste keyup select", function() {
+            var id= this.id;
+            var row= id.substr(7,10);
             $('#subject-summary'+ row).html($('#subject'+ row).val());
         });
 
-        $('#kelas_paralel'+ row).on("change paste keyup select", function() {
+        $('.kelas_paralel_input').on("change paste keyup select", function() {
+            var id= this.id;
+            var row= id.substr(13,10);
             $('#kelas_paralel-summary'+ row).html("(" + $('#kelas_paralel'+ row).val().toUpperCase() + ")");
         });
 
-        $('#durasi'+ row).on("change paste keyup select", function() {
+        $('.durasi_input').on("change paste keyup select", function() {
+            var id= this.id;
+            var row= id.substr(6,10);
             $('#durasi-summary'+ row).html("(" + $('#durasi'+ row).val() + " menit) ");
             // getjadwalpengajar();
         });
         
-        $('#hari'+ row).on("change paste keyup select", function() {
+        $('.hari_input').on("change paste keyup select", function() {
+            var id= this.id;
+            var row= id.substr(4,10);
             $('#hari-summary'+ row).html($('#hari'+ row).val());
             // getjadwalpengajar();
         });
 
-        $('#jam'+ row).on("change paste keyup select", function() {
+        $('.jam_input').on("change paste keyup select", function() {
+            var id= this.id;
+            var row= id.substr(3,10);
             $('#jam-summary'+ row).html($('#jam'+ row).val());
             // getjadwalpengajar();
         });
+        
+        
 
         $('#nip1'+ row).on("change paste keyup select", function() {
             getjadwalpengajar(row, 'nip1');
         });
 
     }
-
-    
 
 </script>

@@ -1,3 +1,8 @@
+<style>
+    p{
+        margin-bottom: 0px;
+    }
+</style>
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
@@ -75,7 +80,7 @@
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2><?= isset($title) ? $title : "-" ?><small>periode ini</small></h2>
+                    <h2><?= isset($title) ? $title : "-" ?><small>periode ini (<?= isset($semester) ? $semester : "-" ?> <?= isset($tahun_ajaran) ? $tahun_ajaran : "-" ?>)</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                         <li><a class="close-link"><i class="fa fa-close"></i></a></li>
@@ -85,6 +90,9 @@
                 <div>
                     <a class="btn btn-sm bg-green" href="<?php echo base_url("kelas_praktikum/adds"); ?>">Tambah</a>
                     <a class="btn btn-sm bg-green" href="<?php echo base_url("kelas_praktikum/addwexcel"); ?>">Tambah w/ Excel</a>
+                    <?php if(isset($kelas_praktikum_now)) { if($kelas_praktikum_now > 0){?> <!-- KALO DATANYA ADA -->
+                        <a class="btn btn-info btn-sm" href="<?php echo base_url("kelas_praktikum/updatesall"); ?>">Edit</a>
+                    <?php }}?>
                 </div>
                 <div class="x_content">
                     <div class="row">
@@ -93,20 +101,15 @@
                                 <table id="datatable-periode-ini" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Actions</th>
-                                        <th>Kode Kelas</th>
-                                        <th>Kode MK</th>
-                                        <th>Mata Kuliah</th>
-                                        <th>Kode Lab</th>
+                                        <!-- <th>Actions</th> -->
                                         <th>Hari</th>
                                         <th>Jam</th>
-                                        <th>Durasi</th>
+                                        <th>Lama</th>
+                                        <th>Laboratorium</th>
+                                        <th>Mata Kuliah</th>
+                                        <th>Kelas</th>
                                         <th>Terisi</th>
-                                        <th>NIP1</th>
-                                        <th>NIP2</th>
-                                        <th>NIP3</th>
-                                        <th>Semester</th>
-                                        <th>Tahun Ajaran</th>
+                                        <th>Pengajar</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
@@ -115,24 +118,24 @@
                                     <?php if(is_array($kelas_praktikum_now)) : ?>
                                         <?php foreach($kelas_praktikum_now as $key) : ?>
                                         <tr>
-                                            <td>
-                                                <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a>
-                                                <a href="<?php echo base_url("kelas_praktikum/updates/"); echo base64_encode($key['id']);?>" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
-                                                <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a>
-                                            </td>
-                                            <td><?= (isset($key['kode_kelas_praktikum'])) ? $key['kode_kelas_praktikum'] : '' ?></td>
-                                            <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?></td>
-                                            <td><?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?></td>
-                                            <td><?= (isset($key['kode_lab'])) ? $key['kode_lab'] : '' ?></td>
+                                            <!-- <td> -->
+                                                <!-- <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a> -->
+                                                <!-- <a href="<?php echo base_url("kelas_praktikum/updates/"); echo base64_encode($key['id']);?>" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a> -->
+                                                <!-- <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
+                                            <!-- </td> -->
+                                            <!-- <td><?= (isset($key['kode_kelas_praktikum'])) ? $key['kode_kelas_praktikum'] : '' ?></td> -->
+                                            <!-- <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?></td> -->
                                             <td><?= (isset($key['hari'])) ? $key['hari'] : '' ?></td>
                                             <td><?= (isset($key['jam'])) ? $key['jam'] : '' ?></td>
                                             <td><?= (isset($key['durasi'])) ? $key['durasi'] : '' ?></td>
+                                            <td><?= (isset($key['kode_lab'])) ? $key['kode_lab'] : '' ?></td>
+                                            <td><?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?></td>
+                                            <td><?= (isset($key['kelas_paralel'])) ? $key['kelas_paralel'] : '' ?></td>
                                             <td><?= (isset($key['terisi'])) ? $key['terisi'] : '' ?></td>
-                                            <td><?= (isset($key['NIP1'])) ? $key['NIP1'] : '' ?></td>
-                                            <td><?= (isset($key['NIP2'])) ? $key['NIP2'] : '' ?></td>
-                                            <td><?= (isset($key['NIP3'])) ? $key['NIP3'] : '' ?></td>
-                                            <td><?= (isset($key['semester'])) ? $key['semester'] : '' ?></td>
-                                            <td><?= (isset($key['tahun_ajaran'])) ? $key['tahun_ajaran'] : '' ?></td>
+                                            <td><p><?php if($key['nama_dosen1'] != NULL){ echo $key['nama_dosen1']; } elseif($key['nama_mahasiswa1'] != NULL) {echo $key['nama_mahasiswa1']; }?></p>
+                                                <p><?php if($key['nama_dosen2'] != NULL){ echo $key['nama_dosen2']; } elseif($key['nama_mahasiswa2'] != NULL) {echo $key['nama_mahasiswa2']; }?></p>
+                                                <p><?php if($key['nama_dosen3'] != NULL){ echo $key['nama_dosen3']; } elseif($key['nama_mahasiswa3'] != NULL) {echo $key['nama_mahasiswa3']; }?></p>
+                                            </td>
                                             <td>
                                                 <?php 
                                                     if(isset($key['status'])) if($key['status']==1) echo '<span class="badge bg-green">active</span>'; else echo '<span class="badge bg-danger">non active</span>';?>
@@ -163,7 +166,17 @@
                     <div class="clearfix"></div>
                 </div>
                 <div>
-                    <!-- <a class="btn btn-sm bg-green" href="<?php echo base_url("kelas_praktikum/adds"); ?>">Tambah</a> -->
+                    PERIODE
+                    <select class="select2_multiple" multiple="multiple">
+                        <option>Choose option</option>
+                        <option>Ganjil</option>
+                        <option>Genap</option>
+                    </select>
+                    <select class="select2_multiple" multiple="multiple">
+                        <option>Choose option</option>
+                        <option>Ganjil</option>
+                        <option>Genap</option>
+                    </select>
                 </div>
                 <div class="x_content">
                     <div class="row">
@@ -172,20 +185,16 @@
                                 <table id="datatable-periode-lama" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Actions</th>
-                                        <th>Kode Kelas</th>
-                                        <th>Kode MK</th>
-                                        <th>Mata Kuliah</th>
-                                        <th>Kode Lab</th>
+                                        <!-- <th>Actions</th> -->
+                                        <!-- <th>Kode Kelas</th> -->
                                         <th>Hari</th>
                                         <th>Jam</th>
-                                        <th>Durasi</th>
+                                        <th>Lama</th>
+                                        <th>Kode Lab</th>
+                                        <th>Mata Kuliah</th>
                                         <th>Terisi</th>
-                                        <th>NIP1</th>
-                                        <th>NIP2</th>
-                                        <th>NIP3</th>
-                                        <th>Semester</th>
-                                        <th>Tahun Ajaran</th>
+                                        <th>Pengajar</th>
+                                        <th>Semester/Tahun Ajaran</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
@@ -194,24 +203,22 @@
                                     <?php if(is_array($kelas_praktikum)) : ?>
                                         <?php foreach($kelas_praktikum as $key) : ?>
                                         <tr>
-                                            <td>
-                                                <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a>
+                                            <!-- <td>
+                                                <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a> -->
                                                 <!-- <a href="<?php echo base_url("kelas_praktikum/updates/"); echo base64_encode($key['id']);?>" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a> -->
                                                 <!-- <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
-                                            </td>
-                                            <td><?= (isset($key['kode_kelas_praktikum'])) ? $key['kode_kelas_praktikum'] : '' ?></td>
-                                            <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?></td>
-                                            <td><?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?></td>
-                                            <td><?= (isset($key['kode_lab'])) ? $key['kode_lab'] : '' ?></td>
+                                            <!-- </td> -->
+                                            <!-- <td><?= (isset($key['kode_kelas_praktikum'])) ? $key['kode_kelas_praktikum'] : '' ?></td> -->
                                             <td><?= (isset($key['hari'])) ? $key['hari'] : '' ?></td>
                                             <td><?= (isset($key['jam'])) ? $key['jam'] : '' ?></td>
                                             <td><?= (isset($key['durasi'])) ? $key['durasi'] : '' ?></td>
+                                            <td><?= (isset($key['kode_lab'])) ? $key['kode_lab'] : '' ?></td>
+                                            <td><?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?> (<?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?>)</td>
                                             <td><?= (isset($key['terisi'])) ? $key['terisi'] : '' ?></td>
-                                            <td><?= (isset($key['NIP1'])) ? $key['NIP1'] : '' ?></td>
-                                            <td><?= (isset($key['NIP2'])) ? $key['NIP2'] : '' ?></td>
-                                            <td><?= (isset($key['NIP3'])) ? $key['NIP3'] : '' ?></td>
-                                            <td><?= (isset($key['semester'])) ? $key['semester'] : '' ?></td>
-                                            <td><?= (isset($key['tahun_ajaran'])) ? $key['tahun_ajaran'] : '' ?></td>
+                                            <td><p><?php if($key['nama_dosen1'] != NULL){ echo $key['nama_dosen1']; } elseif($key['nama_mahasiswa1'] != NULL) {echo $key['nama_mahasiswa1']; }?></p>
+                                                <p><?php if($key['nama_dosen2'] != NULL){ echo $key['nama_dosen2']; } elseif($key['nama_mahasiswa2'] != NULL) {echo $key['nama_mahasiswa2']; }?></p>
+                                                <p><?php if($key['nama_dosen3'] != NULL){ echo $key['nama_dosen3']; } elseif($key['nama_mahasiswa3'] != NULL) {echo $key['nama_mahasiswa3']; }?></p></td>
+                                            <td><?php if(isset($key['semester'])){ if($key['semester'] == 1) echo "Ganjil"; else echo "Genap";}else echo ''; ?> <?= (isset($key['tahun_ajaran'])) ? $key['tahun_ajaran'] : '' ?></td>
                                             <td>
                                                 <?php 
                                                     if(isset($key['status'])) if($key['status']==1) echo '<span class="badge bg-green">active</span>'; else echo '<span class="badge bg-danger">non active</span>';?>

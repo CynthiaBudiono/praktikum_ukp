@@ -11,7 +11,7 @@
                 <?php if(isset($key['link']))
                   if($key['link'] != ''){ ?><label style="float:right; margin-bottom:0px;"><a href="<?= $key['link']?> "><i class="fa fa-arrow-right" aria-hidden="true"></i></a></label><?php } ?>
               </div>
-              <div class="card-body" style="color: black;">
+              <div class="card-body" style="color: black; min-height: 132px;">
                 <?= (isset($key['keterangan'])) ? $key['keterangan'] : '' ?>
               </div>
             </div>

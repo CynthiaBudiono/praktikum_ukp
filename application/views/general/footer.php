@@ -112,5 +112,8 @@
     <!-- FullCalendar -->
     <script src="<?= base_url() ?>assets/vendors/moment/min/moment.min.js"></script>
     <script src="<?= base_url() ?>assets/vendors/fullcalendar/dist/fullcalendar.min.js"></script>
+
+    <!-- Select2 -->
+	  <link href="<?= base_url() ?>assets/vendors/select2/dist/css/select2.min.css" rel="stylesheet">
   </body>
 </html>

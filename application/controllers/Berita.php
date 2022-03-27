@@ -22,7 +22,7 @@ class Berita extends CI_Controller {
         $this->load->model('informasi_umum_model');
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "ganjil" : "genap" ;
+		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
 		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
 		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
 		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
@@ -89,6 +89,7 @@ class Berita extends CI_Controller {
         
         //check validasi
         $this->form_validation->set_data($data);
+        $this->form_validation->set_rules('id', 'kode lab', 'required|max_length[255]');
         $this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
 
         if ($this->form_validation->run() == FALSE) {
@@ -126,8 +127,8 @@ class Berita extends CI_Controller {
 
         $data = array(
             'id' => $this->input->post('id'),
-            'tanggal_start' => $this->input->post('tanggal_start'),
-            'tanggal_end' => $this->input->post('tanggal_end'),
+            'tanggal_start' => date("Y-m-d H:i:s", strtotime($this->input->post('tanggal_start'))),
+            'tanggal_end' => date("Y-m-d H:i:s", strtotime($this->input->post('tanggal_end'))),
             'title' => $this->input->post('title'),
             'link' => $this->input->post('link'),
             'keterangan' => $this->input->post('keterangan'),
@@ -138,12 +139,12 @@ class Berita extends CI_Controller {
 
         //check validasi
         $this->form_validation->set_data($data);
-        // $this->form_validation->set_rules('id', 'kode lab', 'trim|required|max_length[5]');
+        $this->form_validation->set_rules('id', 'kode lab', 'required|max_length[255]');
+        $this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
 
         if ($this->form_validation->run() == FALSE) {
             $detil[0] = $data;
             echo validation_errors();
-            // var_dump("LOHH MASUK SINI"); exit;
         }
         else {
             $this->load->helper(array('form', 'url'));

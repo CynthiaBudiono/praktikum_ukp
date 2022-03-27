@@ -50,6 +50,35 @@ class Jadwal_berhalangan_model extends CI_Model {
 
 	}
 
+	public function getbyNIP($pengajarid, $semester, $tahunajaran){
+		$this->db->select('jadwal_berhalangan.*');
+		$this->db->where('semester', $semester);
+        $this->db->where('tahun_ajaran', $tahunajaran);
+		$query = $this->db->where('pengajar_id', $pengajarid)->where('jadwal_berhalangan.status', 1)->get('jadwal_berhalangan');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+
+	}
+
+	public function getID($data){
+		$this->db->where($data);
+		$query = $this->db->get('jadwal_berhalangan');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
     public function add($data) {
 
         $this->db->trans_start();

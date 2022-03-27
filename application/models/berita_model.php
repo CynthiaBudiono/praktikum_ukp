@@ -33,8 +33,8 @@ class Berita_model extends CI_Model {
 
 	public function getshowberita() {
 
-		$this->db->where('tanggal_start <=',date("Y-m-d H:i:s"));
-		$this->db->where('tanggal_end >=',date("Y-m-d H:i:s"));
+		$this->db->where('tanggal_start <=',date("Y-m-d 00:00:00"));
+		$this->db->where('tanggal_end >=',date("Y-m-d 00:00:00"));
 		$query = $this->db->where('status', 1)->get('berita');
 
 		if ($query->num_rows() > 0)

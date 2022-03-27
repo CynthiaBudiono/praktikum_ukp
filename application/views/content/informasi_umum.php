@@ -91,8 +91,8 @@
                                 <label class="control-label col-md-3 col-sm-3 ">Semester</label>
                                 <div id="semester" class="col-md-9 col-sm-9 btn-group">
                                 <div class="wrapper-radio">
-                                    <input type="radio" <?php if(isset($semester)) if($semester=='ganjil') echo 'checked'; ?> value="1" id="radioGanjil" name="semester">
-                                    <input type="radio" <?php if(isset($semester)) if($semester=='genap') echo 'checked'; ?> value="2" id="radioGenap" name="semester">
+                                    <input type="radio" <?php if(isset($semester)) if($semester=='Ganjil') echo 'checked'; ?> value="1" id="radioGanjil" name="semester">
+                                    <input type="radio" <?php if(isset($semester)) if($semester=='Genap') echo 'checked'; ?> value="2" id="radioGenap" name="semester">
                                     <label for="radioGanjil" class="option radioGanjil">
                                         <div class="dot"></div>
                                         <span>Ganjil</span>

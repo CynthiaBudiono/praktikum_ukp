@@ -21,7 +21,7 @@ class Calon_asisten_dosen extends CI_Controller {
 		$data['title'] = "calon asisten dosen";
 
         $data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "ganjil" : "genap" ;
+		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
 		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
 		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
 		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
@@ -73,7 +73,7 @@ class Calon_asisten_dosen extends CI_Controller {
         $data['title'] = "Add calon asisten dosen";
 
         $data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "ganjil" : "genap" ;
+		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
 		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
 		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
 		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
@@ -110,7 +110,7 @@ class Calon_asisten_dosen extends CI_Controller {
         $data['title'] = "Edit calon asisten dosen";
 
         $data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "ganjil" : "genap" ;
+		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
 		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
 		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
 		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
