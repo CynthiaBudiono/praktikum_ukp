@@ -175,11 +175,11 @@ $(document).ready(function() {
                 addrow();
                 alert((i+1) + " " + arr[i]['hari']);
                 // $("#hari-summary1").val(arr[i]['hari']);
-                $("#hari-summary"+(i+1)).val(arr[i]['hari']);
-                $("#jam-summary"+(i+1)).val(arr[i]['jam']);
-                $("#durasi-summary"+(i+1)).val(arr[i]['durasi']);
-                $("#subject-summary"+(i+1)).val(arr[i]['nama_subject']);
-                $("#kelas_paralel-summary"+(i+1)).val(arr[i]['kelas_paralel']);
+                $("#hari-summary"+(i+1)).html(arr[i]['hari']);
+                $("#jam-summary"+(i+1)).html(arr[i]['jam']);
+                $("#durasi-summary"+(i+1)).html(arr[i]['durasi']);
+                $("#subject-summary"+(i+1)).html(arr[i]['nama_subject']);
+                $("#kelas_paralel-summary"+(i+1)).html(arr[i]['kelas_paralel']);
 
                 // if(arr[i]['status'] == 1){
                 //     $("#status"+(i+1)).prop("checked", true);
@@ -246,6 +246,7 @@ $(document).ready(function() {
     }
 
     function getjadwalpengajar($row, $idinput){
+        // alert(row + " " + $idinput);
         // alert($('#id_nip1'+ row).val());
         // alert($('#nip1'+ row).val());
         // hari: "senin",
@@ -255,10 +256,12 @@ $(document).ready(function() {
             pengajar: $('#id_nip1'+ row).val(),
         },
         function(result) {
+            
             // console.log("AAAAAAA " + result);
             
             if(result != 0){
-                // var arr = JSON.parse(result);
+                // alert("aaaaaaaa" + result);
+                var arr = JSON.parse(result);
 
                 $('#have_warning' + row).css('display', 'block');
                 if(arr[0]['role'] == 'mahasiswa'){

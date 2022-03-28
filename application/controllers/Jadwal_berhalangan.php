@@ -30,29 +30,48 @@ class Jadwal_berhalangan extends CI_Controller {
             for($i = 0; $i < count($data['pengajar']); $i++){
                 for($j = 1; $j <= 3; $j++){
                     if($data['pengajar'][$i]['NIP'.$j] != NULL){
-                        array_push($pengajar, array(
-                            array(
+                        $kembar = false;
+                        for($k = 0; $k < count($pengajar); $k++){
+                            if($pengajar[$k]['kode_pengajar'] == $data['pengajar'][$i]['NIP'.$j]){
+                                $kembar = true;
+                            }
+                        }
+                        
+                        if(!$kembar){
+                            array_push($pengajar, array(
                                 'kode_pengajar' => $data['pengajar'][$i]['NIP'.$j],
                                 'nama' => $data['pengajar'][$i]['nama_dosen'.$j],
                                 'role' => 'Dosen',
                                 'status' => $data['pengajar'][$i]['status_dosen'.$j],
                                 'last_login' => $data['pengajar'][$i]['last_login_dosen'.$j],
-                        )));
+                            ));
+                        }
+                       
                     }
                     if($data['pengajar'][$i]['NRP'.$j] != NULL){
-                        array_push($pengajar, array(
-                            array(
+
+                        $kembar = false;
+                        for($k = 0; $k < count($pengajar); $k++){
+                            if($pengajar[$k]['kode_pengajar'] == $data['pengajar'][$i]['NRP'.$j]){
+                                $kembar = true;
+                            }
+                        }
+
+                        if(!$kembar){
+                            array_push($pengajar, array(
                                 'kode_pengajar' => $data['pengajar'][$i]['NRP'.$j],
                                 'nama' => $data['pengajar'][$i]['nama_mahasiswa'.$j],
                                 'role' => 'Mahasiswa',
                                 'status' => $data['pengajar'][$i]['status_mahasiswa'.$j],
                                 'last_login' => $data['pengajar'][$i]['last_login_mahasiswa'.$j],
-                        )));
+                            ));
+                        }
                     }
                 }
             }
         }
 
+        // var_dump($pengajar[0]['nama']); exit;  
         $data['pengajar'] = $pengajar;
 
 		$data['title'] = "jadwal berhalangan";
