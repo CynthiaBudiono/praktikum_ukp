@@ -236,6 +236,7 @@ html{
                 <li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
                 <li><a><i class="fa fa-database"></i> Master Data <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
+                    <li><a href="<?= base_url('ImportController') ?>">EXCELL</a></li>
                     <li><a href="<?= base_url('mahasiswa') ?>">Mahasiswa</a></li>
                     <li><a href="<?= base_url('dosen') ?>">Dosen</a></li>
                     <li><a href="<?= base_url('calon_asisten_dosen') ?>">Calon Asdos</a></li>

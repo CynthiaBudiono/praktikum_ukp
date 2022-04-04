@@ -21,7 +21,59 @@
             </div>
         </div>
         <input type="hidden" id="mode" name="mode" value="<?= isset($mode) ? $mode : "-"?>">
-        
+    
+
+<div class="container">
+	<div class="row" style="margin-top: 30px;">
+		<div class="col-md-4 col-md-offset-3">
+			<h3>Import Data</h3>
+			<?php if(!empty($this->session->flashdata('status'))){ ?>
+			<div class="alert alert-info" role="alert"><?= $this->session->flashdata('status'); ?></div>
+			<?php } ?>
+			<form action="<?= base_url('ImportController/import_excel'); ?>" method="post" enctype="multipart/form-data">
+				<div class="form-group">
+					<label>Pilih File Excel</label>
+					<input type="file" name="fileExcel">
+				</div>
+				<div>
+					<button class='btn btn-success' type="submit">
+						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+			    		Import		
+					</button>
+				</div>
+			</form>
+		</div>
+		<div class="col-md-6 col-md-offset-3" style="margin-top: 50px;">
+			<h3>Daftar Data</h3>
+			<div class="table-responsive">
+				<table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>No</th>
+							<th>Nama</th>
+							<th>Jurusan</th>
+							<th>Angkatan</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php 
+							$no = 1;
+							foreach ($list_data as $row) {
+						 ?>
+						<tr>
+							<td><?= $no++; ?></td>
+							<td><?= $row['nama'] ?></td>
+							<td><?= $row['jurusan'] ?></td>
+							<td><?= $row['angkatan'] ?></td>
+						</tr>
+						<?php } ?>
+					</tbody>
+				</table>	
+			</div>
+		</div>
+	</div>
+</div>
+
         <form action="<?php if(isset($mode)) { if($mode == 'update'){ echo (base_url('kelas_praktikum/update'));}} else { echo (base_url('kelas_praktikum/add')); } ?>" method="post" class="form-horizontal form-label-left">
         
             <div class="title_right" style="float:right;">
@@ -32,124 +84,37 @@
                 <button type="submit" class="btn btn-success">Submit</button>
             </div>
 
+            <div class="ui floating search dropdown button">
+                <span class="text">Search Dropdown</span>
+                <div class="menu">
+                    <div class="item" value="AAAAAAAA">Arabic</div>
+                    <div class="item" value="BBBBBBBB">Chinese</div>
+                    <div class="item">Danish</div>
+                    <div class="item">Dutch</div>
+                    <div class="item">English</div>
+                    <div class="item">French</div>
+                    <div class="item">German</div>
+                    <div class="item">Greek</div>
+                    <div class="item">Hungarian</div>
+                    <div class="item">Italian</div>
+                    <div class="item">Japanese</div>
+                    <div class="item">Korean</div>
+                    <div class="item">Lithuanian</div>
+                    <div class="item">Persian</div>
+                    <div class="item">Polish</div>
+                    <div class="item">Portuguese</div>
+                    <div class="item">Russian</div>
+                    <div class="item">Spanish</div>
+                    <div class="item">Swedish</div>
+                    <div class="item">Turkish</div>
+                    <div class="item">Vietnamese</div>
+                </div>
+            </div>
+ 
             <div id="container-form">
             <input type="hidden" id="total_row" name="total_row">
-            <?php //if(isset($kelas_praktikum)) : ?>
-                <?php //if(is_array($kelas_praktikum)) : ?>
-                    <?php //foreach($kelas_praktikum as $key) : ?>
-                
-                        <!-- <div class="col-md-12 col-sm-12">
-                            <div class="x_panel">
-                                <div class="x_title">
-                                    <h2><label id="hari-summary"></label> <label id="jam-summary"></label> <label id="durasi-summary"></label> <label id="subject-summary"></label> <label id="kelas_paralel-summary"></label></h2>
-                                    <div>
-                                        <ul class="nav navbar-right panel_toolbox">
-                                            <li style="margin-right: 6px; padding-top: 6px;"><input type="checkbox" class="toggle-switch" name="status" id="status" checked></li>
-                                            <li style="margin: 0px 10px; padding-top: 4px;"><i class="fa fa-exclamation-circle fa-2x" aria-hidden="true" style="color:#ee9500;"></i></li>
-                                            <li style="margin: 0px 10px; padding-top: 4px;"><i class="fa fa-trash color-red fa-2x" aria-hidden="true"></i></li>
-                                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="x_content">
-                                    <div class="alert alert-dismissible pop-over-style" role="alert">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-                                        </button>
-                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                                        <strong>Warning.</strong> <span id="error_msg">check yo self, you're not looking too good.</span> 
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-md-3 col-sm-3 ">Matakuliah</label>
-                                        <div class="col-md-9 col-sm-9 form-group has-feedback">
-                                            <input type="text" id="subject" name="subject" placeholder="MatKul" class="form-control" required="required">
-                                            <span class="fa fa-book form-control-feedback right" aria-hidden="true"></span>
-                                        </div>
-                                    </div>
 
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-md-3 col-sm-3 ">Kelas Paralel</label>
-                                        <div class="col-md-9 col-sm-9 form-group has-feedback">
-                                            <input type="text" id="kelas_paralel" name="kelas_paralel" placeholder="ex. A" class="form-control" required="required" maxlength="1">
-                                            <span class="fa fa-gavel form-control-feedback right" aria-hidden="true"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-md-3 col-sm-3 ">Laboratorium</label>
-                                        <div class="col-md-9 col-sm-9 form-group has-feedback">
-                                            <input type="text" name="laboratorium" id="laboratorium" placeholder="lab" class="form-control" required="required"/>
-                                            <span class="fa fa-map-marker form-control-feedback right" aria-hidden="true"></span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-md-3 col-sm-3 ">Hari / Jam</label>
-                                        <div class="col-md-9 col-sm-9 form-group has-feedback">
-                                            <div class="row">
-                                            <div class="col-md-6 col-sm-6  form-group has-feedback" style="padding-left: 10px;">
-                                                <select class="select2_single form-control has-feedback-left" name ="hari" id="hari" tabindex="-1" required="required">
-                                                    <option>--choose hari--</option>
-                                                    <option value="Senin">Senin</option>
-                                                    <option value="Selasa">Selasa</option>
-                                                    <option value="Rabu">Rabu</option>
-                                                    <option value="Kamis">Kamis</option>
-                                                    <option value="Jumat">Jumat</option>
-                                                    <option value="Sabtu">Sabtu</option>
-                                                </select>
-                                                <span class="fa fa-sun-o form-control-feedback left" aria-hidden="true"></span>
-                                            </div>
-
-                                            <div class="col-md-6 col-sm-6" style="padding-right: 10px;">
-                                                <div class="input-group date" id="timepicker">
-                                                    <input type="text" required="required" name ="jam" id="jam" class="form-control"/>
-                                                    <span class="input-group-addon">
-                                                        <span class="fa fa-calendar"></span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-md-3 col-sm-3 ">Durasi</label>
-                                        <div class="col-md-9 col-sm-9 form-group has-feedback">
-                                        <input class="form-control" type="number" class="number" name="durasi" id="durasi" min="1" max="300" required="required" placeholder="menit">
-                                            <span class="fa fa-book form-control-feedback right" aria-hidden="true"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-md-3 col-sm-3 ">Terisi</label>
-                                        <div class="col-md-9 col-sm-9 form-group has-feedback">
-                                        <input class="form-control" type="number" class="number" name="terisi" id="terisi" min="1" max="300" required="required" placeholder="orang">
-                                            <span class="fa fa-map-marker form-control-feedback right" aria-hidden="true"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-md-3 col-sm-3 ">Pengajar</label>
-                                        <div class="col-md-9 col-sm-9 form-group" style="padding: 0px;">
-                                            <div class="col-md-4 col-sm-6">
-                                                <input type="text" name="nip1" id="nip1" placeholder="pengajar1" required="required" class="form-control" />
-                                            </div>
-                                            <div class="col-md-4 col-sm-6">
-                                                <input type="text" name="nip2" id="nip2" placeholder="pengajar2" class="form-control" />
-                                            </div>
-                                            <div class="col-md-4 col-sm-6">
-                                                <input type="text" name="nip3" id="nip3" placeholder="pengajar3" class="form-control has-feedback-right" />
-                                            </div>
-                                            <span class="fa fa-book form-control-feedback right" aria-hidden="true"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-                    <?php //endforeach; ?>
-                <?php //endif; ?>
-            <?php //endif; ?>
+            
             </div> <!-- /conteiner-form -->
         </form>
     </div>
@@ -160,15 +125,16 @@
 var baseurl = "<?php echo base_url(); ?>";
 var row = 0;
 $(document).ready(function() {
-    
-    alert($('#mode').val());
+    $('.ui.dropdown').dropdown();
+    alert($('.ui.dropdown').val());
+    // alert($('#mode').val());
     if($('#mode').val() == 'add'){
         addrow();
     }
     else if($('#mode').val() == 'update'){
         $.post(baseurl + "kelas_praktikum/getperiodnow", {},
         function(result) {
-            alert(result);
+            // alert(result);
            
             var arr = JSON.parse(result);
             for(var i = 0; i < arr.length; i++){
@@ -247,13 +213,15 @@ $(document).ready(function() {
 
     function getjadwalpengajar($row, $idinput){
         // alert(row + " " + $idinput);
+        alert('#'+ idinput + row);
         // alert($('#id_nip1'+ row).val());
         // alert($('#nip1'+ row).val());
         // hari: "senin",
         // jam: "12:00",
         // durasi: "180"
         $.post(baseurl + "jadwal_berhalangan/getbypengajar", {
-            pengajar: $('#id_nip1'+ row).val(),
+            pengajar: $('#'+ idinput + row).val(),
+
         },
         function(result) {
             

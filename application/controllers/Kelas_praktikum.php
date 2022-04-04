@@ -21,7 +21,6 @@ class Kelas_praktikum extends CI_Controller {
 		$data['kelas_praktikum'] = $this->kelas_praktikum_model->getallopen();
 
 		$data['title'] = "kelas praktikum";
-
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
 		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
@@ -71,6 +70,18 @@ class Kelas_praktikum extends CI_Controller {
         $this->load->model('informasi_umum_model');
 
         $kelas = $this->kelas_praktikum_model->getallopen($this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+
+        echo json_encode($kelas);
+    }
+
+    public function getperiod(){
+        $this->load->model('kelas_praktikum_model');
+
+        $semester = $this->input->post('semester');
+        $ta = $this->input->post('tahun_ajaran'). "-" . date($this->input->post('tahun_ajaran'), strtotime('+1year')); //'+1year'
+
+        var_dump($ta); exit;
+        $kelas = $this->kelas_praktikum_model->getallopen($semester, $ta);
 
         echo json_encode($kelas);
     }

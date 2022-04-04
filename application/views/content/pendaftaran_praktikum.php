@@ -111,7 +111,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="card-box table-responsive">
-                                <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
+                                <table id="datatable_pendaftaran_praktikum" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Actions</th>
@@ -153,6 +153,7 @@ $(function() {
 <script>
     var baseurl = "<?php echo base_url(); ?>";
     // view();
+    var baru = 0;
     $(document).ready(function() {	
         // alert("masukkkkkkkk ready");	
         view()
@@ -274,8 +275,6 @@ $(function() {
             var arr = JSON.parse(result);
             var kal = "";
             
-            $("#datatable-buttons").DataTable();
-            
             for(var i = 0; i < arr.length; i++){
                 kal += '<tr>';
                 kal += '<td>';
@@ -295,7 +294,36 @@ $(function() {
             }
             
             $("#data_pendaftaran_praktikum").html(kal);
-            
+            if(baru > 0){
+                $('#datatable_pendaftaran_praktikum').destroy(); 
+            }
+            baru++;
+            $('#datatable_pendaftaran_praktikum').DataTable( {
+                dom: "Blfrtip",
+                buttons: [
+                    {
+                        extend: "copy",
+                        className: "btn-sm"
+                    },
+                    {
+                        extend: "csv",
+                        className: "btn-sm"
+                    },
+                    {
+                        extend: "excel",
+                        className: "btn-sm"
+                    },
+                    {
+                        extend: "pdfHtml5",
+                        className: "btn-sm"
+                    },
+                    {
+                        extend: "print",
+                        className: "btn-sm"
+                    },
+                ],
+                responsive: true
+            });
         });
     }
 </script>

@@ -167,15 +167,14 @@
                 </div>
                 <div>
                     PERIODE
-                    <select class="select2_multiple" multiple="multiple">
-                        <option>Choose option</option>
-                        <option>Ganjil</option>
-                        <option>Genap</option>
+                    <select class="select2_single" name ="ddsemester" id="ddsemester" tabindex="-1">
+                        <option value="1" <?php if(isset($semester)) {if($semester == "Ganjil") echo "selected='selected'";}?>>Ganjil</option>
+                        <option value="2" <?php if(isset($semester)) {if($semester == "Genap") echo "selected='selected'";}?>>Genap</option>
                     </select>
-                    <select class="select2_multiple" multiple="multiple">
-                        <option>Choose option</option>
-                        <option>Ganjil</option>
-                        <option>Genap</option>
+                    <select class="select2_single" name ="ddtahun_ajaran" id="ddtahun_ajaran" tabindex="-1">
+                        <?php for($i = 0; $i < 5; $i++){ ?>
+                            <option value="<?= date('Y', strtotime('-'.$i.' year')) ?>"><?= date('Y', strtotime('-'.$i.' year')) ?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <div class="x_content">
@@ -240,6 +239,8 @@
 
 
 <script>
+    var baseurl = "<?php echo base_url(); ?>";
+
     $(document).ready(function() {
         $('#datatable-periode-ini').DataTable( {
             dom: "Blfrtip",
@@ -292,6 +293,28 @@
                 },
             ],
             responsive: true
+        });
+
+
+        $("#ddsemester").change(function(){
+            alert("aa" + this.value);
+            $.post(baseurl + "kelas_praktikum/getperiod", {
+                semester: $("#ddsemester").val(),
+                tahun_ajaran : $("#ddtahun_ajaran").val()
+            },
+            function(result) {
+                alert(result);
+            });
+        });
+
+        $("#ddtahun_ajaran").change(function(){
+            $.post(baseurl + "kelas_praktikum/getperiod", {
+                semester: $("#ddsemester").val(),
+                tahun_ajaran : $("#ddtahun_ajaran").val()
+            },
+            function(result) {
+                alert(result);
+            });
         });
     });
 </script>

@@ -3,8 +3,9 @@
 class Asisten_dosen_model extends CI_Model {
 
     public function getallopen() {
-		$this->db->select('asisten_dosen.*');
-
+		$this->db->select('asisten_dosen.*, mahasiswa.nama as nama_mahasiswa, pendaftaran_asisten_dosen.semester as semester_pendaftaran_asdos, pendaftaran_asisten_dosen.tahun_ajaran as tahun_ajaran_pendaftaran_asdos');
+		$this->db->join('mahasiswa', 'mahasiswa.NRP = asisten_dosen.NRP');
+		$this->db->join('pendaftaran_asisten_dosen', 'pendaftaran_asisten_dosen.id = asisten_dosen.id_pendaftaran_asisten_dosen');
 		$query = $this->db->get('asisten_dosen');
 
 		if ($query->num_rows() > 0)

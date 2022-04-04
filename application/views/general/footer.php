@@ -115,5 +115,8 @@
 
     <!-- Select2 -->
 	  <link href="<?= base_url() ?>assets/vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+
+    <!-- Semantic UI DropDown -->
+    <script src="<?= base_url() ?>assets/vendors/semantic/dist/semantic.min.js"></script>
   </body>
 </html>

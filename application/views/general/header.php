@@ -68,6 +68,16 @@
 
     <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery-3.6.0.js"></script>
 
+    <!-- Semantic UI Dropdown -->
+    <!--- Component CSS -->
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/vendors/semantic-ui/components/dropdown.css">
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/vendors/semantic-ui/components/button.css">
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/vendors/semantic-ui/components/transition.css">
+    <!--- Example Libs -->
+    <!-- <script src="assets/library/jquery.min.js"></script> -->
+    <!--- Component JS -->
+    <script type="text/javascript" src="<?= base_url() ?>assets/vendors/semantic-ui/components/transition.js"></script>
+    <script type="text/javascript" src="<?= base_url() ?>assets/vendors/semantic-ui/components/dropdown.js"></script>
 
-    <?php date_default_timezone_set('Asia/Jakarta'); ?>
+
   </head>

@@ -89,7 +89,7 @@ class Berita extends CI_Controller {
         
         //check validasi
         $this->form_validation->set_data($data);
-        $this->form_validation->set_rules('id', 'kode lab', 'required|max_length[255]');
+        // $this->form_validation->set_rules('id', 'kode lab', 'required|max_length[255]');
         $this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
 
         if ($this->form_validation->run() == FALSE) {

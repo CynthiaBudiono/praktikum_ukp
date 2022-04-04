@@ -20,7 +20,7 @@ class pendaftaran_asisten_dosen extends CI_Controller {
 
 		$data['pendaftaran_asisten_dosen'] = $this->pendaftaran_asisten_dosen_model->getallopen();
 
-		$data['title'] = "pendaftaran praktikum";
+		$data['title'] = "pendaftaran Asisten Dosen";
 
 		$this->load->model('informasi_umum_model');
 		
