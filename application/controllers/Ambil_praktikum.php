@@ -15,7 +15,7 @@ class ambil_praktikum extends CI_Controller {
 
 		$this->load->model('ambil_praktikum_model');
 
-		$data['ambil_praktikum'] = $this->ambil_praktikum_model->getallopen();
+		// $data['ambil_praktikum'] = $this->ambil_praktikum_model->getallopen();
 
 		$data['title'] = "Ambil Praktikum";
 
@@ -37,6 +37,25 @@ class ambil_praktikum extends CI_Controller {
 
 		$this->load->view('general/footer', $data);
 	}
+
+    public function getclassgroup(){
+        $this->load->model('ambil_praktikum_model');
+        $this->load->model('informasi_umum_model');
+
+        $ambil_praktikum = array();
+        $getkelas = $this->ambil_praktikum_model->getclassgroup($this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+        
+        if ($getkelas > 0){
+            for($i = 0; $i < count($getkelas); $i++){
+                $getdetail = $this->ambil_praktikum_model->getdetailkelas($getkelas[$i]['kode_mk'], $getkelas[$i]['tipe'], $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']); 
+
+                array_push($ambil_praktikum, $getdetail);
+            }
+        }
+        
+        echo json_encode($ambil_praktikum);
+    }
+    
 
     public function generateadd(){
         $this->load->model('ambil_praktikum_model');

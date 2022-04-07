@@ -2,7 +2,7 @@
 
 class Kelas_praktikum_model extends CI_Model {
 
-    public function getallopen($semester = null, $tahun_ajaran = null) {
+    public function getallopen($semester = null, $tahun_ajaran = null) { //klo update ini update juga func getjadwalforambilprak
 		$this->db->select(' d1.NIP as NIP1, d1.nama as nama_dosen1');
 		$this->db->select(' d2.NIP as NIP2, d2.nama as nama_dosen2');
 		$this->db->select(' d3.NIP as NIP3, d3.nama as nama_dosen3');
@@ -37,6 +37,43 @@ class Kelas_praktikum_model extends CI_Model {
 
 	}
 
+	public function getjadwalforambilprak($kode_mk, $tipe, $semester = null, $tahun_ajaran = null){ //sama kayak get all open beda where
+		$this->db->select(' d1.NIP as NIP1, d1.nama as nama_dosen1');
+		$this->db->select(' d2.NIP as NIP2, d2.nama as nama_dosen2');
+		$this->db->select(' d3.NIP as NIP3, d3.nama as nama_dosen3');
+		$this->db->select(' m1.NRP as NRP1, m1.nama as nama_mahasiswa1');
+		$this->db->select(' m2.NRP as NRP2, m2.nama as nama_mahasiswa2');
+		$this->db->select(' m3.NRP as NRP3, m3.nama as nama_mahasiswa3');
+
+		$this->db->select('kelas_praktikum.*, subject.nama as nama_subject');
+        $this->db->join('subject', 'subject.kode_mk = kelas_praktikum.kode_mk');
+		$this->db->join('dosen as d1', 'd1.NIP = kelas_praktikum.NIP1', 'left');
+		$this->db->join('dosen as d2', 'd2.NIP = kelas_praktikum.NIP2', 'left');
+		$this->db->join('dosen as d3', 'd3.NIP = kelas_praktikum.NIP3', 'left');
+		$this->db->join('mahasiswa as m1', 'm1.NRP = kelas_praktikum.NIP1', 'left');
+		$this->db->join('mahasiswa as m2', 'm2.NRP = kelas_praktikum.NIP2', 'left');
+		$this->db->join('mahasiswa as m3', 'm3.NRP = kelas_praktikum.NIP3', 'left');
+
+		$this->db->where('kelas_praktikum.kode_mk', $kode_mk);
+		$this->db->where('kelas_praktikum.tipe', $tipe);
+		
+		if($semester != null){
+			$this->db->where('kelas_praktikum.semester', $semester);
+		}
+		if($tahun_ajaran != null){
+			$this->db->where('kelas_praktikum.tahun_ajaran', $tahun_ajaran);
+		}
+		$query = $this->db->get('kelas_praktikum');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
     // public function getkelasnow($semester, $tahun_ajaran){
 	// 	$this->db->select(' d1.NIP as NIP1, d1.nama as nama_dosen1');
 	// 	$this->db->select(' d2.NIP as NIP2, d2.nama as nama_dosen2');
@@ -66,7 +103,7 @@ class Kelas_praktikum_model extends CI_Model {
 	// 		return 0;
     // }
 
-	public function getpengajar($semester, $tahun_ajaran){
+	public function getpengajar($semester, $tahun_ajaran){ //untuk jadwal berhalangan
 		$this->db->distinct();
         $this->db->select(' d1.NIP as NIP1, d1.nama as nama_dosen1, d1.status as status_dosen1, d1.last_login as last_login_dosen1');
 		$this->db->select(' d2.NIP as NIP2, d2.nama as nama_dosen2, d2.status as status_dosen2, d2.last_login as last_login_dosen2');
