@@ -10,7 +10,7 @@
 
     <title>SAOCP Informatika | UK Petra</title>
 
-    <!-- Bootstrap -->
+    <!-- Bootstrap v4.3.1-->
     <link href="<?= base_url() ?>assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="<?= base_url() ?>assets/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -44,9 +44,14 @@
     <link href="<?= base_url() ?>assets/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
-    <!-- Tinymce v 6.0.1-->
+    <!-- Tinymce v6.0.1-->
     <!-- API KEY https://cdn.tiny.cloud/1/q86l3hmvr5trq75iei6knx8tb82tvmdjdg14y1epqp8gkfr5 -->
-    <script src="<?= base_url() ?>assets/vendors/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+    <!-- <script src="<?= base_url() ?>assets/vendors/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script> -->
+
+    <!-- Summernote v0.8.18 -->
+    <!-- summernote css/js -->
+    <link href="<?= base_url() ?>assets/vendors/summernote/summernote-bs4.min.css" rel="stylesheet">
+    <script src="<?= base_url() ?>assets/vendors/summernote/summernote-bs4.min.js"></script>
 
     <!-- Custom Theme Style -->
     <link href="<?= base_url() ?>assets/build/css/custom.min.css" rel="stylesheet">

@@ -187,18 +187,18 @@ function view(){
                         kal += '</ul>';
                         kal += '<div class="clearfix"></div>';
                     kal += '</div>';
-                    kal += '<div id="list_jadwal' + i + '">';
+                    kal += '<div id="list_jadwal' + i + '"></div>';
                     // kal += '<a class="btn btn-sm bg-green" href="<?php //echo base_url("ambil_praktikum/adds"); ?>">Tambah</a>
 
                     //JADWAL PRAKTIKUM = jp
                     $.post(baseurl + "kelas_praktikum/getjadwalforambilprak", {
-                        $kode_mk: arr[i][0]['kode_mk'],
-                        $tipe: arr[i][0]['tipe'],
+                        kode_mk: arr[i][0]['kode_mk'],
+                        tipe: arr[i][0]['tipe'],
                     },
                     function(result_jadwal) {
                         alert("JADWAAL" + result_jadwal);
 
-                        if($result_jadwal != null){
+                        if(result_jadwal != null){
                             var arr_jadwal = JSON.parse(result_jadwal);
                             var kal_jadwal = '';
 
@@ -227,13 +227,13 @@ function view(){
                                 kal_jadwal += '</table>';
                             kal_jadwal += '</div>';
                             
-                            $("#list_jadwal").html(kal_jadwal);
+                            $("#list_jadwal" + i).html(kal_jadwal);
                         }
                         
                     });
 
 
-                    kal += '</div>';
+                    // kal += '';
                     kal += '<div class="x_content collapse show" id="datacollapse' + i + '">';
                         kal += '<div class="row">';
                             kal += '<div class="col-sm-12">';

@@ -64,16 +64,24 @@
                             <label class="control-label col-md-3 col-sm-3 ">Keterangan</label>
                             <div class="col-md-9 col-sm-9 ">
                                 <div class="">
-                                <textarea id="keterangan" name="keterangan" rows="5"></textarea>
+                                <div id="summernote"></div>
+                                <!-- <textarea id="keterangan" name="keterangan" rows="5"></textarea> -->
                                 <script>
-                                    tinymce.init({
-                                    selector: 'textarea',
-                                    plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-                                    toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
-                                    toolbar_mode: 'floating',
-                                    tinycomments_mode: 'embedded',
-                                    tinycomments_author: 'Author name',
+
+                                    $('#summernote').summernote({
+                                        placeholder: 'Hello Bootstrap 4',
+                                        tabsize: 2,
+                                        height: 100
                                     });
+
+                                    // tinymce.init({
+                                    // selector: 'textarea',
+                                    // plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+                                    // toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
+                                    // toolbar_mode: 'floating',
+                                    // tinycomments_mode: 'embedded',
+                                    // tinycomments_author: 'Author name',
+                                    // });
                                 </script>
                                 </div>
                             </div>

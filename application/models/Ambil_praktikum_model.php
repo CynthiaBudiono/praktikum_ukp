@@ -74,6 +74,69 @@ class Ambil_praktikum_model extends CI_Model {
 			return 0;
 	}
 
+	public function getdetailkelasbyidkelasprak($id_kelas_prak, $pertemuan= null, $semester = null, $tahun_ajaran = null){
+		$this->db->select('ambil_praktikum.*, kelas_praktikum.kode_lab as kode_lab, laboratorium.nama as nama_laboratorium, laboratorium.quota_max as quota_max, mahasiswa.nama as nama_mahasiswa, mahasiswa.angkatan as angkatan, mahasiswa.ips as ips, mahasiswa.ipk as ipk, subject.nama as nama_subject');
+		$this->db->join('mahasiswa', 'mahasiswa.NRP = ambil_praktikum.NRP');
+		$this->db->join('subject', 'subject.kode_mk = ambil_praktikum.kode_mk');
+		
+		
+		$this->db->join('kelas_praktikum', 'kelas_praktikum.id = ambil_praktikum.terpilih');
+		$this->db->join('laboratorium', 'laboratorium.kode_lab = kelas_praktikum.kode_lab');
+
+		$this->db->where('ambil_praktikum.terpilih', $id_kelas_prak);
+
+		if($pertemuan != null){
+			$this->db->select('mahasiswa_nilai.*');
+			$this->db->join('mahasiswa_nilai', 'mahasiswa_nilai.id_kelas_praktikum = kelas_praktikum.id');
+			$this->db->where('mahasiswa_nilai.pertemuan', $pertemuan);
+		}
+
+		if($semester != null && $tahun_ajaran != null){
+			$this->db->where('ambil_praktikum.semester', $semester);
+        	$this->db->where('ambil_praktikum.tahun_ajaran', $tahun_ajaran);
+		}
+		
+		$query = $this->db->get('ambil_praktikum');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
+	// public function getdetailmahasiswa($id_kelas_prak, $pertemuan, $semester = null, $tahun_ajaran = null){
+	// 	$this->db->select('ambil_praktikum.*, mahasiswa.nama as nama_mahasiswa, mahasiswa.angkatan as angkatan, mahasiswa.ips as ips, mahasiswa.ipk as ipk');
+	// 	$this->db->join('mahasiswa', 'mahasiswa.NRP = ambil_praktikum.NRP');
+	// 	// $this->db->join('subject', 'subject.kode_mk = ambil_praktikum.kode_mk');
+		
+		
+	// 	// $this->db->join('kelas_praktikum', 'kelas_praktikum.id = ambil_praktikum.terpilih');
+	// 	// $this->db->join('laboratorium', 'laboratorium.kode_lab = kelas_praktikum.kode_lab');
+
+	// 	$this->db->join('mahasiswa_nilai', 'mahasiswa_nilai.id_kelas_praktikum = kelas_praktikum.id');
+
+	// 	$this->db->where('ambil_praktikum.terpilih', $id_kelas_prak);
+
+
+	// 	if($semester != null && $tahun_ajaran != null){
+	// 		$this->db->where('ambil_praktikum.semester', $semester);
+    //     	$this->db->where('ambil_praktikum.tahun_ajaran', $tahun_ajaran);
+	// 	}
+		
+	// 	$query = $this->db->get('ambil_praktikum');
+
+	// 	if ($query->num_rows() > 0)
+
+	// 		return $query->result_array();
+
+	// 	else
+
+	// 		return 0;
+	// }
+
     public function get($id) {
 
 		$query = $this->db->where('id', $id)->get('ambil_praktikum', 1, 0);

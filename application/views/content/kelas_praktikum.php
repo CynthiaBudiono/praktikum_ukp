@@ -197,7 +197,7 @@
                                         <th>Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="body_table_period">
                                 <?php if(isset($kelas_praktikum)) : ?>
                                     <?php if(is_array($kelas_praktikum)) : ?>
                                         <?php foreach($kelas_praktikum as $key) : ?>
@@ -304,6 +304,11 @@
             },
             function(result) {
                 alert(result);
+
+                var kal = '';
+
+                kal += '';
+                $("#body_table_period").html(kal);
             });
         });
 

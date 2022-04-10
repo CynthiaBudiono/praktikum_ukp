@@ -78,10 +78,9 @@ class Kelas_praktikum extends CI_Controller {
         $this->load->model('kelas_praktikum_model');
 
         $semester = $this->input->post('semester');
-        $ta = $this->input->post('tahun_ajaran'). "-" . date($this->input->post('tahun_ajaran'), strtotime('+1year')); //'+1year'
+        // $ta = $this->input->post('tahun_ajaran'). "-" . date($this->input->post('tahun_ajaran'), strtotime('+1year')); //'+1year'
+        $ta = $this->input->post('tahun_ajaran'). "-" . intval($this->input->post('tahun_ajaran') + 1); //'+1year'
 
-        //ini masih error soalnya yearnya gak tambah 1 jdi gakisa get
-        var_dump($ta); exit;
         $kelas = $this->kelas_praktikum_model->getallopen($semester, $ta);
 
         echo json_encode($kelas);
@@ -91,7 +90,7 @@ class Kelas_praktikum extends CI_Controller {
         $this->load->model('kelas_praktikum_model');
         $this->load->model('informasi_umum_model');
 
-        var_dump($this->input->post('kode_mk')); exit;
+        // var_dump($this->input->post('kode_mk')); exit;
         $kelas = $this->kelas_praktikum_model->getjadwalforambilprak($this->input->post('kode_mk'), $this->input->post('tipe'), $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
 
         echo json_encode($kelas);

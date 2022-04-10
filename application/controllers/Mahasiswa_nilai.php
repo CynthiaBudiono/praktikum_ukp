@@ -15,11 +15,23 @@ class Mahasiswa_nilai extends CI_Controller {
 
 		$this->load->model('mahasiswa_nilai_model');
 
-		$data['mahasiswa_nilai'] = $this->mahasiswa_nilai_model->getallopen();
+		$this->load->model('kelas_praktikum_model');
+        $this->load->model('ambil_praktikum_model');
+        $this->load->model('informasi_umum_model');
+
+        $data['kelas_praktikum_now'] = $this->kelas_praktikum_model->getallopen($this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+
+        for($i = 0; $i < count($data['kelas_praktikum_now']); $i++ ){
+            // var_dump($data['kelas_praktikum_now'][$i]['id']);
+            $data['kelas_praktikum_now'][$i]['detail_kelas'] = $this->ambil_praktikum_model->getdetailkelasbyidkelasprak($data['kelas_praktikum_now'][$i]['id']);
+            $data['kelas_praktikum_now'][$i]['all_pertemuan'] = $this->mahasiswa_nilai_model->getallpertemuanbyidkelasprak($data['kelas_praktikum_now'][$i]['id']);
+            $data['kelas_praktikum_now'][$i]['detail_nilai'] = $this->mahasiswa_nilai_model->getlastpertemuanbyidkelasprak($data['kelas_praktikum_now'][$i]['id']);
+        }
+
+        // exit;
+        // var_dump($data['kelas_praktikum_now']); exit;
 
 		$data['title'] = "mahasiswa nilai";
-
-        $this->load->model('informasi_umum_model');
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
 		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
@@ -39,6 +51,8 @@ class Mahasiswa_nilai extends CI_Controller {
 	}
 
     public function adds(){
+
+        $data['mode'] = 'add';
 
         $data['title'] = "Add mahasiswa nilai";
 
@@ -62,20 +76,28 @@ class Mahasiswa_nilai extends CI_Controller {
 
     }
 
-    public function updates($id = null){
+    public function updates($id = null, $tipe = null){
 
         // $check = $this->access_group_model->getbynama($this->session->userdata('user_level'));
 		// if ($check == 0) redirect('dashboard');
 
         $id = base64_decode($id);
 
+        if($tipe == null) redirect('dashboard');
+
+
         $this->load->model('mahasiswa_nilai_model');
+        $this->load->model('ambil_praktikum_model');
 
-		$res = $this->mahasiswa_nilai_model->get($id);
+		// $res = $this->mahasiswa_nilai_model->get($id);
 
-        if ($res == 0) redirect('dashboard');
+        $data['detail_kelas'] = $this->ambil_praktikum_model->getdetailkelasbyidkelasprak($id, $tipe);
 
-        $data['detil'] = $res;
+        // if ($data['detail_kelas'] == 0) redirect('dashboard');
+
+        $data['primary'] = $id;
+
+        $data['mode'] = 'update';
         
         $data['title'] = "Edit mahasiswa_nilai";
 
