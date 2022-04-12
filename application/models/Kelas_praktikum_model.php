@@ -133,6 +133,30 @@ class Kelas_praktikum_model extends CI_Model {
 			return 0;
     }
 
+	public function getactive($semester, $tahun_ajaran){
+		$this->db->distinct();
+		$this->db->select('subject.*');
+        $this->db->join('subject', 'subject.kode_mk = kelas_praktikum.kode_mk');
+
+		$this->db->where('kelas_praktikum.status', 1);
+
+		if($semester != null){
+			$this->db->where('kelas_praktikum.semester', $semester);
+		}
+		if($tahun_ajaran != null){
+			$this->db->where('kelas_praktikum.tahun_ajaran', $tahun_ajaran);
+		}
+		$query = $this->db->get('kelas_praktikum');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
     public function get($id) {
 
 		$query = $this->db->where('id', $id)->get('kelas_praktikum', 1, 0);

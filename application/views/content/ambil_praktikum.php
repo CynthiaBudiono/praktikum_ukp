@@ -167,150 +167,151 @@ function view(){
 
     },
     function(result) {
-        // alert(result);
-        var arr = JSON.parse(result);
+        alert(result);
+        $("#detail_kelas").html(result);
+        // var arr = JSON.parse(result);
         
-        var html = "";
+        // var html = "";
        
-        for(var i = 0; i < arr.length; i++){
-            var kal = "";
+        // for(var i = 0; i < arr.length; i++){
+        //     var kal = "";
 
-            alert("LENGTH mahasiswa/kelas : " + arr[i].length);
-            kal += '<div class="col-md-12 col-sm-12 ">';
-                kal += '<div class="x_panel">';
-                    kal += '<div class="x_title">';
-                        kal += '<h2>'+ arr[i][0]['tipe'] + ' ' + arr[i][0]['kode_mk'] + ' - ' + arr[i][0]['nama_subject'] + '</h2>';
-                        kal += '<ul class="nav navbar-right panel_toolbox">';
-                            // kal += '<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>';
-                            // kal += '<li><a class="close-link"><i class="fa fa-close"></i></a></li>';
-                            kal +='<li><a data-toggle="collapse" href="#datacollapse' + i + '" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-chevron-up"></i></a></li>';
-                        kal += '</ul>';
-                        kal += '<div class="clearfix"></div>';
-                    kal += '</div>';
-                    kal += '<div id="list_jadwal' + i + '"></div>';
-                    // kal += '<a class="btn btn-sm bg-green" href="<?php //echo base_url("ambil_praktikum/adds"); ?>">Tambah</a>
+        //     alert("LENGTH mahasiswa/kelas : " + arr[i].length);
+        //     kal += '<div class="col-md-12 col-sm-12 ">';
+        //         kal += '<div class="x_panel">';
+        //             kal += '<div class="x_title">';
+        //                 kal += '<h2>'+ arr[i][0]['tipe'] + ' ' + arr[i][0]['kode_mk'] + ' - ' + arr[i][0]['nama_subject'] + '</h2>';
+        //                 kal += '<ul class="nav navbar-right panel_toolbox">';
+        //                     // kal += '<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>';
+        //                     // kal += '<li><a class="close-link"><i class="fa fa-close"></i></a></li>';
+        //                     kal +='<li><a data-toggle="collapse" href="#datacollapse' + i + '" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-chevron-up"></i></a></li>';
+        //                 kal += '</ul>';
+        //                 kal += '<div class="clearfix"></div>';
+        //             kal += '</div>';
+        //             kal += '<div id="list_jadwal' + i + '"></div>';
+        //             // kal += '<a class="btn btn-sm bg-green" href="<?php //echo base_url("ambil_praktikum/adds"); ?>">Tambah</a>
 
-                    //JADWAL PRAKTIKUM = jp
-                    $.post(baseurl + "kelas_praktikum/getjadwalforambilprak", {
-                        kode_mk: arr[i][0]['kode_mk'],
-                        tipe: arr[i][0]['tipe'],
-                    },
-                    function(result_jadwal) {
-                        alert("JADWAAL" + result_jadwal);
+        //             //JADWAL PRAKTIKUM = jp
+        //             $.post(baseurl + "kelas_praktikum/getjadwalforambilprak", {
+        //                 kode_mk: arr[i][0]['kode_mk'],
+        //                 tipe: arr[i][0]['tipe'],
+        //             },
+        //             function(result_jadwal) {
+        //                 alert("JADWAAL" + result_jadwal);
 
-                        if(result_jadwal != null){
-                            var arr_jadwal = JSON.parse(result_jadwal);
-                            var kal_jadwal = '';
+        //                 if(result_jadwal != null){
+        //                     var arr_jadwal = JSON.parse(result_jadwal);
+        //                     var kal_jadwal = '';
 
-                            kal_jadwal += '<div class="x_content">';
+        //                     kal_jadwal += '<div class="x_content">';
 
-                                kal_jadwal += '<table class="table table-striped">';
-                                    kal_jadwal += '<thead>';
-                                    kal_jadwal += '<tr>';
-                                        kal_jadwal += '<th>kelas paralel</th>';
-                                        kal_jadwal += '<th>hari</th>';
-                                        kal_jadwal += '<th>jam</th>';
-                                        kal_jadwal += '<th>terisi</th>';
-                                    kal_jadwal += '</tr>';
-                                    kal_jadwal += '</thead>';
-                                    kal_jadwal += '<tbody>';
+        //                         kal_jadwal += '<table class="table table-striped">';
+        //                             kal_jadwal += '<thead>';
+        //                             kal_jadwal += '<tr>';
+        //                                 kal_jadwal += '<th>kelas paralel</th>';
+        //                                 kal_jadwal += '<th>hari</th>';
+        //                                 kal_jadwal += '<th>jam</th>';
+        //                                 kal_jadwal += '<th>terisi</th>';
+        //                             kal_jadwal += '</tr>';
+        //                             kal_jadwal += '</thead>';
+        //                             kal_jadwal += '<tbody>';
 
-                                    for(var jp = 0; jp < arr_jadwal.length; jp++){
-                                        kal_jadwal += '<tr>';
-                                        kal_jadwal += '<th>' + arr_jadwal[jp]['kelas_paralel']+ '</th>';
-                                        kal_jadwal += '<td>' + arr_jadwal[jp]['hari']+ '</td>';
-                                        kal_jadwal += '<td>' + arr_jadwal[jp]['jam']+ '</td>';
-                                        kal_jadwal += '<td>' + arr_jadwal[jp]['terisi']+ '</td>';
-                                        kal_jadwal += '</tr>';
-                                    }
-                                    kal_jadwal += '</tbody>';
-                                kal_jadwal += '</table>';
-                            kal_jadwal += '</div>';
+        //                             for(var jp = 0; jp < arr_jadwal.length; jp++){
+        //                                 kal_jadwal += '<tr>';
+        //                                 kal_jadwal += '<th>' + arr_jadwal[jp]['kelas_paralel']+ '</th>';
+        //                                 kal_jadwal += '<td>' + arr_jadwal[jp]['hari']+ '</td>';
+        //                                 kal_jadwal += '<td>' + arr_jadwal[jp]['jam']+ '</td>';
+        //                                 kal_jadwal += '<td>' + arr_jadwal[jp]['terisi']+ '</td>';
+        //                                 kal_jadwal += '</tr>';
+        //                             }
+        //                             kal_jadwal += '</tbody>';
+        //                         kal_jadwal += '</table>';
+        //                     kal_jadwal += '</div>';
                             
-                            $("#list_jadwal" + i).html(kal_jadwal);
-                        }
+        //                     $("#list_jadwal" + i).html(kal_jadwal);
+        //                 }
                         
-                    });
+        //             });
 
 
-                    // kal += '';
-                    kal += '<div class="x_content collapse show" id="datacollapse' + i + '">';
-                        kal += '<div class="row">';
-                            kal += '<div class="col-sm-12">';
-                                kal += '<div class="card-box table-responsive">';
-                                    kal += '<table id="datatable_ambil_praktikum' + i + '" class="table table-striped table-bordered" style="width:100%">';
-                                    kal += '<thead>';
-                                        kal += '<tr>';
-                                            kal += '<th>NRP</th>';
-                                            kal += '<th>IPK</th>';
-                                            kal += '<th>pil1</th>';
-                                            kal += '<th>pil2</th>';
-                                            kal += '<th>pil3</th>';
-                                            kal += '<th>pil4</th>';
-                                            kal += '<th>terpilih</th>';
-                                        kal += '</tr>';
-                                    kal += '</thead>';
-                                    kal += '<tbody id="data_ambil_praktikum' + i + '">';
+        //             // kal += '';
+        //             kal += '<div class="x_content collapse show" id="datacollapse' + i + '">';
+        //                 kal += '<div class="row">';
+        //                     kal += '<div class="col-sm-12">';
+        //                         kal += '<div class="card-box table-responsive">';
+        //                             kal += '<table id="datatable_ambil_praktikum' + i + '" class="table table-striped table-bordered" style="width:100%">';
+        //                             kal += '<thead>';
+        //                                 kal += '<tr>';
+        //                                     kal += '<th>NRP</th>';
+        //                                     kal += '<th>IPK</th>';
+        //                                     kal += '<th>pil1</th>';
+        //                                     kal += '<th>pil2</th>';
+        //                                     kal += '<th>pil3</th>';
+        //                                     kal += '<th>pil4</th>';
+        //                                     kal += '<th>terpilih</th>';
+        //                                 kal += '</tr>';
+        //                             kal += '</thead>';
+        //                             kal += '<tbody id="data_ambil_praktikum' + i + '">';
 
-                                        for(var j = 0; j < arr[i].length; j++){
+        //                                 for(var j = 0; j < arr[i].length; j++){
 
-                                            kal += '<tr>';
-                                                kal += '<td>'+ arr[i][j]['NRP'] +'</td>';
-                                                kal += '<td>'+ arr[i][j]['ipk'] +'</td>';
-                                                kal += '<td>'+ arr[i][j]['pil1'] +'</td>';
-                                                kal += '<td>'+ arr[i][j]['pil2'] +'</td>';
-                                                kal += '<td>'+ arr[i][j]['pil3'] +'</td>';
-                                                kal += '<td>'+ arr[i][j]['pil4'] +'</td>';
-                                                kal += '<td>';
-                                                    kal += '<div>' + arr[i][j]['terpilih'];
-                                                    kal +='<label style="float:right;">';
-                                                        kal +='<select class="select2_single" name ="ddtahun_ajaran" id="ddtahun_ajaran" tabindex="-1">';
-                                                            kal += '<option value=""></option></select>';
-                                                        kal += '</label>';
-                                                    kal += '</div>';
-                                                kal += '</td>';
-                                            kal += '</tr>';
-                                        }
+        //                                     kal += '<tr>';
+        //                                         kal += '<td>'+ arr[i][j]['NRP'] +'</td>';
+        //                                         kal += '<td>'+ arr[i][j]['ipk'] +'</td>';
+        //                                         kal += '<td>'+ arr[i][j]['pil1'] +'</td>';
+        //                                         kal += '<td>'+ arr[i][j]['pil2'] +'</td>';
+        //                                         kal += '<td>'+ arr[i][j]['pil3'] +'</td>';
+        //                                         kal += '<td>'+ arr[i][j]['pil4'] +'</td>';
+        //                                         kal += '<td>';
+        //                                             kal += '<div>' + arr[i][j]['terpilih'];
+        //                                             kal +='<label style="float:right;">';
+        //                                                 kal +='<select class="select2_single" name ="ddtahun_ajaran" id="ddtahun_ajaran" tabindex="-1">';
+        //                                                     kal += '<option value=""></option></select>';
+        //                                                 kal += '</label>';
+        //                                             kal += '</div>';
+        //                                         kal += '</td>';
+        //                                     kal += '</tr>';
+        //                                 }
                                         
-                                    kal += '</tbody>';
-                                    kal += '</table>';
-                                kal += '</div>';
-                            kal += '</div>';
-                        kal += '</div>';
-                    kal += '</div>';
-                kal += '</div>';
-            kal += '</div>';
+        //                             kal += '</tbody>';
+        //                             kal += '</table>';
+        //                         kal += '</div>';
+        //                     kal += '</div>';
+        //                 kal += '</div>';
+        //             kal += '</div>';
+        //         kal += '</div>';
+        //     kal += '</div>';
 
-            $("#data_ambil_praktikum"+ i).html(kal);
-            $("#datatable_ambil_praktikum" + i).DataTable({
-                dom: "Blfrtip",
-                buttons: [
-                    {
-                        extend: "copy",
-                        className: "btn-sm"
-                    },
-                    {
-                        extend: "csv",
-                        className: "btn-sm"
-                    },
-                    {
-                        extend: "excel",
-                        className: "btn-sm"
-                    },
-                    {
-                        extend: "pdfHtml5",
-                        className: "btn-sm"
-                    },
-                    {
-                        extend: "print",
-                        className: "btn-sm"
-                    },
-                ],
-                responsive: true
-            });
-            html += kal;
-        }
-        $("#detail_kelas").html(html);
+        //     $("#data_ambil_praktikum"+ i).html(kal);
+        //     $("#datatable_ambil_praktikum" + i).DataTable({
+        //         dom: "Blfrtip",
+        //         buttons: [
+        //             {
+        //                 extend: "copy",
+        //                 className: "btn-sm"
+        //             },
+        //             {
+        //                 extend: "csv",
+        //                 className: "btn-sm"
+        //             },
+        //             {
+        //                 extend: "excel",
+        //                 className: "btn-sm"
+        //             },
+        //             {
+        //                 extend: "pdfHtml5",
+        //                 className: "btn-sm"
+        //             },
+        //             {
+        //                 extend: "print",
+        //                 className: "btn-sm"
+        //             },
+        //         ],
+        //         responsive: true
+        //     });
+        //     html += kal;
+        // }
+        // $("#detail_kelas").html(html);
     });
 }
 

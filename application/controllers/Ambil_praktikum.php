@@ -41,19 +41,47 @@ class ambil_praktikum extends CI_Controller {
     public function getclassgroup(){
         $this->load->model('ambil_praktikum_model');
         $this->load->model('informasi_umum_model');
+        $this->load->model('kelas_praktikum_model');
 
-        $ambil_praktikum = array();
-        $getkelas = $this->ambil_praktikum_model->getclassgroup($this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+        // $ambil_praktikum = array();
+        // $getkelas = $this->ambil_praktikum_model->getclassgroup($this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
         
-        if ($getkelas > 0){
-            for($i = 0; $i < count($getkelas); $i++){
-                $getdetail = $this->ambil_praktikum_model->getdetailkelas($getkelas[$i]['kode_mk'], $getkelas[$i]['tipe'], $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']); 
+        // if ($getkelas > 0){
+        //     for($i = 0; $i < count($getkelas); $i++){
+        //         $getdetail = $this->ambil_praktikum_model->getdetailkelas($getkelas[$i]['kode_mk'], $getkelas[$i]['tipe'], $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']); 
 
-                array_push($ambil_praktikum, $getdetail);
+        //         array_push($ambil_praktikum, $getdetail);
+        //     }
+        // }
+
+        // echo json_encode($ambil_praktikum);
+        $getsubject = $this->kelas_praktikum_model->getactive($this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+        // $ambil_praktikum = $getsubject;
+        // $ambil_praktikum = array();
+        for($i = 0; $i < count($getsubject); $i++){
+            // var_dump(count($getsubject)); 
+            $getsubject[$i]["data_kelas_praktikum"] = array();
+            $getsubject[$i]["data_mahasiswa_praktikum"] = array();
+            $getsubject[$i]["data_kelas_responsi"] = array();
+            $getsubject[$i]["data_mahasiswa_responsi"] = array();
+
+            if($getsubject[$i]['status_praktikum'] == 1){
+                
+                // var_dump("masukkkkkkkk prak");
+                $getsubject[$i]['data_kelas_praktikum'] = $this->kelas_praktikum_model->getjadwalforambilprak($getsubject[$i]['kode_mk'], "praktikum", $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+
+                $getsubject[$i]['data_mahasiswa_praktikum'] = $this->ambil_praktikum_model->getdetailkelas($getsubject[$i]['kode_mk'], "praktikum", $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
             }
+            if($getsubject[$i]['status_responsi'] == 1){
+                // var_dump("masukkkkkkkk resp");
+                $getsubject[$i]['data_kelas_responsi'] = $this->kelas_praktikum_model->getjadwalforambilprak($getsubject[$i]['kode_mk'], "responsi", $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+
+                $getsubject[$i]['data_mahasiswa_responsi'] = $this->ambil_praktikum_model->getdetailkelas($getsubject[$i]['kode_mk'], "responsi", $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+            }
+            
         }
-        
-        echo json_encode($ambil_praktikum);
+      
+        echo json_encode($getsubject);
     }
     
 

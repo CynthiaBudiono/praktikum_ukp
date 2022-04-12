@@ -68,6 +68,7 @@ class Informasi_umum extends CI_Controller {
 
             $old_data = $this->informasi_umum_model->getallopen();
 
+
             // var_dump($_FILES['logo_web']['name']);
             if((!empty($_FILES)) && !empty($_FILES['logo_web']['name'])) {
 				$this->load->helper(array('form', 'url'));
@@ -93,6 +94,8 @@ class Informasi_umum extends CI_Controller {
                 else{
 	                $name_foto_logo = $this->upload->data('file_name');
                     // var_dump("bah masuk elseif");
+
+                    delete_files('./assets/images/'.$old_data[0]['nilai'], true);
 	            }
                 // else{
 	            //     $name_foto_logo = "";
