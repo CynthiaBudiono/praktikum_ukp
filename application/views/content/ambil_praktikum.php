@@ -168,10 +168,10 @@ function view(){
     },
     function(result) {
         alert(result);
-        $("#detail_kelas").html(result);
-        // var arr = JSON.parse(result);
+        // $("#detail_kelas").html(result);
+        var arr = JSON.parse(result);
         
-        // var html = "";
+        var html = "";
        
         // for(var i = 0; i < arr.length; i++){
         //     var kal = "";

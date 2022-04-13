@@ -23,6 +23,13 @@
                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
               </div>
               <div class="col-md-12 col-sm-12  form-group has-feedback">
+                <select class="form-control" name="selecttipeuser" id="selecttipeuser">
+                    <option value="admin">---</option>
+                    <option value="john">@john.petra.ac.id</option>
+                    <option value="peter">@peter.petra.ac.id</option>
+                </select>
+              </div>
+              <div class="col-md-12 col-sm-12  form-group has-feedback">
                 <input type="password" class="form-control has-feedback-left" name="password" id="password" placeholder="Password" required="required">
                 <span class="fa fa-lock form-control-feedback left" aria-hidden="true"></span>
               </div>

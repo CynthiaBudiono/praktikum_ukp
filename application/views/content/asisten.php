@@ -9,6 +9,92 @@
 
         <div class="clearfix"></div>
 
+        <div class="col-md-12 col-sm-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2 id="action_title">Add</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-down" id='collapse-add'></i></a>
+                        </li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content" id="content-add" style="display: none;">
+                    <br />
+                    <form class="form-horizontal form-label-left">
+                        
+                        <input type="hidden" class="form-control" name="mode" id="mode" value="add">
+
+                        <input type="hidden" class="form-control" name="id" id="id" required value="<?= (isset($detil[0]['id'])) ? $detil[0]['id'] : '' ?>">
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 col-sm-3 ">NRP</label>
+                            <div class="col-md-9 col-sm-9 ">
+                                <select class="form-control" id="selecttipeasisten" onchange="getdetail()">
+                                    <option value="">--Choose option--</option>
+                                    <option value="asisten_dosen">Asisten Dosen</option>
+                                    <option value="asisten_tetap">Asisten Tetap</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="divdetail">
+
+                            nama
+                            id_pendaftaran asisten
+                            data lengkap
+                            daftar tanggal brp
+
+                            <!-- <div class="form-group row" id="divketerangan">
+                                <label class="control-label col-md-3 col-sm-3 ">Keterangan</label>
+                                <div class="col-md-9 col-sm-9 ">
+                                    <div class="">
+                                    <textarea id="keterangan" name="keterangan" rows="15">
+                                        <?= isset($detil[0]['keterangan']) ? $detil[0]['keterangan'] : '' ?>
+                                    </textarea>
+                                    <script>
+                                        tinymce.init({
+                                        selector: 'textarea',
+                                        plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+                                        toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
+                                        toolbar_mode: 'floating',
+                                        tinycomments_mode: 'embedded',
+                                        tinycomments_author: 'Author name',
+                                        });
+                                    </script>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            
+                        </div>
+
+                        <div class="form-group row" id="divstatus">
+                            <label class="control-label col-md-3 col-sm-3 ">Status</label>
+                            <div class="col-md-9 col-sm-9 ">
+                                <div class="">
+                                    <label>
+                                        <input type="checkbox" name="status" id="status" class="toggle-switch" checked/>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-9 col-sm-9">
+                                <!-- <button type="button" class="btn btn-danger">Cancel</button> -->
+                                <button type="reset" class="btn btn-warning">Reset</button>
+                                <button type="button" class="btn btn-success" id="btnsubmit" onclick="addupdate()"><a href="#data_table" style="color: white;">Submit</a></button>
+                            </div>
+                        </div>
+                    </form>
+                </div> <!-- /x_content -->
+            </div> <!-- /x_panel -->
+        </div> <!-- /col-md -->
+
         <!-- <div class="col-md-12 col-sm-12">
             <div class="x_panel">
                 <div class="x_title">
@@ -84,7 +170,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div>
-                    <a class="btn btn-sm bg-green" href="<?php echo base_url("asisten_dosen/adds"); ?>">Tambah</a>
+                    <a class="btn btn-sm bg-green" href="<?php echo base_url("asisten/adds"); ?>">Tambah</a>
                 </div>
                 <div class="x_content">
                     <div class="row">
@@ -104,13 +190,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php if(isset($asisten_dosen)) : ?>
-                                    <?php if(is_array($asisten_dosen)) : ?>
-                                        <?php foreach($asisten_dosen as $key) : ?>
+                                <?php if(isset($asisten)) : ?>
+                                    <?php if(is_array($asisten)) : ?>
+                                        <?php foreach($asisten as $key) : ?>
                                         <tr>
                                             <td>
                                                 <!-- <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a> -->
-                                                <a href="<?php echo base_url("asisten_dosen/updates/"); echo base64_encode($key['id']);?>" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
+                                                <a href="<?php echo base_url("asisten/updates/"); echo base64_encode($key['id']);?>" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
                                                 <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a>
                                             </td>
                                             <td><?= (isset($key['id'])) ? $key['id'] : '' ?></td>
@@ -137,3 +223,30 @@
         </div>
     </div>
 </div>
+
+<script>
+    var baseurl = "<?php echo base_url(); ?>";
+    // view();
+    $(document).ready(function() {	
+        // alert("masukkkkkkkk ready");	
+        view()
+    });
+
+
+    function getdetail(){
+        alert("masuk");
+
+        alert($("#selecttipeasisten").val());
+
+        // if(asisten_dosen) -> getvalue()
+
+        // if asisten tetap -> get value angkatan
+    }
+
+    function view(){
+
+    }
+
+</script>
+
+

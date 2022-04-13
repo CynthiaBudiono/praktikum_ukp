@@ -258,7 +258,7 @@ html{
                 <li><a><i class="fa fa-flag"></i> Penerimaan <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                     <li><a href="<?= base_url('ambil_praktikum') ?>">Ambil Praktikum</a></li>
-                    <li><a href="<?= base_url('asisten_dosen') ?>">Asdos</a></li>
+                    <li><a href="<?= base_url('asisten') ?>">Asisten</a></li>
                     <li><a href="<?= base_url('mahasiswa_nilai') ?>">Penilaian</a></li>
                   </ul>
                 </li>

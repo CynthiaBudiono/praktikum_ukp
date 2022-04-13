@@ -9,6 +9,8 @@ class Auth extends CI_Controller
             redirect('dashboard');
         }
 
+        $this->form_validation->set_rules('selecttipeuser', 'Tipe', 'min_length[5]|required');
+
         $this->form_validation->set_rules('username', 'Username', 'min_length[4]|required');
 
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[4]');
@@ -24,47 +26,74 @@ class Auth extends CI_Controller
                 $this->load->model('user_group_model');
                 $this->load->model('mahasiswa_model');
                 $this->load->model('dosen_model');
-                $this->load->model('asisten_dosen_model');
+                $this->load->model('asisten_model');
 
-                $user = $this->user_model->getbyusername($this->input->post('username'));
+                if($this->input->post('selecttipeuser') != null){
+                    // var_dump($this->input->post('selecttipeuser')); exit;
+                    if($this->input->post('selecttipeuser') == "admin"){
+                        $user = $this->user_model->getbyusername($this->input->post('username'));
 
-                if($user){
-                    $getusergroup = $this->user_group_model->get($user[0]['id_user_group']);
-                    $data_login = array(
-                        'logged_in' => true,
-                        'from_table' => 'user',
-                        'user_type' => $getusergroup[0]['nama'],
-                        'user_id' => $user[0]['id'],
-                        'logged_name' => $user[0]['username']
-                    );
+                        if($user){
+                            $getusergroup = $this->user_group_model->get($user[0]['id_user_group']);
+                            $data_login = array(
+                                'logged_in' => true,
+                                'from_table' => 'user',
+                                'user_type' => $getusergroup[0]['nama'],
+                                'user_id' => $user[0]['id'],
+                                'logged_name' => $user[0]['username']
+                            );
 
-                    $data_last_login = array(
-                        'id' => $user[0]['id'],
-                        'last_login' => date('Y-m-d H:i:s')
-                    );
-                    $this->user_model->update($data_last_login);
+                            $data_last_login = array(
+                                'id' => $user[0]['id'],
+                                'last_login' => date('Y-m-d H:i:s')
+                            );
+                            $this->user_model->update($data_last_login);
 
-                }
-                else{
-                    $user = $this->mahasiswa_model->get($this->input->post('username'));
-                    
-                    if($user){
-                        $data_login = array(
-                            'logged_in' => true,
-                            'from_table' => 'mahasiswa',
-                            'user_type' => 'mahasiswa',
-                            'user_id' => $user[0]['NRP'],
-                            'logged_name' => $user[0]['nama']
-                        );
-
-                        $data_last_login = array(
-                            'NRP' => $user[0]['NRP'],
-                            'last_login' => date('Y-m-d H:i:s')
-                        );
-                        $this->mahasiswa_model->update($data_last_login);
-
+                        }
                     }
-                    else{
+                    else if($this->input->post('selecttipeuser') == "john"){
+
+                        $user = $this->asisten_model->getbyNRP($this->input->post('username'));
+
+                        if($user){
+                            $get_mahasiswa = $this->mahasiswa_model->get($user[0]['NRP']);
+                            $data_login = array(
+                                'logged_in' => true,
+                                'from_table' => 'asisten',
+                                'user_type' => 'asisten_'.$get_mahasiswa[0]['tipe'],
+                                'user_id' => $user[0]['id'],
+                                'logged_name' => $get_mahasiswa[0]['nama']
+                            );
+
+                            $data_last_login = array(
+                                'id' => $user[0]['id'],
+                                'last_login' => date('Y-m-d H:i:s')
+                            );
+                            $this->asisten_model->update($data_last_login);
+
+                        }
+                        else{
+                            $user = $this->mahasiswa_model->get($this->input->post('username'));
+                        
+                            if($user){
+                                $data_login = array(
+                                    'logged_in' => true,
+                                    'from_table' => 'mahasiswa',
+                                    'user_type' => 'mahasiswa',
+                                    'user_id' => $user[0]['NRP'],
+                                    'logged_name' => $user[0]['nama']
+                                );
+
+                                $data_last_login = array(
+                                    'NRP' => $user[0]['NRP'],
+                                    'last_login' => date('Y-m-d H:i:s')
+                                );
+                                $this->mahasiswa_model->update($data_last_login);
+
+                            }
+                        }
+                    }
+                    else if($this->input->post('selecttipeuser') == "peter"){
                         $user = $this->dosen_model->get($this->input->post('username'));
 
                         if($user){
@@ -82,30 +111,11 @@ class Auth extends CI_Controller
                             );
                             $this->dosen_model->update($data_last_login);
                         }
-                        else{
-                            $user = $this->asisten_dosen_model->getbyNIP($this->input->post('username'));
-
-                            if($user){
-                                $get_mahasiswa = $this->mahasiswa_model->get($user[0]['NRP']);
-                                $data_login = array(
-                                    'logged_in' => true,
-                                    'from_table' => 'asisten_dosen',
-                                    'user_type' => 'asisten_dosen',
-                                    'user_id' => $user[0]['id'],
-                                    'logged_name' => $get_mahasiswa[0]['nama']
-                                );
-
-                                $data_last_login = array(
-                                    'id' => $user[0]['id'],
-                                    'last_login' => date('Y-m-d H:i:s')
-                                );
-                                $this->asisten_dosen_model->update($data_last_login);
-
-                            }
-                        }
                     }
-                }
 
+                }
+               
+               
                 // var_dump("USERRRR : ", $user);exit;
 
                 // $pass = $this->input->post('password');
