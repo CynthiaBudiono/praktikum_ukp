@@ -11,7 +11,7 @@
 </div> <!-- /container body -->
 
     <!-- jQuery -->
-    <script src="<?= base_url() ?>assets/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- <script src="<?= base_url() ?>assets/vendors/jquery/dist/jquery.min.js"></script> -->
     <!-- Bootstrap -->
     <script src="<?= base_url() ?>assets/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- FastClick -->
@@ -57,7 +57,7 @@
     <!-- Switchery -->
     <script src="<?= base_url() ?>assets/vendors/switchery/dist/switchery.min.js"></script>
     <!-- Select2 -->
-    <script src="<?= base_url() ?>assets/vendors/select2/dist/js/select2.full.min.js"></script>
+    <!-- <script src="<?= base_url() ?>assets/vendors/select2/dist/js/select2.full.min.js"></script> -->
     <!-- Parsley
     <script src="<?= base_url() ?>assets/vendors/parsleyjs/dist/parsley.min.js"></script> -->
     <!-- Autosize -->
@@ -114,7 +114,7 @@
     <script src="<?= base_url() ?>assets/vendors/fullcalendar/dist/fullcalendar.min.js"></script>
 
     <!-- Select2 -->
-	  <link href="<?= base_url() ?>assets/vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+	  <!-- <link href="<?= base_url() ?>assets/vendors/select2/dist/css/select2.min.css" rel="stylesheet"> -->
 
     <!-- Semantic UI DropDown -->
     <script src="<?= base_url() ?>assets/vendors/semantic/dist/semantic.min.js"></script>

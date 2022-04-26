@@ -1,4 +1,8 @@
 <style>
+
+.select2-selection__arrow b{
+    display:none !important;
+}
 .pop-over-style{
     background-color: #fef7ea;
     border: 1px solid #ed9500;
@@ -23,7 +27,7 @@
         <input type="hidden" id="mode" name="mode" value="<?= isset($mode) ? $mode : "-"?>">
     
 
-<div class="container">
+<!-- <div class="container">
 	<div class="row" style="margin-top: 30px;">
 		<div class="col-md-4 col-md-offset-3">
 			<h3>Import Data</h3>
@@ -72,7 +76,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 
         <form action="<?php if(isset($mode)) { if($mode == 'update'){ echo (base_url('kelas_praktikum/update'));}} else { echo (base_url('kelas_praktikum/add')); } ?>" method="post" class="form-horizontal form-label-left">
         
@@ -83,38 +87,9 @@
                 <button type="reset" class="btn btn-warning">Reset</button>
                 <button type="submit" class="btn btn-success">Submit</button>
             </div>
-
-            <div class="ui floating search dropdown button">
-                <span class="text">Search Dropdown</span>
-                <div class="menu">
-                    <div class="item" value="AAAAAAAA">Arabic</div>
-                    <div class="item" value="BBBBBBBB">Chinese</div>
-                    <div class="item">Danish</div>
-                    <div class="item">Dutch</div>
-                    <div class="item">English</div>
-                    <div class="item">French</div>
-                    <div class="item">German</div>
-                    <div class="item">Greek</div>
-                    <div class="item">Hungarian</div>
-                    <div class="item">Italian</div>
-                    <div class="item">Japanese</div>
-                    <div class="item">Korean</div>
-                    <div class="item">Lithuanian</div>
-                    <div class="item">Persian</div>
-                    <div class="item">Polish</div>
-                    <div class="item">Portuguese</div>
-                    <div class="item">Russian</div>
-                    <div class="item">Spanish</div>
-                    <div class="item">Swedish</div>
-                    <div class="item">Turkish</div>
-                    <div class="item">Vietnamese</div>
-                </div>
-            </div>
  
             <div id="container-form">
-            <input type="hidden" id="total_row" name="total_row">
-
-            
+                <input type="hidden" id="total_row" name="total_row">
             </div> <!-- /conteiner-form -->
         </form>
     </div>
@@ -125,8 +100,8 @@
 var baseurl = "<?php echo base_url(); ?>";
 var row = 0;
 $(document).ready(function() {
-    $('.ui.dropdown').dropdown();
-    alert($('.ui.dropdown').val());
+    // $('#helper').select2();
+    
     // alert($('#mode').val());
     if($('#mode').val() == 'add'){
         addrow();
@@ -211,7 +186,7 @@ $(document).ready(function() {
         }
     }
 
-    function getjadwalpengajar($row, $idinput){
+    function getjadwalpengajar(row, idinput){
         // alert(row + " " + $idinput);
         alert('#'+ idinput + row);
         // alert($('#id_nip1'+ row).val());
@@ -274,8 +249,12 @@ $(document).ready(function() {
                     kal +='<div class="form-group row">';
                         kal +='<label class="col-form-label col-md-3 col-sm-3 ">Matakuliah</label>';
                         kal +='<div class="col-md-9 col-sm-9 form-group has-feedback">';
-                            kal +='<input type="text" id="subject' + row + '" name="subject' + row + '" placeholder="MatKul" class="subject_input form-control" required="required">';
-                            kal +='<input type="hidden" id="id_subject' + row + '" name="id_subject' + row + '" class="form-control">';
+                            kal +='<select class="subject_input form-control select2" name="subject' + row + '" id="subject' + row + '" style="width:100%;">';
+                                kal +='<option value="" disabled selected>Search subject</option>';
+                            kal +='</select>';
+
+                            // kal +='<input type="text" id="subject' + row + '" name="subject' + row + '" placeholder="MatKul" class="subject_input form-control" required="required">';
+                            // kal +='<input type="hidden" id="id_subject' + row + '" name="id_subject' + row + '" class="form-control">';
                             kal +='<span class="fa fa-book form-control-feedback right" aria-hidden="true"></span>';
                         kal +='</div>';
                     kal +='</div>';
@@ -291,8 +270,12 @@ $(document).ready(function() {
                     kal +='<div class="form-group row">';
                         kal +='<label class="col-form-label col-md-3 col-sm-3 ">Laboratorium</label>';
                         kal +='<div class="col-md-9 col-sm-9 form-group has-feedback">';
-                            kal +='<input type="text" name="laboratorium' + row + '" id="laboratorium' + row + '" placeholder="lab" class="laboratorium_input form-control" required="required"/>';
-                            kal +='<input type="hidden" name="id_laboratorium' + row + '" id="id_laboratorium' + row + '" class="form-control"/>';
+                            kal +='<select class="form-control select2" name="laboratorium' + row + '" id="laboratorium' + row + '" style="width:100%;">';
+                                kal +='<option value="" disabled selected>Search lab</option>';
+                            kal +='</select>';
+
+                            // kal +='<input type="text" name="laboratorium' + row + '" id="laboratorium' + row + '" placeholder="lab" class="laboratorium_input form-control" required="required"/>';
+                            // kal +='<input type="hidden" name="id_laboratorium' + row + '" id="id_laboratorium' + row + '" class="form-control"/>';
                             kal +='<span class="fa fa-map-marker form-control-feedback right" aria-hidden="true"></span>';
                         kal +='</div>';
                     kal +='</div>';
@@ -346,18 +329,29 @@ $(document).ready(function() {
                         kal +='<label class="col-form-label col-md-3 col-sm-3 ">Pengajar</label>';
                         kal +='<div class="col-md-9 col-sm-9 form-group" style="padding: 0px;">';
                             kal +='<div class="col-md-4 col-sm-6">';
-                                kal +='<input type="text" name="nip1' + row + '" id="nip1' + row + '" placeholder="pengajar1" required="required" class="form-control" />';
-                                kal +='<input type="hidden" name="id_nip1' + row + '" id="id_nip1' + row + '" class="form-control" />';
+                                kal +='<select class="form-control select2" onchange=getjadwalpengajar(' + row + ',"nip1") name="nip1' + row + '" id="nip1' + row + '" required="required" style="width:100%;">';
+                                    kal +='<option value="" disabled selected>Search pengajar 1</option>';
+                                kal +='</select>';
+                                
+                                // kal +='<input type="text" name="nip1' + row + '" id="nip1' + row + '" placeholder="pengajar1" required="required" class="form-control" />';
+                                // kal +='<input type="hidden" name="id_nip1' + row + '" id="id_nip1' + row + '" class="form-control" />';
                             kal +='</div>';
                             kal +='<div class="col-md-4 col-sm-6">';
-                                kal +='<input type="text" name="nip2' + row + '" id="nip2' + row + '" placeholder="pengajar2" class="form-control" />'; 
-                                kal +='<input type="hidden" name="id_nip2' + row + '" id="id_nip2' + row + '" class="form-control" />';                                   
+                                kal +='<select class="form-control select2" onchange=getjadwalpengajar(' + row + ',"nip2") name="nip2' + row + '" id="nip2' + row + '" style="width:100%;">';
+                                    kal +='<option value="" disabled selected>Search pengajar 2</option>';
+                                kal +='</select>';
+
+                                // kal +='<input type="text" name="nip2' + row + '" id="nip2' + row + '" placeholder="pengajar2" class="form-control" />'; 
+                                // kal +='<input type="hidden" name="id_nip2' + row + '" id="id_nip2' + row + '" class="form-control" />';                                   
                             kal +='</div>';
                             kal +='<div class="col-md-4 col-sm-6">';
-                                kal +='<input type="text" name="nip3' + row + '" id="nip3' + row + '" placeholder="pengajar3" class="form-control has-feedback-right" />';
-                                kal +='<input type="hidden" name="id_nip3' + row + '" id="id_nip3' + row + '" class="form-control" />';
+                                kal +='<select class="form-control select2" onchange=getjadwalpengajar(' + row + ',"nip3") name="nip3' + row + '" id="nip3' + row + '" style="width:100%;">';
+                                    kal +='<option value="" disabled selected>Search pengajar 3</option>';
+                                kal +='</select>';
+
+                                // kal +='<input type="text" name="nip3' + row + '" id="nip3' + row + '" placeholder="pengajar3" class="form-control has-feedback-right" />';
+                                // kal +='<input type="hidden" name="id_nip3' + row + '" id="id_nip3' + row + '" class="form-control" />';
                             kal +='</div>';
-                            kal +='<span class="fa fa-book form-control-feedback right" aria-hidden="true"></span>';
                         kal +='</div>';
                     kal +='</div>';
                 kal +='</div>';
@@ -367,73 +361,87 @@ $(document).ready(function() {
         $('#container-form').append(kal);
         
         $('#total_row').val(row);
+
+        $('#subject' + row).select2();
+
         // Data yang ditamilkan pada autocomplete.
         $.post(baseurl + "subject/gethavepraktikum", {},
         function(result) {
             var arr = JSON.parse(result);
-            var subject = []
+            // var subject = []
             for(var i=0; i<arr.length; i++){
-                subject.push({value: arr[i]['nama'], data: arr[i]['kode_mk']})
+                $('#subject' + row).append('<option value="'+ arr[i]['kode_mk'] +'">'+ arr[i]['nama'] +'</option>');
+                // subject.push({value: arr[i]['nama'], data: arr[i]['kode_mk']})
             }
             // Selector input yang akan menampilkan autocomplete.
-            $( '#subject' + row ).autocomplete({
-                lookup: subject,
-                onSelect: function(suggestion){
-                    // alert(suggestion.data);
-                    // return suggestion.data;
-                    $('#id_subject' + row).val(suggestion.data);
-                }
-            });
+            // $( '#subject' + row ).autocomplete({
+            //     lookup: subject,
+            //     onSelect: function(suggestion){
+            //         // alert(suggestion.data);
+            //         // return suggestion.data;
+            //         $('#id_subject' + row).val(suggestion.data);
+            //     }
+            // });
         });
+
+        $('#laboratorium' + row).select2();
 
         $.post(baseurl + "laboratorium/getactivelab", {},
         function(result) {
             var arr = JSON.parse(result);
             var lab = []
             for(var i=0; i<arr.length; i++){
-                lab.push({value: arr[i]['nama'], data: arr[i]['kode_lab']})
+                $('#laboratorium' + row).append('<option value="'+ arr[i]['kode_lab'] +'">'+ arr[i]['nama'] +'</option>');
+                // lab.push({value: arr[i]['nama'], data: arr[i]['kode_lab']})
             }
             // Selector input yang akan menampilkan autocomplete.
-            $( '#laboratorium' + row ).autocomplete({
-                lookup: lab,
-                onSelect: function(suggestion){
-                    // alert(suggestion.data);
-                    // return suggestion.data;
-                    $('#id_laboratorium' + row).val(suggestion.data);
-                }
-            });
+            // $( '#laboratorium' + row ).autocomplete({
+            //     lookup: lab,
+            //     onSelect: function(suggestion){
+            //         // alert(suggestion.data);
+            //         // return suggestion.data;
+            //         $('#id_laboratorium' + row).val(suggestion.data);
+            //     }
+            // });
         });
+
+        $('#nip1' + row).select2();
+        $('#nip2' + row).select2();
+        $('#nip3' + row).select2();
 
         $.post(baseurl + "dosen/getactivepengajar", {}, //DOSEN & Asisten Dosen
         function(result) {
             var arr = JSON.parse(result);
-            var pengajar = [];
+            // var pengajar = [];
             for(var i=0; i<arr.length; i++){
-                pengajar.push({value: arr[i]['nama'], data: arr[i]['NIP']})
+                $('#nip1' + row).append('<option value="'+ arr[i]['NIP'] +'">'+ arr[i]['nama'] +'</option>');
+                $('#nip2' + row).append('<option value="'+ arr[i]['NIP'] +'">'+ arr[i]['nama'] +'</option>');
+                $('#nip3' + row).append('<option value="'+ arr[i]['NIP'] +'">'+ arr[i]['nama'] +'</option>');
+                //pengajar.push({value: arr[i]['nama'], data: arr[i]['NIP']})
             }
             // Selector input yang akan menampilkan autocomplete.
-            $( '#nip1' + row ).autocomplete({
-                lookup: pengajar,
-                onSelect: function(suggestion){
-                    // alert(suggestion.data);
-                    // return suggestion.data;
-                    $('#id_nip1' + row).val(suggestion.data);
-                }
-            });
-            $( '#nip2' + row ).autocomplete({
-                lookup: pengajar,
-                onSelect: function(suggestion){
-                    // return suggestion.data;
-                    $('#id_nip2' + row).val(suggestion.data);
-                }
-            });
-            $( '#nip3' + row ).autocomplete({
-                lookup: pengajar,
-                onSelect: function(suggestion){
-                    // return suggestion.data;
-                    $('#id_nip3' + row).val(suggestion.data);
-                }
-            });
+            // $( '#nip1' + row ).autocomplete({
+            //     lookup: pengajar,
+            //     onSelect: function(suggestion){
+            //         // alert(suggestion.data);
+            //         // return suggestion.data;
+            //         $('#id_nip1' + row).val(suggestion.data);
+            //     }
+            // });
+            // $( '#nip2' + row ).autocomplete({
+            //     lookup: pengajar,
+            //     onSelect: function(suggestion){
+            //         // return suggestion.data;
+            //         $('#id_nip2' + row).val(suggestion.data);
+            //     }
+            // });
+            // $( '#nip3' + row ).autocomplete({
+            //     lookup: pengajar,
+            //     onSelect: function(suggestion){
+            //         // return suggestion.data;
+            //         $('#id_nip3' + row).val(suggestion.data);
+            //     }
+            // });
         });
 
         $('#timepicker'+ row).datetimepicker({
@@ -441,10 +449,16 @@ $(document).ready(function() {
         });
 
         $('.subject_input').on("change paste keyup select", function() {
-            var id= this.id;
-            var row= id.substr(7,10);
-            $('#subject-summary'+ row).html($('#subject'+ row).val());
+            // var id= this.id;
+            // var row= id.substr(7,10);
+            $('#subject-summary'+ row).html($('#subject'+ row + ' option:selected').text());
         });
+
+        // $('.subject_input').on("change paste keyup select", function() {
+        //     var id= this.id;
+        //     var row= id.substr(7,10);
+        //     $('#subject-summary'+ row).html($('#subject'+ row).val());
+        // });
 
         $('.kelas_paralel_input').on("change paste keyup select", function() {
             var id= this.id;
@@ -475,9 +489,9 @@ $(document).ready(function() {
         
         
 
-        $('#nip1'+ row).on("change paste keyup select", function() {
-            getjadwalpengajar(row, 'nip1');
-        });
+        // $('#nip1'+ row).on("change paste keyup select", function() {
+        //     getjadwalpengajar(row, 'nip1');
+        // });
 
     }
 

@@ -31,9 +31,34 @@ class Mahasiswa_matakuliah_model extends CI_Model {
 
 	}
 
+	public function getsubjectbyNRP($nrp, $semester, $tahun_ajaran){
+		$this->db->distinct();
+		$this->db->select('subject.*');
+		$this->db->join('jadwal_perkuliahan', 'jadwal_perkuliahan.id = mahasiswa_matakuliah.id_jadwal_perkuliahan');
+		$this->db->join('subject', 'subject.kode_mk = jadwal_perkuliahan.kode_mk');
+		$this->db->where('mahasiswa_matakuliah.NRP', $nrp);
+
+		if($semester != null){
+			$this->db->where('mahasiswa_matakuliah.semester', $semester);
+		}
+		if($tahun_ajaran != null){
+			$this->db->where('mahasiswa_matakuliah.tahun_ajaran', $tahun_ajaran);
+		}
+		$query = $this->db->get('mahasiswa_matakuliah');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
 	public function getpesertapraktikum($semester, $tahun_ajaran){
-		$this->db->select('mahasiswa_matakuliah.*, subject.status_praktikum as status_praktikum, subject.status_responsi as status_responsi');
-		$this->db->join('subject', 'subject.kode_mk = mahasiswa_matakuliah.kode_mk');
+		$this->db->select('mahasiswa_matakuliah.*, subject.kode_mk as kode_mk, subject.status_praktikum as status_praktikum, subject.status_responsi as status_responsi');
+		$this->db->join('jadwal_perkuliahan', 'jadwal_perkuliahan.id = mahasiswa_matakuliah.id_jadwal_perkuliahan');
+		$this->db->join('subject', 'subject.kode_mk = jadwal_perkuliahan.kode_mk');
 		$this->db->where('subject.status_praktikum', 1);
 		$this->db->or_where('subject.status_responsi', 1);
 		$this->db->where('mahasiswa_matakuliah.semester', $semester);

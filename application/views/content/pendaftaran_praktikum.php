@@ -64,15 +64,16 @@
                             <label class="control-label col-md-3 col-sm-3 ">Keterangan</label>
                             <div class="col-md-9 col-sm-9 ">
                                 <div class="">
-                                <div id="summernote"></div>
+                                <textarea id="summernote" name="editordata"></textarea>
+                                <!-- <div id="summernote"></div> -->
                                 <!-- <textarea id="keterangan" name="keterangan" rows="5"></textarea> -->
                                 <script>
 
-                                    $('#summernote').summernote({
-                                        placeholder: 'Hello Bootstrap 4',
-                                        tabsize: 2,
-                                        height: 100
-                                    });
+                                    // $('#summernote').summernote({
+                                    //     placeholder: 'Hello Bootstrap 4',
+                                    //     tabsize: 2,
+                                    //     height: 100
+                                    // });
 
                                     // tinymce.init({
                                     // selector: 'textarea',
@@ -164,6 +165,8 @@ $(function() {
     var baru = 0;
     $(document).ready(function() {	
         // alert("masukkkkkkkk ready");	
+        $('#summernote').summernote();
+        
         view()
     });
 

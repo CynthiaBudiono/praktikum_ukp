@@ -17,7 +17,35 @@ class informasi_umum_model extends CI_Model {
 
 	}
 
-    public function get($id) {
+  public function getsemester(){
+    $this->db->select('nilai');
+    $query = $this->db->where('id', 2)->get('informasi_umum', 1, 0);
+
+    if ($query->num_rows() > 0)
+
+			return $query->result_array()[0]['nilai'];
+
+		else
+
+			return 0;
+
+  }
+
+  public function gettahunajaran(){
+    $this->db->select('nilai');
+    $query = $this->db->where('id', 3)->get('informasi_umum', 1, 0);
+
+    if ($query->num_rows() > 0)
+
+			return $query->result_array()[0]['nilai'];
+
+		else
+
+			return 0;
+
+  }
+
+  public function get($id) {
 
 		$query = $this->db->where('id', $id)->get('informasi_umum', 1, 0);
 

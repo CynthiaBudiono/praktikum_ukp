@@ -29,8 +29,7 @@
     <link href="<?= base_url() ?>assets/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- bootstrap-wysiwyg -->
     <link href="<?= base_url() ?>assets/vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
-    <!-- Select2 -->
-    <link href="<?= base_url() ?>assets/vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+ 
     <!-- Switchery -->
     <link href="<?= base_url() ?>assets/vendors/switchery/dist/switchery.min.css" rel="stylesheet">
     <!-- starrr -->
@@ -47,11 +46,6 @@
     <!-- Tinymce v6.0.1-->
     <!-- API KEY https://cdn.tiny.cloud/1/q86l3hmvr5trq75iei6knx8tb82tvmdjdg14y1epqp8gkfr5 -->
     <!-- <script src="<?= base_url() ?>assets/vendors/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script> -->
-
-    <!-- Summernote v0.8.18 -->
-    <!-- summernote css/js -->
-    <link href="<?= base_url() ?>assets/vendors/summernote/summernote-bs4.min.css" rel="stylesheet">
-    <script src="<?= base_url() ?>assets/vendors/summernote/summernote-bs4.min.js"></script>
 
     <!-- Custom Theme Style -->
     <link href="<?= base_url() ?>assets/build/css/custom.min.css" rel="stylesheet">
@@ -73,6 +67,19 @@
 
 
     <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery-3.6.0.js"></script>
+
+    <!-- jQuery -->
+    <script src="<?= base_url() ?>assets/vendors/jquery/dist/jquery.min.js"></script>
+    
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- <link href="<?= base_url() ?>assets/vendors/select2/dist/css/select2.min.css" rel="stylesheet"> -->
+
+    <!-- include summernote css/js -->
+    <link href="<?= base_url() ?>assets/vendors/summernote/summernote.min.css" rel="stylesheet">
+    <script src="<?= base_url() ?>assets/vendors/summernote//summernote.min.js"></script>
 
     <!-- Semantic UI Dropdown -->
     <!--- Component CSS -->

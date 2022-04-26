@@ -74,6 +74,34 @@ class Kelas_praktikum_model extends CI_Model {
 			return 0;
 	}
 
+	public function getbysubject($kode_mk, $tipe, $semester = null, $tahun_ajaran = null){ //sama kayak get all open beda where
+	
+		$this->db->select('kelas_praktikum.*, subject.nama as nama_subject, laboratorium.quota_max as quota_max');
+        $this->db->join('subject', 'subject.kode_mk = kelas_praktikum.kode_mk');
+		$this->db->join('laboratorium', 'laboratorium.kode_lab = kelas_praktikum.kode_lab');
+
+		$this->db->order_by('kelas_paralel', 'ASC');
+
+		$this->db->where('kelas_praktikum.kode_mk', $kode_mk);
+		$this->db->where('kelas_praktikum.tipe', $tipe);
+		
+		if($semester != null){
+			$this->db->where('kelas_praktikum.semester', $semester);
+		}
+		if($tahun_ajaran != null){
+			$this->db->where('kelas_praktikum.tahun_ajaran', $tahun_ajaran);
+		}
+		$query = $this->db->get('kelas_praktikum');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
     // public function getkelasnow($semester, $tahun_ajaran){
 	// 	$this->db->select(' d1.NIP as NIP1, d1.nama as nama_dosen1');
 	// 	$this->db->select(' d2.NIP as NIP2, d2.nama as nama_dosen2');
@@ -102,6 +130,52 @@ class Kelas_praktikum_model extends CI_Model {
 
 	// 		return 0;
     // }
+
+	// new get class group
+	public function getactive_subject($semester, $tahun_ajaran){
+		$this->db->distinct();
+		$this->db->select('subject.*');
+        $this->db->join('subject', 'subject.kode_mk = kelas_praktikum.kode_mk');
+
+		$this->db->where('kelas_praktikum.status', 1);
+
+		if($semester != null){
+			$this->db->where('kelas_praktikum.semester', $semester);
+		}
+		if($tahun_ajaran != null){
+			$this->db->where('kelas_praktikum.tahun_ajaran', $tahun_ajaran);
+		}
+		$query = $this->db->get('kelas_praktikum');
+
+		if ($query->num_rows() > 0)
+			return $query->result_array();
+		else
+			return 0;
+	}
+
+	public function getactive_kelaspraktikum($kode_mk, $tipe, $semester, $tahun_ajaran){
+		$this->db->distinct();
+		$this->db->select('kelas_praktikum.*, laboratorium.nama as nama_laboratorium, laboratorium.quota_max as quota_max');
+        $this->db->join('subject', 'subject.kode_mk = kelas_praktikum.kode_mk');
+		$this->db->join('laboratorium', 'laboratorium.kode_lab = kelas_praktikum.kode_lab');
+
+		$this->db->where('kelas_praktikum.kode_mk', $kode_mk);
+		$this->db->where('kelas_praktikum.tipe', $tipe);
+		$this->db->where('kelas_praktikum.status', 1);
+
+		if($semester != null){
+			$this->db->where('kelas_praktikum.semester', $semester);
+		}
+		if($tahun_ajaran != null){
+			$this->db->where('kelas_praktikum.tahun_ajaran', $tahun_ajaran);
+		}
+		$query = $this->db->get('kelas_praktikum');
+
+		if ($query->num_rows() > 0)
+			return $query->result_array();
+		else
+			return 0;
+	}
 
 	public function getpengajar($semester, $tahun_ajaran){ //untuk jadwal berhalangan
 		$this->db->distinct();

@@ -35,7 +35,7 @@ class Subject_model extends CI_Model {
 
 		// $this->db->select('DISTINCT kode_mk, subject.*');
 		$this->db->group_by("kode_mk");
-		$this->db->order_by('nama', 'ASC');
+		$this->db->order_by('kode_mk', 'ASC');
 		$query = $this->db->where('status_praktikum', 1)->where('status', 1)->get('subject');
 
 		if ($query->num_rows() > 0)

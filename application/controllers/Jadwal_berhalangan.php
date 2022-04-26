@@ -20,7 +20,7 @@ class Jadwal_berhalangan extends CI_Controller {
         $this->load->model('kelas_praktikum_model');
         $this->load->model('informasi_umum_model');
 
-        $data['pengajar'] = $this->kelas_praktikum_model->getpengajar($this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+        $data['pengajar'] = $this->kelas_praktikum_model->getpengajar($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
         // var_dump(count($data['pengajar'])); exit;
         // var_dump($data['pengajar']); exit;
@@ -77,8 +77,8 @@ class Jadwal_berhalangan extends CI_Controller {
 		$data['title'] = "jadwal berhalangan";
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
-		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
+		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
+		$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
 		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
 		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
 
@@ -97,7 +97,7 @@ class Jadwal_berhalangan extends CI_Controller {
         $this->load->model('jadwal_berhalangan_model');
         $this->load->model('informasi_umum_model');
     
-        $jadwal_berhalangan = $this->jadwal_berhalangan_model->getbypengajar($this->input->post('pengajar'), $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+        $jadwal_berhalangan = $this->jadwal_berhalangan_model->getbypengajar($this->input->post('pengajar'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
         echo json_encode($jadwal_berhalangan);
     }
@@ -108,7 +108,7 @@ class Jadwal_berhalangan extends CI_Controller {
     
         $this->input->post('id_pengajar');
 
-        $jadwal_berhalangan = $this->jadwal_berhalangan_model->getbypengajar($this->input->post('pengajar'), $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+        $jadwal_berhalangan = $this->jadwal_berhalangan_model->getbypengajar($this->input->post('pengajar'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
         echo json_encode($jadwal_berhalangan);
     }
@@ -120,7 +120,7 @@ class Jadwal_berhalangan extends CI_Controller {
         // $this->input->post('id_pengajar');
 
         // var_dump($this->input->post('NIP')); exit;
-        $jadwal_berhalangan = $this->jadwal_berhalangan_model->getbyNIP($this->input->post('NIP'), $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+        $jadwal_berhalangan = $this->jadwal_berhalangan_model->getbyNIP($this->input->post('NIP'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
         echo json_encode($jadwal_berhalangan);
     }
@@ -156,8 +156,8 @@ class Jadwal_berhalangan extends CI_Controller {
         $data['title'] = "Add jadwal berhalangan";
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
-		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
+		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
+		$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
 		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
 		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
 
@@ -193,8 +193,8 @@ class Jadwal_berhalangan extends CI_Controller {
     //     $this->load->model('informasi_umum_model');
 		
 	// 	$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-	// 	$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
-	// 	$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
+	// 	$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
+	// 	$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
 	// 	$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
 	// 	$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
 
@@ -224,8 +224,8 @@ class Jadwal_berhalangan extends CI_Controller {
             'hari' => $this->input->post('hari'),
             'jam' => $this->input->post('jam'),
             'durasi' => 60,
-            'semester' => $this->informasi_umum_model->get(2)[0]['nilai'], 
-            'tahun_ajaran' => $this->informasi_umum_model->get(3)[0]['nilai'],
+            'semester' => $this->informasi_umum_model->getsemester(), 
+            'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
             'status' => 1,
             // 'keterangan' => $this->input->post('keterangan'),
         );
@@ -283,8 +283,8 @@ class Jadwal_berhalangan extends CI_Controller {
             'hari' => $this->input->post('hari'),
             'jam' => $this->input->post('jam'),
             'durasi' => 60,
-            'semester' => $this->informasi_umum_model->get(2)[0]['nilai'], 
-            'tahun_ajaran' => $this->informasi_umum_model->get(3)[0]['nilai'],
+            'semester' => $this->informasi_umum_model->getsemester(), 
+            'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
             'status' => 1,
             // 'keterangan' => $this->input->post('keterangan'),
         );

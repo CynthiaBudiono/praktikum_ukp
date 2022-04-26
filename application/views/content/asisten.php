@@ -30,7 +30,7 @@
                         <input type="hidden" class="form-control" name="id" id="id" required value="<?= (isset($detil[0]['id'])) ? $detil[0]['id'] : '' ?>">
 
                         <div class="form-group row">
-                            <label class="control-label col-md-3 col-sm-3 ">NRP</label>
+                            <label class="control-label col-md-3 col-sm-3 ">Tipe</label>
                             <div class="col-md-9 col-sm-9 ">
                                 <select class="form-control" id="selecttipeasisten" onchange="getdetail()">
                                     <option value="">--Choose option--</option>
@@ -40,35 +40,23 @@
                             </div>
                         </div>
 
-                        <div id="divdetail">
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 col-sm-3 ">NRP</label>
+                            <div class="col-md-9 col-sm-9 ">
+                                <input type="text" class="form-control" name="nrp" id="nrp" placeholder="ex. search nrp" required>
+                            </div>
+                        </div>
 
-                            nama
-                            id_pendaftaran asisten
-                            data lengkap
-                            daftar tanggal brp
-
-                            <!-- <div class="form-group row" id="divketerangan">
-                                <label class="control-label col-md-3 col-sm-3 ">Keterangan</label>
-                                <div class="col-md-9 col-sm-9 ">
-                                    <div class="">
-                                    <textarea id="keterangan" name="keterangan" rows="15">
-                                        <?= isset($detil[0]['keterangan']) ? $detil[0]['keterangan'] : '' ?>
-                                    </textarea>
-                                    <script>
-                                        tinymce.init({
-                                        selector: 'textarea',
-                                        plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-                                        toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
-                                        toolbar_mode: 'floating',
-                                        tinycomments_mode: 'embedded',
-                                        tinycomments_author: 'Author name',
-                                        });
-                                    </script>
-                                    </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 col-sm-3 "></label>
+                            <div class="col-md-9 col-sm-9">
+                                <div class="container border">
+                                nama
+                                id_pendaftaran asisten
+                                data lengkap
+                                daftar tanggal brp
                                 </div>
-                            </div> -->
-
-                            
+                            </div>
                         </div>
 
                         <div class="form-group row" id="divstatus">
@@ -95,69 +83,6 @@
             </div> <!-- /x_panel -->
         </div> <!-- /col-md -->
 
-        <!-- <div class="col-md-12 col-sm-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2>Add</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    <br />
-                    <form class="form-horizontal form-label-left">
-
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 col-sm-3 ">Kode Lab</label>
-                            <div class="col-md-9 col-sm-9 ">
-                                <input type="text" class="form-control" placeholder="ex. JK">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 col-sm-3 ">Nama</label>
-                            <div class="col-md-9 col-sm-9 ">
-                                <input type="text" class="form-control" placeholder="ex. Jaringan Komputer">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 col-sm-3 ">Quota Maksimum</label>
-                            <div class="col-md-9 col-sm-9 ">
-                                <input type="number" class="form-control" placeholder="quota max" min=1>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 col-sm-3 ">Status</label>
-                            <div class="col-md-9 col-sm-9 ">
-                                <div class="">
-                                    <label>
-                                        <input type="checkbox" class="js-switch" checked />
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ln_solid"></div>
-                        <div class="form-group">
-                            <div class="col-md-9 col-sm-9">
-                                <button type="button" class="btn btn-danger">Cancel</button>
-                                <button type="reset" class="btn btn-warning">Reset</button>
-                                <button type="submit" class="btn btn-success">Submit</button>
-                            </div>
-                        </div>
-
-                    </form>
-                </div>  -->
-                <!-- /x_content -->
-            <!-- </div>
-        </div> -->
-
         <!-- VIEW -->
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
@@ -170,7 +95,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div>
-                    <a class="btn btn-sm bg-green" href="<?php echo base_url("asisten/adds"); ?>">Tambah</a>
+                    <!-- <a class="btn btn-sm bg-green" href="<?php echo base_url("asisten/adds"); ?>">Tambah</a> -->
                 </div>
                 <div class="x_content">
                     <div class="row">
@@ -238,9 +163,15 @@
 
         alert($("#selecttipeasisten").val());
 
-        // if(asisten_dosen) -> getvalue()
+        $.post(baseurl + "asisten/getdetail", {
+            nrp: $('#nrp').val(),
+        },
+        function(result) {
+             // if(asisten_dosen) -> getvalue()
 
-        // if asisten tetap -> get value angkatan
+            // if asisten tetap -> get value angkatan
+        });
+       
     }
 
     function view(){

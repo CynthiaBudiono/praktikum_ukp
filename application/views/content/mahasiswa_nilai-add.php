@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="title_right" style="float:right;">
-            <button class="btn btn-md bg-green" onclick=simpan(<?= (isset($primary)) ? $primary : '' ?>,<?= (isset($mode)) ? $mode : '' ?>) >Simpan</button>
+            <button class="btn btn-md bg-green" onclick=simpan(<?= (isset($primary)) ? $primary : '' ?>,'<?= (isset($mode)) ? $mode : '' ?>') >Simpan</button>
         </div>
 
         <div class="clearfix"></div>
@@ -149,7 +149,7 @@
 
     function simpan($id, $mode){
         alert("ID " + $id);
-        alert("MODE " + $id);
+        alert("MODE " + $mode);
         alert($("#length_kelas").val());
 
         var length = $("#length_kelas").val();

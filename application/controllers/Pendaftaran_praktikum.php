@@ -25,8 +25,8 @@ class Pendaftaran_praktikum extends CI_Controller {
 		$this->load->model('informasi_umum_model');
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
-		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
+		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
+		$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
 		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
 		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
 
@@ -89,8 +89,8 @@ class Pendaftaran_praktikum extends CI_Controller {
             'waktu_start' => date("Y-m-d H:i:s", strtotime($this->input->post('waktu_start'))),
             'waktu_end' => date("Y-m-d H:i:s", strtotime($this->input->post('waktu_end'))),
 			'PP' => (int) $this->input->post('ppke'),
-			'semester' => $this->informasi_umum_model->get(2)[0]['nilai'],
-			'tahun_ajaran' => $this->informasi_umum_model->get(3)[0]['nilai'],
+			'semester' => $this->informasi_umum_model->getsemester(),
+			'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
             'status' => $status,
 			'keterangan' => $this->input->post('keterangan')
         );
@@ -142,8 +142,8 @@ class Pendaftaran_praktikum extends CI_Controller {
             'waktu_start' => date("Y-m-d H:i:s", strtotime($this->input->post('waktu_start'))),
             'waktu_end' => date("Y-m-d H:i:s", strtotime($this->input->post('waktu_end'))),
 			'PP' => (int) $this->input->post('ppke'),
-			'semester' => $this->informasi_umum_model->get(2)[0]['nilai'],
-			'tahun_ajaran' => $this->informasi_umum_model->get(3)[0]['nilai'],
+			'semester' => $this->informasi_umum_model->getsemester(),
+			'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
             'status' => $status,
 			'keterangan' => $this->input->post('keterangan')
         );

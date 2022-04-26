@@ -21,8 +21,8 @@ class Asisten extends CI_Controller {
 		$data['title'] = "Asisten";
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
-		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
+		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
+		$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
 		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
 		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
 
@@ -37,6 +37,15 @@ class Asisten extends CI_Controller {
 		$this->load->view('general/footer', $data);
 	}
 
+    public function getdetail(){
+
+        $this->load->model('asisten_model');
+
+		$asisten = $this->asisten_model->getlastrecord($this->input->post('nrp'));
+
+        echo json_encode($asisten);
+    }
+
 	public function adds(){
 
         $data['title'] = "Add asisten";
@@ -44,8 +53,8 @@ class Asisten extends CI_Controller {
         $this->load->model('informasi_umum_model');
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
-		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
+		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
+		$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
 		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
 		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
 
@@ -81,8 +90,8 @@ class Asisten extends CI_Controller {
         $this->load->model('informasi_umum_model');
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
-		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
+		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
+		$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
 		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
 		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
 

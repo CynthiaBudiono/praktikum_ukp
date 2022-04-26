@@ -22,8 +22,8 @@ class ambil_praktikum extends CI_Controller {
         $this->load->model('informasi_umum_model');
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
-		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
+		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
+		$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
 		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
 		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
 
@@ -44,18 +44,85 @@ class ambil_praktikum extends CI_Controller {
         $this->load->model('kelas_praktikum_model');
 
         // $ambil_praktikum = array();
-        // $getkelas = $this->ambil_praktikum_model->getclassgroup($this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+        // $getkelas = $this->ambil_praktikum_model->getclassgroup($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
         
         // if ($getkelas > 0){
         //     for($i = 0; $i < count($getkelas); $i++){
-        //         $getdetail = $this->ambil_praktikum_model->getdetailkelas($getkelas[$i]['kode_mk'], $getkelas[$i]['tipe'], $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']); 
+        //         $getdetail = $this->ambil_praktikum_model->getdetailkelas($getkelas[$i]['kode_mk'], $getkelas[$i]['tipe'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran()); 
 
         //         array_push($ambil_praktikum, $getdetail);
         //     }
         // }
 
         // echo json_encode($ambil_praktikum);
-        $getsubject = $this->kelas_praktikum_model->getactive($this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+        // echo $this->informasi_umum_model->getsemester(); 
+        // echo $this->informasi_umum_model->gettahunajaran();
+        // $getsubject = $this->kelas_praktikum_model->getactive($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+        $getsubject = $this->kelas_praktikum_model->getactive_subject($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+        
+        // $ambil_praktikum = $getsubject;
+        for($i = 0; $i < count($getsubject); $i++){
+            $getsubject[$i]['kelas_praktikum']  = $this->kelas_praktikum_model->getactive_kelaspraktikum($getsubject[$i]['kode_mk'], "praktikum", $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+
+            if($getsubject[$i]['status_praktikum'] == 1){
+                $getsubject[$i]['data_mahasiswa'] = $this->ambil_praktikum_model->getdetailkelas($getsubject[$i]['kode_mk'], "praktikum", $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+
+                // $nyoba = $this->ambil_praktikum_model->getnabrak('C14180210', 'Senin', '19:35:00', '110', '2', '2021-2022');
+                // var_dump($nyoba); exit;
+               
+                for($j = 0; $j < count($getsubject[$i]['data_mahasiswa']); $j++){
+
+                    // var_dump($getsubject[$i]['data_mahasiswa'][$j]['NRP'], $getsubject[$i]['data_mahasiswa'][$j]['hari1'], $getsubject[$i]['data_mahasiswa'][$j]['jam1'], $getsubject[$i]['data_mahasiswa'][$j]['durasi1'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+                    // exit;
+
+                    $getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak1'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa'][$j]['NRP'], $getsubject[$i]['data_mahasiswa'][$j]['hari1'], $getsubject[$i]['data_mahasiswa'][$j]['jam1'], $getsubject[$i]['data_mahasiswa'][$j]['durasi1'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+                    $getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak2'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa'][$j]['NRP'], $getsubject[$i]['data_mahasiswa'][$j]['hari2'], $getsubject[$i]['data_mahasiswa'][$j]['jam2'], $getsubject[$i]['data_mahasiswa'][$j]['durasi2'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+                    $getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak3'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa'][$j]['NRP'], $getsubject[$i]['data_mahasiswa'][$j]['hari3'], $getsubject[$i]['data_mahasiswa'][$j]['jam3'], $getsubject[$i]['data_mahasiswa'][$j]['durasi3'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+                    $getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak4'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa'][$j]['NRP'], $getsubject[$i]['data_mahasiswa'][$j]['hari4'], $getsubject[$i]['data_mahasiswa'][$j]['jam4'], $getsubject[$i]['data_mahasiswa'][$j]['durasi4'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+                    // var_dump($getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak1']);
+                    
+                    // var_dump($getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak1']);
+                    // if($getsubject[$i]['data_mahasiswa'][$j]['NRP'] == 'C14180210' && $getsubject[$i]['data_mahasiswa'][$j]['hari1'] == "Senin" && $getsubject[$i]['data_mahasiswa'][$j]['jam1'] == "19:35:00" && $getsubject[$i]['data_mahasiswa'][$j]['durasi1'] == "110"){
+                    //     var_dump("MASUKKKKKKKKKKK" . $getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak1']); exit;
+                    // }
+                    // var_dump($getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak2']);
+                    // var_dump($getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak3']);
+                    // var_dump($getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak4']);
+                    // exit;
+                }
+            }
+            
+
+            $getsubject[$i]['kelas_responsi']  = $this->kelas_praktikum_model->getactive_kelaspraktikum($getsubject[$i]['kode_mk'], "responsi", $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+
+            if($getsubject[$i]['status_responsi'] == 1){
+                $getsubject[$i]['data_mahasiswa_responsi'] = $this->ambil_praktikum_model->getdetailkelas($getsubject[$i]['kode_mk'], "responsi", $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+            }
+
+        }
+        // exit;
+        echo json_encode($getsubject);
+    }
+
+
+    public function getclassgroup2(){
+        $this->load->model('ambil_praktikum_model');
+        $this->load->model('informasi_umum_model');
+        $this->load->model('kelas_praktikum_model');
+
+        // $ambil_praktikum = array();
+        // $getkelas = $this->ambil_praktikum_model->getclassgroup($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+        
+        // if ($getkelas > 0){
+        //     for($i = 0; $i < count($getkelas); $i++){
+        //         $getdetail = $this->ambil_praktikum_model->getdetailkelas($getkelas[$i]['kode_mk'], $getkelas[$i]['tipe'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran()); 
+
+        //         array_push($ambil_praktikum, $getdetail);
+        //     }
+        // }
+
+        // echo json_encode($ambil_praktikum);
+        $getsubject = $this->kelas_praktikum_model->getactive($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
         // $ambil_praktikum = $getsubject;
         // $ambil_praktikum = array();
         for($i = 0; $i < count($getsubject); $i++){
@@ -68,21 +135,23 @@ class ambil_praktikum extends CI_Controller {
             if($getsubject[$i]['status_praktikum'] == 1){
                 
                 // var_dump("masukkkkkkkk prak");
-                $getsubject[$i]['data_kelas_praktikum'] = $this->kelas_praktikum_model->getjadwalforambilprak($getsubject[$i]['kode_mk'], "praktikum", $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+                $getsubject[$i]['data_kelas_praktikum'] = $this->kelas_praktikum_model->getjadwalforambilprak($getsubject[$i]['kode_mk'], "praktikum", $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
-                $getsubject[$i]['data_mahasiswa_praktikum'] = $this->ambil_praktikum_model->getdetailkelas($getsubject[$i]['kode_mk'], "praktikum", $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+                $getsubject[$i]['data_mahasiswa_praktikum'] = $this->ambil_praktikum_model->getdetailkelas($getsubject[$i]['kode_mk'], "praktikum", $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
             }
             if($getsubject[$i]['status_responsi'] == 1){
                 // var_dump("masukkkkkkkk resp");
-                $getsubject[$i]['data_kelas_responsi'] = $this->kelas_praktikum_model->getjadwalforambilprak($getsubject[$i]['kode_mk'], "responsi", $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+                $getsubject[$i]['data_kelas_responsi'] = $this->kelas_praktikum_model->getjadwalforambilprak($getsubject[$i]['kode_mk'], "responsi", $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
-                $getsubject[$i]['data_mahasiswa_responsi'] = $this->ambil_praktikum_model->getdetailkelas($getsubject[$i]['kode_mk'], "responsi", $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+                $getsubject[$i]['data_mahasiswa_responsi'] = $this->ambil_praktikum_model->getdetailkelas($getsubject[$i]['kode_mk'], "responsi", $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
             }
             
         }
       
         echo json_encode($getsubject);
     }
+
+
     
 
     public function generateadd(){
@@ -90,25 +159,30 @@ class ambil_praktikum extends CI_Controller {
         $this->load->model('mahasiswa_matakuliah_model');
         $this->load->model('informasi_umum_model');
 
-        $peserta = $this->mahasiswa_matakuliah_model->getpesertapraktikum($this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+        $peserta = $this->mahasiswa_matakuliah_model->getpesertapraktikum($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
         if($peserta > 0){
+
+            // var_dump($peserta); exit;
             for($i = 0; $i < count($peserta); $i++){
                 // cek kalo udah ada jgn ditambah datanya
-                $kembar = $this->ambil_praktikum_model->get($peserta[$i]['id']);
+                // $kembar = $this->ambil_praktikum_model->getwithtipe($peserta[$i]['id']);
+                if($peserta[$i]['status_praktikum'] == 1){
 
-                if($kembar == 0){
-                    //ADD Ambil Praktikum
+                    $kembarpraktikum = $this->ambil_praktikum_model->getmahasiswamatkul($peserta[$i]['id'], 'praktikum', $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
-                    if($peserta[$i]['status_praktikum'] == 1){
+                    // var_dump($peserta[$i]['id'], $kembarpraktikum); exit;
+                    if($kembarpraktikum == 0){
+                        //ADD Ambil Praktikum
+
                         $data = array(
                             'id_mahasiswa_matakuliah' => $peserta[$i]['id'],
                             'NRP' => $peserta[$i]['NRP'],
                             'kode_mk' => $peserta[$i]['kode_mk'],
                             'status' => 1,
                             'tipe' => 'praktikum',
-                            'semester' => $this->informasi_umum_model->get(2)[0]['nilai'],
-                            'tahun_ajaran' => $this->informasi_umum_model->get(3)[0]['nilai'],
+                            'semester' => $this->informasi_umum_model->getsemester(),
+                            'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
                         );
         
                         $this->ambil_praktikum_model->add($data);
@@ -127,16 +201,22 @@ class ambil_praktikum extends CI_Controller {
                         $this->load->model('user_history_model');
                         $this->user_history_model->add($logs_insert);
                     }
+                }
+                
+                if($peserta[$i]['status_responsi'] == 1){
+                    $kembarresponsi = $this->ambil_praktikum_model->getmahasiswamatkul($peserta[$i]['id'], 'responsi', $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
-                    if($peserta[$i]['status_responsi'] == 1){
+
+                    if($kembarresponsi == 0){
+
                         $data = array(
                             'id_mahasiswa_matakuliah' => $peserta[$i]['id'],
                             'NRP' => $peserta[$i]['NRP'],
                             'kode_mk' => $peserta[$i]['kode_mk'],
                             'status' => 1,
                             'tipe' => 'responsi',
-                            'semester' => $this->informasi_umum_model->get(2)[0]['nilai'],
-                            'tahun_ajaran' => $this->informasi_umum_model->get(3)[0]['nilai'],
+                            'semester' => $this->informasi_umum_model->getsemester(),
+                            'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
                         );
         
                         $this->ambil_praktikum_model->add($data);
@@ -167,6 +247,14 @@ class ambil_praktikum extends CI_Controller {
 
     }
 
+    public function getjadwalterpilih(){
+
+    }
+    
+    public function terpilih(){
+
+    }
+
     public function adds(){
 
         $data['title'] = "Add Ambil Praktikum";
@@ -174,8 +262,8 @@ class ambil_praktikum extends CI_Controller {
         $this->load->model('informasi_umum_model');
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
-		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
+		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
+		$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
 		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
 		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
 
@@ -211,8 +299,8 @@ class ambil_praktikum extends CI_Controller {
         $this->load->model('informasi_umum_model');
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
-		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
+		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
+		$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
 		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
 		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
 

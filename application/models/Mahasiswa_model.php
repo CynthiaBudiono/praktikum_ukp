@@ -17,6 +17,28 @@ class Mahasiswa_model extends CI_Model {
 
 	}
 
+	public function getpesertapraktikum($semester, $tahun_ajaran){
+		$this->db->distinct();
+		$this->db->select('mahasiswa.*');
+		$this->db->join('mahasiswa_matakuliah', 'mahasiswa_matakuliah.NRP = mahasiswa.NRP');
+		$this->db->group_by("NRP");
+		if($semester != null){
+			$this->db->where('mahasiswa_matakuliah.semester', $semester);
+		}
+		if($tahun_ajaran != null){
+			$this->db->where('mahasiswa_matakuliah.tahun_ajaran', $tahun_ajaran);
+		}
+		$query = $this->db->get('mahasiswa');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
     public function get($nrp) {
 
 		$query = $this->db->where('NRP', $nrp)->get('mahasiswa', 1, 0);

@@ -16,15 +16,15 @@ class Kelas_praktikum extends CI_Controller {
 		$this->load->model('kelas_praktikum_model');
         $this->load->model('informasi_umum_model');
 
-        $data['kelas_praktikum_now'] = $this->kelas_praktikum_model->getallopen($this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+        $data['kelas_praktikum_now'] = $this->kelas_praktikum_model->getallopen($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
 		$data['kelas_praktikum'] = $this->kelas_praktikum_model->getallopen();
 
 		$data['title'] = "kelas praktikum";
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
-		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
+		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
+		$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
 		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
 		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
 
@@ -48,8 +48,8 @@ class Kelas_praktikum extends CI_Controller {
         $data['mode'] = 'add';
 
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
-		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
+		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
+		$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
 		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
 		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
 
@@ -69,7 +69,7 @@ class Kelas_praktikum extends CI_Controller {
         $this->load->model('kelas_praktikum_model');
         $this->load->model('informasi_umum_model');
 
-        $kelas = $this->kelas_praktikum_model->getallopen($this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+        $kelas = $this->kelas_praktikum_model->getallopen($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
         echo json_encode($kelas);
     }
@@ -91,7 +91,17 @@ class Kelas_praktikum extends CI_Controller {
         $this->load->model('informasi_umum_model');
 
         // var_dump($this->input->post('kode_mk')); exit;
-        $kelas = $this->kelas_praktikum_model->getjadwalforambilprak($this->input->post('kode_mk'), $this->input->post('tipe'), $this->informasi_umum_model->get(2)[0]['nilai'], $this->informasi_umum_model->get(3)[0]['nilai']);
+        $kelas = $this->kelas_praktikum_model->getjadwalforambilprak($this->input->post('kode_mk'), $this->input->post('tipe'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+
+        echo json_encode($kelas);
+    }
+
+    public function getbysubject(){
+        $this->load->model('kelas_praktikum_model');
+        $this->load->model('informasi_umum_model');
+
+        // var_dump($this->input->post('kode_mk')); exit;
+        $kelas = $this->kelas_praktikum_model->getbysubject($this->input->post('kode_mk'), $this->input->post('tipe'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
         echo json_encode($kelas);
     }
@@ -105,8 +115,8 @@ class Kelas_praktikum extends CI_Controller {
         $data['mode'] = 'update';
 
         $data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-		$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
-		$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
+		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
+		$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
 		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
 		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
 
@@ -141,8 +151,8 @@ class Kelas_praktikum extends CI_Controller {
     //     $this->load->model('informasi_umum_model');
 		
 	// 	$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-	// 	$data['semester']=($this->informasi_umum_model->get(2)[0]['nilai'] == 1) ? "Ganjil" : "Genap" ;
-	// 	$data['tahun_ajaran']=$this->informasi_umum_model->get(3)[0]['nilai'];
+	// 	$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
+	// 	$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
 	// 	$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
 	// 	$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
 
@@ -172,8 +182,8 @@ class Kelas_praktikum extends CI_Controller {
         for ($x = 1; $x <= $this->input->post('total_row'); $x++) {
             if($this->input->post('status_row'.$x) == 'active'){
                 $data = array(
-                    'kode_kelas_praktikum' => $this->input->post('id_subject'.$x).strtoupper($this->input->post('kelas_paralel'.$x)),
-                    'kode_mk' => $this->input->post('id_subject'.$x),
+                    'kode_kelas_praktikum' => $this->input->post('subject'.$x).strtoupper($this->input->post('kelas_paralel'.$x)),
+                    'kode_mk' => $this->input->post('subject'.$x),
                     'kelas_paralel' => strtoupper($this->input->post('kelas_paralel'.$x)),
                     'kode_lab' => $this->input->post('id_laboratorium'.$x),
                     'hari' => $this->input->post('hari'.$x),
@@ -183,8 +193,8 @@ class Kelas_praktikum extends CI_Controller {
                     'NIP1' => $this->input->post('id_nip1'.$x),
                     'NIP2' => $this->input->post('id_nip2'.$x),
                     'NIP3' => $this->input->post('id_nip3'.$x),
-                    'semester' => $this->informasi_umum_model->get(2)[0]['nilai'],
-                    'tahun_ajaran' => $this->informasi_umum_model->get(3)[0]['nilai'],
+                    'semester' => $this->informasi_umum_model->getsemester(),
+                    'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
                     'status' => (($this->input->post('status'.$x)=='on') ? 1 : 0),
                 );
                 $this->kelas_praktikum_model->add($data);
