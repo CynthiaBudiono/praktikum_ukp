@@ -50,6 +50,7 @@ class Ambil_praktikum_model extends CI_Model {
 	}
 
 	public function getnabrak($nrp, $hari, $jam, $durasi, $semester = null, $tahun_ajaran = null){
+		// parameternya jadwal kelas praktikum dari pilihan mahasiswa itu
 
 		$flag = 0;
 		$jamend = date('H:i:s', strtotime($jam. ' +'.$durasi.' minutes'));

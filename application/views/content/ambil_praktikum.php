@@ -5,8 +5,13 @@
 }
 .bg-red{
   background-color: #ef8677;
-  /* border: 1px solid black !important; */
+  border: 1px solid black !important;
 }
+
+.bg-green{
+    border: 1px solid black !important;
+}
+
 .badge{
   padding: 8px;
   font-size: 12px;
@@ -134,36 +139,112 @@ function getbymk(){
 }
 
 function milih(idmatkul, idmhs, idambilprak, idkelasprak, pil){
-    // alert("func milih " + idambilprak +" "+ idkelasprak);
+    // alert("func milih " + idmatkul + " " + idmhs + " " + idambilprak +" "+ idkelasprak + " " + pil);
 
     //update kuota dan terpilih
-    // var data = {
-    //     "id_ambil_prak": idambilprak,
-    //     "id_kelas_praktikum": idkelasprak,
-    // };
-    // arrTerpilih.push(data);
 
-    var namahari = ""; 
-    for(var k = 0; k < arrData[idmatkul]['kelas_praktikum'].length; k++) {
-        if(arrData[idmatkul]['kelas_praktikum'][k]['id'] == idkelasprak) {
-            namahari = arrData[idmatkul]['kelas_praktikum'][k]['hari'] + ", " + arrData[idmatkul]['kelas_praktikum'][k]['jam'];
+    // cek dulu sebelumnya dia sdh milih ato belum, kalo sdh milih kurangin kuota kelas sebelumnya, kalo blom milih yaudah langsung +
+    var namakolomterpilih = "kolomterpilih" + arrData[idmatkul]['kode_mk'] + arrData[idmatkul]['data_mahasiswa'][idmhs]['NRP'] + idambilprak; 
+    var idkolomterpilih = "idkelasprakterpilih" + arrData[idmatkul]['kode_mk'] + arrData[idmatkul]['data_mahasiswa'][idmhs]['NRP'] + idambilprak;
+    // alert("namakolomterpilih : " + namakolomterpilih);
+
+    var textkolomterisi = ($("#kolomterisi" + idkelasprak).text()).split('/');
+    // alert(textkolomterisi[0] + " < " + textkolomterisi[1]);
+
+    if(textkolomterisi[0] < textkolomterisi[1]){ //kuota tak penuh
+
+        var idkelasprakterpilih = $("#" + idkolomterpilih).val();
+
+        alert("update quota : " + idkelasprak + " == " + idkelasprakterpilih);
+        var updatekolomquota;
+        if(idkelasprakterpilih != "" || idkelasprakterpilih != null){ //sudah terpilih
+            if(idkelasprak != idkelasprakterpilih){ //kalo pilihan yang di klik tidak sama dengan id terpilih
+                updatekolomquota = ($("#kolomterisi" + idkelasprakterpilih).text()).split('/');
+                $("#kolomterisi" + idkelasprakterpilih).html((parseInt(updatekolomquota[0])-1) + "/" + updatekolomquota[1]);
+                var isi = parseInt(textkolomterisi[0])+1;
+                $("#kolomterisi" + idkelasprak).html(isi + "/" + textkolomterisi[1]);
+            }
+            
         }
-    }
+        else{ //kolom terpilih kosong
+            updatekolomquota = ($("#kolomterisi" + idkelasprak).text()).split('/');
+            $("#kolomterisi" + idkelasprakterpilih).html((parseInt(updatekolomquota[0])-1) + "/" + updatekolomquota[1]);
+            var isi = parseInt(textkolomterisi[0])+1;
+            $("#kolomterisi" + idkelasprak).html(isi + "/" + textkolomterisi[1]);
+        }
 
-    var namakolom = "kolomterpilih" + arrData[idmatkul]['kode_mk'] + arrData[idmatkul]['data_mahasiswa'][idmhs]['NRP']; 
-    // alert(namakolom); 
-    $("#" + namakolom).html(namahari); 
+        var belumada = 0;
+        for(var i = 0; i< arrTerpilih.length; i++){
+            // alert("arrterpilih : " + arrTerpilih[i]["id_ambil_prak"] + " == " + idambilprak);
+            if(arrTerpilih[i]["id_ambil_prak"] == idambilprak){ //agar data tidak kembar
+                var data = {
+                    "id": idambilprak,
+                    "terpilih": idkelasprak, //kelas yang terpilih
+                    //"pil": pil, //sbg pil brp di ambilprak
+                };
+                arrTerpilih[i] = data;
+                belumada = 1;
+            }
+        }
+        
+        if(arrTerpilih.length == 0 || belumada == 0){
+            var data = {
+                "id": idambilprak,
+                "terpilih": idkelasprak, //kelas yang terpilih
+                //"pil": pil, //sbg pil brp di ambilprak
+            };
+            arrTerpilih.push(data);
+        }
+        
+        
+
+        var namahari = ""; 
+        for(var k = 0; k < arrData[idmatkul]['kelas_praktikum'].length; k++) {
+            if(arrData[idmatkul]['kelas_praktikum'][k]['id'] == idkelasprak) {
+                namahari = arrData[idmatkul]['kelas_praktikum'][k]['hari'] + ", " + arrData[idmatkul]['kelas_praktikum'][k]['jam'];
+            }
+        }
+        for(var k = 0; k < arrData[idmatkul]['kelas_responsi'].length; k++) {
+            if(arrData[idmatkul]['kelas_responsi'][k]['id'] == idkelasprak) {
+                namahari = arrData[idmatkul]['kelas_responsi'][k]['hari'] + ", " + arrData[idmatkul]['kelas_responsi'][k]['jam'];
+            }
+        }
+
+        $("#" + namakolomterpilih).html(namahari); 
+        // alert("idkelasprak : "+ idkelasprak);
+        $("#" + idkolomterpilih).val(idkelasprak);
+    }
+    else{ //kuota penuh
+        alert("Kuota Penuh");
+    }
 }
 
 function simpan(){
-    //update kuota dan terpilih
-    // $.post(baseurl + "ambil_praktikum/terpilih", {},
-    // function(result) {
-    //     alert(result);
-    //     if(result == "sukses"){
-    //         cetak();
-    //     }
-    // });
+    // alert(arrTerpilih.length);
+    var arrPraktikum = [];
+    for(var j = 0; j < arrData.length; j++){
+        for(var k = 0; k < arrData[j]['kelas_praktikum'].length; k++) {
+            
+            var data = {
+                "id": arrData[j]['kelas_praktikum'][k]['id'],
+                "terisi": (($('#kolomterisi'+arrData[j]['kelas_praktikum'][k]['id']).text()).split("/"))[0],
+            };
+            // alert("data kelas prak" + data);
+            arrPraktikum.push(data);
+        }
+    }
+    // console.log("arrpraktikum : " + arrPraktikum);
+
+    $.post(baseurl + "ambil_praktikum/terpilih", {
+        data_kelas_praktikum: arrPraktikum,
+        data_ambil_praktikum: arrTerpilih
+    },
+    function(result) {
+        alert(result);
+        if(result == "sukses"){
+            view();
+        }
+    });
 }
 
 function cetak(kodemk = null) {
@@ -203,7 +284,7 @@ function cetak(kodemk = null) {
                                 kal = kal + "<td>" + arrData[i]['kelas_praktikum'][j]['hari'] + "</td>"; 
                                 kal = kal + "<td>" + arrData[i]['kelas_praktikum'][j]['jam'] + "</td>"; 
                                 kal = kal + "<td>" + arrData[i]['kelas_praktikum'][j]['durasi'] + "</td>"; 
-                                kal = kal + "<td>" + arrData[i]['kelas_praktikum'][j]['terisi'] + "/" + arrData[i]['kelas_praktikum'][j]['quota_max'] + "</td>"; 
+                                kal = kal + "<td id='kolomterisi"+ arrData[i]['kelas_praktikum'][j]['id'] +"'>" + arrData[i]['kelas_praktikum'][j]['terisi'] + "/" + arrData[i]['kelas_praktikum'][j]['quota_max'] + "</td>"; 
                             kal = kal + "</tr>"; 
                         }
                     kal = kal + "</table></td>"; 
@@ -242,39 +323,55 @@ function cetak(kodemk = null) {
                                         // kal = kal + "<td class='bg-green' style='text-align: center' onclick=milih('"+ arrData[i]['data_mahasiswa'][j]['NRP'] + "',"+ arrData[i]['kelas_praktikum'][k]['id'] +",'pil"+ l +"')>v</td>"; 
                                     }
                                     else 
-                                    { kal = kal + "<td style='text-align: center' id='terpilih_praktikum"+ j +"'>&nbsp;</td>"; }
-
+                                    {
+                                        // console.log("LIHAT DATA "+ (arrData[i]['kelas_praktikum'][k]['id']) + " " + (arrData[i]['data_mahasiswa'][j]['NRP']) + ": " + arrData[i]['data_mahasiswa'][j]['nabrak_kelas_praktikum'+(arrData[i]['kelas_praktikum'][k]['id'])+(arrData[i]['data_mahasiswa'][j]['NRP'])]);
+                                        if(arrData[i]['data_mahasiswa'][j]['nabrak_kelas_praktikum'+(arrData[i]['kelas_praktikum'][k]['id'])+(arrData[i]['data_mahasiswa'][j]['NRP'])] == 'yes'){
+                                            kal = kal + "<td class='bg-red' style='text-align: center' onclick=milih(" + i + "," + j + ",'"+ arrData[i]['data_mahasiswa'][j]['id'] + "',"+ arrData[i]['kelas_praktikum'][k]['id'] +",'pil"+ (k+1) +"')>&nbsp;</td>";
+                                        }
+                                        else{
+                                            kal = kal + "<td class='bg-green' style='text-align: center' onclick=milih(" + i + "," + j + ",'"+ arrData[i]['data_mahasiswa'][j]['id'] + "',"+ arrData[i]['kelas_praktikum'][k]['id'] +",'pil"+ (k+1) +"')>&nbsp;</td>";
+                                        }
+                                    }
 
                                 }
 
-                                kal = kal + "<td id='kolomterpilih" + arrData[i]['kode_mk'] + arrData[i]['data_mahasiswa'][j]['NRP'] + "'>";
+                                kal = kal + "<td>";
+
+                                var ada = 0;
 
                                 for(var k = 0; k < arrData[i]['kelas_praktikum'].length; k++) {
                                     if(arrData[i]['kelas_praktikum'][k]['id'] == arrData[i]['data_mahasiswa'][j]['terpilih']){
-                                        kal = kal + arrData[i]['kelas_praktikum'][k]['hari'] + ", " + arrData[i]['kelas_praktikum'][k]['jam'];
+                                        kal = kal +"<label style='margin-bottom:0;' id='kolomterpilih" + arrData[i]['kode_mk'] + arrData[i]['data_mahasiswa'][j]['NRP'] + arrData[i]['data_mahasiswa'][j]['id'] + "'>" + arrData[i]['kelas_praktikum'][k]['hari'] + ", " + arrData[i]['kelas_praktikum'][k]['jam'] + "</label>";
+                                        //tambahin input type hidden nya buat di lempar
+                                        kal = kal + "<input type='hidden' id='idkelasprakterpilih"+ arrData[i]['kode_mk'] + arrData[i]['data_mahasiswa'][j]['NRP'] + arrData[i]['data_mahasiswa'][j]['id'] +"' value='"+ arrData[i]['kelas_praktikum'][k]['id']  +"'>";
+                                        ada = 1;
                                     }
+                                }
+                                if(ada == 0){
+                                    kal = kal +"<label style='margin-bottom:0;' id='kolomterpilih" + arrData[i]['kode_mk'] + arrData[i]['data_mahasiswa'][j]['NRP'] + arrData[i]['data_mahasiswa'][j]['id'] +"'></label>";
+                                    kal = kal + "<input type='hidden' id='idkelasprakterpilih"+ arrData[i]['kode_mk'] + arrData[i]['data_mahasiswa'][j]['NRP'] + arrData[i]['data_mahasiswa'][j]['id'] +"' value=''>";
                                 }
                                 
 
-                                var ada = 0;
-                                for(var k = 0; k < arrData[i]['kelas_praktikum'].length; k++) {
-                                    if(arrData[i]['kelas_praktikum'][k]['id'] != arrData[i]['data_mahasiswa'][j]['pil1'] && 
-                                    arrData[i]['kelas_praktikum'][k]['id'] != arrData[i]['data_mahasiswa'][j]['pil2'] &&
-                                    arrData[i]['kelas_praktikum'][k]['id'] != arrData[i]['data_mahasiswa'][j]['pil3'] &&
-                                    arrData[i]['kelas_praktikum'][k]['id'] != arrData[i]['data_mahasiswa'][j]['pil4'])
-                                    {
-                                        if(ada == 0){
-                                            kal = kal + "<select>";
-                                            kal = kal + '<option value="" disabled selected>-- Pilih Jadwal --</option>';
-                                            ada = 1;
-                                        } 
-                                        kal = kal + "<option value="+ arrData[i]['kelas_praktikum'][k]['id'] +">" + arrData[i]['kelas_praktikum'][k]['hari'] + ", " + arrData[i]['kelas_praktikum'][k]['jam'] + "</option>";
+                                // var ada = 0;
+                                // for(var k = 0; k < arrData[i]['kelas_praktikum'].length; k++) {
+                                //     if(arrData[i]['kelas_praktikum'][k]['id'] != arrData[i]['data_mahasiswa'][j]['pil1'] && 
+                                //     arrData[i]['kelas_praktikum'][k]['id'] != arrData[i]['data_mahasiswa'][j]['pil2'] &&
+                                //     arrData[i]['kelas_praktikum'][k]['id'] != arrData[i]['data_mahasiswa'][j]['pil3'] &&
+                                //     arrData[i]['kelas_praktikum'][k]['id'] != arrData[i]['data_mahasiswa'][j]['pil4'])
+                                //     {
+                                //         if(ada == 0){
+                                //             kal = kal + "<select>";
+                                //             kal = kal + '<option value="" disabled selected>-- Pilih Jadwal --</option>';
+                                //             ada = 1;
+                                //         } 
+                                //         kal = kal + "<option value="+ arrData[i]['kelas_praktikum'][k]['id'] +">" + arrData[i]['kelas_praktikum'][k]['hari'] + ", " + arrData[i]['kelas_praktikum'][k]['jam'] + "</option>";
 
-                                        if(ada == 1 && k == arrData[i]['kelas_praktikum'].length-1){
-                                            kal = kal + "</select>";
-                                        }
-                                    }
-                                }
+                                //         if(ada == 1 && k == arrData[i]['kelas_praktikum'].length-1){
+                                //             kal = kal + "</select>";
+                                //         }
+                                //     }
+                                // }
                                 
                                 kal = kal + "</td>"; 
                             kal = kal + "</tr>"; 
@@ -307,7 +404,7 @@ function cetak(kodemk = null) {
                                     kal = kal + "<td>" + arrData[i]['kelas_responsi'][j]['hari'] + "</td>"; 
                                     kal = kal + "<td>" + arrData[i]['kelas_responsi'][j]['jam'] + "</td>"; 
                                     kal = kal + "<td>" + arrData[i]['kelas_responsi'][j]['durasi'] + "</td>"; 
-                                    kal = kal + "<td>" + arrData[i]['kelas_responsi'][j]['terisi'] + "/" + arrData[i]['kelas_praktikum'][j]['quota_max'] + "</td>"; 
+                                    kal = kal + "<td id='kolomterisi"+ arrData[i]['kelas_responsi'][j]['id'] +"'>" + arrData[i]['kelas_responsi'][j]['terisi'] + "/" + arrData[i]['kelas_responsi'][j]['quota_max'] + "</td>"; 
                                 kal = kal + "</tr>"; 
                             }
                         kal = kal + "</table></td>"; 
@@ -337,45 +434,41 @@ function cetak(kodemk = null) {
                                         arrData[i]['kelas_responsi'][k]['id'] == arrData[i]['data_mahasiswa_responsi'][j]['pil3'] ||
                                         arrData[i]['kelas_responsi'][k]['id'] == arrData[i]['data_mahasiswa_responsi'][j]['pil4'])
                                         { 
-                                            if(arrData[i]['data_mahasiswa'][j]['jadwalnabrak'+(k+1)] == 'yes'){
-                                                kal = kal + "<td class='bg-red' style='text-align: center' onclick=milih('"+ arrData[i]['data_mahasiswa'][j]['NRP'] + "',"+ arrData[i]['kelas_responsi'][k]['id'] +"')>v</td>";
+                                            if(arrData[i]['data_mahasiswa_responsi'][j]['jadwalnabrak'+(k+1)] == 'yes'){
+                                                kal = kal + "<td class='bg-red' style='text-align: center' onclick=milih(" + i + "," + j + ",'"+ arrData[i]['data_mahasiswa_responsi'][j]['id'] + "',"+ arrData[i]['kelas_responsi'][k]['id'] +",'pil"+ (k+1) +"')>v</td>";
                                             }
                                             else{
-                                                kal = kal + "<td class='bg-green' style='text-align: center' onclick=milih('"+ arrData[i]['data_mahasiswa'][j]['NRP'] + "',"+ arrData[i]['kelas_responsi'][k]['id'] +"')>v</td>"; 
+                                                kal = kal + "<td class='bg-green' style='text-align: center' onclick=milih(" + i + "," + j + ",'"+ arrData[i]['data_mahasiswa_responsi'][j]['id'] + "',"+ arrData[i]['kelas_responsi'][k]['id'] +",'pil"+ (k+1) +"')>v</td>";
                                             }
                                             //kal = kal + "<td class='bg-green' onclick=milih('"+ arrData[i]['data_mahasiswa_responsi'][j]['id'] + "',"+ arrData[i]['kelas_responsi'][k]['id'] +") style='text-align: center'>v</td>"; 
                                         
                                         }
                                         else 
-                                        { kal = kal + "<td style='text-align: center'>&nbsp;</td>"; }
-                                    }
-                                    kal = kal + "<td>";
-
-                                for(var k = 0; k < arrData[i]['kelas_responsi'].length; k++) {
-                                    if(arrData[i]['kelas_responsi'][k]['id'] == arrData[i]['data_mahasiswa_responsi'][j]['terpilih']){
-                                        kal = kal + arrData[i]['kelas_responsi'][k]['hari'] + ", " + arrData[i]['kelas_responsi'][k]['jam'];
-                                    }
-                                }
-                                
-                                var ada = 0;
-                                for(var k = 0; k < arrData[i]['kelas_responsi'].length; k++) {
-                                    if(arrData[i]['kelas_responsi'][k]['id'] != arrData[i]['data_mahasiswa_responsi'][j]['pil1'] && 
-                                    arrData[i]['kelas_responsi'][k]['id'] != arrData[i]['data_mahasiswa_responsi'][j]['pil2'] &&
-                                    arrData[i]['kelas_responsi'][k]['id'] != arrData[i]['data_mahasiswa_responsi'][j]['pil3'] &&
-                                    arrData[i]['kelas_responsi'][k]['id'] != arrData[i]['data_mahasiswa_responsi'][j]['pil4'])
-                                    {
-                                        if(ada == 0){
-                                            kal = kal + "<select>";
-                                            kal = kal + '<option value="" disabled selected>-- Pilih Jadwal --</option>';
-                                            ada = 1;
-                                        } 
-                                        kal = kal + "<option value="+ arrData[i]['kelas_responsi'][k]['id'] +">" + arrData[i]['kelas_responsi'][k]['hari'] + ", " + arrData[i]['kelas_responsi'][k]['jam'] + "</option>";
-
-                                        if(ada == 1 && k == arrData[i]['kelas_responsi'].length-1){
-                                            kal = kal + "</select>";
+                                        { 
+                                            if(arrData[i]['data_mahasiswa_responsi'][j]['nabrak_kelas_responsi'+(arrData[i]['kelas_responsi'][k]['id'])+(arrData[i]['data_mahasiswa_responsi'][j]['NRP'])] == 'yes'){
+                                                kal = kal + "<td class='bg-red' style='text-align: center' onclick=milih(" + i + "," + j + ",'"+ arrData[i]['data_mahasiswa_responsi'][j]['id'] + "',"+ arrData[i]['kelas_responsi'][k]['id'] +",'pil"+ (k+1) +"')>&nbsp;</td>";
+                                            }
+                                            else{
+                                                kal = kal + "<td class='bg-green' style='text-align: center' onclick=milih(" + i + "," + j + ",'"+ arrData[i]['data_mahasiswa_responsi'][j]['id'] + "',"+ arrData[i]['kelas_responsi'][k]['id'] +",'pil"+ (k+1) +"')>&nbsp;</td>";
+                                            }
                                         }
                                     }
-                                }
+                                kal = kal + "<td>";
+
+                                    var ada = 0;
+
+                                    for(var k = 0; k < arrData[i]['kelas_responsi'].length; k++) {
+                                        if(arrData[i]['kelas_responsi'][k]['id'] == arrData[i]['data_mahasiswa_responsi'][j]['terpilih']){
+                                            kal = kal +"<label style='margin-bottom:0;' id='kolomterpilih" + arrData[i]['kode_mk'] + arrData[i]['data_mahasiswa_responsi'][j]['NRP'] + arrData[i]['data_mahasiswa_responsi'][j]['id'] + "'>" + arrData[i]['kelas_responsi'][k]['hari'] + ", " + arrData[i]['kelas_responsi'][k]['jam'] + "</label>";
+                                            //tambahin input type hidden nya buat di lempar
+                                            kal = kal + "<input type='hidden' id='idkelasprakterpilih"+ arrData[i]['kode_mk'] + arrData[i]['data_mahasiswa_responsi'][j]['NRP'] + arrData[i]['data_mahasiswa_responsi'][j]['id'] +"' value='"+ arrData[i]['kelas_responsi'][k]['id']  +"'>";
+                                            ada = 1;
+                                        }
+                                    }
+                                    if(ada == 0){
+                                        kal = kal +"<label style='margin-bottom:0;' id='kolomterpilih" + arrData[i]['kode_mk'] + arrData[i]['data_mahasiswa_responsi'][j]['NRP'] + arrData[i]['data_mahasiswa_responsi'][j]['id'] +"'></label>";
+                                        kal = kal + "<input type='hidden' id='idkelasprakterpilih"+ arrData[i]['kode_mk'] + arrData[i]['data_mahasiswa_responsi'][j]['NRP'] + arrData[i]['data_mahasiswa_responsi'][j]['id'] +"' value=''>";
+                                    }
                                 
                                 kal = kal + "</td>"; 
                                 kal = kal + "</tr>"; 

@@ -64,9 +64,11 @@
                             <label class="control-label col-md-3 col-sm-3 ">Keterangan</label>
                             <div class="col-md-9 col-sm-9 ">
                                 <div class="">
-                                <textarea id="summernote" name="editordata"></textarea>
+                                <!-- <textarea id="summernote" name="editordata"></textarea> -->
+                                
+                                <!-- <textarea id="keterangan" name="editordata"></textarea> -->
                                 <!-- <div id="summernote"></div> -->
-                                <!-- <textarea id="keterangan" name="keterangan" rows="5"></textarea> -->
+                                <textarea id="keterangan" name="keterangan" rows="5"></textarea>
                                 <script>
 
                                     // $('#summernote').summernote({
@@ -165,7 +167,8 @@ $(function() {
     var baru = 0;
     $(document).ready(function() {	
         // alert("masukkkkkkkk ready");	
-        $('#summernote').summernote();
+        // $('#summernote').summernote();
+        $('#keterangan').trumbowyg();  
         
         view()
     });
@@ -173,6 +176,7 @@ $(function() {
     function addupdate(){
         $waktu = ($('#datetimes').val()).split(" - ");
         // alert(tinymce.get("keterangan").getContent());
+        alert($('#keterangan').val());
         // Y-M-DD HH:mm
         if($('#ppke').val() >=1 && $('#ppke').val() <=4){
             $.post(baseurl + "pendaftaran_praktikum/" + $('#mode').val(), {
@@ -181,7 +185,7 @@ $(function() {
                 waktu_end: $waktu[1],
                 ppke: $('#ppke').val(),
                 status: $('#status').is(':checked'),
-                keterangan: tinymce.get("keterangan").getContent(),
+                keterangan: $('#keterangan').val(),
             },
             function(result) {
                 // alert(result);
@@ -200,7 +204,7 @@ $(function() {
                     });
                     $('#ppke').val("");
                     $("#status").prop("checked", false);
-                    tinymce.get("keterangan").setContent("");
+                    $('#keterangan').val("");
 
                     if($('#mode').val() == 'update'){
                         $('#action_title').html("Add");
@@ -267,7 +271,8 @@ $(function() {
 
             $('#ppke').val(arr['detil'][0]['PP']);
 
-            tinymce.get("keterangan").setContent(arr['detil'][0]['keterangan']);
+            // tinymce.get("keterangan").setContent(arr['detil'][0]['keterangan']);
+            $('#keterangan').val(arr['detil'][0]['keterangan']);
 
             if(arr['detil'][0]['status'] == 1){
                 $("#status").prop("checked", true);

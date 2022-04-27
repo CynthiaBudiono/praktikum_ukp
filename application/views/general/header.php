@@ -78,8 +78,15 @@
     <!-- <link href="<?= base_url() ?>assets/vendors/select2/dist/css/select2.min.css" rel="stylesheet"> -->
 
     <!-- include summernote css/js -->
-    <link href="<?= base_url() ?>assets/vendors/summernote/summernote.min.css" rel="stylesheet">
-    <script src="<?= base_url() ?>assets/vendors/summernote//summernote.min.js"></script>
+    <!-- <link href="<?= base_url() ?>assets/vendors/summernote/summernote.min.css" rel="stylesheet">
+    <script src="<?= base_url() ?>assets/vendors/summernote//summernote.min.js"></script> -->
+
+    <!-- trumbowyg v2.25.1-->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/trumbowyg.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/ui/trumbowyg.min.css" rel="stylesheet"> -->
+    <script src="<?= base_url() ?>assets/vendors/trumbowyg/dist/trumbowyg.min.js"></script>
+    <link href="<?= base_url() ?>assets/vendors/trumbowyg/dist/ui/trumbowyg.min.css" rel="stylesheet">
+
 
     <!-- Semantic UI Dropdown -->
     <!--- Component CSS -->
