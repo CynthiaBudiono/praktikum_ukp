@@ -55,6 +55,12 @@
     #radioresponsi:checked:checked ~ .radioresponsi span{
         color: #fff;
     }
+
+    .bg-yellow{
+        background-color: #f2cc8e;
+        color: black !important;
+        border: 1px solid black !important;
+    }
 </style>
 
 <!-- page content -->
@@ -87,7 +93,7 @@
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 ">Mahasiswa</label>
                                 <div class="col-md-9 col-sm-9 ">
-                                    <select class="subject_input form-control select2" name="mahasiswa" id="mahasiswa" style="width:100%;">
+                                    <select class="form-control select2" name="mahasiswa" id="mahasiswa" style="width:100%;">
                                         <option value="" disabled selected>-- Search Mahasiswa --</option>
                                     </select>
                                 </div>
@@ -104,7 +110,6 @@
                                 <label class="control-label col-md-3 col-sm-3 ">Mata Kuliah</label>
                                 <div class="col-md-9 col-sm-9 ">
                                     <select class="subject_input form-control select2" name="subject" id="subject" style="width:100%;">
-                                        <option value="" disabled selected>-- Pilih Mata Kuliah --</option>
                                     </select>
                                 </div>
                             </div>
@@ -175,6 +180,7 @@
                 <div class="x_title" id="data_table">
                     <h2>Kelas</h2>
                     <ul class="nav navbar-right panel_toolbox">
+                        <li style="margin: 15px 20px 0px 0px;"><span class="badge bg-yellow">Berhalangan</span></li>
                         <li><button type="button" class="btn bg-green" id="btnvalidasi" onclick="validasi()">Validasi</button></li>
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                     </ul>
@@ -213,7 +219,7 @@
 
     var data_jadwal = [];
     var baru = 0;
-
+    var kalsubject = '';
     // view();
     $(document).ready(function() {	
         // alert("masukkkkkkkk ready");
@@ -252,12 +258,13 @@
         $.post(baseurl + "subject/gethavepraktikum", {},
         function(result) {
             var arr = JSON.parse(result);
-            // var subject = []
+            kalsubject += '<option value="" disabled selected>-- Pilih Mata Kuliah --</option>';
             for(var i=0; i<arr.length; i++){
-                $('#subject').append('<option value="'+ arr[i]['kode_mk'] +'">'+ arr[i]['kode_mk'] + ' - ' + arr[i]['nama'] +'</option>');
+                kalsubject +='<option value="'+ arr[i]['kode_mk'] +'">'+ arr[i]['kode_mk'] + ' - ' + arr[i]['nama'] +'</option>';
                 
                 // alert("status_responsi" + arr[i]['status_responsi']);
             }
+            $('#subject').html(kalsubject);
         });
 
         $('.subject_input').on("change", function() {
@@ -266,19 +273,6 @@
             //     $('#content_tipe').css('display', 'block');
             // }
 
-            // $('#pilihan1').remove();
-            // $('#pilihan2').remove();
-            // $('#pilihan3').remove();
-
-            // $('#pilihan1').append('<option value="placeholder_text" disabled selected>-- Pilih Kelas --</option>');
-            // $('#pilihan2').append('<option value="placeholder_text" disabled selected>-- Pilih Kelas --</option>');
-            // $('#pilihan3').append('<option value="placeholder_text" disabled selected>-- Pilih Kelas --</option>');
-
-            // $('#pilihan1 option[value="placeholder_text"]').text('-- Pilih Kelas --');
-            // $('#pilihan2 option[value="placeholder_text"]').text('-- Pilih Kelas --');
-            // $('#pilihan3 option[value="placeholder_text"]').text('-- Pilih Kelas --');
-            // alert("tipe "+$("input[name='tipe']:checked").val());
-                
             $.post(baseurl + "kelas_praktikum/getbysubject", {
                 kode_mk: $('#subject').val(),
                 tipe: $("input[name='tipe']:checked").val(),
@@ -287,11 +281,16 @@
                 // alert("masuk");
                 var arr = JSON.parse(result);
                 // var subject = []
+                var kal = '';
+                kal +='<option value="placeholder_text" disabled selected>-- Pilih Kelas --</option>';
                 for(var i=0; i<arr.length; i++){
-                    $('#pilihan1').append('<option value="'+ arr[i]['id'] +'">'+ arr[i]['kelas_paralel'] + ' | ' + arr[i]['hari'] + ' ' + arr[i]['jam'] + ' (' + arr[i]['terisi'] + '/' + arr[i]['quota_max'] + ')</option>');
-                    $('#pilihan2').append('<option value="'+ arr[i]['id'] +'">'+ arr[i]['kelas_paralel'] + ' | ' + arr[i]['hari'] + ' ' + arr[i]['jam'] + ' (' + arr[i]['terisi'] + '/' + arr[i]['quota_max'] + ')</option>');
-                    $('#pilihan3').append('<option value="'+ arr[i]['id'] +'">'+ arr[i]['kelas_paralel'] + ' | ' + arr[i]['hari'] + ' ' + arr[i]['jam'] + ' (' + arr[i]['terisi'] + '/' + arr[i]['quota_max'] + ')</option>');
+                    kal +='<option value="'+ arr[i]['id'] +'">'+ arr[i]['kelas_paralel'] + ' | ' + arr[i]['hari'] + ' ' + arr[i]['jam'] + ' (' + arr[i]['terisi'] + '/' + arr[i]['quota_max'] + ')</option>';
                 }
+                $('#pilihan1').html(kal);
+                $('#pilihan2').html(kal);
+                $('#pilihan3').html(kal);
+
+                $("#mahasiswa").prop("disabled", true);
             });
         });
         
@@ -301,21 +300,87 @@
         // alert('masuk func' + $('#mode').val());
         // alert($('#kodelab').val());
         // alert(baseurl + "ambil_praktikum/" + $('#mode').val());
+        // alert((($('#pilihan2 option:selected').text()).split(' ('))[0]);
+        var textpil1 = (($('#pilihan1 option:selected').text()).split(' ('))[0];
+        var textpil2 = (($('#pilihan2 option:selected').text()).split(' ('))[0];
+        var textpil3 = (($('#pilihan3 option:selected').text()).split(' ('))[0];
+
+        var pil1_berhalangan = '';
+        var pil2_berhalangan = '';
+        var pil3_berhalangan = '';
+
+        if($('#pilihan1 option:selected').text() == '-- Pilih Kelas --'){
+            textpil1 = "";
+        }
+        else{
+            $.post(baseurl + "ambil_praktikum/getnabrak", {
+                nrp: $('#mahasiswa').val(),
+                idkelasprak: $('#pilihan1').val()
+            },
+            function(result) {
+                alert(result);
+                if(result == 'yes' || result == 'no'){
+                    pil1_berhalangan = result;
+                }
+            });
+        }
+
+        if($('#pilihan2 option:selected').text() == '-- Pilih Kelas --'){
+            textpil2 = "";
+        }
+        else{
+            $.post(baseurl + "ambil_praktikum/getnabrak", {
+                nrp: $('#mahasiswa').val(),
+                idkelasprak: $('#pilihan2').val()
+            },
+            function(result) {
+                if(result == 'yes' || result == 'no'){
+                    pil2_berhalangan = result;
+                }
+            });
+        }
         
-       
+        if($('#pilihan3 option:selected').text() == '-- Pilih Kelas --'){
+            textpil3 = "";
+        }
+        else{
+            $.post(baseurl + "ambil_praktikum/getnabrak", {
+                nrp: $('#mahasiswa').val(),
+                idkelasprak: $('#pilihan3').val()
+            },
+            function(result) {
+                if(result == 'yes' || result == 'no'){
+                    pil3_berhalangan = result;
+                }
+            });
+        }
+        
+
+        
         data = {
             // "kode_mk": $('#subject').val(),
             "id": data_jadwal.length+1,
             "subject": $('#subject option:selected').text(),
             "tipe": $("input[name='tipe']:checked").val(),
             "pil1": $('#pilihan1').val(),
-            "pil1_text": (($('#pilihan1 option:selected').text()).split())[0],
+            "pil1_berhalangan": pil1_berhalangan,
+            "pil1_text": textpil1,
             "pil2": $('#pilihan2').val(),
-            "pil2_text": (($('#pilihan2 option:selected').text()).split())[0],
+            "pil2_berhalangan": pil2_berhalangan,
+            "pil2_text": textpil2,
             "pil3": $('#pilihan3').val(),
-            "pil3_text": (($('#pilihan3 option:selected').text()).split())[0],
+            "pil3_berhalangan": pil3_berhalangan,
+            "pil3_text": textpil3,
         };
         data_jadwal.push(data);
+
+        $('#subject').html(kalsubject);
+
+        var kal = '<option value="placeholder_text" disabled selected>-- Pilih Kelas --</option>';
+        $('#pilihan1').html(kal);
+        $('#pilihan2').html(kal);
+        $('#pilihan3').html(kal);
+
         view();
     }
 
@@ -326,19 +391,9 @@
         function(result) {
             // alert(result);
             if(result == 'success'){
-                view()
+                view();
                 
-                $('#kodelab').val("");
-                $('#nama').val("");
-                $('#quota').val("");
-                $("#status").prop("checked", false);
-
-                if($('#mode').val() == 'update'){
-                    $('#action_title').html("Add");
-                    $('#kodelab').prop("readonly", false);
-                    $('#mode').val('add');
-                }
-
+                
 
             }
             else{
@@ -347,8 +402,24 @@
         });
     }
 
-    function updates($id){
-        alert($id)
+    function updates($index){
+        alert($index);
+
+        alert(data_jadwal[$index]['subject']);
+        alert(data_jadwal[$index]['pil2']);
+        $('#subject').val(data_jadwal[$index]['subject']);
+
+        if(data_jadwal[$index]['pil1'] != null){
+            $('#pilihan1').val(data_jadwal[$index]['pil1']);
+        }
+        if(data_jadwal[$index]['pil2'] != null){
+            $('#pilihan2').val(data_jadwal[$index]['pil2']);
+        }
+        if(data_jadwal[$index]['pil3'] != null){
+            $('#pilihan3').val(data_jadwal[$index]['pil3']);
+        }
+        
+    
         // $.post(baseurl + "ambil_praktikum/updates", {
         //     nrp : $nrp,
         // },function(result){
@@ -374,64 +445,69 @@
         // });
     }
 
+    function deleterecord($index){
+        data_jadwal.splice($index, 1);
+        // alert(data_jadwal.length);
+        view();
+    }
+
     function view(){
-        // $.post(baseurl + "ambil_praktikum/get", {
+        var kal = "";
 
-        // },
-		// function(result) {
-            // alert(result);
-            // var arr = JSON.parse(result);
-            var kal = "";
-
-            // if(data_jadwal != []){
-                // alert(data_jadwal);
-                for(var i = 0; i < data_jadwal.length; i++){
-                    kal += '<tr>';
-                    kal += '<td>';
-                        kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ data_jadwal[i]['id'] +'")><i class="fa fa-pencil"></i> Edit</button>';
-                        kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ data_jadwal[i]['id'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
-                    kal += '</td>';
-                    kal += '<td>'+ data_jadwal[i]['subject'] +'</td>';
-                    kal += '<td>'+ data_jadwal[i]['tipe'] +'</td>';
-                    kal += '<td>'+ (data_jadwal[i]['pil1'] != null) ? data_jadwal[i]['pil1_text'] : "&nbsp" +'</td>';
-                    kal += '<td>'+ data_jadwal[i]['pil2_text'] +'</td>';
-                    kal += '<td>'+ data_jadwal[i]['pil3_text'] +'</td>';
-                    kal += '</tr>';
-                }
-                
-                $("#data_ambil_praktikum").html(kal);
-            // }
-            
-            if(baru == 0){ //initialize datatable
-                $("#datatable-ambil_praktikum").DataTable({
-                    dom: "Blfrtip",
-                    buttons: [
-                        {
-                            extend: "copy",
-                            className: "btn-sm"
-                        },
-                        {
-                            extend: "csv",
-                            className: "btn-sm"
-                        },
-                        {
-                            extend: "excel",
-                            className: "btn-sm"
-                        },
-                        {
-                            extend: "pdfHtml5",
-                            className: "btn-sm"
-                        },
-                        {
-                            extend: "print",
-                            className: "btn-sm"
-                        },
-                    ],
-                    responsive: true
-                });
+        for(var i = 0; i < data_jadwal.length; i++){
+            kal += '<tr>';
+            kal += '<td>';
+                kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ i +'")><i class="fa fa-pencil"></i> Edit</button>';
+                kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=deleterecord("'+ i +'")><i class="fa fa-trash-o"></i> Delete</button>';
+            kal += '</td>';
+            kal += '<td>'+ data_jadwal[i]['subject'] +'</td>';
+            kal += '<td>'+ data_jadwal[i]['tipe'] +'</td>';
+            alert("jadwal berhalangan " + data_jadwal[i]['pil1_berhalangan']);
+            if(data_jadwal[i]['pil1_berhalangan'] == 'yes'){
+                alert("masuk IFF");
+                kal += '<td class="bg-yellow">'+ data_jadwal[i]['pil1_text'] + '</td>';
             }
-            baru++;
+            else{
+                kal += '<td>'+ data_jadwal[i]['pil1_text'] + '</td>';
+            }
             
-        // });
+            kal += '<td>'+ data_jadwal[i]['pil2_text'] +'</td>';
+            kal += '<td>'+ data_jadwal[i]['pil3_text'] +'</td>';
+            kal += '</tr>';
+        }
+        
+        $("#data_ambil_praktikum").html(kal);
+        
+        if(baru > 0){
+            $("#datatable-ambil_praktikum").destroy();
+        }
+        baru++;
+        $("#datatable-ambil_praktikum").DataTable({
+            dom: "Blfrtip",
+            buttons: [
+                {
+                    extend: "copy",
+                    className: "btn-sm"
+                },
+                {
+                    extend: "csv",
+                    className: "btn-sm"
+                },
+                {
+                    extend: "excel",
+                    className: "btn-sm"
+                },
+                {
+                    extend: "pdfHtml5",
+                    className: "btn-sm"
+                },
+                {
+                    extend: "print",
+                    className: "btn-sm"
+                },
+            ],
+            responsive: true
+        });
+        
     }
 </script>

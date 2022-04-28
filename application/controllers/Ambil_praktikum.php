@@ -265,7 +265,7 @@ class ambil_praktikum extends CI_Controller {
         $this->load->model('kelas_praktikum_model');
         $this->load->model('ambil_praktikum_model');
 
-        // var_dump($this->input->post("data_ambil_praktikum")); exit;
+        var_dump($this->input->post("data_ambil_praktikum")); exit;
 
         $kelas_praktikum = $this->input->post("data_kelas_praktikum");
         $ambil_praktikum = $this->input->post("data_ambil_praktikum");
@@ -305,6 +305,18 @@ class ambil_praktikum extends CI_Controller {
         $this->user_history_model->add($logs_insert);
 
         echo "sukses";
+    }
+
+    public function getnabrak(){
+        $this->load->model('ambil_praktikum_model');
+        $this->load->model('kelas_praktikum_model');
+        $this->load->model('informasi_umum_model');
+
+        $kelas_praktikum = $this->kelas_praktikum_model->get($this->input->post('idkelasprak'));
+
+        $getnabrak = $this->ambil_praktikum_model->getnabrak($this->input->post('nrp'), $kelas_praktikum[0]['hari'], $kelas_praktikum[0]['jam'], $kelas_praktikum[0]['durasi'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+
+        echo $getnabrak;
     }
 
     public function adds(){

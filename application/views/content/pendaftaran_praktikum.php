@@ -176,7 +176,7 @@ $(function() {
     function addupdate(){
         $waktu = ($('#datetimes').val()).split(" - ");
         // alert(tinymce.get("keterangan").getContent());
-        alert($('#keterangan').val());
+        // alert($('#keterangan').val());
         // Y-M-DD HH:mm
         if($('#ppke').val() >=1 && $('#ppke').val() <=4){
             $.post(baseurl + "pendaftaran_praktikum/" + $('#mode').val(), {
@@ -311,7 +311,7 @@ $(function() {
             
             $("#data_pendaftaran_praktikum").html(kal);
             if(baru > 0){
-                $('#datatable_pendaftaran_praktikum').destroy(); 
+                $('#datatable_pendaftaran_praktikum').DataTable().destroy();
             }
             baru++;
             $('#datatable_pendaftaran_praktikum').DataTable( {
