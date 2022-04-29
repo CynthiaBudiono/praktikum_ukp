@@ -405,9 +405,9 @@
     function updates($index){
         alert($index);
 
-        alert(data_jadwal[$index]['subject']);
-        alert(data_jadwal[$index]['pil2']);
-        $('#subject').val(data_jadwal[$index]['subject']);
+        // alert(data_jadwal[$index]['subject']);
+        // alert(data_jadwal[$index]['pil2']);
+        $('#subject').val(data_jadwal[$index]['subject'].split(" - ")[0]);
 
         if(data_jadwal[$index]['pil1'] != null){
             $('#pilihan1').val(data_jadwal[$index]['pil1']);

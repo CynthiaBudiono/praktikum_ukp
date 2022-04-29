@@ -76,14 +76,14 @@ class Mahasiswa_nilai extends CI_Controller {
 
     }
 
-    public function updates($id = null, $tipe = null){
+    public function updates($id = null, $pertemuan = null){
 
         // $check = $this->access_group_model->getbynama($this->session->userdata('user_level'));
 		// if ($check == 0) redirect('dashboard');
 
         $id = base64_decode($id);
 
-        if($tipe == null) redirect('dashboard');
+        if($pertemuan == null) redirect('dashboard');
 
 
         $this->load->model('mahasiswa_nilai_model');
@@ -91,8 +91,10 @@ class Mahasiswa_nilai extends CI_Controller {
 
 		// $res = $this->mahasiswa_nilai_model->get($id);
 
-        $data['detail_kelas'] = $this->ambil_praktikum_model->getdetailkelasbyidkelasprak($id, $tipe);
+        $data['detail_kelas'] = $this->ambil_praktikum_model->getdetailkelasbyidkelasprak($id, $pertemuan);
 
+        // var_dump($id." ".$pertemuan);
+        // var_dump($data['detail_kelas']);exit;
         // if ($data['detail_kelas'] == 0) redirect('dashboard');
 
         $data['primary'] = $id;
@@ -179,54 +181,36 @@ class Mahasiswa_nilai extends CI_Controller {
     public function update(){
         // $id = base64_decode($id);
 
-        $status = ($this->input->post('status')=='on') ? 1 : 0;
+        // $idkelasprak = $this->input->post('id_kelas_prak');
 
-        $data = array(
-            'id' => $this->input->post('idusergroup'),
-            'nama' => $this->input->post('nama'),
-            'status' => $status,
-            'keterangan' => $this->input->post('keterangan'),
-            "updated" => date('Y-m-d H:i:s')
-        );
+        $data = $this->input->post('data');
 
-        // var_dump("masuk update ", $data);
-
-        //check validasi
-        $this->form_validation->set_data($data);
-        $this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
-
-        if ($this->form_validation->run() == FALSE) {
-            $detil[0] = $data;
-            $this->adds(validation_errors(), $detil);
-            // var_dump("LOHH MASUK SINI"); exit;
-        }
-        else {
-            $this->load->helper(array('form', 'url'));
-
-            $this->load->model('mahasiswa_nilai_model');
-            // var_dump("AAAAA", $data['id']); exit;
-            $old_data = $this->mahasiswa_nilai_model->get($data['id']);
-
-            // var_dump("OLD DATA: ", $old_data); exit;
-            $this->mahasiswa_nilai_model->update($data);
-
-            // insert log
-            $keterangan = '';
-            $keterangan .= $old_data[0]['nama']. ' to '. $data['nama'].'; ';
-            $keterangan .= $old_data[0]['status']. ' to '. $data['status'].';';
-            $keterangan .= $old_data[0]['keterangan']. ' to '. $data['keterangan'].'; ';
-
-            $logs_insert = array(
-                "id_user" => $this->session->userdata('user_id'),
-                "table_name" => 'mahasiswa_nilai',
-                "action" => 'UPDATE',
-                "keterangan" => $this->session->userdata('logged_name')." updated record # : ".$data['id']. ": ". $keterangan,
-                "created" => date('Y-m-d H:i:s')
+        for($i = 0; $i < count($data); $i++){
+            $isidata = array(
+                'id' => $data[$i]['id_mahasiswa_nilai'],
+                'status_absensi' => $data[$i]['status_absensi'],
+                'nilai_awal' => $data[$i]['nilai_awal'],
+                'nilai_materi' => $data[$i]['nilai_materi'],
+                'nilai_tugas' => $data[$i]['nilai_tugas']
             );
-            $this->load->model('user_history_model');
-            $this->user_history_model->add($logs_insert);
 
-            redirect('mahasiswa_nilai');
-        }    
+            $this->mahasiswa_nilai_model->update($isidata);
+        }
+        
+        // insert log
+        $keterangan = '';
+        $keterangan .= json_encode($data).'; ';
+
+        $logs_insert = array(
+            "id_user" => $this->session->userdata('user_id'),
+            "table_name" => 'mahasiswa_nilai',
+            "action" => 'UPDATE',
+            "keterangan" => $this->session->userdata('logged_name')." updated record # : ".$data['id']. ": ". $keterangan,
+            "created" => date('Y-m-d H:i:s')
+        );
+        $this->load->model('user_history_model');
+        $this->user_history_model->add($logs_insert);
+
+        redirect('mahasiswa_nilai');    
     }
 }

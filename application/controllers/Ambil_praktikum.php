@@ -265,7 +265,7 @@ class ambil_praktikum extends CI_Controller {
         $this->load->model('kelas_praktikum_model');
         $this->load->model('ambil_praktikum_model');
 
-        var_dump($this->input->post("data_ambil_praktikum")); exit;
+        // var_dump($this->input->post("data_ambil_praktikum")); exit;
 
         $kelas_praktikum = $this->input->post("data_kelas_praktikum");
         $ambil_praktikum = $this->input->post("data_ambil_praktikum");
@@ -280,7 +280,7 @@ class ambil_praktikum extends CI_Controller {
 
         //insertlogs
         $keterangan = '';
-        $keterangan .= $kelas_praktikum.'; ';
+        $keterangan .= json_encode($kelas_praktikum).'; ';
 
         $logs_insert = array(
             "id_user" => $this->session->userdata('user_id'),
@@ -293,7 +293,7 @@ class ambil_praktikum extends CI_Controller {
         $this->user_history_model->add($logs_insert);
 
         $keterangan = '';
-        $keterangan .= $ambil_praktikum.'; ';
+        $keterangan .= json_encode($ambil_praktikum).'; ';
 
         $logs_insert = array(
             "id_user" => $this->session->userdata('user_id'),

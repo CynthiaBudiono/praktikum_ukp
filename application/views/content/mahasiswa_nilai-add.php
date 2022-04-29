@@ -49,7 +49,7 @@
                                 <tbody>
                                 <?php if(isset($detail_kelas)) : ?>
                                     <?php if(is_array($detail_kelas)) : ?>
-                                        <input type="hidden" name="length_kelas" id="length_kelas" value="<?= count($detail_kelas) ?>">
+                                        <input type="text" style="display:none;" name="length_kelas" id="length_kelas" value="<?= count($detail_kelas) ?>">
                                         <?php foreach($detail_kelas as $index => $key) : ?>
                                         <tr>
                                             <td id="nrp<?= $index ?>"><?= (isset($key['NRP'])) ? $key['NRP']: '' ?> - <?= (isset($key['nama_mahasiswa'])) ? $key['nama_mahasiswa'] : '' ?></td>
@@ -57,41 +57,41 @@
                                             <?php if(isset($key['status_absensi'])){ ?>
                                                 <?php if($key['status_absensi'] == 'M'){ ?>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio1" value="option1" checked>
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio1" value="M" checked>
                                                     <label class="form-check-label" for="inlineRadio1">M</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio2" value="option2">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio2" value="I">
                                                     <label class="form-check-label" for="inlineRadio2">I</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio3" value="option3">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio3" value="A">
                                                     <label class="form-check-label" for="inlineRadio3">A</label>
                                                 </div>
                                                 <?php }else if($key['status_absensi'] == 'I'){ ?>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio1" value="option1">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio1" value="M">
                                                     <label class="form-check-label" for="inlineRadio1">M</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio2" value="option2" checked>
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio2" value="I" checked>
                                                     <label class="form-check-label" for="inlineRadio2">I</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio3" value="option3">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio3" value="A">
                                                     <label class="form-check-label" for="inlineRadio3">A</label>
                                                 </div>
                                                 <?php }else if($key['status_absensi'] == 'A'){ ?>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio1" value="option1">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio1" value="M">
                                                     <label class="form-check-label" for="inlineRadio1">M</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio2" value="option2">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio2" value="I">
                                                     <label class="form-check-label" for="inlineRadio2">I</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio3" value="option3" checked>
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio3" value="A" checked>
                                                     <label class="form-check-label" for="inlineRadio3">A</label>
                                                 </div>
                                             <?php }}?>
@@ -153,12 +153,13 @@
         alert($("#length_kelas").val());
 
         var length = $("#length_kelas").val();
-        var data_mahasiswa_nilai = new array();
+        var data_mahasiswa_nilai = [];
 
+        alert(($("#nrp" + "0").html()).split(" - ")[0]);
         for(var i = 0; i < length; i++){
             var isiarray = {
-                nrp: $("#nrp"+ i).html(),
-                status_absensi: $("input[name='inlineRadioOptions'" + i + "]:checked").val(),
+                NRP: ($("#nrp"+ i).html()).split(" - ")[0],
+                status_absensi: $("input[name='inlineRadioOptions" + i + "']:checked").val(),
                 nilai_awal: $("#nilai_awal"+ i).val(),
                 nilai_materi: $("#nilai_materi"+ i).val(),
                 nilai_tugas: $("#nilai_tugas"+ i).val(),
@@ -167,6 +168,8 @@
 
             data_mahasiswa_nilai.push(isiarray);
         }
+
+        // alert(data_mahasiswa_nilai);
 
         if($("#mode").val() == 'add') { //add
             $.post(baseurl + "mahasiswa_nilai/add", {

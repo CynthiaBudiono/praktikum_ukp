@@ -309,10 +309,11 @@ $(function() {
                 kal += '</tr>';
             }
             
-            $("#data_pendaftaran_praktikum").html(kal);
+            
             if(baru > 0){
                 $('#datatable_pendaftaran_praktikum').DataTable().destroy();
             }
+            $("#data_pendaftaran_praktikum").html(kal);
             baru++;
             $('#datatable_pendaftaran_praktikum').DataTable( {
                 dom: "Blfrtip",
