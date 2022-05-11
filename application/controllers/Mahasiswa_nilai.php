@@ -183,8 +183,10 @@ class Mahasiswa_nilai extends CI_Controller {
 
         // $idkelasprak = $this->input->post('id_kelas_prak');
 
-        $data = $this->input->post('data');
+        $this->load->model('mahasiswa_nilai_model');
 
+        $data = $this->input->post('data');
+        // var_dump($data); exit;
         for($i = 0; $i < count($data); $i++){
             $isidata = array(
                 'id' => $data[$i]['id_mahasiswa_nilai'],
@@ -194,6 +196,7 @@ class Mahasiswa_nilai extends CI_Controller {
                 'nilai_tugas' => $data[$i]['nilai_tugas']
             );
 
+            // var_dump($isidata); exit;
             $this->mahasiswa_nilai_model->update($isidata);
         }
         
@@ -211,6 +214,6 @@ class Mahasiswa_nilai extends CI_Controller {
         $this->load->model('user_history_model');
         $this->user_history_model->add($logs_insert);
 
-        redirect('mahasiswa_nilai');    
+        echo 'sukses';    
     }
 }

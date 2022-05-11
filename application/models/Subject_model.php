@@ -31,21 +31,21 @@ class Subject_model extends CI_Model {
 
 	}
 
-	public function gethavepraktikum(){
+	// public function gethavepraktikum(){
 
-		// $this->db->select('DISTINCT kode_mk, subject.*');
-		$this->db->group_by("kode_mk");
-		$this->db->order_by('kode_mk', 'ASC');
-		$query = $this->db->where('status_praktikum', 1)->where('status', 1)->get('subject');
+	// 	// $this->db->select('DISTINCT kode_mk, subject.*');
+	// 	$this->db->group_by("kode_mk");
+	// 	$this->db->order_by('kode_mk', 'ASC');
+	// 	$query = $this->db->where('status_praktikum', 1)->where('status', 1)->get('subject');
 
-		if ($query->num_rows() > 0)
+	// 	if ($query->num_rows() > 0)
 
-			return $query->result_array();
+	// 		return $query->result_array();
 
-		else
+	// 	else
 
-			return 0;
-	}
+	// 		return 0;
+	// }
 
     public function add($data) {
 

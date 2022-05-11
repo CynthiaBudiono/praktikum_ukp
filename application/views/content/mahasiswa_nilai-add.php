@@ -52,6 +52,7 @@
                                         <input type="text" style="display:none;" name="length_kelas" id="length_kelas" value="<?= count($detail_kelas) ?>">
                                         <?php foreach($detail_kelas as $index => $key) : ?>
                                         <tr>
+                                            <input type="text" style="display:none;" name="idmhsnilai" id="idmhsnilai<?= $index ?>" value="<?= $key['id'] ?>">
                                             <td id="nrp<?= $index ?>"><?= (isset($key['NRP'])) ? $key['NRP']: '' ?> - <?= (isset($key['nama_mahasiswa'])) ? $key['nama_mahasiswa'] : '' ?></td>
                                             <td>
                                             <?php if(isset($key['status_absensi'])){ ?>
@@ -150,7 +151,7 @@
     function simpan($id, $mode){
         alert("ID " + $id);
         alert("MODE " + $mode);
-        alert($("#length_kelas").val());
+        alert("Length kelas : " + $("#length_kelas").val());
 
         var length = $("#length_kelas").val();
         var data_mahasiswa_nilai = [];
@@ -158,20 +159,21 @@
         alert(($("#nrp" + "0").html()).split(" - ")[0]);
         for(var i = 0; i < length; i++){
             var isiarray = {
+                id_mahasiswa_nilai:  $("#idmhsnilai"+ i).val(),
                 NRP: ($("#nrp"+ i).html()).split(" - ")[0],
                 status_absensi: $("input[name='inlineRadioOptions" + i + "']:checked").val(),
                 nilai_awal: $("#nilai_awal"+ i).val(),
                 nilai_materi: $("#nilai_materi"+ i).val(),
                 nilai_tugas: $("#nilai_tugas"+ i).val(),
             };
-            alert("isiarray" + isiarray);
+            // alert("isiarray" + isiarray);
 
             data_mahasiswa_nilai.push(isiarray);
         }
 
         // alert(data_mahasiswa_nilai);
 
-        if($("#mode").val() == 'add') { //add
+        if($mode == 'add') { //add
             $.post(baseurl + "mahasiswa_nilai/add", {
                 id_kelas_prak: $id,
                 data: data_mahasiswa_nilai
@@ -180,13 +182,15 @@
                 alert(result);
             });
         }
-        else if ($("#mode").val() == 'update'){ //update
+        if ($mode == 'update'){ //update
+            // alert("masuk updatee");
             $.post(baseurl + "mahasiswa_nilai/update", {
                 id_kelas_prak: $id,
                 data: data_mahasiswa_nilai
             },
             function(result) {
                 alert(result);
+                // alert("result update : " + result);
             });
         }
     }

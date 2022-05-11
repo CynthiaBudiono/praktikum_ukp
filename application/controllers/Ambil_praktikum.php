@@ -307,16 +307,30 @@ class ambil_praktikum extends CI_Controller {
         echo "sukses";
     }
 
-    public function getnabrak(){
+    public function getnabrak(){ // kembalian dari getnabrak ==> "", "yes", "no"
         $this->load->model('ambil_praktikum_model');
         $this->load->model('kelas_praktikum_model');
         $this->load->model('informasi_umum_model');
 
-        $kelas_praktikum = $this->kelas_praktikum_model->get($this->input->post('idkelasprak'));
+        if($this->input->post('idkelasprak') == "placeholder_text") { 
+            echo ""; 
+        }
+        else {
+            $kelas_praktikum = $this->kelas_praktikum_model->get($this->input->post('idkelasprak'));
 
-        $getnabrak = $this->ambil_praktikum_model->getnabrak($this->input->post('nrp'), $kelas_praktikum[0]['hari'], $kelas_praktikum[0]['jam'], $kelas_praktikum[0]['durasi'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+            $getnabrak = $this->ambil_praktikum_model->getnabrak($this->input->post('nrp'), $kelas_praktikum[0]['hari'], $kelas_praktikum[0]['jam'], $kelas_praktikum[0]['durasi'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
-        echo $getnabrak;
+            echo $getnabrak;
+        }
+    }
+
+    public function getambilprakbynrp(){
+        $this->load->model('ambil_praktikum_model');
+        $this->load->model('informasi_umum_model');
+
+        $ambil_praktikum = $this->ambil_praktikum_model->getambilprakbynrp($this->input->post('nrp'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+
+        echo json_encode($ambil_praktikum);
     }
 
     public function adds(){

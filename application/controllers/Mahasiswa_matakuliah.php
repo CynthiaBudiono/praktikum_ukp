@@ -42,8 +42,12 @@ class mahasiswa_matakuliah extends CI_Controller {
 		$this->load->model('mahasiswa_matakuliah_model');
         $this->load->model('informasi_umum_model');
 
-        $subject = $this->mahasiswa_matakuliah_model->getsubjectbyNRP($this->input->post('nrp'),  $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
-
+		if($this->session->userdata('user_type') == 'admin'){
+        	$subject = $this->mahasiswa_matakuliah_model->getsubjectbyNRP($this->input->post('nrp'),  $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+		}
+		else if($this->session->userdata('user_type') == 'mahasiswa'){
+			$subject = $this->mahasiswa_matakuliah_model->getsubjectbyNRP($this->session->userdata('user_id'),  $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+		}
         echo json_encode($subject);
 	}
 }

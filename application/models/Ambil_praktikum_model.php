@@ -259,6 +259,56 @@ class Ambil_praktikum_model extends CI_Model {
 	// 		return 0;
 	// }
 
+	public function getambilprakbynrp($nrp, $semester, $tahun_ajaran) {
+
+		$this->db->select(' ambil_praktikum.*, subject.kode_mk as kode_mk, subject.nama as nama_subject');
+		$this->db->select(' kp1.hari as hari1, kp1.jam as jam1, kp1.durasi as durasi1, kp1.kelas_paralel as kelas_paralel1');
+		$this->db->select(' kp2.hari as hari2, kp2.jam as jam2, kp2.durasi as durasi2, kp2.kelas_paralel as kelas_paralel2');
+		$this->db->select(' kp3.hari as hari3, kp3.jam as jam3, kp3.durasi as durasi3, kp3.kelas_paralel as kelas_paralel3');
+		$this->db->select(' kp4.hari as hari4, kp4.jam as jam4, kp4.durasi as durasi4, kp4.kelas_paralel as kelas_paralel4');
+
+		$this->db->join('kelas_praktikum as kp1', 'kp1.id = ambil_praktikum.pil1', 'left');
+		$this->db->join('kelas_praktikum as kp2', 'kp2.id = ambil_praktikum.pil2', 'left');
+		$this->db->join('kelas_praktikum as kp3', 'kp3.id = ambil_praktikum.pil3', 'left');
+		$this->db->join('kelas_praktikum as kp4', 'kp4.id = ambil_praktikum.pil4', 'left');
+
+		$this->db->join('subject', 'subject.kode_mk = ambil_praktikum.kode_mk');
+
+		$this->db->where('nrp', $nrp);
+
+		// mhs telah memilih jadwal praktikum
+		$this->db->where('(pil1 IS NOT null');
+		$this->db->or_where('pil2 IS NOT null');
+		$this->db->or_where('pil3 IS NOT null)');
+
+		if($semester != null && $tahun_ajaran != null){
+			$this->db->where('ambil_praktikum.semester', $semester);
+        	$this->db->where('ambil_praktikum.tahun_ajaran', $tahun_ajaran);
+		}
+
+		$query = $this->db->get('ambil_praktikum');
+
+		if ($query->num_rows() > 0){
+
+			$arr= [];
+			$jumarr = 0;
+			foreach($query->result_array() as $row){
+				$arr[$jumarr] = $row;
+				$arr[$jumarr]['pil1_berhalangan'] = $this->getnabrak($nrp, $row['hari1'], $row['jam1'], $row['durasi1'], $semester, $tahun_ajaran);
+				$arr[$jumarr]['pil2_berhalangan'] = $this->getnabrak($nrp, $row['hari2'], $row['jam2'], $row['durasi2'], $semester, $tahun_ajaran);
+				$arr[$jumarr]['pil3_berhalangan'] = $this->getnabrak($nrp, $row['hari3'], $row['jam3'], $row['durasi3'], $semester, $tahun_ajaran);
+				$jumarr++;
+			}
+
+			return $arr;
+			// return $query->result_array();
+		}
+		else
+
+			return 0;
+
+	}
+
     public function get($id) {
 
 		$query = $this->db->where('id', $id)->get('ambil_praktikum', 1, 0);

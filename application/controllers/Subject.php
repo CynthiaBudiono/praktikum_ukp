@@ -38,10 +38,24 @@ class Subject extends CI_Controller {
 		$this->load->view('general/footer', $data);
 	}
 
-	public function gethavepraktikum(){
+	// public function gethavepraktikum(){
+	// 	$this->load->model('subject_model');
+	// 	$subject = "";
+	// 	if($this->session->userdata('user_type') == 'admin'){
+	// 		$subject = $this->subject_model->gethavepraktikum($this->input->post('nrp'));
+	// 	}
+	// 	else if($this->session->userdata('user_type') == 'mahasiswa'){
+	// 		$subject = $this->subject_model->gethavepraktikum($this->session->userdata('user_id'));
+	// 	}
+		
+		
+    //     echo json_encode($subject);
+	// }
+
+	public function get(){
 		$this->load->model('subject_model');
 
-		$subject = $this->subject_model->gethavepraktikum();
+		$subject = $this->subject_model->get($this->input->post('kode_mk'));
 		
         echo json_encode($subject);
 	}
