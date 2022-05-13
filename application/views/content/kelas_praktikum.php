@@ -101,10 +101,8 @@
                                 <table id="datatable-periode-ini" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <!-- <th>Actions</th> -->
-                                        <th>Hari</th>
-                                        <th>Jam</th>
-                                        <th>Lama</th>
+                                        <th>Actions</th>
+                                        <th>Waktu</th>
                                         <th>Laboratorium</th>
                                         <th>Mata Kuliah</th>
                                         <th>Kelas</th>
@@ -118,18 +116,20 @@
                                     <?php if(is_array($kelas_praktikum_now)) : ?>
                                         <?php foreach($kelas_praktikum_now as $key) : ?>
                                         <tr>
-                                            <!-- <td> -->
+                                            <td>
                                                 <!-- <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a> -->
-                                                <!-- <a href="<?php echo base_url("kelas_praktikum/updates/"); echo base64_encode($key['id']);?>" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a> -->
+                                                <a href="<?php echo base_url("kelas_praktikum/updates/"); echo base64_encode($key['id']);?>" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
                                                 <!-- <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
-                                            <!-- </td> -->
+                                            </td>
                                             <!-- <td><?= (isset($key['kode_kelas_praktikum'])) ? $key['kode_kelas_praktikum'] : '' ?></td> -->
                                             <!-- <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?></td> -->
-                                            <td><?= (isset($key['hari'])) ? $key['hari'] : '' ?></td>
-                                            <td><?= (isset($key['jam'])) ? $key['jam'] : '' ?></td>
-                                            <td><?= (isset($key['durasi'])) ? $key['durasi'] : '' ?></td>
+                                            <td><?= (isset($key['hari'])) ? $key['hari'] : '' ?>, <?= (isset($key['jam'])) ? $key['jam'] : '' ?>
+                                                <p style="font-size:12px; font-weight: bold;"><?= (isset($key['durasi'])) ? $key['durasi'] : '' ?> menit</p>
+                                            </td>
                                             <td><?= (isset($key['kode_lab'])) ? $key['kode_lab'] : '' ?></td>
-                                            <td><?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?></td>
+                                            <td><p><?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?></p>
+                                                <p><?= (isset($key['tipe'])) ? $key['tipe'] : '' ?></p>
+                                            </td>
                                             <td><?= (isset($key['kelas_paralel'])) ? $key['kelas_paralel'] : '' ?></td>
                                             <td><?= (isset($key['terisi'])) ? $key['terisi'] : '' ?></td>
                                             <td><p><?php if($key['nama_dosen1'] != NULL){ echo $key['nama_dosen1']; } elseif($key['nama_mahasiswa1'] != NULL) {echo $key['nama_mahasiswa1']; }?></p>
@@ -186,9 +186,7 @@
                                     <tr>
                                         <!-- <th>Actions</th> -->
                                         <!-- <th>Kode Kelas</th> -->
-                                        <th>Hari</th>
-                                        <th>Jam</th>
-                                        <th>Lama</th>
+                                        <th>Waktu</th>
                                         <th>Kode Lab</th>
                                         <th>Mata Kuliah</th>
                                         <th>Terisi</th>
@@ -208,11 +206,13 @@
                                                 <!-- <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
                                             <!-- </td> -->
                                             <!-- <td><?= (isset($key['kode_kelas_praktikum'])) ? $key['kode_kelas_praktikum'] : '' ?></td> -->
-                                            <td><?= (isset($key['hari'])) ? $key['hari'] : '' ?></td>
-                                            <td><?= (isset($key['jam'])) ? $key['jam'] : '' ?></td>
-                                            <td><?= (isset($key['durasi'])) ? $key['durasi'] : '' ?></td>
+                                            <td><?= (isset($key['hari'])) ? $key['hari'] : '' ?>, <?= (isset($key['jam'])) ? $key['jam'] : '' ?>
+                                                <p style="font-size:12px; font-weight: bold;"><?= (isset($key['durasi'])) ? $key['durasi'] : '' ?> menit</p>
+                                            </td>
                                             <td><?= (isset($key['kode_lab'])) ? $key['kode_lab'] : '' ?></td>
-                                            <td><?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?> (<?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?>)</td>
+                                            <td><p><?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?> (<?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?>)</p>
+                                                <p><?= (isset($key['tipe'])) ? $key['tipe'] : '' ?></p>
+                                            </td>
                                             <td><?= (isset($key['terisi'])) ? $key['terisi'] : '' ?></td>
                                             <td><p><?php if($key['nama_dosen1'] != NULL){ echo $key['nama_dosen1']; } elseif($key['nama_mahasiswa1'] != NULL) {echo $key['nama_mahasiswa1']; }?></p>
                                                 <p><?php if($key['nama_dosen2'] != NULL){ echo $key['nama_dosen2']; } elseif($key['nama_mahasiswa2'] != NULL) {echo $key['nama_mahasiswa2']; }?></p>
@@ -240,6 +240,8 @@
 
 <script>
     var baseurl = "<?php echo base_url(); ?>";
+    var data_kelas = [];
+    var baru = 0;
 
     $(document).ready(function() {
         $('#datatable-periode-ini').DataTable( {
@@ -268,6 +270,7 @@
             ],
             responsive: true
         });
+
         $('#datatable-periode-lama').DataTable( {
             dom: "Blfrtip",
             buttons: [
@@ -297,18 +300,17 @@
 
 
         $("#ddsemester").change(function(){
-            alert("aa" + this.value);
+            // alert("aa" + this.value);
+            // alert("value semester - tahun ajaran: " + $("#ddsemester").val() + " - " + $("#ddtahun_ajaran").val());
             $.post(baseurl + "kelas_praktikum/getperiod", {
                 semester: $("#ddsemester").val(),
                 tahun_ajaran : $("#ddtahun_ajaran").val()
             },
             function(result) {
-                alert(result);
-
-                var kal = '';
-
-                kal += '';
-                $("#body_table_period").html(kal);
+                // alert("RESULTT : " + result);
+                var arr = JSON.parse(result);
+                data_kelas = arr;
+                view();
             });
         });
 
@@ -318,8 +320,103 @@
                 tahun_ajaran : $("#ddtahun_ajaran").val()
             },
             function(result) {
-                alert(result);
+                // alert(result);
+                var arr = JSON.parse(result);
+                data_kelas = arr;
+                view();
             });
         });
     });
+
+    function view(){
+        // alert('data_kelas length : ' + data_kelas.length);
+        var kal = '';
+
+        for(var i = 0; i < data_kelas.length; i++){
+            kal += '<tr>';
+                kal += '<td>' + data_kelas[i]['hari'] + ', ' + data_kelas[i]['jam'] + '<p style="font-size:12px; font-weight: bold;">' + data_kelas[i]['durasi'] + ' menit</p>' + '</td>';
+                kal += '<td>' + data_kelas[i]['kode_lab'] + '</td>';
+                kal += '<td>';
+                    kal += '<p>' + data_kelas[i]['nama_subject'] + ' ('+ data_kelas[i]['kode_mk'] + ')' + '</p>';
+                    kal += '<p>' + data_kelas[i]['tipe'] + '</p>';
+                kal += '</td>';
+                kal += '<td>' + data_kelas[i]['terisi'] + '</td>';
+                kal += '<td><p>'; //PENGAJAR DOSEN ATAU ASISTEN
+                    if(data_kelas[i]['nama_dosen1'] != null){ 
+                        kal += data_kelas[i]['nama_dosen1']; 
+                    } 
+                    else { 
+                        kal += data_kelas[i]['nama_mahasiswa1'];
+                    }
+                    kal += '</p><p>';
+                    if(data_kelas[i]['nama_dosen2'] != null){ 
+                        kal += data_kelas[i]['nama_dosen2']; 
+                    } 
+                    else { 
+                        kal += data_kelas[i]['nama_mahasiswa2'];
+                    }
+                    kal += '</p><p>';
+                    if(data_kelas[i]['nama_dosen3'] != null){ 
+                        kal += data_kelas[i]['nama_dosen3']; 
+                    } 
+                    else { 
+                        kal += data_kelas[i]['nama_mahasiswa3'];
+                    }
+                    
+                    kal += '</p>';
+                kal += '</td>';
+
+                kal += '<td>';
+                    if(data_kelas[i]['semester'] == 1){
+                        kal += 'Ganjil ';
+                    }
+                    else{
+                        kal += 'Genap ';
+                    }
+                    kal += data_kelas[i]['tahun_ajaran'];
+                kal += '</td>';
+                kal += '<td>';
+                    if(data_kelas[i]['status'] == 1){
+                        kal += '<span class="badge bg-green">active</span>';
+                    }
+                    else{
+                        kal += '<span class="badge bg-danger">non active</span>';
+                    }
+                kal += '</td>';
+            kal += '</tr>';
+        }
+
+        if(baru >= 0){
+            $('#datatable-periode-lama').DataTable().destroy();
+        }
+        $("#body_table_period").html(kal);
+        baru++;
+
+        $('#datatable-periode-lama').DataTable( {
+            dom: "Blfrtip",
+            buttons: [
+                {
+                    extend: "copy",
+                    className: "btn-sm"
+                },
+                {
+                    extend: "csv",
+                    className: "btn-sm"
+                },
+                {
+                    extend: "excel",
+                    className: "btn-sm"
+                },
+                {
+                    extend: "pdfHtml5",
+                    className: "btn-sm"
+                },
+                {
+                    extend: "print",
+                    className: "btn-sm"
+                },
+            ],
+            responsive: true
+        });
+    }
 </script>

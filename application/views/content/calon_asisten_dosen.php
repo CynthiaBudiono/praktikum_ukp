@@ -44,10 +44,10 @@
                                         <?php foreach($calon_asisten_dosen as $key) : ?>
                                         <tr>
                                             <td>
-                                                <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a>
+                                                <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a>
                                                 <a href="<?php echo base_url("calon_asisten_dosen/updates/"); echo base64_encode($key['id']);?>" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
                                                 <!-- <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
-                                                <a href="#" class="btn btn-success btn-sm btn-action"><i class="fa fa-trash-o"></i> Confirm </a>
+                                                <a href="#" class="btn btn-success btn-sm btn-action"><i class="fa fa-check"></i> Confirm </a>
                                             </td>
                                             <td><?= (isset($key['id'])) ? $key['id'] : '' ?></td>
                                             <td><?= (isset($key['nama'])) ? $key['nama'] : '' ?></td>

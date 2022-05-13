@@ -16,7 +16,7 @@ class Asisten extends CI_Controller {
 		$this->load->model('informasi_umum_model');
 		$this->load->model('asisten_model');
 
-		$data['asisten'] = $this->asisten_model->getallopen();
+		// $data['asisten'] = $this->asisten_model->getallopen();
 
 		$data['title'] = "Asisten";
 		
@@ -37,10 +37,19 @@ class Asisten extends CI_Controller {
 		$this->load->view('general/footer', $data);
 	}
 
+    public function getallopen(){
+        $this->load->model('asisten_model');
+
+        $asisten = $this->asisten_model->getallopen();
+
+        echo json_encode($asisten);
+    }
+
     public function getdetail(){
 
         $this->load->model('asisten_model');
 
+        var_dump($this->input->post('nrp')); exit;
 		$asisten = $this->asisten_model->getlastrecord($this->input->post('nrp'));
 
         echo json_encode($asisten);

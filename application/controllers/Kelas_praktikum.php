@@ -83,6 +83,7 @@ class Kelas_praktikum extends CI_Controller {
 
         $kelas = $this->kelas_praktikum_model->getallopen($semester, $ta);
 
+        // echo $semester. ' - '. $ta;
         echo json_encode($kelas);
     }
 
@@ -106,51 +107,25 @@ class Kelas_praktikum extends CI_Controller {
         echo json_encode($kelas);
     }
 
-    public function updatesall(){
-        // $this->load->model('kelas_praktikum_model');
+    public function getdetailmahasiswa(){
+        $this->load->model('kelas_praktikum_model');
         $this->load->model('informasi_umum_model');
 
-        $data['title'] = "Edit kelas praktikum";
+        // mb_check_encoding($this->input->post('id'))
+        $kelas = $this->kelas_praktikum_model->getdetailmahasiswa($this->input->post('id'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
-        $data['mode'] = 'update';
-
-        $data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
-		$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
-		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
-		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
-
-		$this->load->view('general/header');
-
-		$this->load->view('general/sidebar', $data);
-
-		$this->load->view('general/navbar', $data);
-
-		$this->load->view('content/kelas_praktikum-add', $data);
-
-		$this->load->view('general/footer', $data);
+        echo json_encode($kelas);
     }
 
-    // public function updates($id = null){ //DIPAKE KALO UPDATE SATU"
+    // public function updatesall(){
+    //     // $this->load->model('kelas_praktikum_model');
+    //     $this->load->model('informasi_umum_model');
 
-    //     // $check = $this->access_group_model->getbynama($this->session->userdata('user_level'));
-	// 	// if ($check == 0) redirect('dashboard');
-
-    //     $id = base64_decode($id);
-
-    //     $this->load->model('kelas_praktikum_model');
-
-	// 	$res = $this->kelas_praktikum_model->get($id);
-
-    //     if ($res == 0) redirect('dashboard');
-
-    //     $data['detil'] = $res;
-        
     //     $data['title'] = "Edit kelas praktikum";
 
-    //     $this->load->model('informasi_umum_model');
-		
-	// 	$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
+    //     $data['mode'] = 'update';
+
+    //     $data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
 	// 	$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
 	// 	$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
 	// 	$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
@@ -165,8 +140,46 @@ class Kelas_praktikum extends CI_Controller {
 	// 	$this->load->view('content/kelas_praktikum-add', $data);
 
 	// 	$this->load->view('general/footer', $data);
-
     // }
+
+    public function updates($id = null){ //DIPAKE KALO UPDATE SATU"
+
+        // $check = $this->access_group_model->getbynama($this->session->userdata('user_level'));
+		// if ($check == 0) redirect('dashboard');
+
+        
+        $id = base64_decode($id);
+
+        $this->load->model('kelas_praktikum_model');
+
+		$res = $this->kelas_praktikum_model->get($id);
+
+        if ($res == 0) redirect('dashboard');
+
+        $data['detil'] = $res;
+        
+        $data['title'] = "Edit kelas praktikum";
+        $data['mode'] = 'update';
+
+        $this->load->model('informasi_umum_model');
+		
+		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
+		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
+		$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
+		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
+		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
+
+		$this->load->view('general/header');
+
+		$this->load->view('general/sidebar', $data);
+
+		$this->load->view('general/navbar', $data);
+
+		$this->load->view('content/kelas_praktikum-update', $data);
+
+		$this->load->view('general/footer', $data);
+
+    }
 
     public function add(){
         // var_dump("AAAAAAAAAAAA"); exit;

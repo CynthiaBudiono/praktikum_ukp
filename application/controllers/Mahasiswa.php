@@ -54,4 +54,12 @@ class Mahasiswa extends CI_Controller {
 		
         echo json_encode($mahasiswa);
 	}
+
+	public function getallactive(){ //di pke di asisten.php
+		$this->load->model('mahasiswa_model');
+
+		$mahasiswa = $this->mahasiswa_model->getallactive();
+		
+        echo json_encode($mahasiswa);
+	}
 }

@@ -43,7 +43,9 @@
                         <div class="form-group row">
                             <label class="control-label col-md-3 col-sm-3 ">NRP</label>
                             <div class="col-md-9 col-sm-9 ">
-                                <input type="text" class="form-control" name="nrp" id="nrp" placeholder="ex. search nrp" required>
+                                <select class="form-control select2" name="mahasiswa" id="mahasiswa" style="width:100%;">
+                                    <option value="" disabled selected>-- Search Mahasiswa --</option>
+                                </select>
                             </div>
                         </div>
 
@@ -56,6 +58,13 @@
                                 data lengkap
                                 daftar tanggal brp
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 col-sm-3 ">Tanggal Diterima</label>
+                            <div class="col-md-9 col-sm-9">
+                                <input type="date" class="form-control" id="tanggal_diterima" name="tanggal_diterima" required>
                             </div>
                         </div>
 
@@ -101,44 +110,19 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="card-box table-responsive">
-                                <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
+                                <table id="datatable-asisten" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Actions</th>
                                         <th>id</th>
-                                        <th>NRP</th>
-                                        <th>nama</th>
+                                        <th>Mahasiswa</th>
+                                        <th>tipe</th>
                                         <th>status</th>
                                         <th>Tanggal Diterima</th>
-                                        <th>keterangan</th>
                                         <th>periode pendaftaran</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                <?php if(isset($asisten)) : ?>
-                                    <?php if(is_array($asisten)) : ?>
-                                        <?php foreach($asisten as $key) : ?>
-                                        <tr>
-                                            <td>
-                                                <!-- <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a> -->
-                                                <a href="<?php echo base_url("asisten/updates/"); echo base64_encode($key['id']);?>" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
-                                                <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a>
-                                            </td>
-                                            <td><?= (isset($key['id'])) ? $key['id'] : '' ?></td>
-                                            <td><?= (isset($key['NRP'])) ? $key['NRP'] : '' ?></td>
-                                            <td><?= (isset($key['nama_mahasiswa'])) ? $key['nama_mahasiswa'] : '' ?></td>
-                                            <td>
-                                                <?php 
-                                                    if(isset($key['status'])) if($key['status']==1) echo '<span class="badge bg-green">active</span>'; else echo '<span class="badge bg-danger">non active</span>';?>
-                                            </td>
-                                            <td><?= (isset($key['tanggal_diterima'])) ? $key['tanggal_diterima'] : '' ?></td>
-                                            <td><?= (isset($key['keterangan'])) ? $key['keterangan'] : '' ?></td>
-                                            <td><?php if(isset($key['semester_pendaftaran_asdos'])) if($key['semester_pendaftaran_asdos'] == 1) echo 'Ganjil'; else echo 'Genap';?> <?= (isset($key['tahun_ajaran_pendaftaran_asdos'])) ? $key['tahun_ajaran_pendaftaran_asdos'] : '' ?></td>
-                                        </tr>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                <?php endif; ?>
-                                </tbody>
+                                <tbody id="data_asisten"></tbody>
                                 </table>
                             </div>
                         </div>
@@ -153,29 +137,114 @@
     var baseurl = "<?php echo base_url(); ?>";
     // view();
     $(document).ready(function() {	
-        // alert("masukkkkkkkk ready");	
-        view()
+
+        $('#mahasiswa').select2();
+        view();
+
+        $.post(baseurl + "mahasiswa/getallactive", {},
+        function(result) {
+            var arr = JSON.parse(result);
+            for(var i=0; i<arr.length; i++){
+                $('#mahasiswa').append('<option value="'+ arr[i]['NRP'] +'">'+ arr[i]['NRP'] + ' - ' + arr[i]['nama'] +'</option>');
+            }
+        });
+
+        $('#mahasiswa').on("change", function() {
+            alert($("#selecttipeasisten").val());
+            alert('mahasiswa val : ' + $('#mahasiswa').val());
+            $.post(baseurl + "asisten/getdetail", {
+                nrp: $('#mahasiswa').val(),
+            },
+            function(result) {
+                alert("result onchange mhs : "+ result);
+
+                // if(asisten_dosen) -> getvalue()
+
+                // if asisten tetap -> get value angkatan
+            });
+        });
     });
 
 
     function getdetail(){
         alert("masuk");
 
-        alert($("#selecttipeasisten").val());
+        // alert($("#selecttipeasisten").val());
 
-        $.post(baseurl + "asisten/getdetail", {
-            nrp: $('#nrp').val(),
-        },
-        function(result) {
-             // if(asisten_dosen) -> getvalue()
+        // $.post(baseurl + "asisten/getdetail", {
+        //     nrp: $('#nrp').val(),
+        // },
+        // function(result) {
+        //      // if(asisten_dosen) -> getvalue()
 
-            // if asisten tetap -> get value angkatan
-        });
+        //     // if asisten tetap -> get value angkatan
+        // });
        
     }
 
     function view(){
+        $.post(baseurl + "asisten/getallopen", {
 
+        },
+        function(result) {
+            // alert(result);
+            var arr = JSON.parse(result);
+            var kal = "";
+            
+            for(var i = 0; i < arr.length; i++){
+                kal += '<tr>';
+                kal += '<td>';
+                    kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ arr[i]['id'] +'")><i class="fa fa-pencil"></i> Edit</button>';
+                    kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['id'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
+                kal += '</td>';
+                kal += '<td>'+ arr[i]['id'] +'</td>';
+                kal += '<td>'+ arr[i]['NRP'] + ' - ' + arr[i]['nama_mahasiswa'] +'</td>';
+                kal += '<td>'+ arr[i]['tipe'] +'</td>';
+                kal += '<td>';
+                    kal += (arr[i]['status'] == 1) ? '<span class="badge bg-green">active</span>' : '<span class="badge bg-danger">non active</span>';
+                kal += '</td>';
+                kal += '<td>'+ arr[i]['tanggal_diterima'] +'</td>';
+                kal += '<td>'
+                    if(arr[i]['semester_pendaftaran_asdos'] == 1){
+                        kal += 'Ganjil ';
+                    }
+                    else {
+                        kal += 'Genap ';
+                    }
+                    kal += arr[i]['tahun_ajaran_pendaftaran_asdos'];
+                kal+= '</td>';
+                kal += '</tr>';
+            }
+            
+            $("#data_asisten").html(kal);
+            $("#datatable-asisten").DataTable({
+                dom: "Blfrtip",
+                buttons: [
+                    {
+                        extend: "copy",
+                        className: "btn-sm"
+                    },
+                    {
+                        extend: "csv",
+                        className: "btn-sm"
+                    },
+                    {
+                        extend: "excel",
+                        className: "btn-sm"
+                    },
+                    {
+                        extend: "pdfHtml5",
+                        className: "btn-sm"
+                    },
+                    {
+                        extend: "print",
+                        className: "btn-sm"
+                    },
+                ],
+                responsive: true
+            });
+            
+        });
     }
 
 </script>

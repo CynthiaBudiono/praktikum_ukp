@@ -99,6 +99,8 @@
 
 var baseurl = "<?php echo base_url(); ?>";
 var row = 0;
+
+var data_edit = [];
 $(document).ready(function() {
     // $('#helper').select2();
     
@@ -107,31 +109,39 @@ $(document).ready(function() {
         addrow();
     }
     else if($('#mode').val() == 'update'){
-        $.post(baseurl + "kelas_praktikum/getperiodnow", {},
-        function(result) {
-            // alert(result);
-           
-            var arr = JSON.parse(result);
-            for(var i = 0; i < arr.length; i++){
-                addrow();
-                alert((i+1) + " " + arr[i]['hari']);
-                // $("#hari-summary1").val(arr[i]['hari']);
-                $("#hari-summary"+(i+1)).html(arr[i]['hari']);
-                $("#jam-summary"+(i+1)).html(arr[i]['jam']);
-                $("#durasi-summary"+(i+1)).html(arr[i]['durasi']);
-                $("#subject-summary"+(i+1)).html(arr[i]['nama_subject']);
-                $("#kelas_paralel-summary"+(i+1)).html(arr[i]['kelas_paralel']);
 
-                // if(arr[i]['status'] == 1){
-                //     $("#status"+(i+1)).prop("checked", true);
-                // }
-                // else{
-                //     $("#status"+(i+1)).prop("checked", true);
-                // }
+        // data_edit = <?php echo $detil; ?>;
+
+        // alert(data_edit);
+        // $.post(baseurl + "kelas_praktikum/getperiodnow", {},
+        // function(result) {
+        //     // alert(result);
+           
+        //     var arr = JSON.parse(result);
+        //     for(var i = 0; i < arr.length; i++){
+        //         addrow();
+                
+        //         alert((i+1) + " " + arr[i]['hari']);
+
+        //         $("#hari-summary"+(i+1)).html(arr[i]['hari']);
+        //         $("#jam-summary"+(i+1)).html(arr[i]['jam']);
+        //         $("#durasi-summary"+(i+1)).html(arr[i]['durasi']);
+        //         $("#subject-summary"+(i+1)).html(arr[i]['nama_subject']);
+        //         $("#kelas_paralel-summary"+(i+1)).html(arr[i]['kelas_paralel']);
+
+        //         $('#subject'+(i+1)).val(arr[i]['kode_mk']);
+
+        //         // data_edit = arr;
+        //         // if(arr[i]['status'] == 1){
+        //         //     $("#status"+(i+1)).prop("checked", true);
+        //         // }
+        //         // else{
+        //         //     $("#status"+(i+1)).prop("checked", true);
+        //         // }
                 
 
-            }
-        });
+        //     }
+        // });
     }
 
 
@@ -488,6 +498,13 @@ $(document).ready(function() {
         });
         
         
+        // Ngisi data update
+        // if($('#mode').val() == 'update'){
+        //     alert("MASUK data update : " + JSON.stringify(data_edit));
+
+        //     // $('#subject'+ row).val(data_edit[(row-1)]['kode_mk']);
+
+        // }
 
         // $('#nip1'+ row).on("change paste keyup select", function() {
         //     getjadwalpengajar(row, 'nip1');

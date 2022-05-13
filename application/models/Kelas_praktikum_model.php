@@ -231,6 +231,57 @@ class Kelas_praktikum_model extends CI_Model {
 			return 0;
 	}
 
+	public function getmahasiswa($id){
+		$this->db->select('ambil_praktikum.*, subject.nama as nama_subject, mahasiswa.NRP as NRP, mahasiswa.nama as nama_mahasiswa');
+		$this->db->join('subject', 'subject.kode_mk = ambil_praktikum.kode_mk');
+        $this->db->join('mahasiswa', 'mahasiswa.NRP = ambil_praktikum.NRP');
+		$query = $this->db->where('terpilih', $id)->get('ambil_praktikum', 1, 0);
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
+	public function getdetailmahasiswa($id, $semester = null, $tahun_ajaran= null){
+
+		$query = '';
+		if($id != 0){ // FLITER BY ID KELAS
+			$query = $this->db->where('id', $id)->get('kelas_praktikum', 1, 0);
+		}
+		else{ //GET ALL KELAS
+			if($semester != null){
+				$this->db->where('kelas_praktikum.semester', $semester);
+			}
+			if($tahun_ajaran != null){
+				$this->db->where('kelas_praktikum.tahun_ajaran', $tahun_ajaran);
+			}
+
+			$query = $this->db->get('kelas_praktikum');
+		}
+
+		if ($query->num_rows() > 0){
+
+			$arr= [];
+			$jumarr = 0;
+			foreach($query->result_array() as $row){
+				$arr[$jumarr] = $row;
+				$arr[$jumarr]['mahasiswa'] = $this->getmahasiswa($row['id']);
+				$jumarr++;
+			}
+			return $arr;
+			// return $query->result_array();
+		}
+		
+		else
+
+			return 0;
+
+	}
+
     public function get($id) {
 
 		$query = $this->db->where('id', $id)->get('kelas_praktikum', 1, 0);

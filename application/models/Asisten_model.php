@@ -49,8 +49,9 @@ class Asisten_model extends CI_Model {
 	}
 
     public function getbyNRP($nrp) {
-
-		$query = $this->db->where('NRP', $nrp)->get('asisten', 1, 0);
+		$this->db->select('asisten.*, mahasiswa.nama as nama, mahasiswa.password as password');
+		$this->db->join('mahasiswa', 'mahasiswa.NRP = asisten.NRP');
+		$query = $this->db->where('asisten.NRP', $nrp)->get('asisten', 1, 0);
 
 		if ($query->num_rows() > 0)
 
