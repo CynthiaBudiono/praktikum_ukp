@@ -198,19 +198,21 @@ class Kelas_praktikum extends CI_Controller {
                     'kode_kelas_praktikum' => $this->input->post('subject'.$x).strtoupper($this->input->post('kelas_paralel'.$x)),
                     'kode_mk' => $this->input->post('subject'.$x),
                     'kelas_paralel' => strtoupper($this->input->post('kelas_paralel'.$x)),
-                    'kode_lab' => $this->input->post('id_laboratorium'.$x),
+                    'kode_lab' => $this->input->post('laboratorium'.$x),
                     'hari' => $this->input->post('hari'.$x),
                     'jam' => $this->input->post('jam'.$x),
                     'durasi' => $this->input->post('durasi'.$x),
                     'terisi' => 0,
-                    'NIP1' => $this->input->post('id_nip1'.$x),
-                    'NIP2' => $this->input->post('id_nip2'.$x),
-                    'NIP3' => $this->input->post('id_nip3'.$x),
+                    'NIP1' => $this->input->post('nip1'.$x),
+                    'NIP2' => $this->input->post('nip2'.$x),
+                    'NIP3' => $this->input->post('nip3'.$x),
                     'semester' => $this->informasi_umum_model->getsemester(),
                     'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
                     'status' => (($this->input->post('status'.$x)=='on') ? 1 : 0),
                 );
-                $this->kelas_praktikum_model->add($data);
+
+                // var_dump($data); exit;
+                // $this->kelas_praktikum_model->add($data);
 
                 // check validasi
                 $this->form_validation->set_data($data);

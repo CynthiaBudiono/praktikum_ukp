@@ -45,6 +45,46 @@ class Jadwal_perkuliahan_model extends CI_Model {
 			return 0;
     }
 
+	// public function getnabrakdosen($nip, $hari, $jam, $durasi, $semester = null, $tahun_ajaran = null){
+	// 	// parameternya jadwal kelas praktikum dari pilihan mahasiswa itu
+
+	// 	$flag = 0;
+	// 	$jamend = date('H:i:s', strtotime($jam. ' +'.$durasi.' minutes'));
+
+	// 	$this->db->select('jadwal_perkuliahan.*');
+	// 	$this->db->join('jadwal_perkuliahan', 'jadwal_perkuliahan.id = mahasiswa_matakuliah.id_jadwal_perkuliahan');
+	// 	$this->db->where('jadwal_perkuliahan.hari', $hari);
+	// 	// $this->db->where('jadwal_perkuliahan.jam >=', $jam);
+	// 	// $this->db->where('jadwal_perkuliahan.jam <=', $jamend);
+
+	// 	$this->db->where('jadwal_perkuliahan.NIP1', $nip);
+
+	// 	if($semester != null && $tahun_ajaran != null){
+	// 		$this->db->where('mahasiswa_matakuliah.semester', $semester);
+    //     	$this->db->where('mahasiswa_matakuliah.tahun_ajaran', $tahun_ajaran);
+	// 	}
+
+	// 	$query = $this->db->get('mahasiswa_matakuliah');
+
+	// 	if ($query->num_rows() > 0){
+	// 		foreach($query->result_array() as $row){
+	// 			$startkuliah = $row['jam'];
+	// 			$endkuliah = date('H:i:s', strtotime($row['jam']. ' +'.$row['durasi'].' minutes'));
+
+	// 			if(($jam > $startkuliah && $jam < $endkuliah) || ($jamend > $startkuliah && $jamend < $endkuliah)){
+	// 				// return 'yes';
+	// 				$flag = 1;
+	// 			}
+	// 		}
+	// 	}
+
+	// 	if($flag == 1)
+	// 		return 'yes'; //NABRAK
+		
+	// 	else
+	// 		return 'no';
+	// }
+
 	// public function getjadwalperkuliahanbyNIP($nip) {
 		// $query = $this->db->where('NIP1', $id)->or_where('NIP2', $id)->get('jadwal_perkuliahan');
 

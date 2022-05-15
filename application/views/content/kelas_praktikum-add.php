@@ -78,7 +78,8 @@
 	</div>
 </div> -->
 
-        <form action="<?php if(isset($mode)) { if($mode == 'update'){ echo (base_url('kelas_praktikum/update'));}} else { echo (base_url('kelas_praktikum/add')); } ?>" method="post" class="form-horizontal form-label-left">
+        <!-- <form action="<?php if(isset($mode)) { if($mode == 'update'){ echo (base_url('kelas_praktikum/update'));}} else { echo (base_url('kelas_praktikum/add')); } ?>" method="post" class="form-horizontal form-label-left"> -->
+        <form action="<?php echo (base_url('kelas_praktikum/add')); ?>" method="post" class="form-horizontal form-label-left">
         
             <div class="title_right" style="float:right;">
                 <button type="button" onclick="summary()" class="btn bg-yellow">Summary</button>
@@ -109,8 +110,6 @@ $(document).ready(function() {
         addrow();
     }
     else if($('#mode').val() == 'update'){
-
-        // data_edit = <?php echo $detil; ?>;
 
         // alert(data_edit);
         // $.post(baseurl + "kelas_praktikum/getperiodnow", {},
@@ -198,32 +197,31 @@ $(document).ready(function() {
 
     function getjadwalpengajar(row, idinput){
         // alert(row + " " + $idinput);
-        alert('#'+ idinput + row);
+        alert('#'+ idinput + row + " " + $('#hari' + row).val()+ " " + $('#jam' + row).val() + " " +$('#durasi' + row).val());
         // alert($('#id_nip1'+ row).val());
         // alert($('#nip1'+ row).val());
         // hari: "senin",
         // jam: "12:00",
         // durasi: "180"
-        $.post(baseurl + "jadwal_berhalangan/getbypengajar", {
+        $.post(baseurl + "jadwal_berhalangan/getnabrakpengajar", {
             pengajar: $('#'+ idinput + row).val(),
-
+            hari: $('#hari' + row).val(),
+            jam: $('#jam' + row).val(),
+            durasi: $('#durasi' + row).val(),
         },
         function(result) {
-            
-            // console.log("AAAAAAA " + result);
-            
-            if(result != 0){
-                // alert("aaaaaaaa" + result);
-                var arr = JSON.parse(result);
-
+            alert(result);
+            console.log("AAAAAAA " + result);
+            // var cek = result;
+            if(result == 'yes'){
+                alert("MASUKKKKKK YES");
                 $('#have_warning' + row).css('display', 'block');
-                if(arr[0]['role'] == 'mahasiswa'){
-                    $('#error_msg' + row).html("jadwal "+ arr[0]['nama_mahasiswa'] +" berhalangan");
-                }
-                else if(arr[0]['role'] == 'dosen'){
-                    $('#error_msg' + row).html("jadwal "+ arr[0]['nama_dosen'] +" berhalangan");
-                }
+                $('#error_msg' + row).html("jadwal "+ $('#'+ idinput + row).val() +" berhalangan");
                 $('#div_alert' + row).css('display', 'block');
+
+            }
+            else if(result == 'no'){
+                alert("MASUK NO");
             }
         });
     }

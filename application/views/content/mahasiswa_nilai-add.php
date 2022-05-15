@@ -50,12 +50,14 @@
                                 <?php if(isset($detail_kelas)) : ?>
                                     <?php if(is_array($detail_kelas)) : ?>
                                         <input type="text" style="display:none;" name="length_kelas" id="length_kelas" value="<?= count($detail_kelas) ?>">
+                                        <input type="text" style="display:none;" name="pertemuan" id="pertemuan" value="<?= $pertemuan ?>">
                                         <?php foreach($detail_kelas as $index => $key) : ?>
                                         <tr>
                                             <input type="text" style="display:none;" name="idmhsnilai" id="idmhsnilai<?= $index ?>" value="<?= $key['id'] ?>">
                                             <td id="nrp<?= $index ?>"><?= (isset($key['NRP'])) ? $key['NRP']: '' ?> - <?= (isset($key['nama_mahasiswa'])) ? $key['nama_mahasiswa'] : '' ?></td>
                                             <td>
-                                            <?php if(isset($key['status_absensi'])){ ?>
+                                            <?php if(isset($key['status_absensi'])){ ?> 
+                                                <!-- MODE EDIT -->
                                                 <?php if($key['status_absensi'] == 'M'){ ?>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio1" value="M" checked>
@@ -95,7 +97,21 @@
                                                     <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio3" value="A" checked>
                                                     <label class="form-check-label" for="inlineRadio3">A</label>
                                                 </div>
-                                            <?php }}?>
+                                            <?php }?>
+                                            <?php } else {?>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio1" value="M" checked>
+                                                    <label class="form-check-label" for="inlineRadio1">M</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio2" value="I">
+                                                    <label class="form-check-label" for="inlineRadio2">I</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions<?= $index ?>" id="inlineRadio3" value="A">
+                                                    <label class="form-check-label" for="inlineRadio3">A</label>
+                                                </div>
+                                            <?php } ?>
                                             </td>
                                             <td><input type="number" class="form-control" name="nilai_awal" id="nilai_awal<?= $index ?>" min="1" max="100" value="<?= (isset($key['nilai_awal'])) ? $key['nilai_awal'] : '' ?>"></td>
                                             <td><input type="number" class="form-control" name="nilai_materi" id="nilai_materi<?= $index ?>" min="1" max="100" value="<?= (isset($key['nilai_materi'])) ? $key['nilai_materi'] : '' ?>"></td>
@@ -154,6 +170,7 @@
         alert("Length kelas : " + $("#length_kelas").val());
 
         var length = $("#length_kelas").val();
+
         var data_mahasiswa_nilai = [];
 
         alert(($("#nrp" + "0").html()).split(" - ")[0]);
@@ -176,6 +193,7 @@
         if($mode == 'add') { //add
             $.post(baseurl + "mahasiswa_nilai/add", {
                 id_kelas_prak: $id,
+                pertemuan: $("#pertemuan").val(),
                 data: data_mahasiswa_nilai
             },
             function(result) {

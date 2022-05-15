@@ -37,7 +37,8 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <a class="btn btn-sm bg-green" href="<?php echo base_url("kelas_praktikum/adds"); ?>">Tambah Pertemuan</a>
+                                <?php if(isset($key['detail_nilai'])){ if($key['detail_nilai'] != 0) $pertemuan = $key['detail_nilai'][0]['pertemuan']; else $pertemuan = '0';} ?>
+                                <a class="btn btn-sm bg-green" href="<?php echo base_url("mahasiswa_nilai/tambah_pertemuan/"); echo base64_encode($key['id'])."/".$pertemuan; ?>">Tambah Pertemuan</a>
                             </div>
                             <div class="col-md-6" style="text-align: right;">
                                 Pertemuan terakhir ke- <?php if(isset($key['detail_nilai'])){ if($key['detail_nilai'] != 0) echo $key['detail_nilai'][0]['pertemuan']; else echo '0';} ?>

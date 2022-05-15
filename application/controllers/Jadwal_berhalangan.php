@@ -93,13 +93,25 @@ class Jadwal_berhalangan extends CI_Controller {
 		$this->load->view('general/footer', $data);
 	}
 
-    public function getbypengajar(){
+    public function getnabrakpengajar(){
         $this->load->model('jadwal_berhalangan_model');
         $this->load->model('informasi_umum_model');
     
-        $jadwal_berhalangan = $this->jadwal_berhalangan_model->getbypengajar($this->input->post('pengajar'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+        $jadwal_perkuliahan = $this->jadwal_berhalangan_model->getnabrakpengajar($this->input->post('pengajar'), $this->input->post('hari'), $this->input->post('jam'), $this->input->post('durasi'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
-        echo json_encode($jadwal_berhalangan);
+        $jadwal_berhalangan = $this->jadwal_berhalangan_model->getnabrakjadwalberhalangan($this->input->post('pengajar'), $this->input->post('hari'), $this->input->post('jam'), $this->input->post('durasi'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+
+        //hasil cuman yes and no
+        // kalo 2 2 nya no is no kalo salah satu yes is yes
+        $hasil = "";
+        if($jadwal_perkuliahan == "yes" || $jadwal_berhalangan == "yes"){
+            $hasil = "yes";
+        }
+        else{
+            $hasil = "no";
+        }
+
+        echo json_encode($hasil);
     }
 
     public function getjadwal(){

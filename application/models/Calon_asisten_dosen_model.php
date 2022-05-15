@@ -31,6 +31,21 @@ class Calon_asisten_dosen_model extends CI_Model {
 
 	}
 
+	public function getdaftarasdos(){
+		$this->db->distinct();
+		$this->db->select('mahasiswa.NRP as NRP, mahasiswa.nama as nama');
+		$this->db->join('mahasiswa', 'mahasiswa.NRP = calon_asisten_dosen.NRP');
+		$query = $this->db->where('mahasiswa.status', 1)->get('calon_asisten_dosen');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
 	public function getactiveperiodnow($idpendaftaran){
 
 		$this->db->select('calon_asisten_dosen.*, mahasiswa.nama as nama_mahasiswa');

@@ -33,9 +33,9 @@
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 ">Dosen Wawancara</label>
                                 <div class="col-md-9 col-sm-9 ">
-                                    <input type="text" name="dosen" id="dosen" placeholder="search dosen" class="form-control" required="required"/>
-                                    <input type="hidden" class="form-control" name="id_dosen" id="id_dosen" required>
-
+                                    <select class="form-control select2" name="dosen" id="dosen" style="width:100%;">
+                                        <option value="" disabled selected>Search dosen</option>
+                                    </select>
                                     <div id="dosen_area" style="display:none;">
                                         tabel jadwal dosennnnnnnnn dan info lainnya
                                     </div>
@@ -45,15 +45,16 @@
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 ">Calon Asisten Dosen</label>
                                 <div class="col-md-9 col-sm-9 ">
-                                    <input type="text" class="form-control" name="calon_asdos" id="calon_asdos" placeholder="search calon" required value="<?= (isset($detil[0]['nama_mahasiswa'])) ? $detil[0]['nama_mahasiswa'] : '' ?>">
-                                    <input type="hidden" class="form-control" name="id_calon" id="id_calon" required>
+                                    <select class="form-control select2" name="calon" id="calon" style="width:100%;">
+                                        <option value="" disabled selected>Search calon</option>
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 ">Tanggal</label>
                                 <div class="col-md-9 col-sm-9 ">
-                                    <input type="datetime-local" class="form-control" id="tanggal_wawancara" name="tanggal_wawancara" required value="<?= (isset($detil[0]['tanggal'])) ? $detil[0]['tanggal'] : '' ?>">
+                                    <input type="datetime-local" class="form-control" id="tanggal_wawancara" name="tanggal_wawancara" required>
                                 </div>
                             </div>
 
@@ -73,16 +74,6 @@
                             <div class="col-md-9 col-sm-9 ">
                                 <div class="">
                                 <textarea id="keterangan" name="keterangan" rows="5"></textarea>
-                                <script>
-                                    tinymce.init({
-                                    selector: 'textarea',
-                                    plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-                                    toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
-                                    toolbar_mode: 'floating',
-                                    tinycomments_mode: 'embedded',
-                                    tinycomments_author: 'Author name',
-                                    });
-                                </script>
                                 </div>
                             </div>
                         </div>
@@ -177,30 +168,33 @@
 <script>
     var baseurl = "<?php echo base_url(); ?>";
     // view();
-    $(document).ready(function() {	
+    $(document).ready(function() {
+        $('#keterangan').trumbowyg();	
         // alert("masukkkkkkkk ready");	
         view()
         viewperiodnow()
+        $('#dosen').select2();
+        $('#calon').select2();
 
         $.post(baseurl + "dosen/getdosen", {},
         function(result) {
             var arr = JSON.parse(result);
             var dosen = []
             for(var i=0; i<arr.length; i++){
-                dosen.push({value: (arr[i]['NIP'] + " - " + arr[i]['nama']), data: arr[i]['NIP']})
+                $('#dosen').append('<option value="'+ arr[i]['NIP'] +'">'+ arr[i]['nama'] +'</option>');
             }
             // Selector input yang akan menampilkan autocomplete.
-            $( '#dosen').autocomplete({
-                lookup: dosen,
-                onSelect: function (suggestion){
-                    var nip = ($( '#dosen').val()).split(" - ");
-                    // get jadwal dosen, jadwal berhalangan
-                    alert(suggestion.data);
-                    $('#id_dosen').val(nip[0]);
-                    $('#dosen_area').css('display', 'block');
+            // $( '#dosen').autocomplete({
+            //     lookup: dosen,
+            //     onSelect: function (suggestion){
+            //         var nip = ($( '#dosen').val()).split(" - ");
+            //         // get jadwal dosen, jadwal berhalangan
+            //         alert(suggestion.data);
+            //         $('#id_dosen').val(nip[0]);
+            //         $('#dosen_area').css('display', 'block');
 
-                }
-            });
+            //     }
+            // });
         });
 
         $.post(baseurl + "calon_asisten_dosen/getactiveperiodnow", {},
@@ -210,31 +204,31 @@
                 var arr = JSON.parse(result);
                 var calon = []
                 for(var i=0; i<arr.length; i++){
-                    calon.push({value: (arr[i]['NRP'] + " - " + arr[i]['nama_mahasiswa']), data: arr[i]['id']})
+                    $('#calon').append('<option value="'+ arr[i]['NRP'] +'">'+ arr[i]['nama_mahasiswa'] +'</option>');
                 }
                 // Selector input yang akan menampilkan autocomplete.
-                $( '#calon_asdos').autocomplete({
-                    lookup: calon,
-                    onSelect: function (suggestion){
-                        $('#id_calon').val(suggestion.data);
-                        // var nrp = ($( '#calon_asdos').val()).split(" - ");
-                        // // get jadwal dosen, jadwal berhalangan
-                        // // alert(nrp[0]);
+                // $( '#calon_asdos').autocomplete({
+                //     lookup: calon,
+                //     onSelect: function (suggestion){
+                //         $('#id_calon').val(suggestion.data);
+                //         // var nrp = ($( '#calon_asdos').val()).split(" - ");
+                //         // // get jadwal dosen, jadwal berhalangan
+                //         // // alert(nrp[0]);
 
-                        // //GET ID CALON
-                        // $.post(baseurl + "calon_asisten_dosen/getidbyactiveperiod", {
-                        //     nrp : nrp[0],
-                        // },
-                        // function(result2) {
-                        //     var arr2 = JSON.parse(result2);
-                        //     // alert(arr2[0]['id']);
+                //         // //GET ID CALON
+                //         // $.post(baseurl + "calon_asisten_dosen/getidbyactiveperiod", {
+                //         //     nrp : nrp[0],
+                //         // },
+                //         // function(result2) {
+                //         //     var arr2 = JSON.parse(result2);
+                //         //     // alert(arr2[0]['id']);
                             
-                        // });
+                //         // });
                         
-                        // $('#calon_area').css('display', 'block');
+                //         // $('#calon_area').css('display', 'block');
 
-                    }
-                });
+                //     }
+                // });
             }
             else{
                 $('#addupdatearea').css('display', 'none');
@@ -247,20 +241,20 @@
         // alert($('#kodelab').val());
         // alert(baseurl + "jadwal_wawancara/" + $('#mode').val());
         $.post(baseurl + "jadwal_wawancara/" + $('#mode').val(), {
-            id_dosen: $('#id_dosen').val(),
-            id_calon: $('#id_calon').val(),
+            id_dosen: $('#dosen').val(),
+            id_calon: $('#calon').val(),
             tanggal: $('#tanggal_wawancara').val(),
-            keterangan: tinymce.get("keterangan").getContent(),
+            keterangan: $('#keterangan').val(),
         },
         function(result) {
             // alert(result);
             if(result == 'success'){
                 view()
                 
-                $('#id_dosen').val("");
-                $('#id_calon').val("");
+                $('#dosen').val("").trigger('change');
+                $('#calon').val("").trigger('change');
                 $('#tanggal_wawancara').val("");
-                tinymce.get("keterangan").setContent("");
+                $('#keterangan').val("");
             
                 // $("#status").prop("checked", false);
 
@@ -301,12 +295,11 @@
 
             $('#action_title').html(arr['title']);
 
-            $('#dosen').val(arr['detil'][0]['nama_dosen']);
-            $('#id_dosen').val(arr['detil'][0]['NIP']);
-            $('#calon_asdos').val(arr['detil'][0]['nama_mahasiswa']);
-            $('#id_calon').val(arr['detil'][0]['id_calon_asisten_dosen']);
+            // alert(arr['detil'][0]['NIP']);
+            $('#dosen').val(arr['detil'][0]['NIP']).trigger('change');
+            $('#calon').val(arr['detil'][0]['id_calon_asisten_dosen']).trigger('change');
             $('#tanggal_wawancara').val(arr['detil'][0]['tanggal']);
-            tinymce.get("keterangan").setContent(arr['detil'][0]['keterangan']);
+            $('#keterangan').val(arr['detil'][0]['keterangan']);
 
             // if(arr['detil'][0]['status'] == 1){
             //     $("#status").prop("checked", true);

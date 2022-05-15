@@ -37,6 +37,14 @@ class Calon_asisten_dosen extends CI_Controller {
 		$this->load->view('general/footer', $data);
 	}
 
+    public function getdaftarasdos(){
+        $this->load->model('calon_asisten_dosen_model');
+        
+        $calon_asisten_dosen = $this->calon_asisten_dosen_model->getdaftarasdos();
+
+        echo json_encode($calon_asisten_dosen);
+    }
+
     public function getactiveperiodnow(){
         $this->load->model('informasi_umum_model');
         $this->load->model('pendaftaran_asisten_dosen_model');

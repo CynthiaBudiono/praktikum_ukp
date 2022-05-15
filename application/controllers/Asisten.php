@@ -79,41 +79,25 @@ class Asisten extends CI_Controller {
 
     }
 
-    public function updates($id = null){
+    public function updates(){
 
         // $check = $this->access_group_model->getbynama($this->session->userdata('user_level'));
 		// if ($check == 0) redirect('dashboard');
 
-        $id = base64_decode($id);
+        $id = $this->input->post('id');
 
         $this->load->model('asisten_model');
 
 		$res = $this->asisten_model->get($id);
 
-        if ($res == 0) redirect('dashboard');
+        // if ($res == 0) redirect('dashboard');
 
         $data['detil'] = $res;
         
         $data['title'] = "Edit asisten";
 
-        $this->load->model('informasi_umum_model');
-		
-		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
-		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
-		$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
-		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
-		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
-
-		$this->load->view('general/header');
-
-		$this->load->view('general/sidebar', $data);
-
-		$this->load->view('general/navbar', $data);
-
-		$this->load->view('content/asisten-add', $data);
-
-		$this->load->view('general/footer', $data);
-
+        echo json_encode($data);
+        
     }
 
     public function add(){
@@ -121,74 +105,67 @@ class Asisten extends CI_Controller {
         $this->load->helper(array('form', 'url'));
         // $this->load->library('form_validation');
         
-        $status = ($this->input->post('status')=='on') ? 1 : 0;
+        $status = ($this->input->post('status')=='true') ? 1 : 0;
 
         $data = array(
-            'nama' => $this->input->post('nama'),
+            'NRP' => $this->input->post('nrp'),
+            'tipe' => $this->input->post('tipe'),
+            'tanggal_diterima' => $this->input->post('tanggal_diterima'),
             'status' => $status,
-            'keterangan' => $this->input->post('keterangan'),
         );
 
         // var_dump("masuk add ", $data); exit;
 
         $this->load->model('asisten_model');
-        if($this->asisten_model->get($data['id']) == 0){
-            // var_dump("masuk tak kembar"); exit;
+        //check validasi
+        $this->form_validation->set_data($data);
+        $this->form_validation->set_rules('NRP', 'nrp', 'required');
 
-        
-            //check validasi
-            $this->form_validation->set_data($data);
-            $this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
-
-            if ($this->form_validation->run() == FALSE) {
-                $detil[0] = $data;
-                $this->adds(validation_errors(), $detil);
-            }
-            else {
-                $this->load->helper(array('form', 'url'));
-
-                $this->asisten_model->add($data);
-
-                // insert log
-                $keterangan = '';
-                $keterangan .= json_encode($data).'.';
-
-                $logs_insert = array(
-                    "id_user" => $this->session->userdata('user_id'),
-                    "table_name" => 'asisten',
-                    "action" => 'CREATE',
-                    "keterangan" => "a new record has been created by ".$this->session->userdata('logged_name')." : ".$keterangan,
-                    "created" => date('Y-m-d H:i:s')
-                );
-                $this->load->model('user_history_model');
-                $this->user_history_model->add($logs_insert);
-
-                redirect('asisten');
-            }
+        if ($this->form_validation->run() == FALSE) {
+            $detil[0] = $data;
+            $this->adds(validation_errors(), $detil);
         }
-        else{
-            var_dump("DATA KEMBAR"); exit;
+        else {
+            $this->load->helper(array('form', 'url'));
+
+            $this->asisten_model->add($data);
+
+            // insert log
+            $keterangan = '';
+            $keterangan .= json_encode($data).'.';
+
+            $logs_insert = array(
+                "id_user" => $this->session->userdata('user_id'),
+                "table_name" => 'asisten',
+                "action" => 'CREATE',
+                "keterangan" => "a new record has been created by ".$this->session->userdata('logged_name')." : ".$keterangan,
+                "created" => date('Y-m-d H:i:s')
+            );
+            $this->load->model('user_history_model');
+            $this->user_history_model->add($logs_insert);
+
+            echo 'success';
         }
     }
 
     public function update(){
         // $id = base64_decode($id);
 
-        $status = ($this->input->post('status')=='on') ? 1 : 0;
+        $status = ($this->input->post('status')=='true') ? 1 : 0;
 
         $data = array(
-            'id' => $this->input->post('idusergroup'),
-            'nama' => $this->input->post('nama'),
+            'id' => (int)$this->input->post('id'),
+            'NRP' => $this->input->post('nrp'),
+            'tipe' => $this->input->post('tipe'),
+            'tanggal_diterima' => $this->input->post('tanggal_diterima'),
             'status' => $status,
-            'keterangan' => $this->input->post('keterangan'),
-            "updated" => date('Y-m-d H:i:s')
         );
 
-        // var_dump("masuk update ", $data);
+        // var_dump("masuk update ", $data['id']); //exit;
 
         //check validasi
         $this->form_validation->set_data($data);
-        $this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
+        $this->form_validation->set_rules('id', 'id', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $detil[0] = $data;
@@ -207,9 +184,10 @@ class Asisten extends CI_Controller {
 
             // insert log
             $keterangan = '';
-            $keterangan .= $old_data[0]['nama']. ' to '. $data['nama'].'; ';
+            $keterangan .= $old_data[0]['NRP']. ' to '. $data['NRP'].'; ';
+            $keterangan .= $old_data[0]['tipe']. ' to '. $data['tipe'].'; ';
+            $keterangan .= $old_data[0]['tanggal_diterima']. ' to '. $data['tanggal_diterima'].'; ';
             $keterangan .= $old_data[0]['status']. ' to '. $data['status'].';';
-            $keterangan .= $old_data[0]['keterangan']. ' to '. $data['keterangan'].'; ';
 
             $logs_insert = array(
                 "id_user" => $this->session->userdata('user_id'),
@@ -221,7 +199,7 @@ class Asisten extends CI_Controller {
             $this->load->model('user_history_model');
             $this->user_history_model->add($logs_insert);
 
-            redirect('asisten');
+            echo 'success';
         }    
     }
 

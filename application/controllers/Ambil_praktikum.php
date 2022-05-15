@@ -54,38 +54,39 @@ class ambil_praktikum extends CI_Controller {
 
                 // $nyoba = $this->ambil_praktikum_model->getnabrak('C14180210', 'Senin', '19:35:00', '110', '2', '2021-2022');
                 // var_dump($nyoba); exit;
-               
-                for($j = 0; $j < count($getsubject[$i]['data_mahasiswa']); $j++){
+                if($getsubject[$i]['data_mahasiswa'] != 0){
+                    for($j = 0; $j < count($getsubject[$i]['data_mahasiswa']); $j++){
 
-                    // var_dump($getsubject[$i]['data_mahasiswa'][$j]['NRP'], $getsubject[$i]['data_mahasiswa'][$j]['hari1'], $getsubject[$i]['data_mahasiswa'][$j]['jam1'], $getsubject[$i]['data_mahasiswa'][$j]['durasi1'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
-                    // exit;
+                        // var_dump($getsubject[$i]['data_mahasiswa'][$j]['NRP'], $getsubject[$i]['data_mahasiswa'][$j]['hari1'], $getsubject[$i]['data_mahasiswa'][$j]['jam1'], $getsubject[$i]['data_mahasiswa'][$j]['durasi1'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+                        // exit;
 
-                    // if($getsubject[$i]['data_mahasiswa'][$j]['pil1'] != null){
-                        $getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak1'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa'][$j]['NRP'], $getsubject[$i]['data_mahasiswa'][$j]['hari1'], $getsubject[$i]['data_mahasiswa'][$j]['jam1'], $getsubject[$i]['data_mahasiswa'][$j]['durasi1'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
-                    // }
-                    // else{
-                        //bandingin jadwal kelas praktikum yang dilooping sama jadwal kuliah mahasiswa
-                        // $getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak1']
-                    // }
-                    
-                    $getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak2'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa'][$j]['NRP'], $getsubject[$i]['data_mahasiswa'][$j]['hari2'], $getsubject[$i]['data_mahasiswa'][$j]['jam2'], $getsubject[$i]['data_mahasiswa'][$j]['durasi2'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
-                    $getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak3'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa'][$j]['NRP'], $getsubject[$i]['data_mahasiswa'][$j]['hari3'], $getsubject[$i]['data_mahasiswa'][$j]['jam3'], $getsubject[$i]['data_mahasiswa'][$j]['durasi3'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
-                    $getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak4'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa'][$j]['NRP'], $getsubject[$i]['data_mahasiswa'][$j]['hari4'], $getsubject[$i]['data_mahasiswa'][$j]['jam4'], $getsubject[$i]['data_mahasiswa'][$j]['durasi4'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
-                    
-                    for($k = 0; $k < count($getsubject[$i]['kelas_praktikum']); $k++){
-                        $getsubject[$i]['data_mahasiswa'][$j]['nabrak_kelas_praktikum'.$getsubject[$i]['kelas_praktikum'][$k]['id'].$getsubject[$i]['data_mahasiswa'][$j]['NRP']] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa'][$j]['NRP'], $getsubject[$i]['kelas_praktikum'][$k]['hari'], $getsubject[$i]['kelas_praktikum'][$k]['jam'], $getsubject[$i]['kelas_praktikum'][$k]['durasi'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+                        // if($getsubject[$i]['data_mahasiswa'][$j]['pil1'] != null){
+                            $getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak1'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa'][$j]['NRP'], $getsubject[$i]['data_mahasiswa'][$j]['hari1'], $getsubject[$i]['data_mahasiswa'][$j]['jam1'], $getsubject[$i]['data_mahasiswa'][$j]['durasi1'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+                        // }
+                        // else{
+                            //bandingin jadwal kelas praktikum yang dilooping sama jadwal kuliah mahasiswa
+                            // $getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak1']
+                        // }
+                        
+                        $getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak2'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa'][$j]['NRP'], $getsubject[$i]['data_mahasiswa'][$j]['hari2'], $getsubject[$i]['data_mahasiswa'][$j]['jam2'], $getsubject[$i]['data_mahasiswa'][$j]['durasi2'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+                        $getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak3'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa'][$j]['NRP'], $getsubject[$i]['data_mahasiswa'][$j]['hari3'], $getsubject[$i]['data_mahasiswa'][$j]['jam3'], $getsubject[$i]['data_mahasiswa'][$j]['durasi3'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+                        $getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak4'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa'][$j]['NRP'], $getsubject[$i]['data_mahasiswa'][$j]['hari4'], $getsubject[$i]['data_mahasiswa'][$j]['jam4'], $getsubject[$i]['data_mahasiswa'][$j]['durasi4'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+                        
+                        for($k = 0; $k < count($getsubject[$i]['kelas_praktikum']); $k++){
+                            $getsubject[$i]['data_mahasiswa'][$j]['nabrak_kelas_praktikum'.$getsubject[$i]['kelas_praktikum'][$k]['id'].$getsubject[$i]['data_mahasiswa'][$j]['NRP']] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa'][$j]['NRP'], $getsubject[$i]['kelas_praktikum'][$k]['hari'], $getsubject[$i]['kelas_praktikum'][$k]['jam'], $getsubject[$i]['kelas_praktikum'][$k]['durasi'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
+                        }
+                        // var_dump($getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak1']);
+                        
+                        // var_dump($getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak1']);
+                        // if($getsubject[$i]['data_mahasiswa'][$j]['NRP'] == 'C14180210' && $getsubject[$i]['data_mahasiswa'][$j]['hari1'] == "Senin" && $getsubject[$i]['data_mahasiswa'][$j]['jam1'] == "19:35:00" && $getsubject[$i]['data_mahasiswa'][$j]['durasi1'] == "110"){
+                        //     var_dump("MASUKKKKKKKKKKK" . $getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak1']); exit;
+                        // }
+                        // var_dump($getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak2']);
+                        // var_dump($getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak3']);
+                        // var_dump($getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak4']);
+                        // exit;
                     }
-                    // var_dump($getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak1']);
-                    
-                    // var_dump($getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak1']);
-                    // if($getsubject[$i]['data_mahasiswa'][$j]['NRP'] == 'C14180210' && $getsubject[$i]['data_mahasiswa'][$j]['hari1'] == "Senin" && $getsubject[$i]['data_mahasiswa'][$j]['jam1'] == "19:35:00" && $getsubject[$i]['data_mahasiswa'][$j]['durasi1'] == "110"){
-                    //     var_dump("MASUKKKKKKKKKKK" . $getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak1']); exit;
-                    // }
-                    // var_dump($getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak2']);
-                    // var_dump($getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak3']);
-                    // var_dump($getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak4']);
-                    // exit;
                 }
             }
             
