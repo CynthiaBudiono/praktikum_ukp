@@ -25,7 +25,7 @@
             </div>
         </div>
     
-        <form action="<?php if(isset($mode)) { if($mode == 'update'){ echo (base_url('kelas_praktikum/update'));}} else { echo (base_url('kelas_praktikum/add')); } ?>" method="post" class="form-horizontal form-label-left">
+        <form action="<?php echo (base_url('kelas_praktikum/update')); ?>" method="post" class="form-horizontal form-label-left">
         
             <div class="title_right" style="float:right;">
                 <button type="button" class="btn btn-danger">Cancel</button>

@@ -33,7 +33,7 @@ class Calon_asisten_dosen_model extends CI_Model {
 
 	public function getdaftarasdos(){
 		$this->db->distinct();
-		$this->db->select('mahasiswa.NRP as NRP, mahasiswa.nama as nama');
+		$this->db->select('calon_asisten_dosen.id as id, mahasiswa.NRP as NRP, mahasiswa.nama as nama');
 		$this->db->join('mahasiswa', 'mahasiswa.NRP = calon_asisten_dosen.NRP');
 		$query = $this->db->where('mahasiswa.status', 1)->get('calon_asisten_dosen');
 

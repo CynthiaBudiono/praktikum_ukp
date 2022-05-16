@@ -197,14 +197,14 @@
             // });
         });
 
-        $.post(baseurl + "calon_asisten_dosen/getactiveperiodnow", {},
+        $.post(baseurl + "calon_asisten_dosen/getdaftarasdos", {},
         function(result) {
             // alert(result);
             if(result != ""){
                 var arr = JSON.parse(result);
                 var calon = []
                 for(var i=0; i<arr.length; i++){
-                    $('#calon').append('<option value="'+ arr[i]['NRP'] +'">'+ arr[i]['nama_mahasiswa'] +'</option>');
+                    $('#calon').append('<option value="'+ arr[i]['id'] +'">'+ arr[i]['nama'] +'</option>');
                 }
                 // Selector input yang akan menampilkan autocomplete.
                 // $( '#calon_asdos').autocomplete({
@@ -295,11 +295,13 @@
 
             $('#action_title').html(arr['title']);
 
-            // alert(arr['detil'][0]['NIP']);
+            // alert("CALONN: " + arr['detil'][0]['id_calon_asisten_dosen']);
             $('#dosen').val(arr['detil'][0]['NIP']).trigger('change');
             $('#calon').val(arr['detil'][0]['id_calon_asisten_dosen']).trigger('change');
-            $('#tanggal_wawancara').val(arr['detil'][0]['tanggal']);
-            $('#keterangan').val(arr['detil'][0]['keterangan']);
+            // $('#tanggal_wawancara').val(arr['detil'][0]['tanggal']);
+            $('#tanggal_wawancara').val(arr['detil'][0]['tanggal'].replace(" ", "T"));
+            // $('#keterangan').val(arr['detil'][0]['keterangan']);
+            $('#keterangan').trumbowyg('html', arr['detil'][0]['keterangan']);
 
             // if(arr['detil'][0]['status'] == 1){
             //     $("#status").prop("checked", true);

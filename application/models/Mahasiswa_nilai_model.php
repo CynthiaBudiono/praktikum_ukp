@@ -51,6 +51,24 @@ class Mahasiswa_nilai_model extends CI_Model {
 			return 0;
 	}
 
+	public function getdetailmahasiswa($id_kelas_prak = null, $nrp = null){ //buat laporan nilai
+		$this->db->select('mahasiswa_nilai.*');
+
+		$this->db->where('mahasiswa_nilai.id_kelas_praktikum', $id_kelas_prak);
+		$this->db->where('mahasiswa_nilai.NRP', $nrp);
+
+		$this->db->order_by('pertemuan','ASC');
+		$query = $this->db->get('mahasiswa_nilai');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
     public function get($id) {
 
 		$query = $this->db->where('id', $id)->get('mahasiswa_nilai', 1, 0);

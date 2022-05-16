@@ -18,9 +18,9 @@
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2><?= isset($title) ? $title : "-" ?></h2>
+                    <h2 style="width:max-content;"><?= isset($title) ? $title : "-" ?></h2>
                     <ul class="nav navbar-right panel_toolbox">
-                        <li style="margin: 0px 10px; padding-top: 4px;"> <!-- UNTUK LAPORAN DETAIL KELAS -->
+                        <li style="margin: 0px 10px; padding-top: 4px;"> <!-- UNTUK LAPORAN DETAIL KELAS, NILAI KELAS -->
                             <select class="select2_single" name ="ddkelas_prak" id="ddkelas_prak" tabindex="-1">
                                 <option value="all"> ALL </option>
                                 <?php if(isset($ddkelasprak)) : ?>
@@ -82,6 +82,26 @@
                                 <?php if($function == 'detail_kelas'){?>
                                     <div id="laporan_detail_kelas"></div>
                                 <?php } ?> <!-- /LAPORAN DETAIL KELAS -->
+
+                                <!-- /LAPORAN DETAIL KELAS -->
+                                <?php if($function == 'nilai_kelas'){?>
+                                    <select class="mahasiswa_input form-control select2" name="ddmahasiswa" id="ddmahasiswa" style="width:100%;">
+                                        <option value="" disabled selected>Search mahasiswa</option>
+                                    </select>
+                                    <div class="card-box table-responsive">
+                                        <table id="datatable_laporan_nilai_kelas" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Pertemuan ke-</th>
+                                                <th>Nilai Awal</th>
+                                                <th>Nilai Materi</th>
+                                                <th>Nilai Tugas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="body_table_nilai_kelas"></tbody>
+                                        </table>
+                                    </div>
+                                <?php } ?> <!-- /LAPORAN DETAIL KELAS -->
                             
                         </div>
                     </div>
@@ -101,6 +121,7 @@
     $(document).ready(function() {
         if(jenislaporan == "kelas"){
             viewkelas();
+            $('#ddkelas_prak').css('display', 'none');
 
             $("#ddsemester").change(function(){
                 // alert("aa" + this.value);
@@ -130,22 +151,7 @@
 
         }
         else if(jenislaporan == "detail_kelas"){
-            $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
-                id_kelas_praktikum: 0,
-            },
-            function(result) {
-                alert("RESULT : " + result);
-                var arr = JSON.parse(result);
-                alert(arr.length);
-                data_laporan = arr;
 
-                // alert(JSON.stringify(data_laporan));
-                viewdetailkelas();
-            });
-        }
-        
-
-        if(jenislaporan == "detail_kelas"){
             $('#ddkelas_prak').css('display', 'block');
             $("#ddkelas_prak").change(function(){
                 $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
@@ -159,9 +165,55 @@
                     viewdetailkelas();
                 });
             });
+
+            $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
+                id_kelas_praktikum: 0,
+            },
+            function(result) {
+                alert("RESULT : " + result);
+                var arr = JSON.parse(result);
+                alert(arr.length);
+                data_laporan = arr;
+
+                // alert(JSON.stringify(data_laporan));
+                viewdetailkelas();
+            });
         }
-        else{
-            $('#ddkelas_prak').css('display', 'none');
+        else if(jenislaporan == "nilai_kelas"){
+            viewnilaikelas();
+            $('#ddmahasiswa').select2();
+            $('#ddkelas_prak').css('display', 'block');
+            $('#ddkelas_prak').on("change paste keyup select", function() {
+                $.post(baseurl + "ambil_praktikum/getterpilihkelas", {
+                    id : $('#ddkelas_prak').val()
+                },
+                function(result) {
+                    var arr = JSON.parse(result);
+                    var kal = '';
+                    kal += '<option value="" disabled selected>Search mahasiswa</option>';
+                    kal += '<option value="all"> ALL </option>';
+                    for(var i=0; i<arr.length; i++){
+                        kal += '<option value="'+ arr[i]['NRP'] +'">'+ arr[i]['nama_mahasiswa'] +'</option>';
+                    }
+
+                    $('#ddmahasiswa').html(kal);
+                });
+            });
+
+            $("#ddmahasiswa").change(function(){
+                $.post(baseurl + "mahasiswa_nilai/getdetailmahasiswa", {
+                    id : $('#ddkelas_prak').val(),
+                    nrp: $("#ddmahasiswa").val(),
+                },
+                function(result) {
+                    var arr = JSON.parse(result);
+
+                    data_laporan = arr;
+
+                    viewnilaikelas();
+                });
+            });
+            
         }
 
     });
@@ -246,7 +298,7 @@
                 kal += '<p> Kode Laboratorium &nbsp : ' + data_laporan[i]["kode_lab"] + '</p>';
             kal += '</div>';
             kal += '<div class="col-md-6 col-sm-12">';
-                kal += '<p> Nama Kelas Praktikum : ' + data_laporan[i]["nama_subject"] + ' ' + data_laporan[i]["kelas_paralel"] + '</p>';
+                kal += '<p> Nama Kelas Praktikum : ' + data_laporan[i]["nama_subject"] + ' ' + data_laporan[i]["kelas_paralel"] + ' (' + data_laporan[i]["tipe"] +')</p>';
                 kal += '<p> Waktu &nbsp &nbsp &nbsp :' + data_laporan[i]["hari"] + ' ' + data_laporan[i]["jam"] + '</p>';
             kal += '</div>';
 
@@ -271,7 +323,29 @@
         }
 
         alert(kal);
+        
         $("#laporan_detail_kelas").html(kal);        
+    }
+
+    function viewnilaikelas(){
+        var kal = '';
+
+        for(var i = 0; i < data_laporan.length; i++){
+            kal += '<tr>';
+                kal += '<td>' + data_laporan[i]['pertemuan'] + '</td>';
+                kal += '<td>' + data_laporan[i]['nilai_awal'] + '</td>';
+                kal += '<td>' + data_laporan[i]['nilai_materi'] + '</td>';
+                kal += '<td>' + data_laporan[i]['nilai_tugas'] + '</td>';
+            kal += '</tr>';
+                    
+        }
+
+        //NAMBAH UI AVG DIBWH TABEL
+        
+        // alert(kal);
+        // $("#laporan_nilai_kelas").html(kal);
+        initializedatatable(kal);
+
     }
 
     function initializedatatable($kal){

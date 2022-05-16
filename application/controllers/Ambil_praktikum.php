@@ -261,6 +261,14 @@ class ambil_praktikum extends CI_Controller {
     // public function getjadwalterpilih(){
 
     // }
+    public function getterpilihkelas(){
+		$this->load->model('ambil_praktikum_model');
+
+		$mahasiswa = $this->ambil_praktikum_model->getterpilihkelas($this->input->post('id'));
+		
+        echo json_encode($mahasiswa);
+	}
+
     
     public function terpilih(){
         $this->load->model('kelas_praktikum_model');

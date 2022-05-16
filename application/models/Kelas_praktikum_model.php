@@ -249,6 +249,8 @@ class Kelas_praktikum_model extends CI_Model {
 	public function getdetailmahasiswa($id, $semester = null, $tahun_ajaran= null){
 
 		$query = '';
+		$this->db->select('kelas_praktikum.*, subject.nama as nama_subject');
+		$this->db->join('subject', 'subject.kode_mk = kelas_praktikum.kode_mk');
 		if($id != 0){ // FLITER BY ID KELAS
 			$query = $this->db->where('id', $id)->get('kelas_praktikum', 1, 0);
 		}

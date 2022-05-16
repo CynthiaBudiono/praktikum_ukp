@@ -88,6 +88,26 @@ class Mahasiswa_nilai extends CI_Controller {
 		$this->load->view('general/footer', $data);
     }
 
+    public function getdetailmahasiswa(){
+        $this->load->model('mahasiswa_nilai_model');
+
+        if($this->input->post('id') == 'all' && $this->input->post('nrp') == 'all'){
+            $mahasiswa_nilai = $this->mahasiswa_nilai_model->getdetailmahasiswa();
+        }
+        else if ($this->input->post('id') != 'all' && $this->input->post('nrp') == 'all'){
+            $mahasiswa_nilai = $this->mahasiswa_nilai_model->getdetailmahasiswa($this->input->post('id'));
+        }
+        // else if ($this->input->post('id') == 'all' && $this->input->post('nrp') != 'all'){
+        //     $mahasiswa_nilai = $this->mahasiswa_nilai_model->getdetailmahasiswa(null, $this->input->post('id'));
+        // }
+        else if ($this->input->post('id') != 'all' && $this->input->post('nrp') != 'all'){
+            $mahasiswa_nilai = $this->mahasiswa_nilai_model->getdetailmahasiswa($this->input->post('id'), $this->input->post('nrp'));
+        }
+        
+
+        echo json_encode($mahasiswa_nilai);
+    }
+
     public function adds(){
 
         $data['mode'] = 'add';
@@ -166,12 +186,13 @@ class Mahasiswa_nilai extends CI_Controller {
         
         $this->load->model('mahasiswa_nilai_model');
 
+        $id = $this->input->post('id_kelas_prak');
         $pertemuan = $this->input->post('pertemuan'); 
         $data = $this->input->post('data');
         // var_dump($data); exit;
         for($i = 0; $i < count($data); $i++){
             $isidata = array(
-                'id' => $data[$i]['id_mahasiswa_nilai'],
+                'id_kelas_praktikum' => $id,
                 'pertemuan' => $pertemuan,
                 'status_absensi' => $data[$i]['status_absensi'],
                 'nilai_awal' => $data[$i]['nilai_awal'],
@@ -180,7 +201,7 @@ class Mahasiswa_nilai extends CI_Controller {
             );
 
             // var_dump($isidata); exit;
-            $this->mahasiswa_nilai_model->update($isidata);
+            $this->mahasiswa_nilai_model->add($isidata);
         }
         
         // insert log
@@ -191,7 +212,7 @@ class Mahasiswa_nilai extends CI_Controller {
             "id_user" => $this->session->userdata('user_id'),
             "table_name" => 'mahasiswa_nilai',
             "action" => 'CREATE',
-            "keterangan" => $this->session->userdata('logged_name')." updated record # : ".$data['id']. ": ". $keterangan,
+            "keterangan" => "a new record has been created by ". $this->session->userdata('logged_name') ." : ".$keterangan,
             "created" => date('Y-m-d H:i:s')
         );
         $this->load->model('user_history_model');

@@ -229,6 +229,24 @@ class Ambil_praktikum_model extends CI_Model {
 		
 	}
 
+	public function getterpilihkelas($id_kelas_prak){
+		$this->db->select('mahasiswa.NRP as NRP, mahasiswa.nama as nama_mahasiswa');
+		$this->db->join('mahasiswa', 'mahasiswa.NRP = ambil_praktikum.NRP');
+
+		$this->db->where('ambil_praktikum.terpilih', $id_kelas_prak);
+
+		$query = $this->db->get('ambil_praktikum');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+
+	}
+
 	// public function getdetailmahasiswa($id_kelas_prak, $pertemuan, $semester = null, $tahun_ajaran = null){
 	// 	$this->db->select('ambil_praktikum.*, mahasiswa.nama as nama_mahasiswa, mahasiswa.angkatan as angkatan, mahasiswa.ips as ips, mahasiswa.ipk as ipk');
 	// 	$this->db->join('mahasiswa', 'mahasiswa.NRP = ambil_praktikum.NRP');

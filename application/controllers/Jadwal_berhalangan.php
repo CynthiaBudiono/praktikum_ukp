@@ -111,7 +111,8 @@ class Jadwal_berhalangan extends CI_Controller {
             $hasil = "no";
         }
 
-        echo json_encode($hasil);
+        // echo json_encode($hasil);
+        echo $hasil;
     }
 
     public function getjadwal(){
