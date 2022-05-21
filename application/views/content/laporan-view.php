@@ -21,12 +21,25 @@
                     <h2 style="width:max-content;"><?= isset($title) ? $title : "-" ?></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li style="margin: 0px 10px; padding-top: 4px;"> <!-- UNTUK LAPORAN DETAIL KELAS, NILAI KELAS -->
-                            <select class="select2_single" name ="ddkelas_prak" id="ddkelas_prak" tabindex="-1">
-                                <option value="all"> ALL </option>
+                            <select class="select2_single" name ="ddkelas_prak" id="ddkelas_prak" tabindex="-1" style="display: none;">
+                                <!-- <option value="all"> ALL </option> -->
                                 <?php if(isset($ddkelasprak)) : ?>
                                     <?php if(is_array($ddkelasprak)) : ?>
                                         <?php foreach($ddkelasprak as $key) : ?>
                                             <option value="<?= (isset($key['id'])) ? $key['id'] : '' ?>"> <?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?> (<?= (isset($key['kelas_paralel'])) ? $key['kelas_paralel'] : '' ?>) <?= (isset($key['tipe'])) ? $key['tipe'] : '' ?></option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            </select>
+                        </li>
+
+                        <li style="margin: 0px 10px; padding-top: 4px;"> <!-- UNTUK mahasiswa tertolak -->
+                            <select class="select2_single" name ="ddsubject" id="ddsubject" tabindex="-1" style="display: none;">
+                                <!-- <option value="all"> ALL </option> -->
+                                <?php if(isset($ddsubject)) : ?>
+                                    <?php if(is_array($ddsubject)) : ?>
+                                        <?php foreach($ddsubject as $key) : ?>
+                                            <option value="<?= (isset($key['id'])) ? $key['id'] : '' ?>"> <?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?> <?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?></option>
                                         <?php endforeach; ?>
                                     <?php endif; ?>
                                 <?php endif; ?>
@@ -78,31 +91,131 @@
                                     </div>
                                 <?php } ?> <!-- /LAPORAN KELAS -->
 
+                                <?php if($function == 'lulus'){?>
+                                    <div class="card-box table-responsive">
+                                        <table id="datatable_laporan_lulus" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Mahasiswa</th>
+                                                <th>Nilai Akhir</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="body_table_lulus"></tbody>
+                                        </table>
+                                    </div>
+                                <?php } ?> <!-- /LAPORAN LULUS -->
+
+                                <?php if($function == 'tidak_lulus'){?>
+                                    <div class="card-box table-responsive">
+                                        <table id="datatable_laporan_tidak_lulus" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Mahasiswa</th>
+                                                <th>Nilai Akhir</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="body_table_tidak_lulus"></tbody>
+                                        </table>
+                                    </div>
+                                <?php } ?> <!-- /LAPORAN LULUS -->
+
                                 <!-- /LAPORAN DETAIL KELAS -->
                                 <?php if($function == 'detail_kelas'){?>
                                     <div id="laporan_detail_kelas"></div>
                                 <?php } ?> <!-- /LAPORAN DETAIL KELAS -->
 
-                                <!-- /LAPORAN DETAIL KELAS -->
-                                <?php if($function == 'nilai_kelas'){?>
-                                    <select class="mahasiswa_input form-control select2" name="ddmahasiswa" id="ddmahasiswa" style="width:100%;">
-                                        <option value="" disabled selected>Search mahasiswa</option>
-                                    </select>
+                                <!-- /LAPORAN MAHASISWA TERTOLAK -->
+                                <?php if($function == 'mahasiswa_tertolak'){?>
+                                    <!-- <div id="laporan_mahasiswa_tertolak"></div> -->
                                     <div class="card-box table-responsive">
-                                        <table id="datatable_laporan_nilai_kelas" class="table table-striped table-bordered" style="width:100%">
+                                        <table id="datatable_laporan_mahasiswa_tertolak" class="table table-striped table-bordered" style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th>Pertemuan ke-</th>
-                                                <th>Nilai Awal</th>
-                                                <th>Nilai Materi</th>
-                                                <th>Nilai Tugas</th>
+                                                <th>NRP</th>
+                                                <th>Nama</th>
+                                                <th>Pil1</th>
+                                                <th>Pil2</th>
+                                                <th>Pil3</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="body_table_nilai_kelas"></tbody>
+                                        <tbody id="body_table_mahasiswa_tertolak"></tbody>
                                         </table>
                                     </div>
-                                <?php } ?> <!-- /LAPORAN DETAIL KELAS -->
-                            
+                                <?php } ?> <!-- /LAPORAN MAHASISWA TERTOLAK -->
+
+                                <!-- /LAPORAN MAHASISWA -->
+                                <?php if($function == 'mahasiswa'){?>
+                                    <div class="card-box table-responsive">
+                                        <table id="datatable_laporan_mahasiswa" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Mahasiswa</th>
+                                                <th>Mata Kuliah</th>
+                                                <th>Pil1</th>
+                                                <th>Pil2</th>
+                                                <th>Pil3</th>
+                                                <th>Terpilih</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="body_table_mahasiswa"></tbody>
+                                        </table>
+                                    </div>
+                                <?php } ?> <!-- /LAPORAN MAHASISWA -->
+                                
+
+                                <!-- /LAPORAN DETAIL KELAS -->
+                                <?php if($this->session->userdata('user_type') == 'mahasiswa'){ ?>
+                                    <?php if($function == 'nilai_kelas'){?>
+                                        <select class="mahasiswa_input form-control select2" name="ddmahasiswa" id="ddmahasiswa" style="width:100%;">
+                                            <option value="" disabled selected>Search mahasiswa</option>
+                                        </select>
+                                        <div class="card-box table-responsive">
+                                            <table id="datatable_laporan_nilai_kelas" class="table table-striped table-bordered" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Pertemuan ke-</th>
+                                                    <th>Nilai Awal</th>
+                                                    <th>Nilai Materi</th>
+                                                    <th>Nilai Tugas</th>
+                                                    <th>rata_rata</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="body_table_nilai_kelas"></tbody>
+                                            </table>
+                                        </div>
+                                        <hr>
+                                        <div>
+                                            <div class="col-md-10 col-sm-10">
+                                                <h2>Average</h2>
+                                            </div>
+                                            <div class="col-md-2 col-sm-2">
+                                                <h2 id="ratarata"></h2>
+                                            </div>
+                                        </div>
+                                    <?php } ?> <!-- /LAPORAN DETAIL KELAS -->
+                                <?php }else { ?>
+                                    <?php if($function == 'nilai_kelas'){?>
+                                        <div class="card-box table-responsive">
+                                            <table id="datatable_laporan_nilai_kelas" class="table table-striped table-bordered" style="width:100%">
+                                            <thead id="head_table_nilai_kelas">
+                                                <tr id="tr_table_nilai_kelas">
+                                                    <th>Nama</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="body_table_nilai_kelas"></tbody>
+                                            </table>
+                                        </div>
+                                        <hr>
+                                        <div>
+                                            <div class="col-md-10 col-sm-10">
+                                                <h2>Rata Rata Kelas</h2>
+                                            </div>
+                                            <div class="col-md-2 col-sm-2">
+                                                <h2 id="ratarata"></h2>
+                                            </div>
+                                        </div>
+                                    <?php } ?> <!-- /LAPORAN DETAIL KELAS -->
+                                <?php } ?>
                         </div>
                     </div>
                 </div>
@@ -115,6 +228,7 @@
 <script>
     var baseurl = "<?php echo base_url(); ?>";
     var jenislaporan = "<?= $function ?>";
+    var jenislogin = "<?= $this->session->userdata('user_type') ?>";
     // var data_informasi = [];
     var data_laporan = [];
     var baru = 0;
@@ -150,6 +264,41 @@
             });
 
         }
+        else if(jenislaporan == "lulus"){
+            $('#ddkelas_prak').css('display', 'block');
+            $("#ddkelas_prak").change(function(){
+                $.post(baseurl + "mahasiswa_nilai/getlulustidaklulus", {
+                    id_kelas_praktikum: $("#ddkelas_prak").val(),
+                    semester: $("#ddsemester").val(),
+                    tahun_ajaran : $("#ddtahun_ajaran").val()
+                },
+                function(result) {
+                    alert(result);
+                    var arr = JSON.parse(result);
+
+                    data_laporan = arr;
+
+                    viewlulus();
+                });
+            });
+        }
+        else if(jenislaporan == "tidak_lulus"){
+            $('#ddkelas_prak').css('display', 'block');
+            $("#ddkelas_prak").change(function(){
+                $.post(baseurl + "mahasiswa_nilai/gettidaklulus", {
+                    id_kelas_praktikum: $("#ddkelas_prak").val(),
+                    semester: $("#ddsemester").val(),
+                    tahun_ajaran : $("#ddtahun_ajaran").val()
+                },
+                function(result) {
+                    var arr = JSON.parse(result);
+
+                    data_laporan = arr;
+
+                    viewtidaklulus();
+                });
+            });
+        }
         else if(jenislaporan == "detail_kelas"){
 
             $('#ddkelas_prak').css('display', 'block');
@@ -166,7 +315,7 @@
                 });
             });
 
-            $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
+            $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", { // VIEW ALL
                 id_kelas_praktikum: 0,
             },
             function(result) {
@@ -179,40 +328,175 @@
                 viewdetailkelas();
             });
         }
-        else if(jenislaporan == "nilai_kelas"){
-            viewnilaikelas();
-            $('#ddmahasiswa').select2();
-            $('#ddkelas_prak').css('display', 'block');
-            $('#ddkelas_prak').on("change paste keyup select", function() {
-                $.post(baseurl + "ambil_praktikum/getterpilihkelas", {
-                    id : $('#ddkelas_prak').val()
+        else if(jenislaporan == "mahasiswa"){
+            viewmahasiswa();
+            $('#ddkelas_prak').css('display', 'none');
+            $('#ddsubject').css('display', 'block');
+
+            $('#ddsubject').on("change paste keyup select", function() {
+                $.post(baseurl + "ambil_praktikum/getmahasiswaambil", {
+                    id : $('#ddsubject').val(),
+                    semester: $("#ddsemester").val(),
+                    tahun_ajaran : $("#ddtahun_ajaran").val(),
                 },
                 function(result) {
+                    alert(result);
                     var arr = JSON.parse(result);
-                    var kal = '';
-                    kal += '<option value="" disabled selected>Search mahasiswa</option>';
-                    kal += '<option value="all"> ALL </option>';
-                    for(var i=0; i<arr.length; i++){
-                        kal += '<option value="'+ arr[i]['NRP'] +'">'+ arr[i]['nama_mahasiswa'] +'</option>';
-                    }
-
-                    $('#ddmahasiswa').html(kal);
+                    data_laporan = arr;
+                    viewmahasiswa();
                 });
             });
 
-            $("#ddmahasiswa").change(function(){
-                $.post(baseurl + "mahasiswa_nilai/getdetailmahasiswa", {
-                    id : $('#ddkelas_prak').val(),
-                    nrp: $("#ddmahasiswa").val(),
+            $("#ddsemester").change(function(){
+                // alert("aa" + this.value);
+                $.post(baseurl + "ambil_praktikum/getmahasiswaambil", {
+                    id : $('#ddsubject').val(),
+                    semester: $("#ddsemester").val(),
+                    tahun_ajaran : $("#ddtahun_ajaran").val()
                 },
                 function(result) {
+                    alert(result);
+                    var arr = JSON.parse(result);
+                    data_laporan = arr;
+                    viewmahasiswa();
+                });
+            });
+
+            $("#ddtahun_ajaran").change(function(){
+                $.post(baseurl + "ambil_praktikum/getmahasiswaambil", {
+                    id : $('#ddsubject').val(),
+                    semester: $("#ddsemester").val(),
+                    tahun_ajaran : $("#ddtahun_ajaran").val()
+                },
+                function(result) {
+                    alert(result);
+                    var arr = JSON.parse(result);
+                    data_laporan = arr;
+                    viewmahasiswa();
+                });
+            });
+
+        }
+        else if(jenislaporan == "mahasiswa_tertolak"){
+            viewmahasiswatertolak();
+            $('#ddkelas_prak').css('display', 'none');
+            $('#ddsubject').css('display', 'block');
+
+            $('#ddsubject').on("change paste keyup select", function() {
+                $.post(baseurl + "ambil_praktikum/getmahasiswatertolak", {
+                    id : $('#ddsubject').val(),
+                    semester: $("#ddsemester").val(),
+                    tahun_ajaran : $("#ddtahun_ajaran").val(),
+                },
+                function(result) {
+                    alert(result);
+                    var arr = JSON.parse(result);
+                    data_laporan = arr;
+                    viewmahasiswatertolak();
+                });
+            });
+
+            $("#ddsemester").change(function(){
+                // alert("aa" + this.value);
+                $.post(baseurl + "ambil_praktikum/getmahasiswatertolak", {
+                    id : $('#ddsubject').val(),
+                    semester: $("#ddsemester").val(),
+                    tahun_ajaran : $("#ddtahun_ajaran").val()
+                },
+                function(result) {
+                    alert(result);
+                    var arr = JSON.parse(result);
+                    data_laporan = arr;
+                    viewmahasiswatertolak();
+                });
+            });
+
+            $("#ddtahun_ajaran").change(function(){
+                $.post(baseurl + "ambil_praktikum/getmahasiswatertolak", {
+                    id : $('#ddsubject').val(),
+                    semester: $("#ddsemester").val(),
+                    tahun_ajaran : $("#ddtahun_ajaran").val()
+                },
+                function(result) {
+                    alert(result);
+                    var arr = JSON.parse(result);
+                    data_laporan = arr;
+                    viewkelas();
+                });
+            });
+
+        }
+        else if(jenislaporan == "nilai_kelas"){
+            viewnilaikelas();
+            $('#ddkelas_prak').css('display', 'block');
+            if(jenislogin == "mahasiswa"){
+                $('#ddmahasiswa').select2();
+                // $('#ddkelas_prak').css('display', 'block');
+                $('#ddkelas_prak').on("change paste keyup select", function() {
+                    $.post(baseurl + "ambil_praktikum/getterpilihkelas", {
+                        id : $('#ddkelas_prak').val()
+                    },
+                    function(result) {
+                        var arr = JSON.parse(result);
+                        var kal = '';
+                        kal += '<option value="" disabled selected>Search mahasiswa</option>';
+                        // kal += '<option value="all"> ALL </option>';
+                        for(var i=0; i<arr.length; i++){
+                            kal += '<option value="'+ arr[i]['NRP'] +'">'+ arr[i]['nama_mahasiswa'] +'</option>';
+                        }
+
+                        $('#ddmahasiswa').html(kal);
+                    });
+                });
+
+                $("#ddmahasiswa").change(function(){
+                    $.post(baseurl + "mahasiswa_nilai/getdetailmahasiswa", {
+                        id : $('#ddkelas_prak').val(),
+                        nrp: $("#ddmahasiswa").val(),
+                    },
+                    function(result) {
+                        var arr = JSON.parse(result);
+
+                        data_laporan = arr;
+
+                        viewnilaikelas();
+                    });
+                });
+            }
+            else{
+                $.post(baseurl + "mahasiswa_nilai/getsummary", {
+                    id : $('#ddkelas_prak').val()
+                },
+                function(result) {
+
+                    alert(result);
                     var arr = JSON.parse(result);
 
                     data_laporan = arr;
 
-                    viewnilaikelas();
+                    viewnilaikelassummary();
+                    // viewnilaikelassummaryall();
                 });
-            });
+
+                
+                $('#ddkelas_prak').on("change paste keyup select", function() {
+                    // alert($('#ddkelas_prak').val());
+                    $.post(baseurl + "mahasiswa_nilai/getsummary", {
+                        id : $('#ddkelas_prak').val()
+                    },
+                    function(result) {
+
+                        alert(result);
+                        console.log(result);
+                        var arr = JSON.parse(result);
+
+                        data_laporan = arr;
+
+                        viewnilaikelassummary();
+                    });
+                });
+            }
+            
             
         }
 
@@ -327,25 +611,172 @@
         $("#laporan_detail_kelas").html(kal);        
     }
 
-    function viewnilaikelas(){
+    function viewmahasiswa(){
         var kal = '';
 
+        for(var i = 0; i < data_laporan.length; i++){
+            kal += '<tr>';
+                kal += '<td>' + data_laporan[i]['NRP'] + ' - ' + data_laporan[i]['nama_mahasiswa'] + '</td>';
+                kal += '<td>' + data_laporan[i]['kode_mk'] + ' - ' + data_laporan[i]['nama_subject'] + '</td>';
+                if(data_laporan[i]['pil1'] != null){
+                    kal += '<td>' + data_laporan[i]['hari1'] + ', ' + data_laporan[i]['jam1'] + '</td>';
+                }
+                else{
+                    kal += '<td></td>';
+                }
+                if(data_laporan[i]['pil2'] != null){
+                    kal += '<td>' + data_laporan[i]['hari2'] + ', ' + data_laporan[i]['jam2'] + '</td>';
+                }
+                else{
+                    kal += '<td></td>';
+                }
+                if(data_laporan[i]['pil3'] != null){
+                    kal += '<td>' + data_laporan[i]['hari3'] + ', ' + data_laporan[i]['jam3'] + '</td>';
+                }
+                else{
+                    kal += '<td></td>';
+                }
+                if(data_laporan[i]['terpilih'] != 0){
+                    kal += '<td>' + data_laporan[i]['hariterpilih'] + ', ' + data_laporan[i]['jamterpilih'] + '</td>';
+                }
+                else{
+                    kal += '<td></td>';
+                }
+                
+            kal += '</tr>';
+        }
+
+        initializedatatable(kal);
+    }
+
+    function viewmahasiswatertolak(){
+        var kal = '';
+
+        for(var i = 0; i < data_laporan.length; i++){
+            kal += '<tr>';
+                kal += '<td>' + data_laporan[i]['NRP'] + '</td>';
+                kal += '<td>' + data_laporan[i]['nama'] + '</td>';
+                if(data_laporan[i]['pil1'] != null){
+                    kal += '<td>' + data_laporan[i]['pil1'] + '</td>';
+                }
+                else{
+                    kal += '<td></td>';
+                }
+                if(data_laporan[i]['pil2'] != null){
+                    kal += '<td>' + data_laporan[i]['pil2'] + '</td>';
+                }
+                else{
+                    kal += '<td></td>';
+                }
+                if(data_laporan[i]['pil3'] != null){
+                    kal += '<td>' + data_laporan[i]['pil3'] + '</td>';
+                }
+                else{
+                    kal += '<td></td>';
+                }
+            kal += '</tr>';
+        }
+
+        initializedatatable(kal);
+    }
+
+    function viewnilaikelas(){
+        var kal = '';
+        var ratarata = 0;
+        var jumlah = 0;
         for(var i = 0; i < data_laporan.length; i++){
             kal += '<tr>';
                 kal += '<td>' + data_laporan[i]['pertemuan'] + '</td>';
                 kal += '<td>' + data_laporan[i]['nilai_awal'] + '</td>';
                 kal += '<td>' + data_laporan[i]['nilai_materi'] + '</td>';
                 kal += '<td>' + data_laporan[i]['nilai_tugas'] + '</td>';
+                kal += '<td>' + data_laporan[i]['rata_rata'] + '</td>';
             kal += '</tr>';
-                    
+            jumlah += data_laporan[i]['rata_rata'];
         }
+        ratarata = jumlah / (data_laporan.length);
 
-        //NAMBAH UI AVG DIBWH TABEL
-        
+        $("#ratarata").html(ratarata);
         // alert(kal);
         // $("#laporan_nilai_kelas").html(kal);
         initializedatatable(kal);
 
+    }
+
+    function viewnilaikelassummaryall(){
+        // var kal = '';
+
+        // // datatable_laporan_nilai_kelas
+        // for(var i = 0; i < data_laporan.length; i++){
+
+        //     kal += '<tr>';
+        //         kal += '<td>' + data_laporan[i]['nama_mahasiswa'] + '</td>';
+        //         kal += '<td>' + data_laporan[i]['rata_rata'] + '</td>';
+        //     kal += '</tr>';
+        // }
+    }
+
+    function viewnilaikelassummary(){
+        var kal = '';
+        var ratarata = 0;
+        var jumlah = 0;
+        // datatable_laporan_nilai_kelas
+        if(data_laporan.length > 0){
+            $("#tr_table_nilai_kelas").html("<th>Nama</th>"); 
+            for(var j = 0; j < data_laporan[0]['nilai'].length; j++){
+                $("#tr_table_nilai_kelas").append("<th>P"+ data_laporan[0]['nilai'][j]['pertemuan'] +"</th>");
+            }
+
+            for(var i = 0; i < data_laporan.length; i++){
+                kal += '<tr>';
+                    kal += '<td>' + data_laporan[i]['NRP'] + " - " + data_laporan[i]['nama_mahasiswa'] + '</td>';
+                    for(var j = 0; j < data_laporan[i]['nilai'].length; j++){
+                        kal += '<td>' + data_laporan[i]['nilai'][j]['rata_rata'] + '</td>';
+                    }
+                kal += '</tr>';
+            }
+        }
+    
+        
+        // ratarata = jumlah / (data_laporan.length);
+
+        // $("#ratarata").html(ratarata);
+        // alert(kal);
+        // $("#laporan_nilai_kelas").html(kal);
+        initializedatatable(kal);        
+    }
+
+    function viewlulus(){
+        var kal = '';
+        var hasil = 0;
+        for(var i = 0; i < data_laporan.length; i++){
+            hasil = (data_laporan[i]['sum_rata_rata']/data_laporan[i]['jumlah_pertemuan']);
+            if(hasil > 56){
+                alert("HASIL AKHIR : " + data_laporan[i]['sum_rata_rata'] + " / " + data_laporan[i]['jumlah_pertemuan']);
+                kal += '<tr>';
+                    kal += '<td>' + data_laporan[i]['NRP'] + ' - ' + data_laporan[i]['nama_mahasiswa'] +'</td>';
+                    kal += '<td>' + hasil + '</td>';
+                kal += '</tr>';
+            }
+        }
+
+        initializedatatable(kal);
+    }
+
+    function viewtidaklulus(){
+        var kal = '';
+        var hasil = 0;
+        for(var i = 0; i < data_laporan.length; i++){
+            hasil = (data_laporan[i]['sum_rata_rata']/data_laporan[i]['jumlah_pertemuan']);
+            if(hasil < 56){
+                kal += '<tr>';
+                    kal += '<td>' + data_laporan[i]['NRP'] + ' - ' + data_laporan[i]['nama_mahasiswa'] +'</td>';
+                    kal += '<td>' + hasil + '</td>';
+                kal += '</tr>';
+            }
+        }
+
+        initializedatatable(kal);
     }
 
     function initializedatatable($kal){

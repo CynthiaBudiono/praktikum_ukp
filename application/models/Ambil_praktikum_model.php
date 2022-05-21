@@ -196,24 +196,138 @@ class Ambil_praktikum_model extends CI_Model {
 		$this->db->select('ambil_praktikum.*, kelas_praktikum.kode_lab as kode_lab, laboratorium.nama as nama_laboratorium, laboratorium.quota_max as quota_max, mahasiswa.nama as nama_mahasiswa, mahasiswa.angkatan as angkatan, mahasiswa.ips as ips, mahasiswa.ipk as ipk, subject.nama as nama_subject');
 		$this->db->join('mahasiswa', 'mahasiswa.NRP = ambil_praktikum.NRP');
 		$this->db->join('subject', 'subject.kode_mk = ambil_praktikum.kode_mk');
-		
-		
 		$this->db->join('kelas_praktikum', 'kelas_praktikum.id = ambil_praktikum.terpilih');
+		$this->db->join('mahasiswa_nilai', 'mahasiswa_nilai.id_kelas_praktikum = kelas_praktikum.id and mahasiswa_nilai.NRP = ambil_praktikum.NRP');
 		$this->db->join('laboratorium', 'laboratorium.kode_lab = kelas_praktikum.kode_lab');
-
-		$this->db->where('ambil_praktikum.terpilih', $id_kelas_prak);
 
 		if($pertemuan != null){
 			$this->db->select('mahasiswa_nilai.*');
-			$this->db->join('mahasiswa_nilai', 'mahasiswa_nilai.id_kelas_praktikum = kelas_praktikum.id');
+			$this->db->where('mahasiswa_nilai.id_kelas_praktikum', $id_kelas_prak);
 			$this->db->where('mahasiswa_nilai.pertemuan', $pertemuan);
 		}
+
+		$this->db->where('ambil_praktikum.terpilih', $id_kelas_prak);
 
 		if($semester != null && $tahun_ajaran != null){
 			$this->db->where('ambil_praktikum.semester', $semester);
         	$this->db->where('ambil_praktikum.tahun_ajaran', $tahun_ajaran);
 		}
 		
+		$query = $this->db->get('ambil_praktikum');
+
+		if ($query->num_rows() > 0){
+
+			// $arr= [];
+			// $jumarr = 0;
+			// if($pertemuan != null){
+			// 	$this->db->select('mahasiswa_nilai.*');
+			// 	$this->db->where('mahasiswa_nilai.id_kelas_praktikum', $id_kelas_prak);
+			// 	$this->db->where('mahasiswa_nilai.pertemuan', $pertemuan);
+			// 	$query2 = $this->db->get('mahasiswa_nilai');
+
+			// 	if ($query2->num_rows() > 0){
+			// 		$arr[$jumarr] = $query->result_array();
+			// 		$arr[$jumarr]['nilai'] = $query2->result_array();
+
+
+			// 		return $arr;
+			// 	}
+			// }
+			// else{
+			// 	return $query->result_array();
+			// }
+
+			// foreach($query->result_array() as $row){
+			// 	$arr[$jumarr] = $row;
+			// 	$arr[$jumarr]['pil1_berhalangan'] = $this->getnabrak($nrp, $row['hari1'], $row['jam1'], $row['durasi1'], $semester, $tahun_ajaran);
+			// 	$arr[$jumarr]['pil2_berhalangan'] = $this->getnabrak($nrp, $row['hari2'], $row['jam2'], $row['durasi2'], $semester, $tahun_ajaran);
+			// 	$arr[$jumarr]['pil3_berhalangan'] = $this->getnabrak($nrp, $row['hari3'], $row['jam3'], $row['durasi3'], $semester, $tahun_ajaran);
+			// 	$jumarr++;
+			// }
+			return $query->result_array();
+
+		}
+
+		else
+
+			return 0;
+	}
+
+	public function getjadwalterpilih(){
+		
+	}
+
+	public function countpendaftar($semester = null, $tahun_ajaran = null){
+		// $this->db->distinct();
+		$this->db->select('COUNT(NRP) as hasil');
+
+		$this->db->where('ambil_praktikum.pil1 IS NOT NULL');
+
+		if($semester != null && $tahun_ajaran != null){
+			$this->db->where('ambil_praktikum.semester', $semester);
+        	$this->db->where('ambil_praktikum.tahun_ajaran', $tahun_ajaran);
+		}
+
+		$query = $this->db->get('ambil_praktikum');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array()[0]['hasil'];
+
+		else
+
+			return 0;
+	}
+
+	public function countpeserta($semester = null, $tahun_ajaran = null){
+		// $this->db->distinct();
+		$this->db->select('COUNT(NRP) as hasil');
+
+		if($semester != null && $tahun_ajaran != null){
+			$this->db->where('ambil_praktikum.semester', $semester);
+        	$this->db->where('ambil_praktikum.tahun_ajaran', $tahun_ajaran);
+		}
+
+		$query = $this->db->get('ambil_praktikum');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array()[0]['hasil'];
+
+		else
+
+			return 0;
+	}
+
+	public function getmahasiswaambil($kode_mk = null, $semester = null, $tahun_ajaran = null){
+		$this->db->select('ambil_praktikum.*, mahasiswa.NRP as NRP, mahasiswa.nama as nama_mahasiswa, subject.nama as nama_subject');
+		$this->db->join('mahasiswa', 'mahasiswa.NRP = ambil_praktikum.NRP');
+		$this->db->join('subject', 'subject.kode_mk = ambil_praktikum.kode_mk');
+
+		$this->db->select(' kp1.hari as hari1, kp1.jam as jam1, kp1.durasi as durasi1');
+		$this->db->select(' kp2.hari as hari2, kp2.jam as jam2, kp2.durasi as durasi2');
+		$this->db->select(' kp3.hari as hari3, kp3.jam as jam3, kp3.durasi as durasi3');
+		$this->db->select(' kp4.hari as hari4, kp4.jam as jam4, kp4.durasi as durasi4');
+		$this->db->select(' terpilihdata.hari as hariterpilih, terpilihdata.jam as jamterpilih, terpilihdata.durasi as durasiterpilih');
+
+		$this->db->join('kelas_praktikum as kp1', 'kp1.id = ambil_praktikum.pil1', 'left');
+		$this->db->join('kelas_praktikum as kp2', 'kp2.id = ambil_praktikum.pil2', 'left');
+		$this->db->join('kelas_praktikum as kp3', 'kp3.id = ambil_praktikum.pil3', 'left');
+		$this->db->join('kelas_praktikum as kp4', 'kp4.id = ambil_praktikum.pil4', 'left');
+
+		$this->db->join('kelas_praktikum as terpilihdata', 'terpilihdata.id = ambil_praktikum.terpilih', 'left');
+
+		if($kode_mk != 0){
+			$this->db->where('ambil_praktikum.kode_mk', $kode_mk);
+		}
+
+		$this->db->where('ambil_praktikum.pil1 is not null');
+
+		if($semester != null && $tahun_ajaran != null){
+			$this->db->where('ambil_praktikum.semester', $semester);
+        	$this->db->where('ambil_praktikum.tahun_ajaran', $tahun_ajaran);
+		}
+
 		$query = $this->db->get('ambil_praktikum');
 
 		if ($query->num_rows() > 0)
@@ -225,8 +339,37 @@ class Ambil_praktikum_model extends CI_Model {
 			return 0;
 	}
 
-	public function getjadwalterpilih(){
-		
+	public function getmahasiswatertolak($id, $semester = null, $tahun_ajaran = null){
+		$this->db->select('ambil_praktikum.*, mahasiswa.NRP as NRP, mahasiswa.nama as nama_mahasiswa');
+		$this->db->join('mahasiswa', 'mahasiswa.NRP = ambil_praktikum.NRP');
+
+		$this->db->where('ambil_praktikum.id_mahasiswa_matakuliah', $id);
+
+
+		$this->db->group_start()
+				->or_where('ambil_praktikum.pil1 != ambil_praktikum.terpilih')
+				->or_where('ambil_praktikum.pil1 is NULL');
+		$this->db->group_end();
+
+		// $this->db->where('ambil_praktikum.pil1 != ambil_praktikum.terpilih');
+		// $this->db->where('ambil_praktikum.pil2 != ambil_praktikum.terpilih');
+		// $this->db->where('ambil_praktikum.pil3 != ambil_praktikum.terpilih');
+		// $this->db->where('ambil_praktikum.pil4 != ambil_praktikum.terpilih');
+
+		if($semester != null && $tahun_ajaran != null){
+			$this->db->where('ambil_praktikum.semester', $semester);
+        	$this->db->where('ambil_praktikum.tahun_ajaran', $tahun_ajaran);
+		}
+
+		$query = $this->db->get('ambil_praktikum');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
 	}
 
 	public function getterpilihkelas($id_kelas_prak){

@@ -37,6 +37,64 @@ class Kelas_praktikum_model extends CI_Model {
 
 	}
 
+	public function getrecentactivitieslab($semester = null, $tahun_ajaran = null){
+
+		$hari = date('l');
+		if($hari == 'Monday'){
+			$hari = 'Senin';
+		}
+		else if($hari == 'Tuesday'){
+			$hari = 'Selasa';
+		}
+		else if($hari == 'Wednesday'){
+			$hari = 'Rabu';
+		}
+		else if($hari == 'Thursday'){
+			$hari = 'Kamis';
+		}
+		else if($hari == 'Friday'){
+			$hari = 'Jumat';
+		}
+		else if($hari == 'Saturday'){
+			$hari = 'Sabtu';
+		}
+
+		$this->db->select('kelas_praktikum.*, subject.nama as nama_subject');
+		$this->db->join('subject', 'subject.kode_mk = kelas_praktikum.kode_mk');
+
+		$this->db->select(' d1.NIP as NIP1, d1.nama as nama_dosen1');
+		$this->db->select(' d2.NIP as NIP2, d2.nama as nama_dosen2');
+		$this->db->select(' d3.NIP as NIP3, d3.nama as nama_dosen3');
+		$this->db->select(' m1.NRP as NRP1, m1.nama as nama_mahasiswa1');
+		$this->db->select(' m2.NRP as NRP2, m2.nama as nama_mahasiswa2');
+		$this->db->select(' m3.NRP as NRP3, m3.nama as nama_mahasiswa3');
+
+		$this->db->join('dosen as d1', 'd1.NIP = kelas_praktikum.NIP1', 'left');
+		$this->db->join('dosen as d2', 'd2.NIP = kelas_praktikum.NIP2', 'left');
+		$this->db->join('dosen as d3', 'd3.NIP = kelas_praktikum.NIP3', 'left');
+		$this->db->join('mahasiswa as m1', 'm1.NRP = kelas_praktikum.NIP1', 'left');
+		$this->db->join('mahasiswa as m2', 'm2.NRP = kelas_praktikum.NIP2', 'left');
+		$this->db->join('mahasiswa as m3', 'm3.NRP = kelas_praktikum.NIP3', 'left');
+
+		$this->db->where('kelas_praktikum.hari', $hari);
+		$this->db->where('kelas_praktikum.jam <= ', date('H:i:s'));
+		if($semester != null){
+			$this->db->where('kelas_praktikum.semester', $semester);
+		}
+		if($tahun_ajaran != null){
+			$this->db->where('kelas_praktikum.tahun_ajaran', $tahun_ajaran);
+		}
+		$query = $this->db->get('kelas_praktikum');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
 	public function getjadwalforambilprak($kode_mk, $tipe, $semester = null, $tahun_ajaran = null){ //sama kayak get all open beda where
 		$this->db->select(' d1.NIP as NIP1, d1.nama as nama_dosen1');
 		$this->db->select(' d2.NIP as NIP2, d2.nama as nama_dosen2');

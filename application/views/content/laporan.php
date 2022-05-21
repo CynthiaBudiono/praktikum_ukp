@@ -76,7 +76,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Laporan Mahasiswa</h5>
                             <p class="card-text">Dapat memperoleh laporan kelas praktikum yang telah diambil mahasiswa pada periode saat ini</p>
-                            <a href="<?= base_url("laporan/kelas_mahasiswa"); ?>" class="btn bg-green">View</a>
+                            <a href="<?= base_url("laporan/mahasiswa"); ?>" class="btn bg-green">View</a>
                         </div>
                         </div>
                     </div>

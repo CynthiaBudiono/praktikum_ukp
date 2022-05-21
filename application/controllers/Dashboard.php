@@ -13,9 +13,18 @@ class Dashboard extends CI_Controller {
 
 		$this->load->model('informasi_umum_model');
 		$this->load->model('berita_model');
+		$this->load->model('kelas_praktikum_model');
+		$this->load->model('ambil_praktikum_model');
 
 		$data['berita'] = $this->berita_model->getshowberita();
 
+		$data['count_mahasiswa_daftar'] = $this->ambil_praktikum_model->countpendaftar($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+		$data['count_mahasiswa_ikut_praktikum'] = $this->ambil_praktikum_model->countpeserta($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+
+		// var_dump($data['count_mahasiswa_daftar']);
+		// var_dump($data['count_mahasiswa_ikut_praktikum']); exit;
+		$data['recent_activities_lab'] = $this->kelas_praktikum_model->getrecentactivitieslab($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
 		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
 		$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();

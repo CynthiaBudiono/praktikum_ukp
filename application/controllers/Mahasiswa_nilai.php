@@ -29,7 +29,8 @@ class Mahasiswa_nilai extends CI_Controller {
         }
 
         // exit;
-        // var_dump($data['kelas_praktikum_now']); exit;
+        // var_dump($data['kelas_praktikum_now'][7]['all_pertemuan']); exit;
+        
 
 		$data['title'] = "mahasiswa nilai";
 		
@@ -108,6 +109,22 @@ class Mahasiswa_nilai extends CI_Controller {
         echo json_encode($mahasiswa_nilai);
     }
 
+    public function getlulustidaklulus(){
+        $this->load->model('mahasiswa_nilai_model');
+
+        $mahasiswa_nilai = $this->mahasiswa_nilai_model->getlulustidaklulus($this->input->post('id'));
+
+        echo json_encode($mahasiswa_nilai);
+    }
+
+    public function getsummary(){
+        $this->load->model('mahasiswa_nilai_model');
+
+        $mahasiswa_nilai = $this->mahasiswa_nilai_model->getsummary($this->input->post('id'));
+
+        echo json_encode($mahasiswa_nilai);
+    }
+
     public function adds(){
 
         $data['mode'] = 'add';
@@ -162,6 +179,8 @@ class Mahasiswa_nilai extends CI_Controller {
         
         $data['title'] = "Edit mahasiswa_nilai";
 
+        $data['pertemuan'] = (int)$pertemuan;
+
         $this->load->model('informasi_umum_model');
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
@@ -193,11 +212,13 @@ class Mahasiswa_nilai extends CI_Controller {
         for($i = 0; $i < count($data); $i++){
             $isidata = array(
                 'id_kelas_praktikum' => $id,
+                'NRP' => $data[$i]['NRP'],
                 'pertemuan' => $pertemuan,
                 'status_absensi' => $data[$i]['status_absensi'],
                 'nilai_awal' => $data[$i]['nilai_awal'],
                 'nilai_materi' => $data[$i]['nilai_materi'],
-                'nilai_tugas' => $data[$i]['nilai_tugas']
+                'nilai_tugas' => $data[$i]['nilai_tugas'],
+                'rata-rata' => (float)(($data[$i]['nilai_awal'] + $data[$i]['nilai_materi'] + $data[$i]['nilai_tugas'])/3),
             );
 
             // var_dump($isidata); exit;
@@ -233,10 +254,12 @@ class Mahasiswa_nilai extends CI_Controller {
         for($i = 0; $i < count($data); $i++){
             $isidata = array(
                 'id' => $data[$i]['id_mahasiswa_nilai'],
+                'NRP' => $data[$i]['NRP'],
                 'status_absensi' => $data[$i]['status_absensi'],
                 'nilai_awal' => $data[$i]['nilai_awal'],
                 'nilai_materi' => $data[$i]['nilai_materi'],
-                'nilai_tugas' => $data[$i]['nilai_tugas']
+                'nilai_tugas' => $data[$i]['nilai_tugas'],
+                'rata-rata' => (float)(($data[$i]['nilai_awal'] + $data[$i]['nilai_materi'] + $data[$i]['nilai_tugas'])/3),
             );
 
             // var_dump($isidata); exit;

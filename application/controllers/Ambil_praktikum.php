@@ -342,6 +342,30 @@ class ambil_praktikum extends CI_Controller {
         echo json_encode($ambil_praktikum);
     }
 
+    public function getmahasiswaambil(){
+        $this->load->model('ambil_praktikum_model');
+        $this->load->model('informasi_umum_model');
+
+        // $this->input->post('id_subject');
+        if($this->input->post('id') != null || $this->input->post('id') != 0){
+            $ambil_praktikum = $this->ambil_praktikum_model->getmahasiswaambil($this->input->post('id'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+        }
+        else{
+            $ambil_praktikum = $this->ambil_praktikum_model->getmahasiswaambil(0, $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+        }
+        
+        echo json_encode($ambil_praktikum);
+    }
+
+    public function getmahasiswatertolak(){
+        $this->load->model('ambil_praktikum_model');
+        $this->load->model('informasi_umum_model');
+
+        $ambil_praktikum = $this->ambil_praktikum_model->getmahasiswatertolak($this->input->post('id'), $this->input->post('semester'), $this->input->post('tahun_ajaran'));
+
+        echo json_encode($ambil_praktikum);
+    }
+
     public function adds(){
 
         $data['title'] = "Add Ambil Praktikum";
