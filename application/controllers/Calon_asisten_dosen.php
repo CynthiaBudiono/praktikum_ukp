@@ -142,11 +142,10 @@ class Calon_asisten_dosen extends CI_Controller {
         
         $status = ($this->input->post('status')=='on') ? 1 : 0;
 
+
         $data = array(
             'NRP' => $this->input->post('nrp'),
             'id_pendaftaran_praktikum' => $this->input->post('id_pendaftaran_praktikum'),
-            'upload_transkrip' => $this->input->post('upload_transkrip'),
-            'upload_foto' => $this->input->post('upload_foto'),
             'gender' => $this->input->post('gender'),
             'alamat' => $this->input->post('alamat'),
             'no_hp' => $this->input->post('no_hp'),
@@ -158,49 +157,74 @@ class Calon_asisten_dosen extends CI_Controller {
             'kekurangan' => $this->input->post('kekurangan'),
             'pengalaman' => $this->input->post('pengalaman'),
             'status' => $status,
-            'keterangan' => $this->input->post('keterangan'),
+            // 'keterangan' => $this->input->post('keterangan'),
             'created' => date('Y-m-d H:i:s'),
         );
 
         // var_dump("masuk add ", $data); exit;
 
         $this->load->model('calon_asisten_dosen_model');
-        if($this->calon_asisten_dosen_model->get($data['id']) == 0){
-            // var_dump("masuk tak kembar"); exit;
+        $this->load->model('informasi_umum_model');
+        //check validasi
+        $this->form_validation->set_data($data);
+        $this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
 
-        
-            //check validasi
-            $this->form_validation->set_data($data);
-            $this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
-
-            if ($this->form_validation->run() == FALSE) {
-                $detil[0] = $data;
-                $data['error_msg'] = validation_errors();
-            }
-            else {
-                $this->load->helper(array('form', 'url'));
-
-                $this->calon_asisten_dosen_model->add($data);
-
-                // insert log
-                $keterangan = '';
-                $keterangan .= json_encode($data).'.';
-
-                $logs_insert = array(
-                    "id_user" => $this->session->userdata('user_id'),
-                    "table_name" => 'calon_asisten_dosen',
-                    "action" => 'CREATE',
-                    "keterangan" => "a new record has been created by ".$this->session->userdata('logged_name')." : ".$keterangan,
-                    "created" => date('Y-m-d H:i:s')
-                );
-                $this->load->model('user_history_model');
-                $this->user_history_model->add($logs_insert);
-
-                redirect('calon_asisten_dosen');
-            }
+        if ($this->form_validation->run() == FALSE) {
+            $detil[0] = $data;
+            $data['error_msg'] = validation_errors();
         }
-        else{
-            var_dump("DATA KEMBAR"); exit;
+        else {
+            $this->load->helper(array('form', 'url'));
+
+            $this->calon_asisten_dosen_model->add($data);
+
+            $lastid = $this->calon_asisten_dosen_model->getlastid();
+            // var_dump($_FILES['logo_web']['name']);
+            if((!empty($_FILES)) && !empty($_FILES['berkas']['name'])) {
+                $this->load->helper(array('form', 'url'));
+                $nama_berkas = "berkas-".$data['NRP']."-".date('YmdHis');
+                $config['upload_path']          = './assets/berkas/';
+                $config['allowed_types']        = 'pdf';
+                $config['file_name']            = $nama_berkas;
+                $config['overwrite']            = true;
+                // $config['max_size']             = 1024; // 1MB
+
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);
+
+                if ( ! $this->upload->do_upload('berkas')){
+                    echo $this->upload->display_errors();
+                }
+                else{
+                    $name_berkas = $this->upload->data('file_name');
+
+                    // unlink('./assets/berkas/'.$old_data[0]['nilai']);
+                }
+
+                $data_insert = array(
+                    "id" => $lastid,
+                    "upload_berkas" => $name_berkas
+                );
+
+                $this->calon_asisten_model->update($data_insert);
+                // var_dump("berhasil ", $name_foto_logo, " aaa ", $this->upload->data('file_name')); exit;
+            }
+
+            // insert log
+            $keterangan = '';
+            $keterangan .= json_encode($data).'.';
+
+            $logs_insert = array(
+                "id_user" => $this->session->userdata('user_id'),
+                "table_name" => 'calon_asisten_dosen',
+                "action" => 'CREATE',
+                "keterangan" => "a new record has been created by ".$this->session->userdata('logged_name')." : ".$keterangan,
+                "created" => date('Y-m-d H:i:s')
+            );
+            $this->load->model('user_history_model');
+            $this->user_history_model->add($logs_insert);
+
+            redirect('calon_asisten_dosen');
         }
     }
 

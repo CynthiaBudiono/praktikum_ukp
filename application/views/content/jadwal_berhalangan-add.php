@@ -128,13 +128,13 @@ var papan = [
 $(document).ready(function() {
   var kode_pengajar = $('#kode_pengajar').val();
   var role = $('#role').val();
-  
+  alert(kode_pengajar + " " + role);
   if(role == "Dosen"){
     $.post(baseurl + "jadwal_berhalangan/getbyNIP", {
       NIP: kode_pengajar,
     },
     function(result) {
-      // alert(result);
+      alert(result);
       var arr = JSON.parse(result);
       
       for(var i = 0; i < hours.length; i++){

@@ -3,8 +3,9 @@
 class User_model extends CI_Model {
 
     public function getallopen() {
-		$this->db->select('user.*');
-
+		$this->db->select('user.*, dosen.nama as nama_dosen, laboratorium.nama as nama_laboratorium');
+		$this->db->join('dosen', 'dosen.NIP = user.NIP', 'left');
+		$this->db->join('laboratorium', 'laboratorium.kode_lab = user.kode_lab', 'left');
 		$query = $this->db->get('user');
 
 		if ($query->num_rows() > 0)

@@ -66,6 +66,8 @@
         </div>
         <div class="clearfix"></div>
 
+        <form action="<?php if(isset($detil[0]['id'])) if($detil[0]['id'] != "" || $detil[0]['id'] != NULL) echo (base_url('calon_asisten_dosen/update')); else echo (base_url('calon_asisten_dosen/add')); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
+                        
         <div class="row">
             <div class="col-md-12 col-sm-12 ">
                 <div class="x_panel">
@@ -181,11 +183,13 @@
                         </div>
                         <div id="step-2">
                             <h2 class="StepTitle">Upload Berkas</h2>
-                            1. Transkrip Lokal & KHS Terbaru
-                            2. KTP 
-                            3. Surat Lamaran
-                            4. Curriculum Vitae (disertai dengan foto)
-                            Semuanya jadikan satu file dengan format .pdf
+                            <p> 1. Transkrip Lokal & KHS Terbaru</p>
+                            <p> 2. KTP </p>
+                            <p> 3. Surat Lamaran </p>
+                            <p> 4. Curriculum Vitae (disertai dengan foto) </p>
+                            <p> Silahkan dijadikan satu file dengan format .pdf </p>
+
+                            <input type="file" id= "berkas" name="berkas" accept="application/pdf"/>
                         </div>
                         <div id="step-3">
                             <h2 class="StepTitle">Information</h2>
@@ -201,5 +205,6 @@
                 </div>
             </div>
         </div>
+        </form>
     </div>
 </div>

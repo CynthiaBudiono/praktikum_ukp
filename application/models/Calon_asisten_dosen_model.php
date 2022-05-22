@@ -31,6 +31,20 @@ class Calon_asisten_dosen_model extends CI_Model {
 
 	}
 
+	public function getlastid() {
+		$this->db->order_by('id', 'DESC');
+		$query = $this->db->get('calon_asisten_dosen', 1, 0);
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array()[0]['id'];
+
+		else
+
+			return 0;
+
+	}
+
 	public function getdaftarasdos(){
 		$this->db->distinct();
 		$this->db->select('calon_asisten_dosen.id as id, mahasiswa.NRP as NRP, mahasiswa.nama as nama');
