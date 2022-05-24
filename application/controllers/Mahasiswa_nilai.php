@@ -112,7 +112,7 @@ class Mahasiswa_nilai extends CI_Controller {
     public function getlulustidaklulus(){
         $this->load->model('mahasiswa_nilai_model');
 
-        $mahasiswa_nilai = $this->mahasiswa_nilai_model->getlulustidaklulus($this->input->post('id'));
+        $mahasiswa_nilai = $this->mahasiswa_nilai_model->getlulustidaklulus($this->input->post('id_kelas_praktikum'));
 
         echo json_encode($mahasiswa_nilai);
     }

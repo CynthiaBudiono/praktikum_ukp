@@ -38,6 +38,104 @@ class Subject extends CI_Controller {
 		$this->load->view('general/footer', $data);
 	}
 
+	public function readfile(){
+		// var_dump("MASUK READFILEE"); exit;
+		$this->load->library('excel');
+
+		if((!empty($_FILES)) && !empty($_FILES['subject_file']['name'])) {
+
+			$path = $_FILES["subject_file"]["tmp_name"];
+			$object = PHPExcel_IOFactory::load($path);
+			foreach($object->getWorksheetIterator() as $worksheet){
+				$highestRow = $worksheet->getHighestRow();
+				$highestColumn = $worksheet->getHighestColumn();
+
+				for($row = 2; $row <= $highestRow; $row++){
+					$kode_mk = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
+					$nama = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
+					$for_semester = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
+					$status_praktikum = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
+					$status_responsi = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
+					$status_transfer_nilai = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
+					$informatika = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
+					$sib = $worksheet->getCellByColumnAndRow(7, $row)->getValue();
+					$dsa = $worksheet->getCellByColumnAndRow(8, $row)->getValue();
+					$kelulusan = $worksheet->getCellByColumnAndRow(9, $row)->getValue();
+					$prasyarat = $worksheet->getCellByColumnAndRow(10, $row)->getValue();
+
+					$data[] = array(
+						'kode_mk' 				=> $kode_mk,
+						'nama' 					=> $nama,
+						'semester'				=> $for_semester,
+						'status_praktikum' 		=> $status_praktikum,
+						'status_responsi' 		=> $status_responsi,
+						'status_transfer_nilai' => $status_transfer_nilai,
+						'informatika'			=> $informatika,
+						'sib'					=> $sib,
+						'dsa'					=> $dsa,
+						'kelulusan'				=> $kelulusan,
+						'prasyarat'				=> $prasyarat
+					);
+				}
+			}
+
+			$this->addupdatedata($data);
+			// var_dump($data[0]); exit;
+		}
+		else{
+			echo "Tidak ada file yang masuk";
+		}
+	}
+
+	private function addupdatedata($data){
+
+		$this->load->model('subject_model');
+		if($data != null){
+			for($i = 0; $i < count($data); $i++){
+				$cek = $this->subject_model->get($data[$i]['kode_mk']);
+				$datavalue = array(
+					"kode_mk" 				=> $data[$i]['kode_mk'],
+					"nama" 					=> $data[$i]['nama'],
+					"semester"				=> $data[$i]['semester'],
+					"status_praktikum" 		=> ($data[$i]['status_praktikum'] != NULL) ? $data[$i]['status_praktikum'] : 0,
+					"status_responsi" 		=> ($data[$i]['status_responsi'] != NULL) ? $data[$i]['status_responsi'] : 0,
+					"status_transfer_nilai" => ($data[$i]['status_transfer_nilai'] != NULL) ? $data[$i]['status_transfer_nilai'] : 0,
+					"informatika"			=> ($data[$i]['informatika'] != NULL) ? $data[$i]['informatika'] : 0,
+					"sib"					=> ($data[$i]['sib'] != NULL) ? $data[$i]['sib'] : 0,
+					"dsa"					=> ($data[$i]['dsa'] != NULL) ? $data[$i]['dsa'] : 0,
+					"kelulusan"				=> $data[$i]['kelulusan'],
+					"prasyarat"				=> ($data[$i]['prasyarat'] != NULL) ? $data[$i]['prasyarat'] : "",
+					"status" 				=> 1
+				);
+
+
+				if($cek == 0){ //ADD
+					$this->subject_model->add($datavalue);
+				}
+				else{ //UPDATE
+					$this->subject_model->update($datavalue);
+				}
+
+			}
+		}
+
+		// insert log
+        $keterangan = '';
+        $keterangan .= json_encode($data).'; ';
+
+        $logs_insert = array(
+            "id_user" => $this->session->userdata('user_id'),
+            "table_name" => 'subject',
+            "action" => 'CREATE',
+            "keterangan" => "all record have been created/updated by ". $this->session->userdata('logged_name') ." : ".$keterangan,
+            "created" => date('Y-m-d H:i:s')
+        );
+        $this->load->model('user_history_model');
+        $this->user_history_model->add($logs_insert);
+
+		redirect("subject");
+	}
+
 	public function gethavepraktikum(){ //buat kelas_praktikum-add.php
 		$this->load->model('subject_model');
 		// $subject = "";

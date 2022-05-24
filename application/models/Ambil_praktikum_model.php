@@ -339,12 +339,112 @@ class Ambil_praktikum_model extends CI_Model {
 			return 0;
 	}
 
-	public function getmahasiswatertolak($id, $semester = null, $tahun_ajaran = null){
+	public function getmahasiswatertolak($kode_mk, $semester = null, $tahun_ajaran = null){
+		$this->db->select('
+			ambil_praktikum.*,
+			jadwal_perkuliahan.kode_mk,
+			mahasiswa_matakuliah.id as id_mahasiswa_matakuliah, 
+			mahasiswa_matakuliah.NRP, 
+			mahasiswa.nama as nama_mahasiswa, 
+			subject.nama as nama_subject');
+
+		$this->db->select(' kp1.hari as hari1, kp1.jam as jam1, kp1.durasi as durasi1');
+		$this->db->select(' kp2.hari as hari2, kp2.jam as jam2, kp2.durasi as durasi2');
+		$this->db->select(' kp3.hari as hari3, kp3.jam as jam3, kp3.durasi as durasi3');
+		$this->db->select(' kp4.hari as hari4, kp4.jam as jam4, kp4.durasi as durasi4');
+
+
+		$this->db->join('mahasiswa', 'mahasiswa.NRP = mahasiswa_matakuliah.nrp');
+		$this->db->join('ambil_praktikum', 'ambil_praktikum.id_mahasiswa_matakuliah = mahasiswa_matakuliah.id');
+		$this->db->join('jadwal_perkuliahan', 'jadwal_perkuliahan.id = mahasiswa_matakuliah.id_jadwal_perkuliahan');
+		$this->db->join('subject', 'subject.kode_mk = jadwal_perkuliahan.kode_mk');
+	 
+
+		$this->db->join('kelas_praktikum as kp1', 'kp1.id = ambil_praktikum.pil1', 'left');
+		$this->db->join('kelas_praktikum as kp2', 'kp2.id = ambil_praktikum.pil2', 'left');
+		$this->db->join('kelas_praktikum as kp3', 'kp3.id = ambil_praktikum.pil3', 'left');
+		$this->db->join('kelas_praktikum as kp4', 'kp4.id = ambil_praktikum.pil4', 'left');
+		
+		$this->db->where('jadwal_perkuliahan.kode_mk', $kode_mk);
+
+		$this->db->group_start()
+		  ->or_where('ambil_praktikum.pil1 != ambil_praktikum.terpilih')
+		  ->or_where('ambil_praktikum.pil1 is NULL');
+		$this->db->group_end();
+
+		$this->db->group_start()
+		  ->or_where('ambil_praktikum.pil2 != ambil_praktikum.terpilih')
+		  ->or_where('ambil_praktikum.pil2 is NULL');
+		$this->db->group_end();
+
+		$this->db->group_start()
+		  ->or_where('ambil_praktikum.pil3 != ambil_praktikum.terpilih')
+		  ->or_where('ambil_praktikum.pil3 is NULL');
+		$this->db->group_end();
+
+		$this->db->group_start()
+		  ->or_where('ambil_praktikum.pil4 != ambil_praktikum.terpilih')
+		  ->or_where('ambil_praktikum.pil4 is NULL');
+		$this->db->group_end();
+	 
+		if($semester != null){
+		 $this->db->where('jadwal_perkuliahan.semester', $semester);
+		}
+		if($tahun_ajaran != null){
+		 $this->db->where('jadwal_perkuliahan.tahun_ajaran', $tahun_ajaran);
+		}
+	 
+		// $this->db->where('mahasiswa.NRP = "C14180210"');
+
+		$query = $this->db->get('mahasiswa_matakuliah');
+	  
+		if ($query->num_rows() > 0)
+	  
+			return $query->result_array();
+	  
+		else
+	  
+			return 0;
+	 
+	   // $this->db->select('ambil_praktikum.*, mahasiswa.NRP as NRP, mahasiswa.nama as nama_mahasiswa');
+	   // $this->db->join('mahasiswa', 'mahasiswa.NRP = ambil_praktikum.NRP');
+		
+	   // $this->db->where('ambil_praktikum.id_mahasiswa_matakuliah', $id);
+	 
+	   // $this->db->group_start()
+	   //   ->or_where('ambil_praktikum.pil1 != ambil_praktikum.terpilih')
+	   //   ->or_where('ambil_praktikum.pil1 is NULL');
+	   // $this->db->group_end();
+		
+	   // // $this->db->where('ambil_praktikum.pil1 != ambil_praktikum.terpilih');
+	   // // $this->db->where('ambil_praktikum.pil2 != ambil_praktikum.terpilih');
+	   // // $this->db->where('ambil_praktikum.pil3 != ambil_praktikum.terpilih');
+	   // // $this->db->where('ambil_praktikum.pil4 != ambil_praktikum.terpilih');
+		
+	   // if($semester != null && $tahun_ajaran != null){
+	   //  $this->db->where('ambil_praktikum.semester', $semester);
+	   //     $this->db->where('ambil_praktikum.tahun_ajaran', $tahun_ajaran);
+	   // }
+		
+	   // $query = $this->db->get('ambil_praktikum');
+		
+	   // if ($query->num_rows() > 0)
+		
+	   //  return $query->result_array();
+		
+	   // else
+		
+	   //  return 0;
+	}
+
+	public function getmahasiswatertolak2($kode_mk, $semester = null, $tahun_ajaran = null){
 		$this->db->select('ambil_praktikum.*, mahasiswa.NRP as NRP, mahasiswa.nama as nama_mahasiswa');
 		$this->db->join('mahasiswa', 'mahasiswa.NRP = ambil_praktikum.NRP');
 
-		$this->db->where('ambil_praktikum.id_mahasiswa_matakuliah', $id);
+		$this->db->join('mahasiswa_matakuliah', 'mahasiswa_matakuliah.id = ambil_praktikum.id_mahasiswa_matakuliah');
+		$this->db->join('jadwal_perkuliahan', 'jadwal_perkuliahan.id = mahasiswa_matakuliah.id_jadwal_perkuliahan');
 
+		$this->db->where('jadwal_perkuliahan.kode_mk', $kode_mk);
 
 		$this->db->group_start()
 				->or_where('ambil_praktikum.pil1 != ambil_praktikum.terpilih')
@@ -361,7 +461,7 @@ class Ambil_praktikum_model extends CI_Model {
         	$this->db->where('ambil_praktikum.tahun_ajaran', $tahun_ajaran);
 		}
 
-		$query = $this->db->get('ambil_praktikum');
+		$query = $this->db->get('ambil_praktikumm');
 
 		if ($query->num_rows() > 0)
 

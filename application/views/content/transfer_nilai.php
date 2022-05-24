@@ -27,13 +27,13 @@
           <div class="clearfix"></div>
         </div>
         <div>
-          <p>Download template, to get the template file <a href="<?php echo base_url("assets/template/mahasiswa_template.xlsx"); ?>" download>Download Template</a></p>
+          <!-- <p>Download template, to get the template file <a href="<?php echo base_url("assets/template/mahasiswa_template.xlsx"); ?>" download>Download Template</a></p>
 
           <form action="<?= (base_url('mahasiswa/readfile')); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
 
-          <input type="file" id="mahasiswa_file" name="mahasiswa_file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+          <input type="file" id="template" name="template" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
           <br><br>
-          <button type="submit" class="btn btn-sm bg-green">Update All!</button>
+          <button type="button" class="btn btn-sm bg-green">Update All!</button> -->
 
           </form>
         </div>
@@ -45,14 +45,9 @@
                   <thead>
                     <tr>
                       <th>Actions</th>
-                      <th>NRP</th>
-                      <th>Nama</th>
-                      <th>Angkatan</th>
-                      <th>IPS</th>
-                      <th>IPK</th>
-                      <th>Email</th>
-                      <th>Last login</th>
-                      <th>Status</th>
+                      <th>Mahasiswa</th>
+                      <th>Mata Kuliah</th>
+                      <th>Nilai Akhir</th>
                     </tr>
                   </thead>
 
@@ -63,17 +58,13 @@
                             <tr>
                               <td>
                               <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a>
+                              <a href="#" class="btn bg-green btn-sm btn-action"><i class="fa fa-exchange"></i> Transfer </a>
                               <!-- <a href="#" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
                               <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
                               </td>
-                              <td><?= (isset($key['NRP'])) ? $key['NRP'] : '' ?></td>
-                              <td><?= (isset($key['nama'])) ? $key['nama'] : '' ?></td>
-                              <td><?= (isset($key['angkatan'])) ? $key['angkatan'] : '' ?></td>
-                              <td><?= (isset($key['ips'])) ? $key['ips'] : '' ?></td>
-                              <td><?= (isset($key['ipk'])) ? $key['ipk'] : '' ?></td>
-                              <td><?= (isset($key['email'])) ? $key['email'] : '' ?></td>
-                              <td><?= (isset($key['last_login'])) ? $key['last_login'] : '' ?></td>
-                              <td><?php if(isset($key['status'])) if($key['status']==1) echo '<span class="badge bg-green">active</span>'; else '<span class="badge bg-danger">non active</span>'; ?></td>
+                              <td><?= (isset($key['NRP'])) ? $key['NRP'] : '' ?> ~ <?= (isset($key['nama_mahasiswa'])) ? $key['nama_mahasiswa'] : '' ?></td>
+                              <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?> ~ <?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?></td>
+                              <td><?= (isset($key['hasil_akhir'])) ? $key['hasil_akhir'] : '' ?></td>
                             </tr>
                           <?php endforeach; ?>
                       <?php endif; ?>

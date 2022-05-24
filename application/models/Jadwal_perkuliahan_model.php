@@ -49,6 +49,8 @@ class Jadwal_perkuliahan_model extends CI_Model {
 		$this->db->distinct();
 		$this->db->select('subject.*, subject.nama as nama_subject');
 		$this->db->join('subject', 'subject.kode_mk = jadwal_perkuliahan.kode_mk');
+
+		$this->db->where('jadwal_perkuliahan.status', 1);
 		if($semester != null){
 			$this->db->where('jadwal_perkuliahan.semester', $semester);
 		}
@@ -64,7 +66,30 @@ class Jadwal_perkuliahan_model extends CI_Model {
 		else
 
 			return 0;
+	}
 
+	public function getsubjecttransfernilai($semester = null, $tahun_ajaran = null){
+		$this->db->distinct();
+		$this->db->select('subject.*, subject.nama as nama_subject');
+		$this->db->join('subject', 'subject.kode_mk = jadwal_perkuliahan.kode_mk');
+
+		$this->db->where('jadwal_perkuliahan.status', 1);
+		$this->db->where('subject.status_transfer_nilai', 1);
+		if($semester != null){
+			$this->db->where('jadwal_perkuliahan.semester', $semester);
+		}
+		if($tahun_ajaran != null){
+			$this->db->where('jadwal_perkuliahan.tahun_ajaran', $tahun_ajaran);
+		}
+		$query = $this->db->get('jadwal_perkuliahan');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
 	}
 
 	// public function getnabrakdosen($nip, $hari, $jam, $durasi, $semester = null, $tahun_ajaran = null){

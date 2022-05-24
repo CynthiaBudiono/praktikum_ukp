@@ -27,7 +27,14 @@
           <div class="clearfix"></div>
         </div>
         <div>
-          <button type="button" class="btn btn-lg bg-green">Update All!</button>
+          <!-- <button type="button" class="btn btn-lg bg-green">Update All!</button> -->
+          <p>Download template, to get the template file <a href="<?php echo base_url("assets/template/jadwal_kuliah_template.xlsx"); ?>" download>Download Template</a></p>
+
+          <form action="<?= (base_url('jadwal_perkuliahan/readfile')); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
+              <input type="file" id="jadwal_perkuliahan_file" name="jadwal_perkuliahan_file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+              <br><br>
+              <button type="submit" class="btn btn-sm bg-green">Update All!</button>
+          </form>
         </div>
         <div class="x_content">
           <div class="row">

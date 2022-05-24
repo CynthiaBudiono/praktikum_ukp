@@ -39,7 +39,7 @@
                                 <?php if(isset($ddsubject)) : ?>
                                     <?php if(is_array($ddsubject)) : ?>
                                         <?php foreach($ddsubject as $key) : ?>
-                                            <option value="<?= (isset($key['id'])) ? $key['id'] : '' ?>"> <?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?> <?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?></option>
+                                            <option value="<?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?>"> <?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?> <?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?></option>
                                         <?php endforeach; ?>
                                     <?php endif; ?>
                                 <?php endif; ?>
@@ -267,6 +267,7 @@
         else if(jenislaporan == "lulus"){
             $('#ddkelas_prak').css('display', 'block');
             $("#ddkelas_prak").change(function(){
+                // alert($("#ddkelas_prak").val());
                 $.post(baseurl + "mahasiswa_nilai/getlulustidaklulus", {
                     id_kelas_praktikum: $("#ddkelas_prak").val(),
                     semester: $("#ddsemester").val(),
@@ -285,7 +286,7 @@
         else if(jenislaporan == "tidak_lulus"){
             $('#ddkelas_prak').css('display', 'block');
             $("#ddkelas_prak").change(function(){
-                $.post(baseurl + "mahasiswa_nilai/gettidaklulus", {
+                $.post(baseurl + "mahasiswa_nilai/getlulustidaklulus", {
                     id_kelas_praktikum: $("#ddkelas_prak").val(),
                     semester: $("#ddsemester").val(),
                     tahun_ajaran : $("#ddtahun_ajaran").val()
@@ -382,6 +383,9 @@
             $('#ddkelas_prak').css('display', 'none');
             $('#ddsubject').css('display', 'block');
 
+            alert("kode_mk : " + $('#ddsubject').val());
+            alert("semester" + $('#ddsemester').val());
+            alert("tahun_ajaran : " + $('#ddtahun_ajaran').val());
             $('#ddsubject').on("change paste keyup select", function() {
                 $.post(baseurl + "ambil_praktikum/getmahasiswatertolak", {
                     id : $('#ddsubject').val(),
@@ -404,7 +408,7 @@
                     tahun_ajaran : $("#ddtahun_ajaran").val()
                 },
                 function(result) {
-                    alert(result);
+                    // alert(result);
                     var arr = JSON.parse(result);
                     data_laporan = arr;
                     viewmahasiswatertolak();
@@ -421,7 +425,7 @@
                     alert(result);
                     var arr = JSON.parse(result);
                     data_laporan = arr;
-                    viewkelas();
+                    viewmahasiswatertolak();
                 });
             });
 
@@ -655,21 +659,21 @@
         for(var i = 0; i < data_laporan.length; i++){
             kal += '<tr>';
                 kal += '<td>' + data_laporan[i]['NRP'] + '</td>';
-                kal += '<td>' + data_laporan[i]['nama'] + '</td>';
+                kal += '<td>' + data_laporan[i]['nama_mahasiswa'] + '</td>';
                 if(data_laporan[i]['pil1'] != null){
-                    kal += '<td>' + data_laporan[i]['pil1'] + '</td>';
+                    kal += '<td>' + data_laporan[i]['hari1'] + ", " + data_laporan[i]['jam1'] +'</td>';
                 }
                 else{
                     kal += '<td></td>';
                 }
                 if(data_laporan[i]['pil2'] != null){
-                    kal += '<td>' + data_laporan[i]['pil2'] + '</td>';
+                    kal += '<td>' + data_laporan[i]['hari2'] + ", " + data_laporan[i]['jam2'] + '</td>';
                 }
                 else{
                     kal += '<td></td>';
                 }
                 if(data_laporan[i]['pil3'] != null){
-                    kal += '<td>' + data_laporan[i]['pil3'] + '</td>';
+                    kal += '<td>' + data_laporan[i]['hari3'] + ", " + data_laporan[i]['jam3'] + '</td>';
                 }
                 else{
                     kal += '<td></td>';

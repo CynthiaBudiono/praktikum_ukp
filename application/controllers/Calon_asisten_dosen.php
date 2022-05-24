@@ -277,9 +277,7 @@ class Calon_asisten_dosen extends CI_Controller {
 
             // insert log
             $keterangan = '';
-            $keterangan .= $old_data[0]['nama']. ' to '. $data['nama'].'; ';
-            $keterangan .= $old_data[0]['status']. ' to '. $data['status'].';';
-            $keterangan .= $old_data[0]['keterangan']. ' to '. $data['keterangan'].'; ';
+            $keterangan .= $old_data[0]. ' to '. $data.'; ';
 
             $logs_insert = array(
                 "id_user" => $this->session->userdata('user_id'),

@@ -360,8 +360,17 @@ class ambil_praktikum extends CI_Controller {
     public function getmahasiswatertolak(){
         $this->load->model('ambil_praktikum_model');
         $this->load->model('informasi_umum_model');
+        $this->load->model('mahasiswa_matakuliah_model');
 
-        $ambil_praktikum = $this->ambil_praktikum_model->getmahasiswatertolak($this->input->post('id'), $this->input->post('semester'), $this->input->post('tahun_ajaran'));
+        $tahun_ajaran = $this->input->post('tahun_ajaran'). "-" . intval($this->input->post('tahun_ajaran') + 1); //'+1year'
+
+        // $kode_mk = $this->input->post('id');
+
+        // $getjadwal_perkuliahan = $this->mahasiswa_matakuliah_model->getbysubject($this->input->post('semester'), $tahun_ajaran);
+
+        // $ambil_praktikum = $this->ambil_praktikum_model->getdetailkelas($kode_mk, "praktikum", $this->input->post('semester'), $tahun_ajaran);
+
+        $ambil_praktikum = $this->ambil_praktikum_model->getmahasiswatertolak($this->input->post('id'), $this->input->post('semester'), $tahun_ajaran);
 
         echo json_encode($ambil_praktikum);
     }

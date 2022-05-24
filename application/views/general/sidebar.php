@@ -245,7 +245,6 @@ html{
                 <?php if($this->session->userdata('user_type') == 'admin'){ ?>
                   <li><a><i class="fa fa-database"></i> Master Data <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="<?= base_url('ImportController') ?>">EXCELL</a></li>
                       <li><a href="<?= base_url('mahasiswa') ?>">Mahasiswa</a></li>
                       <li><a href="<?= base_url('dosen') ?>">Dosen</a></li>
                       <li><a href="<?= base_url('calon_asisten_dosen') ?>">Calon Asdos</a></li>
@@ -270,6 +269,7 @@ html{
                       <li><a href="<?= base_url('ambil_praktikum') ?>">Ambil Praktikum</a></li>
                       <li><a href="<?= base_url('asisten') ?>">Asisten</a></li>
                       <li><a href="<?= base_url('mahasiswa_nilai') ?>">Penilaian</a></li>
+                      <li><a href="<?= base_url('transfer_nilai') ?>">Transfer Nilai</a></li>
                     </ul>
                   </li>
                   <li><a href="<?= base_url('laporan') ?>"><i class="fa fa-archive"></i> Laporan</span></a></li>
