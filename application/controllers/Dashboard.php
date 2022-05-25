@@ -18,8 +18,15 @@ class Dashboard extends CI_Controller {
 
 		$data['berita'] = $this->berita_model->getshowberita();
 
-		$data['count_mahasiswa_daftar'] = $this->ambil_praktikum_model->countpendaftar($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
-		$data['count_mahasiswa_ikut_praktikum'] = $this->ambil_praktikum_model->countpeserta($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+		
+		if($this->session->userdata('user_type') == 'admin' || $this->session->userdata('user_type') == 'dosen' || $this->session->userdata('user_type') == 'kepala_lab' || $this->session->userdata('user_type') == 'asisten_tetap'){
+			$data['count_mahasiswa_daftar'] = $this->ambil_praktikum_model->countpendaftar($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+			$data['count_mahasiswa_ikut_praktikum'] = $this->ambil_praktikum_model->countpeserta($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+		}
+		else if($this->session->userdata('user_type') == 'mahasiswa' || $this->session->userdata('user_type') == 'asisten_dosen'){
+			$data['kelas_praktikum_mahasiswa'] = $this->ambil_praktikum_model->getkelaspraktikummahasiswa($this->session->userdata('user_id'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+		}
+		
 
 		// var_dump($data['count_mahasiswa_daftar']);
 		// var_dump($data['count_mahasiswa_ikut_praktikum']); exit;

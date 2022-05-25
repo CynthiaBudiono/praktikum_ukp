@@ -32,8 +32,7 @@
                                     <tr>
                                         <th>Actions</th>
                                         <th>id</th>
-                                        <th>nama</th>
-                                        <th>status</th>
+                                        <th>Mahasiswa</th>
                                         <th>created</th>
                                         <th>updated</th>
                                     </tr>
@@ -44,17 +43,15 @@
                                         <?php foreach($calon_asisten_dosen as $key) : ?>
                                         <tr>
                                             <td>
-                                                <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a>
+                                                <a href="<?= base_url('calon_asisten_dosen/getdetail/'); ?><?= (isset($key['NRP'])) ? $key['NRP'] : '' ?>" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a>
                                                 <a href="<?php echo base_url("calon_asisten_dosen/updates/"); echo base64_encode($key['id']);?>" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
                                                 <!-- <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
-                                                <a href="#" class="btn btn-success btn-sm btn-action"><i class="fa fa-check"></i> Confirm </a>
+                                                <?php if(isset($key['asisten'])){ if($key['asisten'] == "tidak_ada"){?>
+                                                    <a href="#" onclick=confirm(<?= (isset($key['id'])) ? $key['id'] : '' ?>) class="btn btn-success btn-sm btn-action"><i class="fa fa-check"></i> Confirm </a>
+                                                <?php } }?>
                                             </td>
                                             <td><?= (isset($key['id'])) ? $key['id'] : '' ?></td>
-                                            <td><?= (isset($key['nama'])) ? $key['nama'] : '' ?></td>
-                                            <td>
-                                                <?php 
-                                                    if(isset($key['status'])) if($key['status']==1) echo '<span class="badge bg-green">active</span>'; else echo '<span class="badge bg-danger">non active</span>';?>
-                                            </td>
+                                            <td><?= (isset($key['NRP'])) ? $key['NRP'] : '' ?> <?= (isset($key['nama_mahasiswa'])) ? $key['nama_mahasiswa'] : '' ?></td>
                                             <td><?= (isset($key['created'])) ? $key['created'] : '' ?></td>
                                             <td><?= (isset($key['updated'])) ? $key['updated'] : '' ?></td>
                                         </tr>
@@ -71,3 +68,30 @@
         </div>
     </div>
 </div>
+
+<script  type="text/javascript">
+
+var baseurl = "<?php echo base_url(); ?>";
+
+$(document).ready(function() {
+});
+
+function confirm($id){
+    alert($id);
+    
+    // $.post(baseurl + "asisten_dosen/add", {
+    //     id_calon_asisten_dosen: $id,
+    // },
+    // function(result) {
+    //     // alert(result);
+    //     if(result == 'success'){
+    //         view();
+            
+
+    //     }
+    //     else{
+    //         alert(result);
+    //     }
+    // });
+}
+</script>

@@ -57,8 +57,8 @@
                           <?php foreach($mahasiswa as $key) : ?>
                             <tr>
                               <td>
-                              <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a>
-                              <a href="#" class="btn bg-green btn-sm btn-action"><i class="fa fa-exchange"></i> Transfer </a>
+                              <a href="<?= (base_url('mahasiswa_nilai/viewdetail')); ?>/<?= (isset($key['NRP'])) ? $key['NRP'] : '' ?>/<?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?>" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a>
+                              <a href="<?= (base_url('mahasiswa_nilai/addtransfernilai')); ?>/<?= (isset($key['NRP'])) ? $key['NRP'] : '' ?>/<?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?>" class="btn bg-green btn-sm btn-action"><i class="fa fa-exchange"></i> Transfer </a>
                               <!-- <a href="#" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
                               <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
                               </td>

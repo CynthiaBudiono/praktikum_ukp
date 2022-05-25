@@ -44,7 +44,7 @@
                 <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
                   <thead>
                     <tr>
-                      <th>Actions</th>
+                      <!-- <th>Actions</th> -->
                       <th>NRP</th>
                       <th>Nama</th>
                       <th>Angkatan</th>
@@ -61,11 +61,11 @@
                       <?php if(is_array($mahasiswa)) : ?>
                           <?php foreach($mahasiswa as $key) : ?>
                             <tr>
-                              <td>
-                              <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a>
+                              <!-- <td>
+                              <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a> -->
                               <!-- <a href="#" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
                               <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
-                              </td>
+                              <!-- </td> -->
                               <td><?= (isset($key['NRP'])) ? $key['NRP'] : '' ?></td>
                               <td><?= (isset($key['nama'])) ? $key['nama'] : '' ?></td>
                               <td><?= (isset($key['angkatan'])) ? $key['angkatan'] : '' ?></td>

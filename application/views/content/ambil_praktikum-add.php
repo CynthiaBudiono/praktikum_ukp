@@ -89,6 +89,7 @@
                     <div class="x_content" id="content-add">
                         <br />
                         <!-- <input type="hidden" class="form-control" name="mode" id="mode" value="add"> -->
+                            <?php if($this->session->userdata('user_type') == 'admin' || $this->session->userdata('user_type') == 'asisten_tetap'){ ?>
 
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 ">Mahasiswa</label>
@@ -98,6 +99,9 @@
                                     </select>
                                 </div>
                             </div>
+                            <?php } elseif($this->session->userdata('user_type') == 'mahasiswa' || $this->session->userdata('user_type') == 'asisten_dosen'){ ?>
+                                <input type="hidden" class="form-control" name="mahasiswa" id="mahasiswa" value="<?= $this->session->userdata('user_id')?>">
+                            <?php }?>
 
                             <div id="box-component">
                                 <div class="form-group row">
@@ -213,7 +217,7 @@
 
 <script>
     var baseurl = "<?php echo base_url(); ?>";
-
+    var usertype = "<?php echo $this->session->userdata('user_type'); ?>";
     var data_jadwal = [];
     var baru = 0;
     var kalsubject = '';
@@ -221,67 +225,71 @@
     // view();
     $(document).ready(function() {	
         // alert("masukkkkkkkk ready");
-        $('#mahasiswa').select2();
+        // alert(usertype);
+
         $('#subject').select2();
         $('#pilihan1').select2();
         $('#pilihan2').select2();
         $('#pilihan3').select2();
         
         // view();
-        
-
-        $.post(baseurl + "mahasiswa/getpesertapraktikum", {},
-        function(result) {
-            var arr = JSON.parse(result);
-            for(var i=0; i<arr.length; i++){
-                $('#mahasiswa').append('<option value="'+ arr[i]['NRP'] +'">'+ arr[i]['NRP'] + ' - ' + arr[i]['nama'] +'</option>');
-            }
-        });
-
-        $('#mahasiswa').on("change", function() {
-            // getambilpraktikum();
-            $.post(baseurl + "ambil_praktikum/getambilprakbynrp", {
-                nrp: $('#mahasiswa').val()
-            },
+        if(usertype == "admin" || usertype == 'asisten_tetap'){
+            // alert("masuk");
+            $('#mahasiswa').select2();
+            $.post(baseurl + "mahasiswa/getpesertapraktikum", {},
             function(result) {
-                alert("getambilprakbynrp: " + result);
                 var arr = JSON.parse(result);
+                for(var i=0; i<arr.length; i++){
+                    $('#mahasiswa').append('<option value="'+ arr[i]['NRP'] +'">'+ arr[i]['NRP'] + ' - ' + arr[i]['nama'] +'</option>');
+                }
+            });
 
-                if (arr != 0){
-                    data_jadwal = [];
-                    $('#box-component').css('display', 'none');
-                    $('#btnvalidasi').css('display', 'none');
+            $('#mahasiswa').on("change", function() {
+                // getambilpraktikum();
+                $.post(baseurl + "ambil_praktikum/getambilprakbynrp", {
+                    nrp: $('#mahasiswa').val()
+                },
+                function(result) {
+                    alert("getambilprakbynrp: " + result);
+                    var arr = JSON.parse(result);
 
-                    for(var i=0; i<arr.length; i++){
-                        add(arr[i]);
+                    if (arr != 0){
+                        data_jadwal = [];
+                        $('#box-component').css('display', 'none');
+                        $('#btnvalidasi').css('display', 'none');
+
+                        for(var i=0; i<arr.length; i++){
+                            add(arr[i]);
+                        }
                     }
-                }
-                                
-            });
-        
+                                    
+                });
+            
 
-            $('#detail_mahasiswa').html("Matakuliah yang diambil " + $('#mahasiswa option:selected').text() + " :");
-            $.post(baseurl + "mahasiswa_matakuliah/getsubjectbyNRP", {
-                nrp: $('#mahasiswa').val(),
-            },
-            function(result) {
-                var arr = JSON.parse(result);
-                var kal = '';
-                kal +='<ul>';
-                for(var i=0; i<arr.length; i++){
-                    kal += '<li>'+ arr[i]['kode_mk'] + ' - ' + arr[i]['nama'] +'</li>';
-                }
-                kal +='</ul>';
-                $('#detail_mahasiswa').append(kal);
-                kalsubject += '<option value="" disabled selected>-- Pilih Mata Kuliah --</option>';
-                for(var i=0; i<arr.length; i++){
-                    kalsubject +='<option value="'+ arr[i]['kode_mk'] +'">'+ arr[i]['kode_mk'] + ' - ' + arr[i]['nama'] +'</option>';
-                    
-                    // alert("status_responsi" + arr[i]['status_responsi']);
-                }
-                $('#subject').html(kalsubject);
+                $('#detail_mahasiswa').html("Matakuliah yang diambil " + $('#mahasiswa option:selected').text() + " :");
+                $.post(baseurl + "mahasiswa_matakuliah/getsubjectbyNRP", {
+                    nrp: $('#mahasiswa').val(),
+                },
+                function(result) {
+                    var arr = JSON.parse(result);
+                    var kal = '';
+                    kal +='<ul>';
+                    for(var i=0; i<arr.length; i++){
+                        kal += '<li>'+ arr[i]['kode_mk'] + ' - ' + arr[i]['nama'] +'</li>';
+                    }
+                    kal +='</ul>';
+                    $('#detail_mahasiswa').append(kal);
+                    kalsubject += '<option value="" disabled selected>-- Pilih Mata Kuliah --</option>';
+                    for(var i=0; i<arr.length; i++){
+                        kalsubject +='<option value="'+ arr[i]['kode_mk'] +'">'+ arr[i]['kode_mk'] + ' - ' + arr[i]['nama'] +'</option>';
+                        
+                        // alert("status_responsi" + arr[i]['status_responsi']);
+                    }
+                    $('#subject').html(kalsubject);
+                });
             });
-        });
+        }
+        
 
         // $.post(baseurl + "mahasiswa_matakuliah/getsubjectbyNRPambilprak", {
         //     nrp: $('#mahasiswa').val(),

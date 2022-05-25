@@ -6,7 +6,7 @@ class Laporan extends CI_Controller {
 	{
 		parent::__construct();
         if(!$this->session->userdata('logged_in')) redirect('login');
-	    if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
+	    // if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
 	}
 
 

@@ -6,7 +6,7 @@ class Mahasiswa_nilai extends CI_Controller {
 	{
 		parent::__construct();
         if(!$this->session->userdata('logged_in')) redirect('login');
-	    if($this->session->userdata('user_type') == 'mahasiswa') redirect('dashboard');
+	    // if($this->session->userdata('user_type') == 'mahasiswa') redirect('dashboard');
 	}
 
 
@@ -50,6 +50,141 @@ class Mahasiswa_nilai extends CI_Controller {
 
 		$this->load->view('general/footer', $data);
 	}
+
+    public function viewdetail($nrp, $kode_mk){
+        // var_dump($kode_mk);
+        // var_dump($nrp); exit;
+
+        $this->load->model('mahasiswa_nilai_model');
+
+		$this->load->model('kelas_praktikum_model');
+        $this->load->model('ambil_praktikum_model');
+        $this->load->model('informasi_umum_model');
+
+        $data['kelas_praktikum_now'] = $this->ambil_praktikum_model->getkelaspraktikummahasiswa($nrp, $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran(), $kode_mk);
+
+        // var_dump($data['kelas_praktikum_now']); exit;
+
+        for($i = 0; $i < count($data['kelas_praktikum_now']); $i++ ){
+            // var_dump($data['kelas_praktikum_now'][$i]['id']);
+
+            $data['kelas_praktikum_now'][0]['detail_nilai'] = $this->mahasiswa_nilai_model->getallnilai($data['kelas_praktikum_now'][$i]['id_kelas_praktikum'], $nrp);
+        }
+
+        // var_dump($data['kelas_praktikum_now']); exit;
+
+		$data['title'] = "mahasiswa nilai";
+		
+		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
+		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
+		$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
+		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
+		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
+
+		$this->load->view('general/header');
+
+		$this->load->view('general/sidebar', $data);
+
+		$this->load->view('general/navbar', $data);
+
+		$this->load->view('content/mahasiswa_nilai-view', $data);
+
+		$this->load->view('general/footer', $data);
+
+    }
+
+    public function addtransfernilai($nrp, $kode_mk){
+
+        $this->load->model('mahasiswa_nilai_model');
+
+		$this->load->model('kelas_praktikum_model');
+        $this->load->model('ambil_praktikum_model');
+        $this->load->model('informasi_umum_model');
+
+        $data = $this->ambil_praktikum_model->getkelaspraktikummahasiswa($nrp, $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran(), $kode_mk);
+
+        // var_dump($data); exit;
+
+        for($i = 0; $i < count($data); $i++ ){ //DATA NYA PASTI 1
+            $insert = $this->mahasiswa_nilai_model->getallnilai($data[$i]['id_kelas_praktikum'], $nrp);
+
+            for($j = 0; $j < count($insert); $j++){ 
+                $isidata = array(
+                    'id_kelas_praktikum' => $data[$i]['id_kelas_praktikum'],
+                    'NRP' => $data[$i]['NRP'],
+                    'tanggal_pertemuan' => $insert[$j]['tanggal_pertemuan'],
+                    'pertemuan' => $insert[$j]['pertemuan'],
+                    'status_absensi' => $insert[$j]['status_absensi'],
+                    'nilai_awal' => $insert[$j]['nilai_awal'],
+                    'nilai_materi' => $insert[$j]['nilai_materi'],
+                    'nilai_tugas' => $insert[$j]['nilai_tugas'],
+                    'rata_rata' => (float)(($insert[$j]['nilai_awal'] + $insert[$j]['nilai_materi'] + $insert[$j]['nilai_tugas'])/3),
+                    'mahasiswa_nilai_id_transfer' => $insert[$j]['id'],
+                );
+    
+                // var_dump($isidata); //exit;
+                $this->mahasiswa_nilai_model->add($isidata);
+            }
+        }
+        // exit;
+        
+        // insert log
+        $keterangan = '';
+        $keterangan .= json_encode($data).'; ';
+
+        $logs_insert = array(
+            "id_user" => $this->session->userdata('user_id'),
+            "table_name" => 'mahasiswa_nilai',
+            "action" => 'CREATE',
+            "keterangan" => "record TRANSFER NILAI have been created by ". $this->session->userdata('logged_name') ." : ".$keterangan,
+            "created" => date('Y-m-d H:i:s')
+        );
+        $this->load->model('user_history_model');
+        $this->user_history_model->add($logs_insert);
+
+        echo 'sukses';
+        redirect('transfer_nilai');
+
+    }
+
+    public function viewbylogin(){
+        $this->load->model('mahasiswa_nilai_model');
+
+		$this->load->model('kelas_praktikum_model');
+        $this->load->model('ambil_praktikum_model');
+        $this->load->model('informasi_umum_model');
+
+        $data['kelas_praktikum_now'] = $this->ambil_praktikum_model->getkelaspraktikummahasiswa($this->session->userdata('user_id'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+
+        // var_dump($data['kelas_praktikum_now']); exit;
+
+        for($i = 0; $i < count($data['kelas_praktikum_now']); $i++ ){
+            // var_dump($data['kelas_praktikum_now'][$i]['id']);
+            $data['kelas_praktikum_now'][$i]['detail_nilai'] = $this->mahasiswa_nilai_model->getallnilai($data['kelas_praktikum_now'][$i]['id_kelas_praktikum'], $this->session->userdata('user_id'));
+        }
+
+        // exit;
+        // var_dump($data['kelas_praktikum_now']); exit;
+        
+
+		$data['title'] = "mahasiswa nilai";
+		
+		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
+		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
+		$data['tahun_ajaran']=$this->informasi_umum_model->gettahunajaran();
+		$data['nama_footer']=$this->informasi_umum_model->get(4)[0]['nilai'];
+		$data['link_footer']=$this->informasi_umum_model->get(5)[0]['nilai'];
+
+		$this->load->view('general/header');
+
+		$this->load->view('general/sidebar', $data);
+
+		$this->load->view('general/navbar', $data);
+
+		$this->load->view('content/mahasiswa_nilai-view', $data);
+
+		$this->load->view('general/footer', $data);
+    }
 
     public function tambah_pertemuan($id, $pertemuan){
         $id = base64_decode($id);
@@ -218,7 +353,7 @@ class Mahasiswa_nilai extends CI_Controller {
                 'nilai_awal' => $data[$i]['nilai_awal'],
                 'nilai_materi' => $data[$i]['nilai_materi'],
                 'nilai_tugas' => $data[$i]['nilai_tugas'],
-                'rata-rata' => (float)(($data[$i]['nilai_awal'] + $data[$i]['nilai_materi'] + $data[$i]['nilai_tugas'])/3),
+                'rata_rata' => (float)(($data[$i]['nilai_awal'] + $data[$i]['nilai_materi'] + $data[$i]['nilai_tugas'])/3),
             );
 
             // var_dump($isidata); exit;
@@ -259,7 +394,7 @@ class Mahasiswa_nilai extends CI_Controller {
                 'nilai_awal' => $data[$i]['nilai_awal'],
                 'nilai_materi' => $data[$i]['nilai_materi'],
                 'nilai_tugas' => $data[$i]['nilai_tugas'],
-                'rata-rata' => (float)(($data[$i]['nilai_awal'] + $data[$i]['nilai_materi'] + $data[$i]['nilai_tugas'])/3),
+                'rata_rata' => (float)(($data[$i]['nilai_awal'] + $data[$i]['nilai_materi'] + $data[$i]['nilai_tugas'])/3),
             );
 
             // var_dump($isidata); exit;

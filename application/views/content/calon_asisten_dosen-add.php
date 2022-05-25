@@ -65,8 +65,15 @@
             </div>
         </div>
         <div class="clearfix"></div>
-
-        <form action="<?php if(isset($detil[0]['id'])) if($detil[0]['id'] != "" || $detil[0]['id'] != NULL) echo (base_url('calon_asisten_dosen/update')); else echo (base_url('calon_asisten_dosen/add')); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
+        <?php if($bukapendaftaran == "tutup"){?>
+            Maaf pendaftaran TUTUP, silahkan menunggu info lanjut pembukaan pendaftaran 
+        <?php } else if($bukapendaftaran == "buka"){?>
+        <form action="<?php if(isset($detil[0]['id'])){ 
+                                if($detil[0]['id'] != "" || $detil[0]['id'] != NULL){ 
+                                    echo (base_url('calon_asisten_dosen/update'));
+                                }
+                            }
+                            else {echo (base_url('calon_asisten_dosen/add'));} ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
                         
         <div class="row">
             <div class="col-md-12 col-sm-12 ">
@@ -113,11 +120,15 @@
                             </li>
                         </ul>
                         <div id="step-1">
-                            <form class="form-horizontal form-label-left">
+                            <!-- <form class="form-horizontal form-label-left" > -->
+                            <form action="<?php if(isset($detil[0]['id'])) { if($detil[0]['id'] != "" || $detil[0]['id'] != NULL){ echo (base_url('calon_asisten_dosen/update'));}} else { echo (base_url('calon_asisten_dosen/add')); } ?>" method="post" class="form-horizontal form-label-left">
+                        
+                                <input type="hidden" class="form-control" name="idcalon" id="idcalon" value="<?= (isset($primary)) ? $primary: '' ?>">
+
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="full-name">Full Name <span class="required">*</span></label>
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="full-name">NRP <span class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6 ">
-                                        <input type="text" id="full_name" name="full_name" required="required" class="form-control">
+                                        <input type="text" id="nrp" name="nrp" required="required" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -125,6 +136,12 @@
                                     </label>
                                     <div class="col-md-6 col-sm-6 ">
                                     <input type="text" id="alamat" name="alamat" required="required" class="form-control ">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="lineid" class="col-form-label col-md-3 col-sm-3 label-align">No HP<span class="required">*</span></label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="tel" pattern="\(\d\d\d\d\)-\d\d\d\d\d\d\d\d" name="nohp" id="nohp" class="form-control col" placeholder="(9999)-999999999" required />
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -172,6 +189,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align">Komitmen<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <textarea id="komitmen" name="komitmen" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label class="col-form-label col-md-3 col-sm-3 label-align">Pengalaman<span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 ">
@@ -205,6 +229,7 @@
                 </div>
             </div>
         </div>
-        </form>
+    </form>
+    <?php }?>
     </div>
 </div>

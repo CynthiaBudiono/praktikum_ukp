@@ -6,7 +6,9 @@ class ambil_praktikum extends CI_Controller {
 	{
 		parent::__construct();
         if(!$this->session->userdata('logged_in')) redirect('login');
-	    if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
+	    // if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
+        if($this->session->userdata('user_type') == 'dosen') redirect('dashboard');
+        if($this->session->userdata('user_type') == 'kepala_lab') redirect('dashboard');
 	}
 
 
@@ -16,6 +18,7 @@ class ambil_praktikum extends CI_Controller {
 		$this->load->model('ambil_praktikum_model');
 
 		// $data['ambil_praktikum'] = $this->ambil_praktikum_model->getallopen();
+        if($this->session->userdata('user_type') != 'admin' || $this->session->userdata('user_type') != 'asisten_tetap') redirect('dashboard');
 
 		$data['title'] = "Ambil Praktikum";
 
@@ -377,6 +380,8 @@ class ambil_praktikum extends CI_Controller {
 
     public function adds(){
 
+        if($this->session->userdata('user_type') != 'admin' && $this->session->userdata('user_type') != 'asisten_dosen' && $this->session->userdata('user_type') != 'mahasiswa') redirect('dashboard');
+        
         $data['title'] = "Add Ambil Praktikum";
 
         $this->load->model('informasi_umum_model');

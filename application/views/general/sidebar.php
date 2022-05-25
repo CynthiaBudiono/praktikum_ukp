@@ -286,9 +286,10 @@ html{
                 <?php if($this->session->userdata('user_type') == 'mahasiswa'){?>
                   <li><a><i class="fa fa-desktop"></i> Praktikum <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="<?= base_url('kelas_praktikum') ?>">Kelas Praktikum</a></li>
+                      <!-- <li><a href="<?= base_url('kelas_praktikum') ?>">Kelas Praktikum</a></li> -->
                       <li><a href="<?= base_url('ambil_praktikum/adds') ?>">Daftar Praktikum</a></li>
-                      <li><a href="<?= base_url('jadwal_perkuliahan/viewbylogin') ?>">PRS Mahasiswa</a></li>
+                      <li><a href="<?= base_url('mahasiswa_nilai/viewbylogin') ?>">Presensi & Nilai</a></li>
+                      <li><a href="<?= base_url('mahasiswa_matakuliah/viewbylogin') ?>">PRS Mahasiswa</a></li>
                       <li><a href="<?= base_url('laporan/transfer_nilai') ?>">Transfer Nilai</a></li>
                     </ul>
                   </li>
@@ -298,7 +299,7 @@ html{
                       <li><a href="<?= base_url('calon_asisten_dosen/getdetail') ?>">Calon Asisten Dosen</a></li>
                     </ul>
                   </li>
-                  <li><a href="<?= base_url('laporan') ?>"><i class="fa fa-archive"></i> Laporan</span></a></li>
+                  <li><a href="<?= base_url('laporan/detail_kelas') ?>"><i class="fa fa-archive"></i> Laporan</span></a></li>
                 <?php }?> <!-- MAHASISWA -->
                 <?php if($this->session->userdata('user_type') == 'asisten_dosen'){?>
                   <li><a><i class="fa fa-desktop"></i> Praktikum <span class="fa fa-chevron-down"></span></a>

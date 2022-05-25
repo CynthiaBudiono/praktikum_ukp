@@ -3,8 +3,34 @@
 class Mahasiswa_matakuliah_model extends CI_Model {
 
     public function getallopen() {
-		$this->db->select('mahasiswa_matakuliah.*');
+		// $this->db->select('mahasiswa_matakuliah.*');
 
+		$this->db->join('jadwal_perkuliahan', 'jadwal_perkuliahan.id = mahasiswa_matakuliah.id_jadwal_perkuliahan');
+
+		$query = $this->db->get('mahasiswa_matakuliah');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+
+	}
+
+	public function viewbylogin($nrp, $semester, $tahun_ajaran){
+
+		$this->db->join('jadwal_perkuliahan', 'jadwal_perkuliahan.id = mahasiswa_matakuliah.id_jadwal_perkuliahan');
+
+		$this->db->where('mahasiswa_matakuliah.nrp', $nrp);
+
+		if($semester != null){
+			$this->db->where('mahasiswa_matakuliah.semester', $semester);
+		}
+		if($tahun_ajaran != null){
+			$this->db->where('mahasiswa_matakuliah.tahun_ajaran', $tahun_ajaran);
+		}
 		$query = $this->db->get('mahasiswa_matakuliah');
 
 		if ($query->num_rows() > 0)

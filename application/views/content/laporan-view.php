@@ -227,6 +227,7 @@
 
 <script>
     var baseurl = "<?php echo base_url(); ?>";
+    var usertype = "<?php echo $this->session->userdata('user_type'); ?>"; 
     var jenislaporan = "<?= $function ?>";
     var jenislogin = "<?= $this->session->userdata('user_type') ?>";
     // var data_informasi = [];
@@ -302,19 +303,25 @@
         }
         else if(jenislaporan == "detail_kelas"){
 
-            $('#ddkelas_prak').css('display', 'block');
-            $("#ddkelas_prak").change(function(){
-                $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
-                    id_kelas_praktikum: $("#ddkelas_prak").val(),
-                },
-                function(result) {
-                    var arr = JSON.parse(result);
+            if(usertype == "mahasiswa" || usertype == "asisten_dosen"){
+                $('#ddsemester').css('display', 'none');
+                $('#ddtahun_ajaran').css('display', 'none');
+            }
+            else{
+                $('#ddkelas_prak').css('display', 'none');
+                $("#ddkelas_prak").change(function(){
+                    $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
+                        id_kelas_praktikum: $("#ddkelas_prak").val(),
+                    },
+                    function(result) {
+                        var arr = JSON.parse(result);
 
-                    data_laporan = arr;
+                        data_laporan = arr;
 
-                    viewdetailkelas();
+                        viewdetailkelas();
+                    });
                 });
-            });
+            }
 
             $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", { // VIEW ALL
                 id_kelas_praktikum: 0,
@@ -328,6 +335,7 @@
                 // alert(JSON.stringify(data_laporan));
                 viewdetailkelas();
             });
+            
         }
         else if(jenislaporan == "mahasiswa"){
             viewmahasiswa();

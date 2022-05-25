@@ -37,7 +37,7 @@
                                 <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Actions</th>
+                                        <!-- <th>Actions</th> -->
                                         <th>NIP</th>
                                         <th>Nama</th>
                                         <th>Email</th>
@@ -50,9 +50,9 @@
                                     <?php if(is_array($dosen)) : ?>
                                         <?php foreach($dosen as $key) : ?>
                                         <tr>
-                                            <td>
+                                            <!-- <td>
                                                 <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a>
-                                            </td>
+                                            </td> -->
                                             <td><?= (isset($key['NIP'])) ? $key['NIP'] : '' ?></td>
                                             <td><?= (isset($key['nama'])) ? $key['nama'] : '' ?></td>
                                             <td><?= (isset($key['email'])) ? $key['email'] : '' ?></td>

@@ -17,6 +17,19 @@ class Pendaftaran_asisten_dosen_model extends CI_Model {
 
 	}
 
+	public function cekbukapendaftaran() {
+		$this->db->where('waktu_start <=',date("Y-m-d 00:00:00"));
+		$this->db->where('waktu_end >=',date("Y-m-d 00:00:00"));
+		$query = $this->db->where('status', 1)->get('pendaftaran_asisten_dosen');
+
+		if ($query->num_rows() > 0)
+			return "buka";
+
+		else
+			return "tutup";
+
+	}
+
     public function get($id) {
 
 		$query = $this->db->where('id', $id)->get('pendaftaran_asisten_dosen', 1, 0);

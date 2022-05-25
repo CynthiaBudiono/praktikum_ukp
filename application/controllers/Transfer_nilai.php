@@ -46,6 +46,7 @@ class Transfer_nilai extends CI_Controller {
 		$data['mahasiswa'] = $transfer_nilai;
 
 		// var_dump("MAHASISWA ", $data['mahasiswa']); exit;
+
 		$data['title'] = "Transfer Nilai";
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];

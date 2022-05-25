@@ -27,6 +27,7 @@
           <div class="clearfix"></div>
         </div>
         <div>
+          <?php if($this->session->userdata('user_type') == 'admin'){ ?>
             <p>Download template, to get the template file <a href="<?php echo base_url("assets/template/PRS_template.xlsx"); ?>" download>Download Template</a></p>
 
             <form action="<?= (base_url('mahasiswa_matakuliah/readfile')); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
@@ -34,6 +35,7 @@
                 <br><br>
                 <button type="submit" class="btn btn-sm bg-green">Update All!</button>
             </form>
+          <?php } ?>
         </div>
         <div class="x_content">
           <div class="row">
@@ -42,7 +44,7 @@
                 <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
                   <thead>
                     <tr>
-                      <th>Actions</th>
+                      <!-- <th>Actions</th> -->
                       <th>NRP</th>
                       <th>Kode MK</th>
                       <th>Kelas Paralel</th>
@@ -56,11 +58,11 @@
                       <?php if(is_array($mahasiswa_matakuliah)) : ?>
                           <?php foreach($mahasiswa_matakuliah as $key) : ?>
                             <tr>
-                              <td>
-                              <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a>
+                              <!-- <td> -->
+                              <!-- <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a> -->
                               <!-- <a href="#" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
                               <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
-                              </td>
+                              <!-- </td> -->
                               <td><?= (isset($key['NRP'])) ? $key['NRP'] : '' ?></td>
                               <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?></td>
                               <td><?= (isset($key['kelas_paralel'])) ? $key['kelas_paralel'] : '' ?></td>

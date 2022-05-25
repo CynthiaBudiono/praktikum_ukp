@@ -21,7 +21,7 @@
   <?php endif; ?>
 
 
-  <?php //if($this->session->userdata('user_type') != 'mahasiswa'){ ?> <!-- SELAIN MAHASISWA -->
+  <?php if($this->session->userdata('user_type') == 'admin' || $this->session->userdata('user_type') == 'dosen' || $this->session->userdata('user_type') == 'kepala_lab' || $this->session->userdata('user_type') == 'asisten_tetap'){ ?>
     <!-- top tiles -->
     <div class="row" style="display: inline-block; width:100%;" >
     <div class="tile_count">
@@ -55,6 +55,57 @@
       </div> -->
     </div>
   </div><!-- /top tiles -->
+  <?php } else if($this->session->userdata('user_type') == 'mahasiswa' || $this->session->userdata('user_type') == 'asisten_dosen'){ ?> <!-- MAHASISWA --> <!-- VIEW KELAS PRAK/MAHASISWA --> 
+    <div class="row">
+    <div class="col-md-12 col-sm-12 ">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Kelas Praktikum</h2><small>/semester</small>
+          <ul class="nav navbar-right panel_toolbox">
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </li>
+            <li><a class="close-link"><i class="fa fa-close"></i></a>
+            </li>
+          </ul>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div class="row">
+            <div class="col-sm-12">
+                <div class="card-box table-responsive">
+                    <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                          <th>Hari</th>
+                          <th>Jam</th>
+                          <th>Mata Kuliah</th>
+                          <th>LAB</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php if(isset($kelas_praktikum_mahasiswa)) : ?>
+                        <?php if(is_array($kelas_praktikum_mahasiswa)) : ?>
+                            <?php foreach($kelas_praktikum_mahasiswa as $key) : ?>
+                            <tr>
+                              <td><?= (isset($key['hariterpilih'])) ? $key['hariterpilih'] : '' ?></td>
+                              <td><?= (isset($key['jamterpilih'])) ? $key['jamterpilih'] : '' ?></td>
+                              <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?> <?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?></td>
+                              <td><?= (isset($key['kode_lab'])) ? $key['kode_lab'] : '' ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+          </div> 
+        </div> <!-- /x-content -->
+      </div>
+    </div>
+  </div>
+  <?php } ?> <!-- /USER TYPE MAHASISWA -->
+  
   <br />
 
   <div class="row">
@@ -117,8 +168,5 @@
       </div>
     </div>
   </div>
-  <?php //} else if($this->session->userdata('user_type') == 'mahasiswa'){ ?> <!-- MAHASISWA -->
-    
-  <?php //} ?> <!-- /USER TYPE MAHASISWA -->
 </div>
 <!-- /page content -->
