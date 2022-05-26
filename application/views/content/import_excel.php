@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
 	<div class="row" style="margin-top: 30px;">
 		<div class="col-md-4 col-md-offset-3">
 			<h3>Import Data</h3>
@@ -36,10 +36,10 @@
 							// foreach ($list_data as $row) {
 						 ?>
 						<tr>
-							<!-- <td><?= $no++; ?></td>
+							<td><?= $no++; ?></td>
 							<td><?= $row['nama'] ?></td>
 							<td><?= $row['jurusan'] ?></td>
-							<td><?= $row['angkatan'] ?></td> -->
+							<td><?= $row['angkatan'] ?></td>
 						</tr>
 						<?php //} ?>
 					</tbody>
@@ -47,4 +47,4 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->

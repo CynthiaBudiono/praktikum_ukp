@@ -61,7 +61,7 @@ class Auth extends CI_Controller
                                 'logged_in' => true,
                                 'from_table' => 'asisten',
                                 'user_type' => 'asisten_'.$user[0]['tipe'],
-                                'user_id' => $user[0]['id'],
+                                'user_id' => $user[0]['NRP'],
                                 'logged_name' => $user[0]['nama'],
                                 'role' => 'Mahasiswa',
                             );

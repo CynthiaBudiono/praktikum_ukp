@@ -83,7 +83,7 @@ class Pendaftaran_praktikum extends CI_Controller {
 		$this->load->model('pendaftaran_praktikum_model');
 		$this->load->model('informasi_umum_model');
         
-        $status = ($this->input->post('status')=='true') ? 1 : 0;
+        // $status = ($this->input->post('status')=='true') ? 1 : 0;
 
         $data = array(
             'waktu_start' => date("Y-m-d H:i:s", strtotime($this->input->post('waktu_start'))),
@@ -91,7 +91,7 @@ class Pendaftaran_praktikum extends CI_Controller {
 			'PP' => (int) $this->input->post('ppke'),
 			'semester' => $this->informasi_umum_model->getsemester(),
 			'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
-            'status' => $status,
+            'status' => 1,
 			'keterangan' => $this->input->post('keterangan')
         );
 
@@ -135,7 +135,7 @@ class Pendaftaran_praktikum extends CI_Controller {
         // var_dump("AAAAAA", $kodee); exit;
         $this->load->model('informasi_umum_model');
 
-        $status = ($this->input->post('status')=='true') ? 1 : 0;
+        // $status = ($this->input->post('status')=='true') ? 1 : 0;
 
         $data = array(
             'id' => strtoupper($this->input->post('id')),
@@ -144,7 +144,7 @@ class Pendaftaran_praktikum extends CI_Controller {
 			'PP' => (int) $this->input->post('ppke'),
 			'semester' => $this->informasi_umum_model->getsemester(),
 			'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
-            'status' => $status,
+            'status' => 1,
 			'keterangan' => $this->input->post('keterangan')
         );
 

@@ -43,13 +43,27 @@
                         <div class="form-group row">
                             <label class="control-label col-md-3 col-sm-3 ">Periode pendaftaran ke-</label>
                             <div class="col-md-9 col-sm-9 ">
-                                <input class="form-control" type="number" class='number' name="ppke" id="ppke" min="1" max="4" required='required'>
-                                <span id="error_pp" class="color-red"></span>
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2">
+                                        <input type="radio" id="pp1" name="ppke" value="1" checked>
+                                        <label for="pp1">1</label>
+                                    </div>
+                                    <div class="col-md-2 col-sm-2">
+                                        <input type="radio" id="pp2" name="ppke" value="2">
+                                        <label for="pp2">2</label>
+                                    </div>
+                                    <div class="col-md-2 col-sm-2">
+                                        <input type="radio" id="pp3" name="ppke" value="3">
+                                        <label for="pp3">3</label>
+                                    </div>
+                                </div>
+                                <!-- <input class="form-control" type="number" class='number' name="ppke" id="ppke" min="1" max="4" required='required'>
+                                <span id="error_pp" class="color-red"></span> -->
                             </div>
                             
                         </div>
 
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <label class="control-label col-md-3 col-sm-3 ">Status</label>
                             <div class="col-md-9 col-sm-9 ">
                                 <div class="">
@@ -58,7 +72,7 @@
                                     </label>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group row">
                             <label class="control-label col-md-3 col-sm-3 ">Keterangan</label>
@@ -131,7 +145,7 @@
                                         <th>PP ke-</th>
                                         <th>Semester</th>
                                         <th>Tahun Ajaran </th>
-                                        <th>Status</th>
+                                        <!-- <th>Status</th> -->
                                     </tr>
                                 </thead>
                                 <tbody id="data_pendaftaran_praktikum">
@@ -174,17 +188,18 @@ $(function() {
     });
 
     function addupdate(){
+        // alert($("input[type='radio'][name='ppke']:checked").val());
         $waktu = ($('#datetimes').val()).split(" - ");
         // alert(tinymce.get("keterangan").getContent());
         // alert($('#keterangan').val());
         // Y-M-DD HH:mm
-        if($('#ppke').val() >=1 && $('#ppke').val() <=4){
+        // if($('#ppke').val() >=1 && $('#ppke').val() <=4){
             $.post(baseurl + "pendaftaran_praktikum/" + $('#mode').val(), {
                 id: $('#id').val(),
                 waktu_start : $waktu[0],
                 waktu_end: $waktu[1],
-                ppke: $('#ppke').val(),
-                status: $('#status').is(':checked'),
+                ppke: $("input[type='radio'][name='ppke']:checked").val(),
+                // status: $('#status').is(':checked'),
                 keterangan: $('#keterangan').val(),
             },
             function(result) {
@@ -202,9 +217,11 @@ $(function() {
                         format: 'Y/MM/DD HH:mm'
                         }
                     });
-                    $('#ppke').val("");
-                    $("#status").prop("checked", false);
-                    $('#keterangan').val("");
+                    // $('#ppke').prop("checked", false);
+                    $("input[name=ppke][value=1]").prop('checked', true);
+                    // $("#status").prop("checked", false);
+
+                    $('#keterangan').trumbowyg('html', ""); 
 
                     if($('#mode').val() == 'update'){
                         $('#action_title').html("Add");
@@ -216,10 +233,10 @@ $(function() {
                     alert(result);
                 }
             });
-        }
-        else{
-            $('#error_pp').html("periode pendaftaran harus 1-4")
-        }
+        // }
+        // else{
+            // $('#error_pp').html("periode pendaftaran harus 1-4")
+        // }
     }
 
     function adds(){
@@ -269,14 +286,15 @@ $(function() {
 
             // $('#waktu_end').val(arr['detil'][0]['waktu_end']);
 
-            $('#ppke').val(arr['detil'][0]['PP']);
+            // $('#ppke').val(arr['detil'][0]['PP']);
 
-            // tinymce.get("keterangan").setContent(arr['detil'][0]['keterangan']);
-            $('#keterangan').val(arr['detil'][0]['keterangan']);
+            $("input[name=ppke][value=" + arr['detil'][0]['PP'] + "]").prop('checked', true);
 
-            if(arr['detil'][0]['status'] == 1){
-                $("#status").prop("checked", true);
-            }
+            $('#keterangan').trumbowyg('html', arr['detil'][0]['keterangan']); 
+
+            // if(arr['detil'][0]['status'] == 1){
+            //     $("#status").prop("checked", true);
+            // }
 
             $('#mode').val('update');
         });
@@ -303,9 +321,9 @@ $(function() {
                 kal += '<td>'+ arr[i]['PP'] +'</td>';
                 kal += '<td>'+ arr[i]['semester'] +'</td>';
                 kal += '<td>'+ arr[i]['tahun_ajaran'] +'</td>';
-                kal += '<td>';
-                    kal += (arr[i]['status'] == 1) ? '<span class="badge bg-green">active</span>' : '<span class="badge bg-danger">non active</span>';
-                kal += '</td>';
+                // kal += '<td>';
+                //     kal += (arr[i]['status'] == 1) ? '<span class="badge bg-green">active</span>' : '<span class="badge bg-danger">non active</span>';
+                // kal += '</td>';
                 kal += '</tr>';
             }
             

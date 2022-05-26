@@ -107,6 +107,7 @@
 <script  type="text/javascript">
 
 var baseurl = "<?php echo base_url(); ?>";
+var usertype = "<?php echo $this->session->userdata('user_type'); ?>";
 var hours = ['7:30:00','8:30:00','9:30:00','10:30:00','11:30:00','12:30:00','13:30:00','14:30:00','15:30:00','16:30:00','17:30:00','18:30:00','19:30:00'];
 var hari = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 var papan = [
@@ -127,64 +128,69 @@ var papan = [
 
 $(document).ready(function() {
   var kode_pengajar = $('#kode_pengajar').val();
+  var usertype = "<?php echo $this->session->userdata('user_type'); ?>";
+  
   var role = $('#role').val();
-  alert(kode_pengajar + " " + role);
+  // alert(kode_pengajar + " " + role);
   if(role == "Dosen"){
     $.post(baseurl + "jadwal_berhalangan/getbyNIP", {
       NIP: kode_pengajar,
     },
     function(result) {
-      alert(result);
-      var arr = JSON.parse(result);
+      // alert(result);
+      if (result != 0){
+        var arr = JSON.parse(result);
       
-      for(var i = 0; i < hours.length; i++){
-        // console.log("aaaaaaaa " + i + " " + hours[i]);
-        for(var j = 0; j < hari.length; j++){
-          // console.log("bbbbbbb " + j)
-          for(var k = 0; k < arr.length; k++){
-            // console.log(arr.length + " ccccccc" + k + " " + arr[k]['jam'] +" == "+ hours[i]);
-            if(hari[j] == "Senin" && arr[k]['hari'] == "Senin" && arr[k]['jam'] == hours[i]){
-              // papan[i] = [];
-                // console.log("eeeeeeeeee ");
-                // console.log("DURASIII " + parseInt(arr[k]['durasi'])/60);
-                papan[i][j] = "red";
+        for(var i = 0; i < hours.length; i++){
+          // console.log("aaaaaaaa " + i + " " + hours[i]);
+          for(var j = 0; j < hari.length; j++){
+            // console.log("bbbbbbb " + j)
+            for(var k = 0; k < arr.length; k++){
+              // console.log(arr.length + " ccccccc" + k + " " + arr[k]['jam'] +" == "+ hours[i]);
+              if(hari[j] == "Senin" && arr[k]['hari'] == "Senin" && arr[k]['jam'] == hours[i]){
+                // papan[i] = [];
+                  // console.log("eeeeeeeeee ");
+                  // console.log("DURASIII " + parseInt(arr[k]['durasi'])/60);
+                  papan[i][j] = "red";
 
-                var durasi = arr[k]['durasi']/60;
-                for(var l = 1; l < durasi; l++){
-                  console.log("MASUK" + durasi);
-                  papan[i+l][j] = "red";
-                }
-            } 
-            if(hari[j] == "Selasa" && arr[k]['hari'] == "Selasa" && arr[k]['jam'] == hours[i]){
-              // papan[i] = [];
-                console.log("eeeeeeeeee ");
-                // console.log("DURASIII " + parseInt(arr[k]['durasi'])/60);
-                papan[i][j] = "red";
+                  var durasi = arr[k]['durasi']/60;
+                  for(var l = 1; l < durasi; l++){
+                    console.log("MASUK" + durasi);
+                    papan[i+l][j] = "red";
+                  }
+              } 
+              if(hari[j] == "Selasa" && arr[k]['hari'] == "Selasa" && arr[k]['jam'] == hours[i]){
+                // papan[i] = [];
+                  console.log("eeeeeeeeee ");
+                  // console.log("DURASIII " + parseInt(arr[k]['durasi'])/60);
+                  papan[i][j] = "red";
 
-                var durasi = arr[k]['durasi']/60;
-                for(var l = 1; l < durasi; l++){
-                  console.log("MASUK" + durasi);
-                  papan[i+l][j] = "red";
-                }
+                  var durasi = arr[k]['durasi']/60;
+                  for(var l = 1; l < durasi; l++){
+                    console.log("MASUK" + durasi);
+                    papan[i+l][j] = "red";
+                  }
+              }
+              if(hari[j] == "Rabu" && arr[k]['hari'] == "Rabu" && arr[k]['jam'] == hours[i]){
+                papan[i][j] = "red";
+                // for(var l = 1; l < (arr[k]['durasi']/60); l++){ //note *SOALNYA PASTI /JAM
+                //   papan[i+l][j] = "red";
+                // }
+              }
+              if(hari[j] == "Kamis" && arr[k]['hari'] == "Kamis" && arr[k]['jam'] == hours[i]){
+                papan[i][j] = "red";
+              }
+              if(hari[j] == "Jumat" && arr[k]['hari'] == "Jumat" && arr[k]['jam'] == hours[i]){
+                papan[i][j] = "red";
+              }
+              if(hari[j] == "Sabtu" && arr[k]['hari'] == "Sabtu" && arr[k]['jam'] == hours[i]){
+                papan[i][j] = "red";
+              } 
             }
-            if(hari[j] == "Rabu" && arr[k]['hari'] == "Rabu" && arr[k]['jam'] == hours[i]){
-              papan[i][j] = "red";
-              // for(var l = 1; l < (arr[k]['durasi']/60); l++){ //note *SOALNYA PASTI /JAM
-              //   papan[i+l][j] = "red";
-              // }
-            }
-            if(hari[j] == "Kamis" && arr[k]['hari'] == "Kamis" && arr[k]['jam'] == hours[i]){
-              papan[i][j] = "red";
-            }
-            if(hari[j] == "Jumat" && arr[k]['hari'] == "Jumat" && arr[k]['jam'] == hours[i]){
-              papan[i][j] = "red";
-            }
-            if(hari[j] == "Sabtu" && arr[k]['hari'] == "Sabtu" && arr[k]['jam'] == hours[i]){
-              papan[i][j] = "red";
-            } 
           }
-        }
-      }  
+        }  
+      }
+      
       console.log("PAPAN" + papan);
       showtable();
     });
@@ -192,63 +198,67 @@ $(document).ready(function() {
       NIP: kode_pengajar,
     },
     function(result) {
-      // alert(result);
-      var arr = JSON.parse(result);
+      // console.log("XXX" + result);
+      if(result != 0){
+        
+        var arr = JSON.parse(result);
       
-      for(var i = 0; i < hours.length; i++){
-        // console.log("aaaaaaaa " + i + " " + hours[i]);
-        for(var j = 0; j < hari.length; j++){
-          // console.log("bbbbbbb " + j)
-          for(var k = 0; k < arr.length; k++){
-            // console.log(arr.length + " ccccccc" + k + " " + arr[k]['jam'] +" == "+ hours[i]);
-            if(hari[j] == "Senin" && arr[k]['hari'] == "Senin" && arr[k]['jam'] == hours[i]){
-              // papan[i] = [];
-                // console.log("eeeeeeeeee ");
-                // console.log("DURASIII " + parseInt(arr[k]['durasi'])/60);
-              papan[i][j] = "blue";
+        for(var i = 0; i < hours.length; i++){
+          // console.log("aaaaaaaa " + i + " " + hours[i]);
+          for(var j = 0; j < hari.length; j++){
+            // console.log("bbbbbbb " + j)
+            for(var k = 0; k < arr.length; k++){
+              // console.log(arr.length + " ccccccc" + k + " " + arr[k]['jam'] +" == "+ hours[i]);
+              if(hari[j] == "Senin" && arr[k]['hari'] == "Senin" && arr[k]['jam'] == hours[i]){
+                // papan[i] = [];
+                  // console.log("eeeeeeeeee ");
+                  // console.log("DURASIII " + parseInt(arr[k]['durasi'])/60);
+                papan[i][j] = "blue";
 
-                // var durasi = arr[k]['durasi']/60;
-                // for(var l = 1; l < durasi; l++){
-                //   console.log("MASUK");
-                //   papan[i+l][j] = "blue";
-                // }
-              for(var l = 1; l < (arr[k]['durasi']/60); l++){
-                papan[i+l][j] = "blue";
+                  // var durasi = arr[k]['durasi']/60;
+                  // for(var l = 1; l < durasi; l++){
+                  //   console.log("MASUK");
+                  //   papan[i+l][j] = "blue";
+                  // }
+                for(var l = 1; l < (arr[k]['durasi']/60); l++){
+                  papan[i+l][j] = "blue";
+                }
               }
-            }
-            if(hari[j] == "Selasa" && arr[k]['hari'] == "Selasa" && arr[k]['jam'] == hours[i]){
-              papan[i][j] = "blue";
-              for(var l = 1; l < (arr[k]['durasi']/60); l++){
-                papan[i+l][j] = "blue";
+              if(hari[j] == "Selasa" && arr[k]['hari'] == "Selasa" && arr[k]['jam'] == hours[i]){
+                papan[i][j] = "blue";
+                for(var l = 1; l < (arr[k]['durasi']/60); l++){
+                  papan[i+l][j] = "blue";
+                }
               }
-            }
-            if(hari[j] == "Rabu" && arr[k]['hari'] == "Rabu" && arr[k]['jam'] == hours[i]){
-              papan[i][j] = "blue";
-              for(var l = 1; l < (arr[k]['durasi']/60); l++){
-                papan[i+l][j] = "blue";
+              if(hari[j] == "Rabu" && arr[k]['hari'] == "Rabu" && arr[k]['jam'] == hours[i]){
+                papan[i][j] = "blue";
+                for(var l = 1; l < (arr[k]['durasi']/60); l++){
+                  papan[i+l][j] = "blue";
+                }
               }
-            }
-            if(hari[j] == "Kamis" && arr[k]['hari'] == "Kamis" && arr[k]['jam'] == hours[i]){
-              papan[i][j] = "blue";
-              for(var l = 1; l < (arr[k]['durasi']/60); l++){
-                papan[i+l][j] = "blue";
+              if(hari[j] == "Kamis" && arr[k]['hari'] == "Kamis" && arr[k]['jam'] == hours[i]){
+                papan[i][j] = "blue";
+                for(var l = 1; l < (arr[k]['durasi']/60); l++){
+                  papan[i+l][j] = "blue";
+                }
               }
-            }
-            if(hari[j] == "Jumat" && arr[k]['hari'] == "Jumat" && arr[k]['jam'] == hours[i]){
-              papan[i][j] = "blue";
-              for(var l = 1; l < (arr[k]['durasi']/60); l++){
-                papan[i+l][j] = "blue";
+              if(hari[j] == "Jumat" && arr[k]['hari'] == "Jumat" && arr[k]['jam'] == hours[i]){
+                papan[i][j] = "blue";
+                for(var l = 1; l < (arr[k]['durasi']/60); l++){
+                  papan[i+l][j] = "blue";
+                }
               }
-            }
-            if(hari[j] == "Sabtu" && arr[k]['hari'] == "Sabtu" && arr[k]['jam'] == hours[i]){
-              papan[i][j] = "blue";
-              for(var l = 1; l < (arr[k]['durasi']/60); l++){
-                papan[i+l][j] = "blue";
+              if(hari[j] == "Sabtu" && arr[k]['hari'] == "Sabtu" && arr[k]['jam'] == hours[i]){
+                papan[i][j] = "blue";
+                for(var l = 1; l < (arr[k]['durasi']/60); l++){
+                  papan[i+l][j] = "blue";
+                }
               }
             }
           }
-        }
-      }  
+        }  
+      }
+      
       console.log("PAPAN" + papan);
       showtable();
     });
@@ -289,7 +299,8 @@ function showtable(){
 
 function berhalangan_add($indexjam, $indexhari){
   // alert(hours[$indexjam] + " " + hari[$indexhari]);
-  $.post(baseurl + "jadwal_berhalangan/add", {
+  if(usertype != 'mahasiswa'){
+    $.post(baseurl + "jadwal_berhalangan/add", {
       pengajar_id: $('#kode_pengajar').val(),
       role: $('#role').val(),
       hari: hari[$indexhari],
@@ -303,22 +314,27 @@ function berhalangan_add($indexjam, $indexhari){
         showtable();
       }
     });
+  }
+  
 }
 
 function berhalangan_delete($indexjam, $indexhari){
-  $.post(baseurl + "jadwal_berhalangan/delete", {
-    pengajar_id: $('#kode_pengajar').val(),
-    role: $('#role').val(),
-    hari: hari[$indexhari],
-    jam: hours[$indexjam],
-    //keterangan:
-  },
-  function(result) {
-    // alert(result);
-    if (result == "sukses"){
-      papan[$indexjam][$indexhari] = "?"; //GREEN
-      showtable();
-    }
-  });
+
+  if(usertype != 'mahasiswa'){
+    $.post(baseurl + "jadwal_berhalangan/delete", {
+      pengajar_id: $('#kode_pengajar').val(),
+      role: $('#role').val(),
+      hari: hari[$indexhari],
+      jam: hours[$indexjam],
+      //keterangan:
+    },
+    function(result) {
+      // alert(result);
+      if (result == "sukses"){
+        papan[$indexjam][$indexhari] = "?"; //GREEN
+        showtable();
+      }
+    });
+  }
 }
 </script>

@@ -156,10 +156,10 @@
                                         <?php if(isset($pengajar)) : ?>
                                             <?php if(is_array($pengajar)) : ?>
                                                 <?php foreach($pengajar as $key) : ?>
-                                                    <?php if($key['NIP'] == $detil[0]['NIP1']) : ?>
-                                                        <option value="<?= $key['NIP'] ?>" selected ><?= $key['nama'] ?></option>
+                                                    <?php if($key['id_pengajar'] == $detil[0]['NIP1']) : ?>
+                                                        <option value="<?= $key['id_pengajar'] ?>" selected ><?= $key['id_pengajar'] ?> ~ <?= $key['nama'] ?></option>
                                                     <?php else : ?>
-                                                        <option value="<?= $key['NIP'] ?>"><?= $key['nama'] ?></option>
+                                                        <option value="<?= $key['id_pengajar'] ?>"><?= $key['id_pengajar'] ?> ~ <?= $key['nama'] ?></option>
                                                     <?php endif; ?>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
@@ -173,10 +173,10 @@
                                         <?php if(isset($pengajar)) : ?>
                                             <?php if(is_array($pengajar)) : ?>
                                                 <?php foreach($pengajar as $key) : ?>
-                                                    <?php if($key['NIP'] == $detil[0]['NIP2']) : ?>
-                                                        <option value="<?= $key['NIP'] ?>" selected ><?= $key['nama'] ?></option>
+                                                    <?php if($key['id_pengajar'] == $detil[0]['NIP2']) : ?>
+                                                        <option value="<?= $key['id_pengajar'] ?>" selected ><?= $key['id_pengajar'] ?> ~ <?= $key['nama'] ?></option>
                                                     <?php else : ?>
-                                                        <option value="<?= $key['NIP'] ?>"><?= $key['nama'] ?></option>
+                                                        <option value="<?= $key['id_pengajar'] ?>"><?= $key['id_pengajar'] ?> ~ <?= $key['nama'] ?></option>
                                                     <?php endif; ?>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
@@ -190,10 +190,10 @@
                                         <?php if(isset($pengajar)) : ?>
                                             <?php if(is_array($pengajar)) : ?>
                                                 <?php foreach($pengajar as $key) : ?>
-                                                    <?php if($key['NIP'] == $detil[0]['NIP3']) : ?>
-                                                        <option value="<?= $key['NIP'] ?>" selected ><?= $key['nama'] ?></option>
+                                                    <?php if($key['id_pengajar'] == $detil[0]['NIP3']) : ?>
+                                                        <option value="<?= $key['id_pengajar'] ?>" selected ><?= $key['id_pengajar'] ?> ~ <?= $key['nama'] ?></option>
                                                     <?php else : ?>
-                                                        <option value="<?= $key['NIP'] ?>"><?= $key['nama'] ?></option>
+                                                        <option value="<?= $key['id_pengajar'] ?>"><?= $key['id_pengajar'] ?> ~ <?= $key['nama'] ?></option>
                                                     <?php endif; ?>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>

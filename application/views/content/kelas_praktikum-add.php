@@ -422,9 +422,10 @@ $(document).ready(function() {
             var arr = JSON.parse(result);
             // var pengajar = [];
             for(var i=0; i<arr.length; i++){
-                $('#nip1' + row).append('<option value="'+ arr[i]['NIP'] +'">'+ arr[i]['nama'] +'</option>');
-                $('#nip2' + row).append('<option value="'+ arr[i]['NIP'] +'">'+ arr[i]['nama'] +'</option>');
-                $('#nip3' + row).append('<option value="'+ arr[i]['NIP'] +'">'+ arr[i]['nama'] +'</option>');
+                // $('#nip1' + row).append('<option value="'+ arr[i]['id_pengajar'] + "-" + arr[i]['jenis'] +'">' + arr[i]['id_pengajar'] + " ~ " + arr[i]['nama'] +'</option>');
+                $('#nip1' + row).append('<option value="'+ arr[i]['id_pengajar'] +'">' + arr[i]['id_pengajar'] + " ~ " + arr[i]['nama'] +'</option>');
+                $('#nip2' + row).append('<option value="'+ arr[i]['id_pengajar'] +'">' + arr[i]['id_pengajar'] + " ~ " + arr[i]['nama'] +'</option>');
+                $('#nip3' + row).append('<option value="'+ arr[i]['id_pengajar'] +'">' + arr[i]['id_pengajar'] + " ~ " + arr[i]['nama'] +'</option>');
                 //pengajar.push({value: arr[i]['nama'], data: arr[i]['NIP']})
             }
             // Selector input yang akan menampilkan autocomplete.

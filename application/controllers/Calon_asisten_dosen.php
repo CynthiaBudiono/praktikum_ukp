@@ -88,6 +88,14 @@ class Calon_asisten_dosen extends CI_Controller {
 		$this->load->view('general/footer', $data);
     }
 
+    public function getbynrp(){
+        $this->load->model('calon_asisten_dosen_model');
+
+        $calon_asisten_dosen = $this->calon_asisten_dosen_model->getbynrp($this->input->post('nrp'));
+
+        echo json_encode($calon_asisten_dosen);
+    }
+
     public function getdaftarasdos(){
         $this->load->model('calon_asisten_dosen_model');
         
@@ -96,34 +104,34 @@ class Calon_asisten_dosen extends CI_Controller {
         echo json_encode($calon_asisten_dosen);
     }
 
-    public function getactiveperiodnow(){
-        $this->load->model('informasi_umum_model');
-        $this->load->model('pendaftaran_asisten_dosen_model');
-        $this->load->model('calon_asisten_dosen_model');
+    // public function getactiveperiodnow(){
+    //     $this->load->model('informasi_umum_model');
+    //     $this->load->model('pendaftaran_asisten_dosen_model');
+    //     $this->load->model('calon_asisten_dosen_model');
         
-        $idpendaftaran = $this->pendaftaran_asisten_dosen_model->getlastactive($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
-        // var_dump($idpendaftaran); exit;
-        if($idpendaftaran != null){
-            $calon_asisten_dosen = $this->calon_asisten_dosen_model->getactiveperiodnow($idpendaftaran[0]['id']);
-            echo json_encode($calon_asisten_dosen);
-        }
-        else{
-            echo "";
-        }
+    //     $idpendaftaran = $this->pendaftaran_asisten_dosen_model->getlastactive($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+    //     // var_dump($idpendaftaran); exit;
+    //     if($idpendaftaran != null){
+    //         $calon_asisten_dosen = $this->calon_asisten_dosen_model->getactiveperiodnow($idpendaftaran[0]['id']);
+    //         echo json_encode($calon_asisten_dosen);
+    //     }
+    //     else{
+    //         echo "";
+    //     }
         
         
-    }
+    // }
 
-    public function getidbyactiveperiod(){
-        $this->load->model('informasi_umum_model');
-        $this->load->model('pendaftaran_asisten_dosen_model');
-        $this->load->model('calon_asisten_dosen_model');
+    // public function getidbyactiveperiod(){
+    //     $this->load->model('informasi_umum_model');
+    //     $this->load->model('pendaftaran_asisten_dosen_model');
+    //     $this->load->model('calon_asisten_dosen_model');
         
-        $idpendaftaran = $this->pendaftaran_asisten_dosen_model->getlastactive($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
-        $calon_asisten_dosen = $this->calon_asisten_dosen_model->getidbyactiveperiod($idpendaftaran[0]['id'], $this->input->post('nrp'));
+    //     $idpendaftaran = $this->pendaftaran_asisten_dosen_model->getlastactive($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+    //     $calon_asisten_dosen = $this->calon_asisten_dosen_model->getidbyactiveperiod($idpendaftaran[0]['id'], $this->input->post('nrp'));
 
-        echo json_encode($calon_asisten_dosen);
-    }
+    //     echo json_encode($calon_asisten_dosen);
+    // }
 
     public function adds(){
 
@@ -171,6 +179,13 @@ class Calon_asisten_dosen extends CI_Controller {
         $id = base64_decode($id);
 
         $this->load->model('calon_asisten_dosen_model');
+
+        if($this->session->userdata('user_type') == 'admin' || $this->session->userdata('user_type') == 'kepala_lab'){
+            $data["bukapendaftaran"] = "buka";
+        }
+        else{ //MAHASISWA / DOSEN
+            $data["bukapendaftaran"] = $this->pendaftaran_asisten_dosen_model->cekbukapendaftaran();
+        }
 
 		$res = $this->calon_asisten_dosen_model->get($id);
 
@@ -306,6 +321,7 @@ class Calon_asisten_dosen extends CI_Controller {
         // $id = base64_decode($id);
 
         // $getmahasiswa = $this->mahasiswa_model->get(strtoupper($this->input->post('nrp')));
+        $this->load->model('informasi_umum_model');
 
         $data = array(
             'id' => $this->input->post('idcalon'),
@@ -339,7 +355,6 @@ class Calon_asisten_dosen extends CI_Controller {
             $data['error_msg'] = validation_errors();
         }
         else {
-            $this->load->helper(array('form', 'url'));
             $this->load->helper(array('form', 'url'));
 
             $this->load->model('calon_asisten_dosen_model');

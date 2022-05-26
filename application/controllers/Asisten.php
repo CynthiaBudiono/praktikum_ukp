@@ -107,8 +107,12 @@ class Asisten extends CI_Controller {
         
         $status = ($this->input->post('status')=='true') ? 1 : 0;
 
+        $this->load->model('calon_asisten_dosen_model');
+        $get = $this->calon_asisten_dosen_model->getbynrp($this->input->post('nrp'));
+
         $data = array(
             'NRP' => $this->input->post('nrp'),
+            'id_calon_asisten_dosen' => $get[0]['id'],
             'tipe' => $this->input->post('tipe'),
             'tanggal_diterima' => $this->input->post('tanggal_diterima'),
             'status' => $status,
@@ -153,8 +157,12 @@ class Asisten extends CI_Controller {
 
         $status = ($this->input->post('status')=='true') ? 1 : 0;
 
+        $this->load->model('calon_asisten_dosen_model');
+        $get = $this->calon_asisten_dosen_model->getbynrp($this->input->post('nrp'));
+
         $data = array(
             'id' => (int)$this->input->post('id'),
+            'id_calon_asisten_dosen' => $get[0]['id'],
             'NRP' => $this->input->post('nrp'),
             'tipe' => $this->input->post('tipe'),
             'tanggal_diterima' => $this->input->post('tanggal_diterima'),

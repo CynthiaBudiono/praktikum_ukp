@@ -6,7 +6,7 @@ class Jadwal_berhalangan extends CI_Controller {
 	{
 		parent::__construct();
         if(!$this->session->userdata('logged_in')) redirect('login');
-	    if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
+	    // if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
 	}
 
 
@@ -16,6 +16,7 @@ class Jadwal_berhalangan extends CI_Controller {
 		// $this->load->model('jadwal_berhalangan_model');
 
 		// $data['jadwal_berhalangan'] = $this->jadwal_berhalangan_model->getallopen();
+        // if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
 
         $this->load->model('kelas_praktikum_model');
         $this->load->model('informasi_umum_model');

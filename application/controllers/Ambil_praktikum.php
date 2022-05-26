@@ -18,7 +18,7 @@ class ambil_praktikum extends CI_Controller {
 		$this->load->model('ambil_praktikum_model');
 
 		// $data['ambil_praktikum'] = $this->ambil_praktikum_model->getallopen();
-        if($this->session->userdata('user_type') != 'admin' || $this->session->userdata('user_type') != 'asisten_tetap') redirect('dashboard');
+        // if($this->session->userdata('user_type') != 'admin' || $this->session->userdata('user_type') != 'asisten_tetap') redirect('dashboard');
 
 		$data['title'] = "Ambil Praktikum";
 

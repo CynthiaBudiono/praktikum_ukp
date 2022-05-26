@@ -40,7 +40,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <label class="control-label col-md-3 col-sm-3 ">Status</label>
                             <div class="col-md-9 col-sm-9 ">
                                 <div class="">
@@ -49,23 +49,13 @@
                                     </label>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group row">
                             <label class="control-label col-md-3 col-sm-3 ">Keterangan</label>
                             <div class="col-md-9 col-sm-9 ">
                                 <div class="">
-                                <textarea id="keterangan" name="keterangan" rows="5"></textarea>
-                                <script>
-                                    tinymce.init({
-                                    selector: 'textarea',
-                                    plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-                                    toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
-                                    toolbar_mode: 'floating',
-                                    tinycomments_mode: 'embedded',
-                                    tinycomments_author: 'Author name',
-                                    });
-                                </script>
+                                    <textarea id="keterangan" name="keterangan" rows="5"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -110,7 +100,7 @@
                                         <th>End</th>
                                         <th>Semester</th>
                                         <th>Tahun Ajaran </th>
-                                        <th>Status</th>
+                                        <!-- <th>Status</th> -->
                                     </tr>
                                 </thead>
                                 <tbody id="data_pendaftaran_asisten_dosen">
@@ -145,6 +135,7 @@ $(function() {
     // view();
     $(document).ready(function() {	
         // alert("masukkkkkkkk ready");	
+        $('#keterangan').trumbowyg();  
         view()
     });
 
@@ -156,8 +147,8 @@ $(function() {
             id: $('#id').val(),
             waktu_start : $waktu[0],
             waktu_end: $waktu[1],
-            status: $('#status').is(':checked'),
-            keterangan: tinymce.get("keterangan").getContent(),
+            // status: $('#status').is(':checked'),
+            keterangan: $('#keterangan').val(),
         },
         function(result) {
             // alert(result);
@@ -174,8 +165,9 @@ $(function() {
                     format: 'Y/MM/DD HH:mm'
                     }
                 });
-                $("#status").prop("checked", false);
-                tinymce.get("keterangan").setContent("");
+                // $("#status").prop("checked", false);
+                
+                $('#keterangan').trumbowyg('html', "");
 
                 if($('#mode').val() == 'update'){
                     $('#action_title').html("Add");
@@ -236,11 +228,11 @@ $(function() {
 
             // $('#waktu_end').val(arr['detil'][0]['waktu_end']);
 
-            tinymce.get("keterangan").setContent(arr['detil'][0]['keterangan']);
+            $('#keterangan').trumbowyg('html', arr['detil'][0]['keterangan']);
 
-            if(arr['detil'][0]['status'] == 1){
-                $("#status").prop("checked", true);
-            }
+            // if(arr['detil'][0]['status'] == 1){
+            //     $("#status").prop("checked", true);
+            // }
 
             $('#mode').val('update');
         });
@@ -266,9 +258,9 @@ $(function() {
                 kal += '<td>'+ arr[i]['waktu_end'] +'</td>';
                 kal += '<td>'+ arr[i]['semester'] +'</td>';
                 kal += '<td>'+ arr[i]['tahun_ajaran'] +'</td>';
-                kal += '<td>';
-                    kal += (arr[i]['status'] == 1) ? '<span class="badge bg-green">active</span>' : '<span class="badge bg-danger">non active</span>';
-                kal += '</td>';
+                // kal += '<td>';
+                //     kal += (arr[i]['status'] == 1) ? '<span class="badge bg-green">active</span>' : '<span class="badge bg-danger">non active</span>';
+                // kal += '</td>';
                 kal += '</tr>';
             }
             

@@ -22,7 +22,7 @@ class User extends CI_Controller {
 		$data['title'] = "user";
 
         $data['laboratorium'] = $this->laboratorium_model->getactivelab();
-        $data['pengajar'] = $this->dosen_model->getallactive();
+        $data['dosen'] = $this->dosen_model->getallactive();
 
         $this->load->model('informasi_umum_model');
 		
@@ -99,7 +99,7 @@ class User extends CI_Controller {
             'email' => $this->input->post('email'),
             'level' => $this->input->post('level'),
             'NIP' => $this->input->post('NIP'),
-            'id' => $this->input->post('id'),
+            'kode_lab' => $this->input->post('kode_lab'),
             'status' => $status
         );
 
@@ -108,7 +108,8 @@ class User extends CI_Controller {
         $this->load->model('user_model');
         //check validasi
         $this->form_validation->set_data($data);
-        $this->form_validation->set_rules('username', 'username', 'trim|required|min_length[4]');
+        // $this->form_validation->set_rules('username', 'username', 'trim|required|min_length[4]');
+        $this->form_validation->set_rules('level', 'level', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $detil[0] = $data;
@@ -151,7 +152,7 @@ class User extends CI_Controller {
             'email' => $this->input->post('email'),
             'level' => $this->input->post('level'),
             'NIP' => $this->input->post('NIP'),
-            'id' => $this->input->post('id'),
+            'kode_lab' => $this->input->post('kode_lab'),
             'status' => $status
         );
 

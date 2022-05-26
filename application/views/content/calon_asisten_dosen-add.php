@@ -128,34 +128,34 @@
                                 <div class="form-group row">
                                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="full-name">NRP <span class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6 ">
-                                        <input type="text" id="nrp" name="nrp" required="required" class="form-control">
+                                        <input type="text" id="nrp" name="nrp" required="required" class="form-control" value="<?= (isset($detil[0]['NRP'])) ? $detil[0]['NRP']: '' ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="alamat">Alamat <span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 ">
-                                    <input type="text" id="alamat" name="alamat" required="required" class="form-control ">
+                                    <input type="text" id="alamat" name="alamat" required="required" class="form-control " value="<?= (isset($detil[0]['alamat'])) ? $detil[0]['alamat']: '' ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="lineid" class="col-form-label col-md-3 col-sm-3 label-align">No HP<span class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6 ">
-                                        <input type="tel" pattern="\(\d\d\d\d\)-\d\d\d\d\d\d\d\d" name="nohp" id="nohp" class="form-control col" placeholder="(9999)-999999999" required />
+                                        <input type="tel" pattern="\(\d\d\d\d\)-\d\d\d\d\d\d\d\d" name="nohp" id="nohp" class="form-control col" placeholder="(9999)-999999999" required value="<?= (isset($detil[0]['no_hp'])) ? $detil[0]['no_hp']: '' ?>"/>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="lineid" class="col-form-label col-md-3 col-sm-3 label-align">line ID<span class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6 ">
-                                    <input type="text" id="lineid" name="lineid" class="form-control col" required="required">
+                                    <input type="text" id="lineid" name="lineid" class="form-control col" required="required" value="<?= (isset($detil[0]['line_id'])) ? $detil[0]['line_id']: '' ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-form-label col-md-3 col-sm-3 label-align">Gender</label>
                                     <div class="col-md-6 col-sm-6 ">
                                     <div class="wrapper-radio">
-                                        <input type="radio" <?php if(isset($gender)) if($gender=='Pria') echo 'checked'; ?> value="Pria" id="radioPria" name="gender">
-                                        <input type="radio" <?php if(isset($gender)) if($gender=='Wanita') echo 'checked'; ?> value="Wanita" id="radioWanita" name="gender">
+                                        <input type="radio" <?php if(isset($detil[0]['gender'])) if($detil[0]['gender']=='Pria') echo 'checked'; ?> value="Pria" id="radioPria" name="gender">
+                                        <input type="radio" <?php if(isset($detil[0]['gender'])) if($detil[0]['gender']=='Wanita') echo 'checked'; ?> value="Wanita" id="radioWanita" name="gender">
                                         <label for="radioPria" class="option radioPria">
                                             <div class="dot"></div>
                                             <span>Pria</span>
@@ -171,35 +171,35 @@
                                     <label class="col-form-label col-md-3 col-sm-3 label-align">Motivasi<span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 ">
-                                        <textarea id="motivasi" name="motivasi" class="form-control"></textarea>
+                                        <textarea id="motivasi" name="motivasi" class="form-control"><?= (isset($detil[0]['motivasi'])) ? $detil[0]['motivasi']: '' ?></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-form-label col-md-3 col-sm-3 label-align">Kelebihan<span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 ">
-                                        <textarea id="kelebihan" name="kelebihan" class="form-control"></textarea>
+                                        <textarea id="kelebihan" name="kelebihan" class="form-control"><?= (isset($detil[0]['kelebihan'])) ? $detil[0]['kelebihan']: '' ?></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-form-label col-md-3 col-sm-3 label-align">Kekurangan<span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 ">
-                                        <textarea id="kekurangan" name="kekurangan" class="form-control"></textarea>
+                                        <textarea id="kekurangan" name="kekurangan" class="form-control"> <?= (isset($detil[0]['kekurangan'])) ? $detil[0]['kekurangan']: '' ?></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-form-label col-md-3 col-sm-3 label-align">Komitmen<span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 ">
-                                        <textarea id="komitmen" name="komitmen" class="form-control"></textarea>
+                                        <textarea id="komitmen" name="komitmen" class="form-control"><?= (isset($detil[0]['komitmen'])) ? $detil[0]['komitmen']: '' ?></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-form-label col-md-3 col-sm-3 label-align">Pengalaman<span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 ">
-                                        <textarea id="pengalaman" name="pengalaman" class="form-control"></textarea>
+                                        <textarea id="pengalaman" name="pengalaman" class="form-control"><?= (isset($detil[0]['pengalaman'])) ? $detil[0]['pengalaman']: '' ?></textarea>
                                     </div>
                                 </div>
                             </form>
@@ -212,8 +212,11 @@
                             <p> 3. Surat Lamaran </p>
                             <p> 4. Curriculum Vitae (disertai dengan foto) </p>
                             <p> Silahkan dijadikan satu file dengan format .pdf </p>
-
-                            <input type="file" id= "berkas" name="berkas" accept="application/pdf"/>
+                            <?php if(isset($detil[0]['upload_berkas'])){ if($detil[0]['upload_berkas'] != ""){?>
+                                <div class=""> Open a berkas file, <a target="_blank" href="<?= base_url() ?>/assets/berkas/<?= isset($detil[0]['upload_berkas']) ? $detil[0]['upload_berkas'] : "" ?>"><?= isset($detil[0]['upload_berkas']) ? $detil[0]['upload_berkas'] : "-" ?></a> </div>
+                            <?php }}?>
+                            <br>
+                            <input type="file" id= "berkas" name="berkas" accept="application/pdf" value="<?= (isset($detil[0]['upload_berkas'])) ? $detil[0]['upload_berkas']: '' ?>"/>
                         </div>
                         <div id="step-3">
                             <h2 class="StepTitle">Information</h2>

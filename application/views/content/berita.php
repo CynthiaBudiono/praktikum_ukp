@@ -71,16 +71,6 @@
                                     <textarea id="keterangan" name="keterangan" rows="15">
                                         <?= isset($detil[0]['keterangan']) ? $detil[0]['keterangan'] : '' ?>
                                     </textarea>
-                                    <script>
-                                        tinymce.init({
-                                        selector: 'textarea',
-                                        plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-                                        toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
-                                        toolbar_mode: 'floating',
-                                        tinycomments_mode: 'embedded',
-                                        tinycomments_author: 'Author name',
-                                        });
-                                    </script>
                                     </div>
                                 </div>
                             </div>
@@ -169,8 +159,9 @@ $(function() {
     var baseurl = "<?php echo base_url(); ?>";
     
     $(document).ready(function() {	
-        view()
+        view();
 
+        $('#keterangan').trumbowyg(); 
         $('#divmore').css('display', 'none');
 
     });
@@ -188,15 +179,18 @@ $(function() {
                 function(result) {
                     // alert(result);
                     var arr = JSON.parse(result);
-                    tinymce.get("keterangan").setContent("<p>Pendaftaran Praktikum (PP) " + arr[0]['PP'] + " dimulai tanggal " + arr[0]['waktu_start']+ " dan berakhir pada tanggal " + arr[0]['waktu_end'] + ".</p>");
+                    $('#keterangan').trumbowyg('html', "<p>Pendaftaran Praktikum (PP) " + arr[0]['PP'] + " dimulai tanggal " + arr[0]['waktu_start']+ " dan berakhir pada tanggal " + arr[0]['waktu_end'] + ".</p>");
+                    // tinymce.get("keterangan").setContent("");
                 });
                
             }
             else if($('#selecttipe').val() == 'rekrutmen'){
-                tinymce.get("keterangan").setContent("<p>rekrutmen!</p>");
+                $('#keterangan').trumbowyg('html', "<p>rekrutmen!</p>");
+                // tinymce.get("keterangan").setContent("<p>rekrutmen!</p>");
             }
             else if($('#selecttipe').val() == 'custom'){
-                tinymce.get("keterangan").setContent("<p>custom!</p>");
+                $('#keterangan').trumbowyg('html', "<p>custom!</p>");
+                // tinymce.get("keterangan").setContent("<p>custom!</p>");
             }
         }
     }
@@ -211,19 +205,20 @@ $(function() {
             tanggal_end: $waktu[1],
             title: $('#title').val(),
             link: $('#link').val(),
-            keterangan: tinymce.get("keterangan").getContent(),
+            keterangan: $('#keterangan').val(),
             tipe: $('#selecttipe').val(),
             status: $('#status').is(':checked'),
         },
         function(result) {
             // alert("result: " + result);
             if(result == 'success'){
-                view()
+                view();
                 
                 $('#id').val("");
                 $('#title').val("");
                 $('#link').val("");
-                tinymce.get("keterangan").setContent("");
+                // tinymce.get("keterangan").setContent("");
+                $('#keterangan').trumbowyg('html', "");
                 $('#selecttipe').val("");
                 $("#status").prop("checked", true);
 
@@ -286,7 +281,7 @@ $(function() {
 
             $('#link').val(arr['detil'][0]['link']);
 
-            tinymce.get("keterangan").setContent(arr['detil'][0]['keterangan']);
+            $('#keterangan').trumbowyg('html', arr['detil'][0]['keterangan']);
 
             $('#selecttipe').val(arr['detil'][0]['tipe']);
 

@@ -247,6 +247,7 @@ class Kelas_praktikum extends CI_Controller {
         $this->load->model('subject_model');
         $this->load->model('laboratorium_model');
         $this->load->model('dosen_model');
+        $this->load->model('asisten_model');
 
 		$res = $this->kelas_praktikum_model->get($id);
 
@@ -256,7 +257,28 @@ class Kelas_praktikum extends CI_Controller {
 
         $data['subject'] = $this->subject_model->gethavepraktikum();
         $data['laboratorium'] = $this->laboratorium_model->getactivelab();
-        $data['pengajar'] = $this->dosen_model->getallactive();
+
+        $datapengajar = array_merge($this->dosen_model->getallactive(), $this->asisten_model->getallactive());
+
+		for($i = 0; $i < count($datapengajar); $i++){
+			if(isset($datapengajar[$i]['NIP'])){
+				$kode = $datapengajar[$i]['NIP'];
+				$jenis = "dosen";
+			}
+			else if(isset($datapengajar[$i]['NRP'])){
+				$kode = $datapengajar[$i]['NRP'];
+				$jenis = "asisten";
+			}
+			$pengajar[] = array(
+				"id_pengajar" => $kode,
+				"jenis" => $jenis,
+				"nama" => $datapengajar[$i]['nama']
+			);
+		}
+
+        $data['pengajar'] = $pengajar;
+
+
         
         $data['title'] = "Edit kelas praktikum";
 

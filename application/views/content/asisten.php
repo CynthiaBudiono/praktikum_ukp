@@ -52,11 +52,7 @@
                         <div class="form-group row">
                             <label class="control-label col-md-3 col-sm-3 "></label>
                             <div class="col-md-9 col-sm-9">
-                                <div class="container border">
-                                nama
-                                id_pendaftaran asisten
-                                data lengkap
-                                daftar tanggal brp
+                                <div class="container border" id="detail_calon">
                                 </div>
                             </div>
                         </div>
@@ -119,7 +115,7 @@
                                         <th>tipe</th>
                                         <th>status</th>
                                         <th>Tanggal Diterima</th>
-                                        <th>periode pendaftaran</th>
+                                        <!-- <th>periode pendaftaran</th> -->
                                     </tr>
                                 </thead>
                                 <tbody id="data_asisten"></tbody>
@@ -153,15 +149,28 @@
         $('#mahasiswa').on("change", function() {
             // alert($("#tipe").val());
             // alert('mahasiswa val : ' + $('#mahasiswa').val());
-            $.post(baseurl + "asisten/getdetail", {
+            $.post(baseurl + "calon_asisten_dosen/getbynrp", {
                 nrp: $('#mahasiswa').val(),
             },
             function(result) {
                 // alert("result onchange mhs : "+ result);
+                var arr = JSON.parse(result);
 
-                // if(asisten_dosen) -> getvalue()
+                // alert(arr[0]['upload_berkas']);
+                var kal = '';
+                kal +='Berkas :  Open a berkas file, <a target="_blank" href="<?= base_url() ?>/assets/berkas/' + arr[0]['upload_berkas'] + '">' + arr[0]['upload_berkas'] + '</a> <br>';
+                kal +='Gender :  ' + arr[0]['gender'] + '<br>';
+                kal +='Alamat :  ' + arr[0]['alamat'] + '<br>';
+                kal +='NO HP :  ' + arr[0]['no_hp'] + '<br>';
+                kal +='LINE ID :  ' + arr[0]['line_id'] + '<br>';
+                kal +='Motivasi :  ' + arr[0]['motivasi'] + '<br>';
+                kal +='Komitmen :  ' + arr[0]['komitmen'] + '<br>';
+                kal +='Kelebihan :  ' + arr[0]['kelebihan'] + '<br>';
+                kal +='Kekurangan :  ' + arr[0]['kekurangan'] + '<br>';
+                kal +='Pengalaman :  ' + arr[0]['pengalaman'] + '<br>';
 
-                // if asisten tetap -> get value angkatan
+
+                $("#detail_calon").html(kal);
             });
         });
     });
@@ -221,11 +230,11 @@
         $.post(baseurl + "asisten/updates", {
             id : $id,
         },function(result){
-            alert(result);
+            // alert(result);
 
             var arr = JSON.parse(result);
             
-            alert(arr['detil'][0]['NRP']);
+            // alert(arr['detil'][0]['NRP']);
             $('#content-add').css('display', 'block');
             
             // make scroll top
@@ -266,7 +275,7 @@
                 kal += '<tr>';
                 kal += '<td>';
                     kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ arr[i]['id'] +'")><i class="fa fa-pencil"></i> Edit</button>';
-                    kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['id'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
+                    // kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['id'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
                 kal += '</td>';
                 kal += '<td>'+ arr[i]['id'] +'</td>';
                 kal += '<td>'+ arr[i]['NRP'] + ' - ' + arr[i]['nama_mahasiswa'] +'</td>';
@@ -275,15 +284,15 @@
                     kal += (arr[i]['status'] == 1) ? '<span class="badge bg-green">active</span>' : '<span class="badge bg-danger">non active</span>';
                 kal += '</td>';
                 kal += '<td>'+ arr[i]['tanggal_diterima'] +'</td>';
-                kal += '<td>'
-                    if(arr[i]['semester_pendaftaran_asdos'] == 1){
-                        kal += 'Ganjil ';
-                    }
-                    else {
-                        kal += 'Genap ';
-                    }
-                    kal += arr[i]['tahun_ajaran_pendaftaran_asdos'];
-                kal+= '</td>';
+                // kal += '<td>'
+                //     if(arr[i]['semester_pendaftaran_asdos'] == 1){
+                //         kal += 'Ganjil ';
+                //     }
+                //     else {
+                //         kal += 'Genap ';
+                //     }
+                //     kal += arr[i]['tahun_ajaran_pendaftaran_asdos'];
+                // kal+= '</td>';
                 kal += '</tr>';
             }
             

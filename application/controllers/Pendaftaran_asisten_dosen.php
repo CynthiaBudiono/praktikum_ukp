@@ -83,14 +83,14 @@ class pendaftaran_asisten_dosen extends CI_Controller {
 		$this->load->model('pendaftaran_asisten_dosen_model');
 		$this->load->model('informasi_umum_model');
         
-        $status = ($this->input->post('status')=='true') ? 1 : 0;
+        // $status = ($this->input->post('status')=='true') ? 1 : 0;
 
         $data = array(
             'waktu_start' => date("Y-m-d H:i:s", strtotime($this->input->post('waktu_start'))),
             'waktu_end' => date("Y-m-d H:i:s", strtotime($this->input->post('waktu_end'))),
 			'semester' => $this->informasi_umum_model->getsemester(),
 			'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
-            'status' => $status,
+            'status' => 1,
 			'keterangan' => $this->input->post('keterangan')
         );
 
@@ -133,7 +133,7 @@ class pendaftaran_asisten_dosen extends CI_Controller {
         // var_dump("AAAAAA", $kodee); exit;
         $this->load->model('informasi_umum_model');
 
-        $status = ($this->input->post('status')=='true') ? 1 : 0;
+        // $status = ($this->input->post('status')=='true') ? 1 : 0;
 
         $data = array(
             'id' => strtoupper($this->input->post('id')),
@@ -141,7 +141,7 @@ class pendaftaran_asisten_dosen extends CI_Controller {
             'waktu_end' => date("Y-m-d H:i:s", strtotime($this->input->post('waktu_end'))),
 			'semester' => $this->informasi_umum_model->getsemester(),
 			'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
-            'status' => $status,
+            'status' => 1,
 			'keterangan' => $this->input->post('keterangan')
         );
 

@@ -156,13 +156,14 @@ class Mahasiswa_nilai extends CI_Controller {
 
         $data['kelas_praktikum_now'] = $this->ambil_praktikum_model->getkelaspraktikummahasiswa($this->session->userdata('user_id'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
+        // var_dump($this->session->userdata('user_id'));
         // var_dump($data['kelas_praktikum_now']); exit;
-
-        for($i = 0; $i < count($data['kelas_praktikum_now']); $i++ ){
-            // var_dump($data['kelas_praktikum_now'][$i]['id']);
-            $data['kelas_praktikum_now'][$i]['detail_nilai'] = $this->mahasiswa_nilai_model->getallnilai($data['kelas_praktikum_now'][$i]['id_kelas_praktikum'], $this->session->userdata('user_id'));
+        if($data['kelas_praktikum_now'] != 0){
+            for($i = 0; $i < count($data['kelas_praktikum_now']); $i++ ){
+                // var_dump($data['kelas_praktikum_now'][$i]['id']);
+                $data['kelas_praktikum_now'][$i]['detail_nilai'] = $this->mahasiswa_nilai_model->getallnilai($data['kelas_praktikum_now'][$i]['id_kelas_praktikum'], $this->session->userdata('user_id'));
+            }
         }
-
         // exit;
         // var_dump($data['kelas_praktikum_now']); exit;
         

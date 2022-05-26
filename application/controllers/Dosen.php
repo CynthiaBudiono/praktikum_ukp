@@ -120,12 +120,27 @@ class Dosen extends CI_Controller {
 
 	public function getactivepengajar(){
 		$this->load->model('dosen_model');
-		$this->load->model('mahasiswa_model');
+		$this->load->model('asisten_model');
 
-		$pengajar = $this->dosen_model->getallactive();
+		$data = array_merge($this->dosen_model->getallactive(), $this->asisten_model->getallactive());
 
-		// $pengajar = array_merge($this->dosen_model->getallactive(), $this->asisten_dosen_model->getallactive());
+		for($i = 0; $i < count($data); $i++){
+			if(isset($data[$i]['NIP'])){
+				$kode = $data[$i]['NIP'];
+				$jenis = "dosen";
+			}
+			else if(isset($data[$i]['NRP'])){
+				$kode = $data[$i]['NRP'];
+				$jenis = "asisten";
+			}
+			$pengajar[] = array(
+				"id_pengajar" => $kode,
+				"jenis" => $jenis,
+				"nama" => $data[$i]['nama']
+			);
+		}
 		
+		// var_dump($pengajar); exit;
         echo json_encode($pengajar);
 	}
 

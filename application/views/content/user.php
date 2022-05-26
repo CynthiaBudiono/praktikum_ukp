@@ -240,6 +240,7 @@
 
 <script>
     var baseurl = "<?php echo base_url(); ?>";
+    var baru = 0;
     // view();
     $(document).ready(function() {	
         // alert("masukkkkkkkk ready");	
@@ -254,16 +255,18 @@
 
         $('input[type=radio][name=tipe]').change(function() {
             if (this.value == 'admin') {
+                $("#username").prop("disabled", false);
+                $("#password").prop("disabled", false);
+
                 $("#dosen").prop("disabled", true);
                 $("#laboratorium").prop("disabled", true);
-
-                $("#password").prop("disabled", false);
             }
             else if (this.value == 'kepala_lab') {
+                $("#username").prop("disabled", true);
+                $("#password").prop("disabled", true);
+
                 $("#dosen").prop("disabled", false);
                 $("#laboratorium").prop("disabled", false);
-
-                $("#password").prop("disabled", true);
             }
         });
 
@@ -387,7 +390,7 @@
                     if(arr[i]['level'] == 1){ kal += 'Admin';} else { kal += 'Kepala Lab';}
                 kal += '</td>';
                 kal += '<td>';
-                    kal += (arr[i]['NIP'] != 0 ) ? arr[i]['NIP'] + arr[i]['nama_dosen'] : '';
+                    kal += (arr[i]['NIP'] != 0 ) ? arr[i]['NIP'] + " ~ " + arr[i]['nama_dosen'] : '';
                 kal += '</td>';
                 kal += '<td>';
                     kal += (arr[i]['kode_lab'] != null) ?  arr[i]['kode_lab'] : '';
@@ -398,7 +401,11 @@
                 kal += '</tr>';
             }
             
+            if(baru > 0){
+                $('#datatable-user').DataTable().destroy();
+            }
             $("#data_user").html(kal);
+            baru++;
             $("#datatable-user").DataTable({
                 dom: "Blfrtip",
                 buttons: [

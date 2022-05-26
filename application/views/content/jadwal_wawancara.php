@@ -254,7 +254,8 @@
                 $('#dosen').val("").trigger('change');
                 $('#calon').val("").trigger('change');
                 $('#tanggal_wawancara').val("");
-                $('#keterangan').val("");
+                
+                $('#keterangan').trumbowyg('html', "");
             
                 // $("#status").prop("checked", false);
 

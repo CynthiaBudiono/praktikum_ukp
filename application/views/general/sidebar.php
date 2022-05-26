@@ -275,13 +275,13 @@ html{
                   <li><a href="<?= base_url('laporan') ?>"><i class="fa fa-archive"></i> Laporan</span></a></li>
                   <li><a href="<?= base_url('informasi_umum') ?>"><i class="fa fa-exclamation-circle"></i> Informasi Umum</span></a></li>
                   <li><a href="<?= base_url('berita') ?>"><i class="fa fa-bullhorn"></i> Pengumuman</span></a></li>
-                  <li><a><i class="fa fa-users"></i> Manajemen User <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
+                  <li><a href="<?= base_url('user') ?>"><i class="fa fa-users"></i> Manajemen User </a>
+                    <!-- <ul class="nav child_menu">
                       <li><a href="<?= base_url('user_group') ?>">Kelompok Akses</a></li>
                       <li><a href="<?= base_url('user') ?>">User</a></li>
-                    </ul>
+                    </ul> -->
                   </li>
-                  <li><a><i class="fa fa-floppy-o"></i> Backup Data</span></a></li>
+                  <li><a href="<?= base_url('backup') ?>"><i class="fa fa-floppy-o"></i> Backup Data</span></a></li>
                 <?php }?> <!-- ADMIN -->
                 <?php if($this->session->userdata('user_type') == 'mahasiswa'){?>
                   <li><a><i class="fa fa-desktop"></i> Praktikum <span class="fa fa-chevron-down"></span></a>
@@ -304,9 +304,10 @@ html{
                 <?php if($this->session->userdata('user_type') == 'asisten_dosen'){?>
                   <li><a><i class="fa fa-desktop"></i> Praktikum <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="<?= base_url('kelas_praktikum') ?>">Kelas Praktikum</a></li>
+                      <!-- <li><a href="<?= base_url('kelas_praktikum') ?>">Kelas Praktikum</a></li> -->
                       <li><a href="<?= base_url('ambil_praktikum/adds') ?>">Daftar Praktikum</a></li>
-                      <li><a href="<?= base_url('jadwal_perkuliahan/viewbylogin') ?>">PRS Mahasiswa</a></li>
+                      <li><a href="<?= base_url('mahasiswa_nilai/viewbylogin') ?>">Presensi & Nilai</a></li>
+                      <li><a href="<?= base_url('mahasiswa_matakuliah/viewbylogin') ?>">PRS Mahasiswa</a></li>
                       <li><a href="<?= base_url('laporan/transfer_nilai') ?>">Transfer Nilai</a></li>
                     </ul>
                   </li>
