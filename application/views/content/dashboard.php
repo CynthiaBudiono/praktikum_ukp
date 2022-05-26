@@ -29,7 +29,7 @@
         <span class="count_top"><i class="fa fa-user"></i> Mahasiswa Terdaftar</span>
         <div class="count"><?= (isset($count_mahasiswa_daftar)) ? $count_mahasiswa_daftar : '' ?></div>
         <span class="count_bottom"><?php 
-          if(isset($count_mahasiswa_daftar) && isset($count_mahasiswa_ikut_praktikum)){ $percent = (($count_mahasiswa_daftar/$count_mahasiswa_ikut_praktikum)*100); if($percent < 75){ echo '<i class="red">'.$percent.'%</i>'; } else{echo '<i class="green">'.$percent.'%</i>';}} ?>
+          if(isset($count_mahasiswa_daftar) && isset($count_mahasiswa_ikut_praktikum)){ if($count_mahasiswa_daftar != 0 && $count_mahasiswa_ikut_praktikum != 0){ $percent = (($count_mahasiswa_daftar/$count_mahasiswa_ikut_praktikum)*100); if($percent < 75){ echo '<i class="red">'.$percent.'%</i>'; } else{echo '<i class="green">'.$percent.'%</i>';}} else{ echo '<i class="green">0%</i>';}} ?>
           
           From <?= (isset($count_mahasiswa_ikut_praktikum)) ? $count_mahasiswa_ikut_praktikum : '' ?></span>
       </div>
