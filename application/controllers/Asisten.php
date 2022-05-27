@@ -100,6 +100,53 @@ class Asisten extends CI_Controller {
         
     }
 
+    public function addfromcalon(){
+        $this->load->model('calon_asisten_dosen_model');
+        $this->load->model('asisten_model');
+
+        $get = $this->calon_asisten_dosen_model->get($this->input->post('id_calon_asisten_dosen'));
+
+        $data = array(
+            'NRP' => $get[0]['NRP'],
+            'id_calon_asisten_dosen' => $get[0]['id'],
+            'tipe' => 'dosen',
+            'tanggal_diterima' => date("Y-m-d"),
+            'status' => 1
+        );
+
+        // var_dump("masuk add ", $data); exit;
+        
+        //check validasi
+        $this->form_validation->set_data($data);
+        $this->form_validation->set_rules('NRP', 'nrp', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+            $detil[0] = $data;
+            $this->adds(validation_errors(), $detil);
+        }
+        else {
+            $this->load->helper(array('form', 'url'));
+
+            $this->asisten_model->add($data);
+
+            // insert log
+            $keterangan = '';
+            $keterangan .= json_encode($data).'.';
+
+            $logs_insert = array(
+                "id_user" => $this->session->userdata('user_id'),
+                "table_name" => 'asisten',
+                "action" => 'CREATE',
+                "keterangan" => "a new record has been created by ".$this->session->userdata('logged_name')." : ".$keterangan,
+                "created" => date('Y-m-d H:i:s')
+            );
+            $this->load->model('user_history_model');
+            $this->user_history_model->add($logs_insert);
+
+            redirect('calon_asisten_dosen');
+        }
+    }
+
     public function add(){
         // var_dump("AAAAAAAAAAAA"); exit;
         $this->load->helper(array('form', 'url'));

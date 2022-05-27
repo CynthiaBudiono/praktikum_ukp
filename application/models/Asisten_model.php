@@ -3,9 +3,8 @@
 class Asisten_model extends CI_Model {
 
     public function getallopen() {
-		$this->db->select('asisten.*, mahasiswa.nama as nama_mahasiswa');
+		$this->db->select('asisten.*, mahasiswa.nama as nama_mahasiswa, mahasiswa.last_login as last_login_mahasiswa, mahasiswa.status as status_mahasiswa');
 		$this->db->join('mahasiswa', 'mahasiswa.NRP = asisten.NRP');
-
 		// $this->db->select('asisten.*, mahasiswa.nama as nama_mahasiswa, pendaftaran_asisten_dosen.semester as semester_pendaftaran_asdos, pendaftaran_asisten_dosen.tahun_ajaran as tahun_ajaran_pendaftaran_asdos');
 		// $this->db->join('mahasiswa', 'mahasiswa.NRP = asisten.NRP');
 		// $this->db->join('pendaftaran_asisten_dosen', 'pendaftaran_asisten_dosen.id = asisten.id_pendaftaran_asisten_dosen', 'left');

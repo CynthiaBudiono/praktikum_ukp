@@ -51,14 +51,14 @@
                             </div>
                         </div> -->
 
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <label class="control-label col-md-3 col-sm-3 ">Keterangan</label>
                             <div class="col-md-9 col-sm-9 ">
                                 <div class="">
                                     <textarea id="keterangan" name="keterangan" rows="5"></textarea>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                             
                         <div class="ln_solid"></div>
                             <div class="form-group">
@@ -132,10 +132,11 @@ $(function() {
 
 <script>
     var baseurl = "<?php echo base_url(); ?>";
+    var baru = 0;
     // view();
     $(document).ready(function() {	
         // alert("masukkkkkkkk ready");	
-        $('#keterangan').trumbowyg();  
+        // $('#keterangan').trumbowyg();  
         view()
     });
 
@@ -148,7 +149,7 @@ $(function() {
             waktu_start : $waktu[0],
             waktu_end: $waktu[1],
             // status: $('#status').is(':checked'),
-            keterangan: $('#keterangan').val(),
+            // keterangan: $('#keterangan').val(),
         },
         function(result) {
             // alert(result);
@@ -167,7 +168,7 @@ $(function() {
                 });
                 // $("#status").prop("checked", false);
                 
-                $('#keterangan').trumbowyg('html', "");
+                // $('#keterangan').trumbowyg('html', "");
 
                 if($('#mode').val() == 'update'){
                     $('#action_title').html("Add");
@@ -228,7 +229,7 @@ $(function() {
 
             // $('#waktu_end').val(arr['detil'][0]['waktu_end']);
 
-            $('#keterangan').trumbowyg('html', arr['detil'][0]['keterangan']);
+            // $('#keterangan').trumbowyg('html', arr['detil'][0]['keterangan']);
 
             // if(arr['detil'][0]['status'] == 1){
             //     $("#status").prop("checked", true);
@@ -250,7 +251,7 @@ $(function() {
             for(var i = 0; i < arr.length; i++){
                 kal += '<tr>';
                 kal += '<td>';
-                    kal += '<button type="button" class="btn btn-sm btn-primary btn-action" onclick=view("'+ arr[i]['id'] +'")><i class="fa fa-eye"></i> View</button>';
+                    // kal += '<button type="button" class="btn btn-sm btn-primary btn-action" onclick=view("'+ arr[i]['id'] +'")><i class="fa fa-eye"></i> View</button>';
                     kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ arr[i]['id'] +'")><i class="fa fa-pencil"></i> Edit</button>';
                     // kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['id'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
                 kal += '</td>';
@@ -264,7 +265,12 @@ $(function() {
                 kal += '</tr>';
             }
             
+            if(baru > 0){
+                $('#datatable_pendaftaran_asisten_dosen').DataTable().destroy();
+            }
             $("#data_pendaftaran_asisten_dosen").html(kal);
+            baru++;
+
             $('#datatable_pendaftaran_asisten_dosen').DataTable( {
                 dom: "Blfrtip",
                 buttons: [

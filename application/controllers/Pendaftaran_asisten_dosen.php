@@ -91,14 +91,14 @@ class pendaftaran_asisten_dosen extends CI_Controller {
 			'semester' => $this->informasi_umum_model->getsemester(),
 			'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
             'status' => 1,
-			'keterangan' => $this->input->post('keterangan')
+			// 'keterangan' => $this->input->post('keterangan')
         );
 
         // var_dump("masuk add ", $data); exit;
 
 		//check validasi
 		$this->form_validation->set_data($data);
-		$this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
+		$this->form_validation->set_rules('waktu_start', 'Waktu Start', 'required');
 
 		if ($this->form_validation->run() == FALSE) {
 			$detil[0] = $data;
@@ -142,12 +142,12 @@ class pendaftaran_asisten_dosen extends CI_Controller {
 			'semester' => $this->informasi_umum_model->getsemester(),
 			'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
             'status' => 1,
-			'keterangan' => $this->input->post('keterangan')
+			// 'keterangan' => $this->input->post('keterangan')
         );
 
         //check validasi
         $this->form_validation->set_data($data);
-		$this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
+		$this->form_validation->set_rules('id', 'ID', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $detil[0] = $data;
@@ -167,7 +167,7 @@ class pendaftaran_asisten_dosen extends CI_Controller {
             $keterangan .= $old_data[0]['waktu_start']. ' to '. $data['waktu_start'].'; ';
             $keterangan .= $old_data[0]['waktu_end']. ' to '. $data['waktu_end'].'; ';
             $keterangan .= $old_data[0]['status']. ' to '. $data['status'].';';
-            $keterangan .= $old_data[0]['keterangan']. ' to '. $data['keterangan'].'; ';
+            // $keterangan .= $old_data[0]['keterangan']. ' to '. $data['keterangan'].'; ';
 
             $logs_insert = array(
                 "id_user" => $this->session->userdata('user_id'),

@@ -46,10 +46,11 @@
                       <!-- <th>Actions</th> -->
                       <th>Kode MK</th>
                       <th>Mata Kuliah</th>
-                      <th>Kelas Paralel</th>
+                      <th>KLS</th>
                       <th>Hari</th>
                       <th>Jam</th>
                       <th>Durasi</th>
+                      <th>Pengajar</th>
                       <th>SMS</th>
                       <th>Ruang</th>
                       <th>Periode</th>
@@ -72,6 +73,10 @@
                               <td><?= (isset($key['hari'])) ? $key['hari'] : '' ?></td>
                               <td><?= (isset($key['jam'])) ? $key['jam'] : '' ?></td>
                               <td><?= (isset($key['durasi'])) ? $key['durasi'] : '' ?></td>
+                              <td>
+                                <p style="margin-bottom: 0px;"><?= (isset($key['NIP1'])) ? $key['NIP1'] : '' ?> ~ <?= (isset($key['nama_dosen1'])) ? $key['nama_dosen1'] : '' ?></p>
+                                <p style="margin-bottom: 0px;"><?= (isset($key['NIP2'])) ? $key['NIP2'] : '' ?> ~ <?= (isset($key['nama_dosen2'])) ? $key['nama_dosen2'] : '' ?></p>
+                              </td>
                               <td><?= (isset($key['for_semester'])) ? $key['for_semester'] : '' ?></td>
                               <td><?= (isset($key['ruang'])) ? $key['ruang'] : '' ?></td>
                               <td><?php if(isset($key['semester'])){ if($key['semester'] == 1) echo "Ganjil"; else echo "Genap";} else echo ''; ?> <?= (isset($key['tahun_ajaran'])) ? $key['tahun_ajaran'] : '' ?></td>

@@ -1,5 +1,4 @@
 <style>
-
 .select2-selection__arrow b{
     display:none !important;
 }
@@ -84,7 +83,7 @@
             <div class="title_right" style="float:right;">
                 <button type="button" onclick="summary()" class="btn bg-yellow">Summary</button>
                 <button type="button" onclick="addrow()" class="btn bg-green">Tambah</button>
-                <button type="button" class="btn btn-danger">Cancel</button>
+                <a class="btn btn-danger" href="<?php echo base_url("kelas_praktikum"); ?>">Cancel</a>
                 <button type="reset" class="btn btn-warning">Reset</button>
                 <button type="submit" class="btn btn-success">Submit</button>
             </div>
@@ -197,31 +196,38 @@ $(document).ready(function() {
 
     function getjadwalpengajar(row, idinput){
         // alert(row + " " + $idinput);
-        alert('#'+ idinput + row + " " + $('#hari' + row).val()+ " " + $('#jam' + row).val() + " " +$('#durasi' + row).val());
+        // alert('#'+ idinput + row + " " + $('#'+ idinput + row).val() + " " + $('#hari' + row).val()+ " " + $('#jam' + row).val() + " " +$('#durasi' + row).val());
         // alert($('#id_nip1'+ row).val());
         // alert($('#nip1'+ row).val());
         // hari: "senin",
         // jam: "12:00",
         // durasi: "180"
-        $.post(baseurl + "jadwal_berhalangan/getnabrakpengajar", {
+        $.post(baseurl + "jadwal_berhalangan/getnabrakpengajar", { //SDH di cek dengan jadwal perkuliahan
             pengajar: $('#'+ idinput + row).val(),
             hari: $('#hari' + row).val(),
             jam: $('#jam' + row).val(),
             durasi: $('#durasi' + row).val(),
         },
         function(result) {
-            alert(result);
-            console.log("AAAAAAA " + result);
+            alert("getjadwalpengajarr : " + result);
+            // console.log("AAAAAAA " + result);
             // var cek = result;
+            
             if(result == 'yes'){
-                alert("MASUKKKKKK YES");
+                // alert("MASUKKKKKK YES");
                 $('#have_warning' + row).css('display', 'block');
-                $('#error_msg' + row).html("jadwal "+ $('#'+ idinput + row).val() +" berhalangan");
+                $('#error_msg' + idinput + row).html("Jadwal "+ $('#'+ idinput + row).val() +" Berhalangan. ");
                 $('#div_alert' + row).css('display', 'block');
 
             }
             else if(result == 'no'){
-                alert("MASUK NO");
+                // alert("MASUK NO");
+                $('#error_msg' + idinput + row).html("");
+            }
+
+            if($('#error_msgnip1' + row).html() == "" && $('#error_msgnip2' + row).html() == "" && $('#error_msgnip3' + row).html() == ""){
+                $('#have_warning' + row).css('display', 'none');
+                $('#div_alert' + row).css('display', 'none');
             }
         });
     }
@@ -250,20 +256,27 @@ $(document).ready(function() {
                         kal +='<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>';
                         kal +='</button>';
                         kal +='<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>';
-                        kal +='<strong>Warning.</strong> <span id="error_msg' + row + '">check yo self, youre not looking too good.</span>';
+                        kal +='<strong>Warning.</strong> <span id="error_msgnip1' + row + '"></span><span id="error_msgnip2' + row + '"></span><span id="error_msgnip3' + row + '"></span>';
                     kal +='</div>';
                     kal +='<input type="hidden" id="status_row' + row + '" name="status_row' + row + '" value="active">';
                 
                     kal +='<div class="form-group row">';
                         kal +='<label class="col-form-label col-md-3 col-sm-3 ">Matakuliah</label>';
-                        kal +='<div class="col-md-9 col-sm-9 form-group has-feedback">';
+                        kal +='<div class="col-md-5 col-sm-5 form-group has-feedback">';
                             kal +='<select class="subject_input form-control select2" name="subject' + row + '" id="subject' + row + '" style="width:100%;">';
                                 kal +='<option value="" disabled selected>Search subject</option>';
                             kal +='</select>';
-
-                            // kal +='<input type="text" id="subject' + row + '" name="subject' + row + '" placeholder="MatKul" class="subject_input form-control" required="required">';
-                            // kal +='<input type="hidden" id="id_subject' + row + '" name="id_subject' + row + '" class="form-control">';
                             kal +='<span class="fa fa-book form-control-feedback right" aria-hidden="true"></span>';
+                        kal +='</div>';
+                        kal +='<div class="col-md-4 col-sm-4 ">';
+                            kal +='<div class="col-md-6 col-sm-6">';
+                                kal +='<input type="radio" id="radiopraktikum' + row + '" name="tipe' + row + '" value="praktikum" checked>';
+                                kal +='<label for="radiopraktikum' + row + '">Praktikum</label>';
+                            kal +='</div>';
+                            kal +='<div class="col-md-6 col-sm-6">';
+                                kal +='<input type="radio" id="radioresponsi' + row + '" name="tipe' + row + '" value="responsi">';
+                                kal +='<label for="radioresponsi' + row + '">Responsi</label>';
+                            kal +='</div>';
                         kal +='</div>';
                     kal +='</div>';
 
@@ -461,6 +474,25 @@ $(document).ready(function() {
             // var id= this.id;
             // var row= id.substr(7,10);
             $('#subject-summary'+ row).html($('#subject'+ row + ' option:selected').text());
+
+            $.post(baseurl + "subject/get", {
+                kode_mk: $('#subject'+ row ).val(),
+            },
+            function(result) {
+                // alert(result);
+                if(result != 0){
+                    var arr = JSON.parse(result);
+                    
+                    if(arr[0]['status_praktikum'] == 1){
+                        // alert('masuk status praktikum');
+                        $("#radiopraktikum"+ row).prop("disabled", false);
+                    }
+                    if(arr[0]['status_responsi'] == 1){
+                        // alert("masuk status responsi");
+                        $("#radioresponsi"+ row).prop("disabled", false);
+                    }
+                }
+            });
         });
 
         // $('.subject_input').on("change paste keyup select", function() {
@@ -480,6 +512,9 @@ $(document).ready(function() {
             var row= id.substr(6,10);
             $('#durasi-summary'+ row).html("(" + $('#durasi'+ row).val() + " menit) ");
             // getjadwalpengajar();
+            getjadwalpengajar(row, "nip1");
+            getjadwalpengajar(row, "nip2");
+            getjadwalpengajar(row, "nip3");
         });
         
         $('.hari_input').on("change paste keyup select", function() {
@@ -487,13 +522,19 @@ $(document).ready(function() {
             var row= id.substr(4,10);
             $('#hari-summary'+ row).html($('#hari'+ row).val());
             // getjadwalpengajar();
+            getjadwalpengajar(row, "nip1");
+            getjadwalpengajar(row, "nip2");
+            getjadwalpengajar(row, "nip3");
         });
 
         $('.jam_input').on("change paste keyup select", function() {
             var id= this.id;
             var row= id.substr(3,10);
             $('#jam-summary'+ row).html($('#jam'+ row).val());
-            // getjadwalpengajar();
+            getjadwalpengajar(row, "nip1");
+            getjadwalpengajar(row, "nip2");
+            getjadwalpengajar(row, "nip3");
+            
         });
         
         

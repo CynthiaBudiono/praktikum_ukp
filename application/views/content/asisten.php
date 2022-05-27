@@ -1,3 +1,21 @@
+<style>
+    .select2-selection__arrow b{
+        display:none !important;
+    }
+    .pop-over-style{
+        background-color: #fef7ea;
+        border: 1px solid #ed9500;
+    }
+
+    .pop-over-style i{
+        padding: 6px;
+        color: white;
+        background-color: #ee9500;
+        border-radius: 8px;
+        box-shadow: 2px 2px #fceacd;
+        margin-right: 10px;
+    }
+</style>
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
@@ -23,6 +41,12 @@
                 </div>
                 <div class="x_content" id="content-add" style="display: none;">
                     <br />
+                    <div class="alert alert-dismissible pop-over-style" role="alert" id="div_alert" style="display:none;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                        </button>
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        <strong>Warning.</strong> <span id="error_msg'">Hang on, field was not filled. Please try again</span>
+                    </div>
                     <form class="form-horizontal form-label-left">
                         
                         <input type="hidden" class="form-control" name="mode" id="mode" value="add">
@@ -44,7 +68,7 @@
                             <label class="control-label col-md-3 col-sm-3 ">NRP</label>
                             <div class="col-md-9 col-sm-9 ">
                                 <select class="form-control select2" name="mahasiswa" id="mahasiswa" style="width:100%;">
-                                    <option value="" disabled selected>-- Search Mahasiswa --</option>
+                                    <option value="" disabled selected>-- Search Mahasiswa yang telah mendaftar --</option>
                                 </select>
                             </div>
                         </div>
@@ -180,33 +204,39 @@
         // alert('masuk func' + $('#mode').val());
         // alert($('#id').val());
         // alert(baseurl + "laboratorium/" + $('#mode').val());
-        $.post(baseurl + "asisten/" + $('#mode').val(), {
-            id: $('#id').val(),
-            nrp: $('#mahasiswa').val(),
-            tipe: $('#tipe').val(),
-            tanggal_diterima: $('#tanggal_diterima').val(),
-            status: $('#status').is(':checked'),
-        },
-        function(result) {
-            alert("resulttt: " + result);
-            if(result == 'success'){
-                view();
-                
-                $('#id').val("");
-                $('#mahasiswa').val("").trigger('change');
-                $('#tipe').val("");
-                $('#tanggal_diterima').val("");
-                $("#status").prop("checked", false);
+        if($('#mahasiswa').val() == "" || $('#tipe').val() == "" || $('#tanggal_diterima').val() == ""){
+            $('#div_alert').css('display', 'block');
+        }
+        else{
+            $.post(baseurl + "asisten/" + $('#mode').val(), {
+                id: $('#id').val(),
+                nrp: $('#mahasiswa').val(),
+                tipe: $('#tipe').val(),
+                tanggal_diterima: $('#tanggal_diterima').val(),
+                status: $('#status').is(':checked'),
+            },
+            function(result) {
+                alert("resulttt: " + result);
+                if(result == 'success'){
+                    view();
+                    
+                    $('#id').val("");
+                    $('#mahasiswa').val("").trigger('change');
+                    $('#tipe').val("");
+                    $('#tanggal_diterima').val("");
+                    $("#status").prop("checked", false);
+                    $('#div_alert').css('display', 'none');
 
-                if($('#mode').val() == 'update'){
-                    $('#action_title').html("Add");
-                    $('#mode').val('add');
+                    if($('#mode').val() == 'update'){
+                        $('#action_title').html("Add");
+                        $('#mode').val('add');
+                    }
                 }
-            }
-            else{
-                // alert(result);
-            }
-        });
+                else{
+                    // alert(result);
+                }
+            });
+        }
     }
 
     function getdetail(){

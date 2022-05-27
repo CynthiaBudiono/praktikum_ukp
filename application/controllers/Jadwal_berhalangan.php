@@ -16,18 +16,18 @@ class Jadwal_berhalangan extends CI_Controller {
 		// $this->load->model('jadwal_berhalangan_model');
 
 		// $data['jadwal_berhalangan'] = $this->jadwal_berhalangan_model->getallopen();
-        // if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
+        if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
 
         $this->load->model('kelas_praktikum_model');
+        $this->load->model('dosen_model');
+        $this->load->model('asisten_model');
         $this->load->model('informasi_umum_model');
+
+        $pengajar = array();
 
         $data['pengajar'] = $this->kelas_praktikum_model->getpengajar($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
-        // var_dump(count($data['pengajar'])); exit;
-        // var_dump($data['pengajar']); exit;
-
-        $pengajar = array();
-        if($data['pengajar'] != 0){
+        if($data['pengajar'] != 0){ //kalo kelas praktikum sudah di input
             for($i = 0; $i < count($data['pengajar']); $i++){
                 for($j = 1; $j <= 3; $j++){
                     if($data['pengajar'][$i]['NIP'.$j] != NULL){
@@ -71,6 +71,34 @@ class Jadwal_berhalangan extends CI_Controller {
                 }
             }
         }
+        else{
+            $data['pengajar'] = $this->dosen_model->getallopen();
+            if($data['pengajar'] != 0){
+                for($i = 0; $i < count($data['pengajar']); $i++){
+                    array_push($pengajar, array(
+                        'kode_pengajar' => $data['pengajar'][$i]['NIP'],
+                        'nama' => $data['pengajar'][$i]['nama'],
+                        'role' => 'Dosen',
+                        'status' => $data['pengajar'][$i]['status'],
+                        'last_login' => $data['pengajar'][$i]['last_login'],
+                    ));     
+                } 
+            }
+            $data['pengajar'] = $this->asisten_model->getallopen();
+            if($data['pengajar'] != 0){
+                for($i = 0; $i < count($data['pengajar']); $i++){
+                    array_push($pengajar, array(
+                        'kode_pengajar' => $data['pengajar'][$i]['NRP'],
+                        'nama' => $data['pengajar'][$i]['nama_mahasiswa'],
+                        'role' => 'Mahasiswa',
+                        'status' => $data['pengajar'][$i]['status_mahasiswa'],
+                        'last_login' => $data['pengajar'][$i]['last_login_mahasiswa'],
+                    ));     
+                }
+            }
+            // var_dump(count($data['pengajar'])); exit;
+        }
+
 
         // var_dump($pengajar[0]['nama']); exit;  
         $data['pengajar'] = $pengajar;
@@ -96,16 +124,29 @@ class Jadwal_berhalangan extends CI_Controller {
 
     public function getnabrakpengajar(){
         $this->load->model('jadwal_berhalangan_model');
+        $this->load->model('jadwal_perkuliahan_model');
+        $this->load->model('kelas_praktikum_model');
         $this->load->model('informasi_umum_model');
+        $this->load->model('dosen_model');
+        $this->load->model('mahasiswa_matakuliah_model');
     
-        $jadwal_perkuliahan = $this->jadwal_berhalangan_model->getnabrakpengajar($this->input->post('pengajar'), $this->input->post('hari'), $this->input->post('jam'), $this->input->post('durasi'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
-
+        $getdosen = $this->dosen_model->get($this->input->post('pengajar'));
+        if($getdosen != 0){ //DOSEN
+            $jadwal_perkuliahan = $this->jadwal_perkuliahan_model->getnabrakjadwalperkuliahan($this->input->post('pengajar'), $this->input->post('hari'), $this->input->post('jam'), $this->input->post('durasi'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+        }
+        else{ //MAHASISWA
+            $jadwal_perkuliahan = $this->mahasiswa_matakuliah_model->getnabrakmahasiswamatakuliah($this->input->post('pengajar'), $this->input->post('hari'), $this->input->post('jam'), $this->input->post('durasi'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+            var_dump($jadwal_perkuliahan); exit;
+        }
+        
         $jadwal_berhalangan = $this->jadwal_berhalangan_model->getnabrakjadwalberhalangan($this->input->post('pengajar'), $this->input->post('hari'), $this->input->post('jam'), $this->input->post('durasi'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+        $jadwal_praktikum = $this->kelas_praktikum_model->getnabrakkelaspraktikum($this->input->post('pengajar'), $this->input->post('hari'), $this->input->post('jam'), $this->input->post('durasi'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
+        // var_dump($jadwal_perkuliahan); exit;
         //hasil cuman yes and no
         // kalo 2 2 nya no is no kalo salah satu yes is yes
         $hasil = "";
-        if($jadwal_perkuliahan == "yes" || $jadwal_berhalangan == "yes"){
+        if($jadwal_perkuliahan == "yes" || $jadwal_berhalangan == "yes" || $jadwal_praktikum == "yes"){
             $hasil = "yes";
         }
         else{

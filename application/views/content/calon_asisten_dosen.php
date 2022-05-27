@@ -77,21 +77,20 @@ $(document).ready(function() {
 });
 
 function confirm($id){
-    alert($id);
+    // alert($id);
     
-    // $.post(baseurl + "asisten_dosen/add", {
-    //     id_calon_asisten_dosen: $id,
-    // },
-    // function(result) {
-    //     // alert(result);
-    //     if(result == 'success'){
-    //         view();
+    $.post(baseurl + "asisten/addfromcalon", {
+        id_calon_asisten_dosen: $id,
+    },
+    function(result) {
+        // alert(result);
+        if(result == 'success'){
+            view();
             
-
-    //     }
-    //     else{
-    //         alert(result);
-    //     }
-    // });
+        }
+        else{
+            alert(result);
+        }
+    });
 }
 </script>

@@ -45,8 +45,8 @@
                   <thead>
                     <tr>
                       <!-- <th>Actions</th> -->
-                      <th>NRP</th>
-                      <th>Kode MK</th>
+                      <th>Mahasiswa</th>
+                      <th>Matakuliah</th>
                       <th>Kelas Paralel</th>
                       <th>Semester</th>
                       <th>Tahun Ajaran</th>
@@ -63,8 +63,8 @@
                               <!-- <a href="#" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
                               <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
                               <!-- </td> -->
-                              <td><?= (isset($key['NRP'])) ? $key['NRP'] : '' ?></td>
-                              <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?></td>
+                              <td><?= (isset($key['NRP'])) ? $key['NRP'] : '' ?> ~ <?= (isset($key['nama_mahasiswa'])) ? $key['nama_mahasiswa'] : '' ?></td>
+                              <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?> ~ <?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?></td>
                               <td><?= (isset($key['kelas_paralel'])) ? $key['kelas_paralel'] : '' ?></td>
                               <td><?= (isset($key['semester'])) ? $key['semester'] : '' ?></td>
                               <td><?= (isset($key['tahun_ajaran'])) ? $key['tahun_ajaran'] : '' ?></td>

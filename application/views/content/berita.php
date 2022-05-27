@@ -157,6 +157,7 @@ $(function() {
 
 <script>
     var baseurl = "<?php echo base_url(); ?>";
+    var baru = 0;
     
     $(document).ready(function() {	
         view();
@@ -320,7 +321,12 @@ $(function() {
                 kal += '</tr>';
             }
             
+            if(baru > 0){
+                $('#datatable-berita').DataTable().destroy();
+            }
             $("#data_berita").html(kal);
+            baru++;
+
             $("#datatable-berita").DataTable({
                     dom: "Blfrtip",
                     paging: true,

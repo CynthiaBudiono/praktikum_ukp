@@ -74,15 +74,13 @@
                                         <table id="datatable_laporan_kelas" class="table table-striped table-bordered" style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th>Action</th>
-                                                <th>Hari</th>
-                                                <th>Jam</th>
-                                                <th>Lama</th>
-                                                <th>Kode Lab</th>
+                                                <!-- <th>Action</th> -->
+                                                <th>Hari, Jam</th>
+                                                <th>Lab</th>
                                                 <th>Mata Kuliah</th>
-                                                <th>Terisi</th>
+                                                <!-- <th>Terisi</th> -->
                                                 <th>Pengajar</th>
-                                                <th>Semester/Tahun Ajaran</th>
+                                                <th>Periode</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
@@ -529,32 +527,29 @@
 
         for(var i = 0; i < data_laporan.length; i++){
             kal += '<tr>';
-                kal += '<td><a onclick=pindah(' + data_laporan[i]['id'] + ') class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a></td>';
-                kal += '<td>' + data_laporan[i]['hari'] + '</td>';
-                kal += '<td>' + data_laporan[i]['jam'] + '</td>';
-                kal += '<td>' + data_laporan[i]['durasi'] + '</td>';
-                kal += '<td>' + data_laporan[i]['kode_lab'] + '</td>';
-                kal += '<td>' + data_laporan[i]['nama_subject'] + ' ('+ data_laporan[i]['kode_mk'] + ')' + '</td>';
-                kal += '<td><?= (isset($key['terisi'])) ? $key['terisi'] : '' ?></td>';
+                // kal += '<td><a onclick=pindah(' + data_laporan[i]['id'] + ') class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a></td>';
+                kal += '<td>' + data_laporan[i]['hari'] + ', ' + data_laporan[i]['jam'] + '<br><b>(' + data_laporan[i]['durasi'] + ' menit)</b></td>';
+                kal += '<td>' + data_laporan[i]['kode_lab'] + ' ~ ' + data_laporan[i]['nama_lab'] + '<br><b>(' + data_laporan[i]['terisi'] + '/' + data_laporan[i]['quota_max'] + ')</b></td>';
+                kal += '<td>' + data_laporan[i]['kode_mk'] + ' ~ ' + data_laporan[i]['nama_subject'] + '</td>';
                 kal += '<td><p>'; //PENGAJAR DOSEN ATAU ASISTEN
                     if(data_laporan[i]['nama_dosen1'] != null){ 
                         kal += data_laporan[i]['nama_dosen1']; 
                     } 
-                    else { 
+                    else if(data_laporan[i]['nama_mahasiswa1'] != null){ 
                         kal += data_laporan[i]['nama_mahasiswa1'];
                     }
                     kal += '</p><p>';
                     if(data_laporan[i]['nama_dosen2'] != null){ 
                         kal += data_laporan[i]['nama_dosen2']; 
                     } 
-                    else { 
+                    else if(data_laporan[i]['nama_mahasiswa2'] != null){ 
                         kal += data_laporan[i]['nama_mahasiswa2'];
                     }
                     kal += '</p><p>';
                     if(data_laporan[i]['nama_dosen3'] != null){ 
                         kal += data_laporan[i]['nama_dosen3']; 
                     } 
-                    else { 
+                    else if(data_laporan[i]['nama_mahasiswa3'] != null){ 
                         kal += data_laporan[i]['nama_mahasiswa3'];
                     }
                     

@@ -84,49 +84,55 @@ class Pendaftaran_praktikum extends CI_Controller {
 		$this->load->model('informasi_umum_model');
         
         // $status = ($this->input->post('status')=='true') ? 1 : 0;
+        $getperiodpendaftaranthissemester = $this->pendaftaran_praktikum_model->getperiodpendaftaranthissemester((int)$this->input->post('ppke'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
-        $data = array(
-            'waktu_start' => date("Y-m-d H:i:s", strtotime($this->input->post('waktu_start'))),
-            'waktu_end' => date("Y-m-d H:i:s", strtotime($this->input->post('waktu_end'))),
-			'PP' => (int) $this->input->post('ppke'),
-			'semester' => $this->informasi_umum_model->getsemester(),
-			'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
-            'status' => 1,
-			'keterangan' => $this->input->post('keterangan')
-        );
-
-        // var_dump("masuk add ", $data); exit;
-
-		//check validasi
-		$this->form_validation->set_data($data);
-		$this->form_validation->set_rules('PP', 'periode pendaftaran', 'required');
-		$this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
-
-		if ($this->form_validation->run() == FALSE) {
-			$detil[0] = $data;
-			echo validation_errors();
-		}
-		else {
-
-			$this->pendaftaran_praktikum_model->add($data);
-
-			// insert log
-			$keterangan = '';
-			$keterangan .= json_encode($data).'.';
-
-			$logs_insert = array(
-				"id_user" => $this->session->userdata('user_id'),
-				"table_name" => 'pendaftaran_praktikum',
-				"action" => 'CREATE',
-				"keterangan" => "a new record has been created by ". $this->session->userdata('logged_name') ." : ".$keterangan,
-				"created" => date('Y-m-d H:i:s')
-			);
-			$this->load->model('user_history_model');
-			$this->user_history_model->add($logs_insert);
-
-			// redirect('pendaftaran_praktikum');
-			echo 'success';
-		}
+        if($getperiodpendaftaranthissemester != 0){
+            echo "Periode Pendaftaran telah ada, silahkan melakukan edit pendaftaran";
+        }
+        else{
+            $data = array(
+                'waktu_start' => date("Y-m-d H:i:s", strtotime($this->input->post('waktu_start'))),
+                'waktu_end' => date("Y-m-d H:i:s", strtotime($this->input->post('waktu_end'))),
+                'PP' => (int)$this->input->post('ppke'),
+                'semester' => $this->informasi_umum_model->getsemester(),
+                'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
+                'status' => 1,
+                // 'keterangan' => $this->input->post('keterangan')
+            );
+    
+            // var_dump("masuk add ", $data); exit;
+    
+            //check validasi
+            $this->form_validation->set_data($data);
+            $this->form_validation->set_rules('PP', 'periode pendaftaran', 'required');
+            // $this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
+    
+            if ($this->form_validation->run() == FALSE) {
+                $detil[0] = $data;
+                echo validation_errors();
+            }
+            else {
+    
+                $this->pendaftaran_praktikum_model->add($data);
+    
+                // insert log
+                $keterangan = '';
+                $keterangan .= json_encode($data).'.';
+    
+                $logs_insert = array(
+                    "id_user" => $this->session->userdata('user_id'),
+                    "table_name" => 'pendaftaran_praktikum',
+                    "action" => 'CREATE',
+                    "keterangan" => "a new record has been created by ". $this->session->userdata('logged_name') ." : ".$keterangan,
+                    "created" => date('Y-m-d H:i:s')
+                );
+                $this->load->model('user_history_model');
+                $this->user_history_model->add($logs_insert);
+    
+                // redirect('pendaftaran_praktikum');
+                echo 'success';
+            }
+        }
     }
 
     public function update(){
@@ -145,13 +151,13 @@ class Pendaftaran_praktikum extends CI_Controller {
 			'semester' => $this->informasi_umum_model->getsemester(),
 			'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
             'status' => 1,
-			'keterangan' => $this->input->post('keterangan')
+			// 'keterangan' => $this->input->post('keterangan')
         );
 
         //check validasi
         $this->form_validation->set_data($data);
         $this->form_validation->set_rules('PP', 'periode pendaftaran', 'required');
-		$this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
+		// $this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
 
         if ($this->form_validation->run() == FALSE) {
             $detil[0] = $data;
@@ -172,7 +178,7 @@ class Pendaftaran_praktikum extends CI_Controller {
             $keterangan .= $old_data[0]['waktu_end']. ' to '. $data['waktu_end'].'; ';
             $keterangan .= $old_data[0]['PP']. ' to '. $data['PP'].'; ';
             $keterangan .= $old_data[0]['status']. ' to '. $data['status'].';';
-            $keterangan .= $old_data[0]['keterangan']. ' to '. $data['keterangan'].'; ';
+            // $keterangan .= $old_data[0]['keterangan']. ' to '. $data['keterangan'].'; ';
 
             $logs_insert = array(
                 "id_user" => $this->session->userdata('user_id'),

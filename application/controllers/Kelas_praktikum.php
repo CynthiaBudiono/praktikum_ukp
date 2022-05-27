@@ -331,6 +331,7 @@ class Kelas_praktikum extends CI_Controller {
                     'NIP1' => $this->input->post('nip1'.$x),
                     'NIP2' => $this->input->post('nip2'.$x),
                     'NIP3' => $this->input->post('nip3'.$x),
+                    'tipe' => $this->input->post('tipe'.$x),
                     'semester' => $this->informasi_umum_model->getsemester(),
                     'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
                     'status' => (($this->input->post('status'.$x)=='on') ? 1 : 0),
@@ -371,9 +372,9 @@ class Kelas_praktikum extends CI_Controller {
             }
         }
 
-        if($this->input->post('total_row') == $totalrow){
+        // if($this->input->post('total_row') == $totalrow){
             redirect('kelas_praktikum');
-        }
+        // }
 
         
     }
@@ -401,12 +402,13 @@ class Kelas_praktikum extends CI_Controller {
             'NIP1' => $this->input->post('nip1'),
             'NIP2' => $this->input->post('nip2'),
             'NIP3' => $this->input->post('nip3'),
+            'tipe' => $this->input->post('tipe'),
             'semester' => $this->informasi_umum_model->getsemester(),
             'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran(),
             'status' => (($this->input->post('status')=='on') ? 1 : 0),
         );
 
-        // var_dump("masuk update ", $data);
+        var_dump("masuk update ", $data);
 
         //check validasi
         $this->form_validation->set_data($data);
@@ -416,6 +418,7 @@ class Kelas_praktikum extends CI_Controller {
             $detil[0] = $data;
             $this->adds(validation_errors(), $detil);
             // var_dump("LOHH MASUK SINI"); exit;
+            echo validation_errors();
         }
         else {
             $this->load->helper(array('form', 'url'));
@@ -429,7 +432,7 @@ class Kelas_praktikum extends CI_Controller {
 
             // insert log
             $keterangan = '';
-            $keterangan .= $old_data. ' to '. $data.'; ';
+            $keterangan .= json_encode($old_data). ' to '. json_encode($data).'; ';
 
             $logs_insert = array(
                 "id_user" => $this->session->userdata('user_id'),

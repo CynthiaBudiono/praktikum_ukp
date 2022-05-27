@@ -55,12 +55,12 @@
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                             </button>
                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                            <strong>Warning.</strong> <span id="error_msg">check yo self, youre not looking too good.</span>
+                            <strong>Warning.</strong> <span id="error_msgnip1"></span><span id="error_msgnip2"></span><span id="error_msgnip3"></span>
                         </div>
                     
                         <div class="form-group row">
                             <label class="col-form-label col-md-3 col-sm-3 ">Matakuliah</label>
-                            <div class="col-md-9 col-sm-9 form-group has-feedback">
+                            <div class="col-md-5 col-sm-5 form-group has-feedback">
                                 <select class="subject_input form-control select2" name="subject" id="subject" style="width:100%;">
                                     <option value="" disabled selected>Search subject</option>
                                     <?php if(isset($subject)) : ?>
@@ -77,6 +77,16 @@
                                 </select>
 
                                <span class="fa fa-book form-control-feedback right" aria-hidden="true"></span>
+                            </div>
+                            <div class="col-md-4 col-sm-4 ">
+                                <div class="col-md-6 col-sm-6">
+                                    <input type="radio" id="radiopraktikum" name="tipe" value="praktikum" <?php if(isset($detil[0]['tipe'])) if($detil[0]['tipe']=="praktikum") echo 'checked'; ?>>
+                                    <label for="radiopraktikum">Praktikum</label>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <input type="radio" id="radioresponsi" name="tipe" value="responsi" <?php if(isset($detil[0]['tipe'])) if($detil[0]['tipe']=="responsi") echo 'checked'; ?>>
+                                    <label for="radioresponsi">Responsi</label>
+                                </div>
                             </div>
                         </div>
 
@@ -216,20 +226,42 @@
     var baseurl = "<?php echo base_url(); ?>";
     $(document).ready(function() {
         $('#subject').select2();
+        // $("#subject").prop("disabled", true);
         $('#laboratorium').select2();
         $('#nip1').select2();
         $('#nip2').select2();
         $('#nip3').select2();
 
+        getjadwalpengajar("nip1");
+        getjadwalpengajar("nip2");
+        getjadwalpengajar("nip3");
+
+        // alert($('#subject').val());
+        $.post(baseurl + "subject/get", {
+            kode_mk: $('#subject').val(),
+        },
+        function(result) {
+            var arr = JSON.parse(result);
+            if(arr[0]['status_praktikum'] == 1){
+                // alert('masuk status praktikum');
+                $("#radiopraktikum").prop("disabled", false);
+            }
+            if(arr[0]['status_responsi'] == 1){
+                // alert("masuk status responsi");
+                $("#radioresponsi").prop("disabled", false);
+            }
+            
+        });
+
         $('#timepicker').datetimepicker({
             format: 'H:mm'
         });
 
-        $('.subject_input').on("change paste keyup select", function() {
-            // var id= this.id;
-            // var row= id.substr(7,10);
-            $('#subject-summary').html($('#subject option:selected').text());
-        });
+        // $('.subject_input').on("change paste keyup select", function() {
+        //     // var id= this.id;
+        //     // var row= id.substr(7,10);
+        //     $('#subject-summary').html($('#subject option:selected').text());
+        // });
 
         $('.kelas_paralel_input').on("change paste keyup select", function() {
             var id= this.id;
@@ -242,6 +274,9 @@
             var row= id.substr(6,10);
             $('#durasi-summary').html("(" + $('#durasi').val() + " menit) ");
             // getjadwalpengajar();
+            getjadwalpengajar("nip1");
+            getjadwalpengajar("nip2");
+            getjadwalpengajar("nip3");
         });
         
         $('.hari_input').on("change paste keyup select", function() {
@@ -249,6 +284,9 @@
             var row= id.substr(4,10);
             $('#hari-summary').html($('#hari').val());
             // getjadwalpengajar();
+            getjadwalpengajar("nip1");
+            getjadwalpengajar("nip2");
+            getjadwalpengajar("nip3");
         });
 
         $('.jam_input').on("change paste keyup select", function() {
@@ -256,12 +294,15 @@
             var row= id.substr(3,10);
             $('#jam-summary').html($('#jam').val());
             // getjadwalpengajar();
+            getjadwalpengajar("nip1");
+            getjadwalpengajar("nip2");
+            getjadwalpengajar("nip3");
         });
     });
 
     function getjadwalpengajar(idinput){
         // alert(row + " " + $idinput);
-        alert('#'+ idinput + " " + $('#hari').val()+ " " + $('#jam').val() + " " +$('#durasi').val());
+        // alert('#'+ idinput + " " + $('#hari').val()+ " " + $('#jam').val() + " " +$('#durasi').val());
 
         $.post(baseurl + "jadwal_berhalangan/getnabrakpengajar", {
             pengajar: $('#'+ idinput).val(),
@@ -270,18 +311,24 @@
             durasi: $('#durasi').val(),
         },
         function(result) {
-            alert(result);
-            console.log("AAAAAAA " + result);
+            // alert(result);
+            // console.log("AAAAAAA " + result);
             // var cek = result;
             if(result == 'yes'){
-                alert("MASUKKKKKK YES");
+                // alert("MASUKKKKKK YES");
                 $('#have_warning').css('display', 'block');
-                $('#error_msg').html("jadwal "+ $('#'+ idinput).val() +" berhalangan");
+                $('#error_msg' + idinput).html("Jadwal "+ $('#'+ idinput).val() +" Berhalangan. ");
                 $('#div_alert').css('display', 'block');
 
             }
             else if(result == 'no'){
-                alert("MASUK NO");
+                // alert("MASUK NO");
+                $('#error_msg' + idinput).html("");
+            }
+
+            if($('#error_msgnip1').html() == "" && $('#error_msgnip2').html() == "" && $('#error_msgnip3').html() == ""){
+                $('#have_warning').css('display', 'none');
+                $('#div_alert').css('display', 'none');
             }
         });
     }

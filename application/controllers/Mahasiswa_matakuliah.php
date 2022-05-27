@@ -39,6 +39,127 @@ class mahasiswa_matakuliah extends CI_Controller {
 		$this->load->view('general/footer', $data);
 	}
 
+	public function readfile(){
+		// var_dump("MASUK READFILEE"); exit;
+		$this->load->library('excel');
+
+		if((!empty($_FILES)) && !empty($_FILES['mahasiswa_matakuliah_file']['name'])) {
+
+			$path = $_FILES["mahasiswa_matakuliah_file"]["tmp_name"];
+			$object = PHPExcel_IOFactory::load($path);
+			foreach($object->getWorksheetIterator() as $worksheet){
+				$highestRow = $worksheet->getHighestRow();
+				$highestColumn = $worksheet->getHighestColumn();
+
+				for($row = 2; $row <= $highestRow; $row++){
+					$periode = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
+					$nrp = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
+					$nama = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
+					$kode_mk = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
+					$kelas_paralel = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
+					$ipk = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
+					$ips = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
+
+					$splitperiod = explode("S",$periode);
+					$semester = $splitperiod[1];
+					$tahun_ajaran = $splitperiod[0] . "-" . intval($splitperiod[0] + 1);;
+
+					$data[] = array(
+						'NRP' 			=> $nrp,
+						'nama'			=> $nama,
+						'kode_mk' 		=> $kode_mk,
+						'kelas_paralel'	=> $kelas_paralel,
+						'semester'		=> $semester,
+						'tahun_ajaran'	=> $tahun_ajaran,
+						'ipk'			=> $ipk,
+						'ips'			=> $ips
+					);
+				}
+			}
+			// var_dump($data); exit;
+			$this->addupdatedata($data);
+		}
+		else{
+			echo "Tidak ada file yang masuk";
+		}
+	}
+
+	private function addupdatedata($data){
+
+		$this->load->model('mahasiswa_matakuliah_model');
+		$this->load->model('jadwal_perkuliahan_model');
+		$this->load->model('mahasiswa_model');
+		$this->load->model('informasi_umum_model');
+
+		if($data != null){
+			for($i = 0; $i < count($data); $i++){
+				if(($data[$i]['kode_mk'] != "" || $data[$i]['kode_mk'] != null)  && ($data[$i]['kelas_paralel'] != "" || $data[$i]['kelas_paralel'] != null)){
+
+					$getidjadwalperkuliahan = $this->jadwal_perkuliahan_model->getjadwalperkuliahan($data[$i]['kode_mk'], $data[$i]['kelas_paralel'], $data[$i]['semester'], $data[$i]['tahun_ajaran']);
+
+					if($getidjadwalperkuliahan != 0){
+						$idjadwalperkuliahan = $getidjadwalperkuliahan[0]['id'];
+					}
+					else{
+						$idjadwalperkuliahan = 0;
+					}
+
+					// ADD UPDATE MAHASISWA
+					$datamahasiswa = array(
+						'NRP' 	=> $data[$i]['NRP'],
+						'nama'	=> $data[$i]['nama'],
+						'ipk'	=> $data[$i]['ipk'],
+						'ips'	=> $data[$i]['ips']
+					);
+
+					$getmahasiswa = $this->mahasiswa_model->get($data[$i]['NRP']);
+					if($getmahasiswa == 0){ //ADD
+						$datamahasiswa['angkatan'] = "20" .substr($data[$i]['NRP'], 3, 2);
+						$datamahasiswa['email'] = $data[$i]['NRP']. "@john.petra.ac.id";
+						$this->mahasiswa_model->add($datamahasiswa);
+					}
+					else{ //UPDATE
+						$this->mahasiswa_model->update($datamahasiswa);
+					}
+					
+					$datavalue = array(
+						'NRP' 					=> $data[$i]['NRP'],
+						'id_jadwal_perkuliahan'	=> $idjadwalperkuliahan,
+						'kode_mk' 				=> $data[$i]['kode_mk'],
+						'kelas_paralel'			=> $data[$i]['kelas_paralel'],
+						"semester"      		=> $data[$i]['semester'],
+						"tahun_ajaran"  		=> $data[$i]['tahun_ajaran'],
+					);
+
+					$getidmahasiswamatakuliah = $this->mahasiswa_matakuliah_model->getidmahasiswamatakuliah($data[$i]['NRP'], $data[$i]['kode_mk'], $data[$i]['semester'], $data[$i]['tahun_ajaran']);
+					if($getidmahasiswamatakuliah == 0){ //ADD
+						$this->mahasiswa_matakuliah_model->add($datavalue);
+					}
+					else{ //UPDATE
+						$datavalue['id'] = $getidmahasiswamatakuliah[0]['id'];
+						$this->mahasiswa_matakuliah_model->update($datavalue);
+					}
+				}
+			}
+		}
+
+		// insert log
+        $keterangan = '';
+        $keterangan .= json_encode($data).'; ';
+
+        $logs_insert = array(
+            "id_user" => $this->session->userdata('user_id'),
+            "table_name" => 'mahasiswa_matakuliah',
+            "action" => 'CREATE',
+            "keterangan" => "record per semester have been created by ". $this->session->userdata('logged_name') ." : ".$keterangan,
+            "created" => date('Y-m-d H:i:s')
+        );
+        $this->load->model('user_history_model');
+        $this->user_history_model->add($logs_insert);
+
+		redirect("mahasiswa_matakuliah");
+	}
+
 	public function viewbylogin()
 	{
 

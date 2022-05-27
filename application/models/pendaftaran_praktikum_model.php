@@ -45,6 +45,27 @@ class Pendaftaran_praktikum_model extends CI_Model {
 
 	}
 
+	public function getperiodpendaftaranthissemester($ppke, $semester, $tahun_ajaran){
+		
+		$this->db->where('pendaftaran_praktikum.PP', $ppke);
+
+		if($semester != null){
+			$this->db->where('pendaftaran_praktikum.semester', $semester);
+		}
+		if($tahun_ajaran != null){
+			$this->db->where('pendaftaran_praktikum.tahun_ajaran', $tahun_ajaran);
+		}
+		$query = $this->db->get('pendaftaran_praktikum');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
     public function add($data) {
 
         $this->db->trans_start();

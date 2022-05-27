@@ -197,7 +197,7 @@
             // });
         });
 
-        $.post(baseurl + "calon_asisten_dosen/getdaftarasdos", {},
+        $.post(baseurl + "calon_asisten_dosen/getbelumketerima", {},
         function(result) {
             // alert(result);
             if(result != ""){

@@ -10,8 +10,11 @@ class Kelas_praktikum_model extends CI_Model {
 		$this->db->select(' m2.NRP as NRP2, m2.nama as nama_mahasiswa2');
 		$this->db->select(' m3.NRP as NRP3, m3.nama as nama_mahasiswa3');
 
-		$this->db->select('kelas_praktikum.*, subject.nama as nama_subject');
+		$this->db->select('kelas_praktikum.*, subject.nama as nama_subject, laboratorium.nama as nama_lab, laboratorium.quota_max');
+
         $this->db->join('subject', 'subject.kode_mk = kelas_praktikum.kode_mk');
+		$this->db->join('laboratorium', 'laboratorium.kode_lab = kelas_praktikum.kode_lab');
+
 		$this->db->join('dosen as d1', 'd1.NIP = kelas_praktikum.NIP1', 'left');
 		$this->db->join('dosen as d2', 'd2.NIP = kelas_praktikum.NIP2', 'left');
 		$this->db->join('dosen as d3', 'd3.NIP = kelas_praktikum.NIP3', 'left');
@@ -340,6 +343,47 @@ class Kelas_praktikum_model extends CI_Model {
 
 			return 0;
 
+	}
+
+	public function getnabrakkelaspraktikum($pengajar, $hari, $jam, $durasi, $semester = null, $tahun_ajaran = null){
+		$flag = 0;
+		$jamend = date('H:i:s', strtotime($jam. ' +'.$durasi.' minutes'));
+
+		$this->db->select('kelas_praktikum.*');
+		$this->db->where('kelas_praktikum.hari', $hari);
+
+		$this->db->group_start()
+		  ->or_where('kelas_praktikum.NIP1', $pengajar)
+		  ->or_where('kelas_praktikum.NIP2', $pengajar)
+		  ->or_where('kelas_praktikum.NIP3', $pengajar);
+		$this->db->group_end();
+
+		$this->db->where('kelas_praktikum.status', 1);
+
+		if($semester != null && $tahun_ajaran != null){
+			$this->db->where('kelas_praktikum.semester', $semester);
+        	$this->db->where('kelas_praktikum.tahun_ajaran', $tahun_ajaran);
+		}
+
+		$query = $this->db->get('kelas_praktikum');
+
+		if ($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				$startkuliah = $row['jam'];
+				$endkuliah = date('H:i:s', strtotime($row['jam']. ' +'.$row['durasi'].' minutes'));
+
+				if(($jam >= $startkuliah && $jam <= $endkuliah) || ($jamend >= $startkuliah && $jamend <= $endkuliah)){
+					// return 'yes';
+					$flag = 1;
+				}
+			}
+		}
+		
+		if($flag == 1)
+			return 'yes'; //NABRAK
+		
+		else
+			return 'no';
 	}
 
     public function get($id) {

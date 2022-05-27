@@ -18,18 +18,19 @@ class Calon_asisten_dosen extends CI_Controller {
         $this->load->model('asisten_model');
 
 		$data['calon_asisten_dosen'] = $this->calon_asisten_dosen_model->getallopen();
-
-        for($i = 0; $i < count($data['calon_asisten_dosen']); $i++){
-            $cek = $this->asisten_model->getbyNRP($data['calon_asisten_dosen'][$i]['NRP']);
-
-            if($cek != 0){
-                $data['calon_asisten_dosen'][$i]['asisten'] = "ada";
+        if($data['calon_asisten_dosen'] != 0){
+            for($i = 0; $i < count($data['calon_asisten_dosen']); $i++){
+                $cek = $this->asisten_model->getbyNRP($data['calon_asisten_dosen'][$i]['NRP']);
+    
+                if($cek != 0){
+                    $data['calon_asisten_dosen'][$i]['asisten'] = "ada";
+                }
+                else{
+                    $data['calon_asisten_dosen'][$i]['asisten'] = "tidak_ada";
+                }
             }
-            else{
-                $data['calon_asisten_dosen'][$i]['asisten'] = "tidak_ada";
-            }
-
         }
+       
         
 		$data['title'] = "Calon Asisten Dosen";
 
@@ -100,6 +101,14 @@ class Calon_asisten_dosen extends CI_Controller {
         $this->load->model('calon_asisten_dosen_model');
         
         $calon_asisten_dosen = $this->calon_asisten_dosen_model->getdaftarasdos();
+
+        echo json_encode($calon_asisten_dosen);
+    }
+
+    public function getbelumketerima(){
+        $this->load->model('calon_asisten_dosen_model');
+        
+        $calon_asisten_dosen = $this->calon_asisten_dosen_model->getbelumketerima();
 
         echo json_encode($calon_asisten_dosen);
     }
@@ -226,89 +235,98 @@ class Calon_asisten_dosen extends CI_Controller {
         $getmahasiswa = $this->mahasiswa_model->get(strtoupper($this->input->post('nrp')));
 
         if($getmahasiswa != 0){
-            $data = array(
-                'NRP' => strtoupper($this->input->post('nrp')),
-                // 'id_pendaftaran_praktikum' => $this->input->post('id_pendaftaran_praktikum'),
-                'gender' => $this->input->post('gender'),
-                'alamat' => $this->input->post('alamat'),
-                'no_hp' => $this->input->post('nohp'),
-                'line_id' => $this->input->post('lineid'),
-                // 'ipk' => $getmahasiswa[0]['ipk'],
-                'motivasi' => $this->input->post('motivasi'),
-                'komitmen' => $this->input->post('komitmen'),
-                'kelebihan' => $this->input->post('kelebihan'),
-                'kekurangan' => $this->input->post('kekurangan'),
-                'pengalaman' => $this->input->post('pengalaman'),
-                'status' => 1,
-                // 'keterangan' => $this->input->post('keterangan'),
-                'created' => date('Y-m-d H:i:s'),
-                "semester"      => $this->informasi_umum_model->getsemester(),
-                "tahun_ajaran"  => $this->informasi_umum_model->gettahunajaran(),
-            );
-    
-            // var_dump("masuk add ", $data); exit;
-    
-            
-            //check validasi
-            $this->form_validation->set_data($data);
-            $this->form_validation->set_rules('NRP', 'NRP', 'required');
-    
-            if ($this->form_validation->run() == FALSE) {
-                $detil[0] = $data;
-                $data['error_msg'] = validation_errors();
-            }
-            else {
-                $this->load->helper(array('form', 'url'));
-    
-                $this->calon_asisten_dosen_model->add($data);
-    
-                $lastid = $this->calon_asisten_dosen_model->getlastid();
-                // var_dump($_FILES['logo_web']['name']);
-                if((!empty($_FILES)) && !empty($_FILES['berkas']['name'])) {
-                    $this->load->helper(array('form', 'url'));
-                    $nama_berkas = "berkas-".$data['NRP']."-".date('YmdHis');
-                    $config['upload_path']          = './assets/berkas/';
-                    $config['allowed_types']        = 'pdf';
-                    $config['file_name']            = $nama_berkas;
-                    $config['overwrite']            = true;
-                    // $config['max_size']             = 1024; // 1MB
-    
-                    $this->load->library('upload', $config);
-                    $this->upload->initialize($config);
-    
-                    if ( ! $this->upload->do_upload('berkas')){
-                        echo $this->upload->display_errors();
-                    }
-                    else{
-                        $name_berkas = $this->upload->data('file_name');
-    
-                        // unlink('./assets/berkas/'.$old_data[0]['nilai']);
-                    }
-    
-                    $data_insert = array(
-                        "id" => $lastid,
-                        "upload_berkas" => $name_berkas
-                    );
-    
-                    $this->calon_asisten_dosen_model->update($data_insert);
-                    // var_dump("berhasil ", $name_foto_logo, " aaa ", $this->upload->data('file_name')); exit;
-                }
-    
-                // insert log
-                $keterangan = '';
-                $keterangan .= json_encode($data).'.';
-    
-                $logs_insert = array(
-                    "id_user" => $this->session->userdata('user_id'),
-                    "table_name" => 'calon_asisten_dosen',
-                    "action" => 'CREATE',
-                    "keterangan" => "a new record has been created by ".$this->session->userdata('logged_name')." : ".$keterangan,
-                    "created" => date('Y-m-d H:i:s')
+
+            $cekpernahdaftar = $this->calon_asisten_dosen_model->getbynrp(strtoupper($this->input->post('nrp')));
+
+            if($cekpernahdaftar == 0){ //ADD
+
+                $data = array(
+                    'NRP' => strtoupper($this->input->post('nrp')),
+                    // 'id_pendaftaran_praktikum' => $this->input->post('id_pendaftaran_praktikum'),
+                    'gender' => $this->input->post('gender'),
+                    'alamat' => $this->input->post('alamat'),
+                    'no_hp' => $this->input->post('nohp'),
+                    'line_id' => $this->input->post('lineid'),
+                    // 'ipk' => $getmahasiswa[0]['ipk'],
+                    'motivasi' => $this->input->post('motivasi'),
+                    'komitmen' => $this->input->post('komitmen'),
+                    'kelebihan' => $this->input->post('kelebihan'),
+                    'kekurangan' => $this->input->post('kekurangan'),
+                    'pengalaman' => $this->input->post('pengalaman'),
+                    'status' => 1,
+                    // 'keterangan' => $this->input->post('keterangan'),
+                    'created' => date('Y-m-d H:i:s'),
+                    "semester"      => $this->informasi_umum_model->getsemester(),
+                    "tahun_ajaran"  => $this->informasi_umum_model->gettahunajaran(),
                 );
-                $this->load->model('user_history_model');
-                $this->user_history_model->add($logs_insert);
-    
-                redirect('calon_asisten_dosen');
+        
+                // var_dump("masuk add ", $data); exit;
+        
+                
+                //check validasi
+                $this->form_validation->set_data($data);
+                $this->form_validation->set_rules('NRP', 'NRP', 'required');
+        
+                if ($this->form_validation->run() == FALSE) {
+                    $detil[0] = $data;
+                    $data['error_msg'] = validation_errors();
+                }
+                else {
+                    $this->load->helper(array('form', 'url'));
+
+                    $this->calon_asisten_dosen_model->add($data);
+        
+                    $lastid = $this->calon_asisten_dosen_model->getlastid();
+                    // var_dump($_FILES['logo_web']['name']);
+                    if((!empty($_FILES)) && !empty($_FILES['berkas']['name'])) {
+                        $this->load->helper(array('form', 'url'));
+                        $nama_berkas = "berkas-".$data['NRP']."-".date('YmdHis');
+                        $config['upload_path']          = './assets/berkas/';
+                        $config['allowed_types']        = 'pdf';
+                        $config['file_name']            = $nama_berkas;
+                        $config['overwrite']            = true;
+                        // $config['max_size']             = 1024; // 1MB
+        
+                        $this->load->library('upload', $config);
+                        $this->upload->initialize($config);
+        
+                        if ( ! $this->upload->do_upload('berkas')){
+                            echo $this->upload->display_errors();
+                        }
+                        else{
+                            $name_berkas = $this->upload->data('file_name');
+        
+                            // unlink('./assets/berkas/'.$old_data[0]['nilai']);
+                        }
+        
+                        $data_insert = array(
+                            "id" => $lastid,
+                            "upload_berkas" => $name_berkas
+                        );
+        
+                        $this->calon_asisten_dosen_model->update($data_insert);
+                        // var_dump("berhasil ", $name_foto_logo, " aaa ", $this->upload->data('file_name')); exit;
+                    }
+        
+                    // insert log
+                    $keterangan = '';
+                    $keterangan .= json_encode($data).'.';
+        
+                    $logs_insert = array(
+                        "id_user" => $this->session->userdata('user_id'),
+                        "table_name" => 'calon_asisten_dosen',
+                        "action" => 'CREATE',
+                        "keterangan" => "a new record has been created by ".$this->session->userdata('logged_name')." : ".$keterangan,
+                        "created" => date('Y-m-d H:i:s')
+                    );
+                    $this->load->model('user_history_model');
+                    $this->user_history_model->add($logs_insert);
+        
+                    redirect('calon_asisten_dosen');
+                }
+            }
+            else{
+                echo "Telah Mendaftar Lowongan, Silahkan edit data yang sudah ada";
             }
         }
         else{
@@ -383,7 +401,7 @@ class Calon_asisten_dosen extends CI_Controller {
                 else{
                     $name_berkas = $this->upload->data('file_name');
 
-                    unlink('./assets/berkas/'.$old_data[0]['nilai']);
+                    unlink('./assets/berkas/'.$old_data[0]['upload_berkas']);
                 }
 
                 $data_insert = array(

@@ -76,6 +76,23 @@ class Calon_asisten_dosen_model extends CI_Model {
 			return 0;
 	}
 
+	public function getbelumketerima(){
+		$this->db->select('calon_asisten_dosen.id as id, mahasiswa.NRP as NRP, mahasiswa.nama as nama');
+		$this->db->join('mahasiswa', 'mahasiswa.NRP = calon_asisten_dosen.NRP');
+		$this->db->join('asisten', 'asisten.NRP = calon_asisten_dosen.NRP');
+
+		$this->db->where_not_in('calon_asisten_dosen.NRP == asisten.NRP');
+		$query = $this->db->where('mahasiswa.status', 1)->get('calon_asisten_dosen');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
 	// public function getactiveperiodnow($idpendaftaran){
 
 	// 	$this->db->select('calon_asisten_dosen.*, mahasiswa.nama as nama_mahasiswa');

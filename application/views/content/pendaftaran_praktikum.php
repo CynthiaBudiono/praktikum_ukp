@@ -74,35 +74,14 @@
                             </div>
                         </div> -->
 
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <label class="control-label col-md-3 col-sm-3 ">Keterangan</label>
                             <div class="col-md-9 col-sm-9 ">
                                 <div class="">
-                                <!-- <textarea id="summernote" name="editordata"></textarea> -->
-                                
-                                <!-- <textarea id="keterangan" name="editordata"></textarea> -->
-                                <!-- <div id="summernote"></div> -->
                                 <textarea id="keterangan" name="keterangan" rows="5"></textarea>
-                                <script>
-
-                                    // $('#summernote').summernote({
-                                    //     placeholder: 'Hello Bootstrap 4',
-                                    //     tabsize: 2,
-                                    //     height: 100
-                                    // });
-
-                                    // tinymce.init({
-                                    // selector: 'textarea',
-                                    // plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-                                    // toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
-                                    // toolbar_mode: 'floating',
-                                    // tinycomments_mode: 'embedded',
-                                    // tinycomments_author: 'Author name',
-                                    // });
-                                </script>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                             
                         <div class="ln_solid"></div>
                             <div class="form-group">
@@ -180,9 +159,7 @@ $(function() {
     // view();
     var baru = 0;
     $(document).ready(function() {	
-        // alert("masukkkkkkkk ready");	
-        // $('#summernote').summernote();
-        $('#keterangan').trumbowyg();  
+        // $('#keterangan').trumbowyg();  
         
         view()
     });
@@ -200,7 +177,7 @@ $(function() {
                 waktu_end: $waktu[1],
                 ppke: $("input[type='radio'][name='ppke']:checked").val(),
                 // status: $('#status').is(':checked'),
-                keterangan: $('#keterangan').val(),
+                // keterangan: $('#keterangan').val(),
             },
             function(result) {
                 // alert(result);
@@ -217,11 +194,10 @@ $(function() {
                         format: 'Y/MM/DD HH:mm'
                         }
                     });
-                    // $('#ppke').prop("checked", false);
+                    
                     $("input[name=ppke][value=1]").prop('checked', true);
-                    // $("#status").prop("checked", false);
 
-                    $('#keterangan').trumbowyg('html', ""); 
+                    // $('#keterangan').trumbowyg('html', ""); 
 
                     if($('#mode').val() == 'update'){
                         $('#action_title').html("Add");
@@ -281,16 +257,10 @@ $(function() {
                 format: 'Y/MM/DD HH:mm'
                 }
             });
-            // alert(moment(arr['detil'][0]['waktu_start'].toString()));
-            // $('#waktu_start').val(arr['detil'][0]['waktu_start']);
-
-            // $('#waktu_end').val(arr['detil'][0]['waktu_end']);
-
-            // $('#ppke').val(arr['detil'][0]['PP']);
 
             $("input[name=ppke][value=" + arr['detil'][0]['PP'] + "]").prop('checked', true);
 
-            $('#keterangan').trumbowyg('html', arr['detil'][0]['keterangan']); 
+            // $('#keterangan').trumbowyg('html', arr['detil'][0]['keterangan']); 
 
             // if(arr['detil'][0]['status'] == 1){
             //     $("#status").prop("checked", true);
@@ -312,7 +282,7 @@ $(function() {
             for(var i = 0; i < arr.length; i++){
                 kal += '<tr>';
                 kal += '<td>';
-                    kal += '<button type="button" class="btn btn-sm btn-primary btn-action" onclick=view("'+ arr[i]['id'] +'")><i class="fa fa-eye"></i> View</button>';
+                    // kal += '<button type="button" class="btn btn-sm btn-primary btn-action" onclick=view("'+ arr[i]['id'] +'")><i class="fa fa-eye"></i> View</button>';
                     kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ arr[i]['id'] +'")><i class="fa fa-pencil"></i> Edit</button>';
                     // kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['id'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
                 kal += '</td>';
