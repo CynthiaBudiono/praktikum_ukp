@@ -3,7 +3,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3><?= isset($title) ? $title : "-" ?> <small>Informatika</small></h3>
+                <h3><?= isset($title) ? $title : "-" ?> <!-- <small>Informatika</small> --></h3>
             </div>
         </div>
 
@@ -35,14 +35,13 @@
                                 <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Actions</th>
+                                        <!-- <th>Actions</th> -->
                                         <th>Kode MK</th>
-                                        <th>NIP</th>
                                         <th>Nama</th>
-                                        <th>kelas paralel</th>
-                                        <th>Status praktikum</th>
-                                        <th>Status transfer nilai</th>
-                                        <th>Status</th>
+                                        <th>Praktikum</th>
+                                        <th>Responsi</th>
+                                        <th>Transfer Nilai</th>
+                                        <!-- <th>Status</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -50,24 +49,25 @@
                                     <?php if(is_array($subject)) : ?>
                                         <?php foreach($subject as $key) : ?>
                                         <tr>
-                                            <td>
-                                                <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a>
+                                            <!-- <td> -->
+                                                <!-- <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a> -->
                                                 <!-- <a href="#" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
                                                 <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
-                                            </td>
+                                            <!-- </td> -->
                                             <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?></td>
-                                            <td><?= (isset($key['NIPDosen'])) ? $key['NIPDosen'] : '' ?></td>
                                             <td><?= (isset($key['nama'])) ? $key['nama'] : '' ?></td>
-                                            <td><?= (isset($key['kelas_paralel'])) ? $key['kelas_paralel'] : '' ?></td>
                                             <td>
-                                                <?php if(isset($key['status_praktikum'])) if($key['status_praktikum']==1) echo '<span class="badge bg-green">ada</span>'; else '<span class="badge bg-danger">tidak ada</span>'; ?>
+                                                <?php if(isset($key['status_praktikum'])){ if($key['status_praktikum']==1) echo '<span class="badge bg-green">ada</span>'; else echo '<span class="badge bg-danger">tidak ada</span>'; }?>
                                             </td>
                                             <td>
-                                                <?php if(isset($key['status_transfer_nilai'])) if($key['status_transfer_nilai']==1) echo '<span class="badge bg-green">boleh</span>'; else '<span class="badge bg-danger">tidak boleh</span>'; ?>
+                                                <?php if(isset($key['status_responsi'])){ if($key['status_responsi']==1) echo '<span class="badge bg-green">ada</span>'; else echo '<span class="badge bg-danger">tidak ada</span>'; }?>
                                             </td>
                                             <td>
-                                                <?php if(isset($key['status'])) if($key['status']==1) echo '<span class="badge bg-green">active</span>'; else '<span class="badge bg-danger">non active</span>'; ?>
+                                                <?php if(isset($key['status_transfer_nilai'])){ if($key['status_transfer_nilai']==1) echo '<span class="badge bg-green">boleh</span>'; else echo '<span class="badge bg-danger">tidak boleh</span>'; }?>
                                             </td>
+                                            <!-- <td>
+                                                <?php if(isset($key['status'])) if($key['status']==1) echo '<span class="badge bg-green">active</span>'; else echo '<span class="badge bg-danger">non active</span>'; ?>
+                                            </td> -->
                                         </tr>
                                         <?php endforeach; ?>
                                     <?php endif; ?>

@@ -20,7 +20,7 @@ class Kelas_praktikum extends CI_Controller {
 
 		$data['kelas_praktikum'] = $this->kelas_praktikum_model->getallopen();
 
-		$data['title'] = "kelas praktikum";
+		$data['title'] = "Kelas Praktikum";
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
 		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
@@ -134,7 +134,7 @@ class Kelas_praktikum extends CI_Controller {
 
     public function adds(){
 
-        $data['title'] = "Add kelas praktikum";
+        $data['title'] = "Add Kelas Praktikum";
 
         $this->load->model('informasi_umum_model');
 		
@@ -214,7 +214,7 @@ class Kelas_praktikum extends CI_Controller {
     //     // $this->load->model('kelas_praktikum_model');
     //     $this->load->model('informasi_umum_model');
 
-    //     $data['title'] = "Edit kelas praktikum";
+    //     $data['title'] = "Edit Kelas Praktikum";
 
     //     $data['mode'] = 'update';
 
@@ -280,7 +280,7 @@ class Kelas_praktikum extends CI_Controller {
 
 
         
-        $data['title'] = "Edit kelas praktikum";
+        $data['title'] = "Edit Kelas Praktikum";
 
         $data['mode'] = 'update';
 

@@ -6,7 +6,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3><?= isset($title) ? $title : "-" ?> <small>Informatika</small></h3>
+                <h3><?= isset($title) ? $title : "-" ?> <!-- <small>Informatika</small> --></h3>
             </div>
         </div>
 
@@ -118,6 +118,7 @@
 
 <script>
     var baseurl = "<?php echo base_url(); ?>";
+    var baru = 0;
     // view();
     $(document).ready(function() {	
         // alert("masukkkkkkkk ready");	
@@ -194,6 +195,9 @@
             if(arr['detil'][0]['status'] == 1){
                 $("#status").prop("checked", true);
             }
+            else{
+                $("#status").prop("checked", false);
+            }
 
             $('#mode').val('update');
         });
@@ -212,7 +216,7 @@
                 kal += '<tr>';
                 kal += '<td>';
                     kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ arr[i]['kode_lab'] +'")><i class="fa fa-pencil"></i> Edit</button>';
-                    kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['kode_lab'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
+                    // kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['kode_lab'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
                 kal += '</td>';
                 kal += '<td>'+ arr[i]['kode_lab'] +'</td>';
                 kal += '<td>'+ arr[i]['nama'] +'</td>';
@@ -223,7 +227,12 @@
                 kal += '</tr>';
             }
             
+            if(baru > 0){
+                $('#datatable-laboratorium').DataTable().destroy();
+            }
             $("#data_laboratorium").html(kal);
+            baru++;
+
             $("#datatable-laboratorium").DataTable({
                 dom: "Blfrtip",
                 buttons: [

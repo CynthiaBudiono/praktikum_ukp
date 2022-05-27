@@ -57,7 +57,7 @@ class Asisten extends CI_Controller {
 
 	public function adds(){
 
-        $data['title'] = "Add asisten";
+        $data['title'] = "Add Asisten";
 
         $this->load->model('informasi_umum_model');
 		
@@ -94,7 +94,7 @@ class Asisten extends CI_Controller {
 
         $data['detil'] = $res;
         
-        $data['title'] = "Edit asisten";
+        $data['title'] = "Edit Asisten";
 
         echo json_encode($data);
         

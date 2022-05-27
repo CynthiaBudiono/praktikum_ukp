@@ -17,7 +17,7 @@ class Jadwal_wawancara extends CI_Controller {
 
 		$data['jadwal_wawancara'] = $this->jadwal_wawancara_model->getallopen();
 
-		$data['title'] = "jadwal_wawancara";
+		$data['title'] = "Jadwal Wawancara";
 
         $this->load->model('informasi_umum_model');
 		
@@ -41,7 +41,7 @@ class Jadwal_wawancara extends CI_Controller {
     // public function adds(){
 
     //     // $data['action'] = "add";
-    //     $data['title'] = "Add jadwal_wawancara";
+    //     $data['title'] = "Add Jadwal Wawancara";
 
 	// 	$this->load->view('general/header');
 
@@ -67,7 +67,7 @@ class Jadwal_wawancara extends CI_Controller {
 
         $data['detil'] = $res;
         
-        $data['title'] = "Edit jadwal_wawancara";
+        $data['title'] = "Edit Jadwal Wawancara";
 
         echo json_encode($data);
 

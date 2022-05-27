@@ -20,7 +20,7 @@ class pendaftaran_asisten_dosen extends CI_Controller {
 
 		$data['pendaftaran_asisten_dosen'] = $this->pendaftaran_asisten_dosen_model->getallopen();
 
-		$data['title'] = "pendaftaran Asisten Dosen";
+		$data['title'] = "Lowongan Asisten Dosen";
 
 		$this->load->model('informasi_umum_model');
 		
@@ -53,7 +53,7 @@ class pendaftaran_asisten_dosen extends CI_Controller {
 
         $data['detil'] = $res;
         
-        $data['title'] = "Edit pendaftaran_asisten_dosen";
+        $data['title'] = "Edit Periode Lowongan Asisten Dosen";
 
         echo json_encode($data);
 

@@ -31,14 +31,16 @@ class Auth extends CI_Controller
                 if($this->input->post('selecttipeuser') != null){
                     // var_dump($this->input->post('selecttipeuser')); exit;
                     if($this->input->post('selecttipeuser') == "admin"){
+
+                        // var_dump($this->input->post('username')); exit;
                         $user = $this->user_model->getbyusername($this->input->post('username'));
 
                         if($user){
-                            $getusergroup = $this->user_group_model->get($user[0]['id_user_group']);
+                            // $getusergroup = $this->user_group_model->get($user[0]['id_user_group']);
                             $data_login = array(
                                 'logged_in' => true,
                                 'from_table' => 'user',
-                                'user_type' => $getusergroup[0]['nama'],
+                                'user_type' => 'admin',
                                 'user_id' => $user[0]['id'],
                                 'logged_name' => $user[0]['username']
                             );
@@ -160,6 +162,10 @@ class Auth extends CI_Controller
                 }
             }
         }
+
+        $this->load->model('informasi_umum_model');
+
+        $data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
 
         $this->load->view('general/header');
         $this->load->view('general/login', $data);

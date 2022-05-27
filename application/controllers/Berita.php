@@ -50,7 +50,7 @@ class Berita extends CI_Controller {
 
         $data['detil'] = $res;
         
-        $data['title'] = "Edit berita";
+        $data['title'] = "Edit Berita";
 
         echo json_encode($data);
 

@@ -31,7 +31,7 @@ class Calon_asisten_dosen extends CI_Controller {
 
         }
         
-		$data['title'] = "calon asisten dosen";
+		$data['title'] = "Calon Asisten Dosen";
 
         $data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
 		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
@@ -69,7 +69,7 @@ class Calon_asisten_dosen extends CI_Controller {
 
         $data['primary'] = $res[0]['id'];
 
-		$data['title'] = "Data calon asisten dosen";
+		$data['title'] = "Data Calon Asisten Dosen";
 
         $data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
 		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
@@ -149,7 +149,7 @@ class Calon_asisten_dosen extends CI_Controller {
 
         // var_dump($data["bukapendaftaran"]); exit;
 
-        $data['title'] = "Add calon asisten dosen";
+        $data['title'] = "Add Calon Asisten Dosen";
 
         $data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
 		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
@@ -195,7 +195,7 @@ class Calon_asisten_dosen extends CI_Controller {
 
         $data['primary'] = $id;
         
-        $data['title'] = "Edit calon asisten dosen";
+        $data['title'] = "Edit Calon Asisten Dosen";
 
         $data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
 		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;

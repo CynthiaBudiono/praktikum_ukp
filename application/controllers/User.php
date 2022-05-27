@@ -19,7 +19,7 @@ class User extends CI_Controller {
 
 		$data['user'] = $this->user_model->getallopen();
 
-		$data['title'] = "user";
+		$data['title'] = "User";
 
         $data['laboratorium'] = $this->laboratorium_model->getactivelab();
         $data['dosen'] = $this->dosen_model->getallactive();
@@ -46,7 +46,7 @@ class User extends CI_Controller {
     // public function adds(){
 
     //     // $data['action'] = "add";
-    //     $data['title'] = "Add user";
+    //     $data['title'] = "Add User";
 
 	// 	$this->load->view('general/header');
 
@@ -72,7 +72,7 @@ class User extends CI_Controller {
 
         $data['detil'] = $res;
         
-        $data['title'] = "Edit user";
+        $data['title'] = "Edit User";
 
         echo json_encode($data);
 

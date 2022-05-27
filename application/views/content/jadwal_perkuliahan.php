@@ -8,7 +8,7 @@
   <div class="">
     <div class="page-title">
       <div class="title_left">
-        <h3><?= isset($title) ? $title : "-" ?> <small>Informatika</small></h3>
+        <h3><?= isset($title) ? $title : "-" ?> <!-- <small>Informatika</small> --></h3>
       </div>
     </div>
 
@@ -43,16 +43,16 @@
                 <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
                   <thead>
                     <tr>
-                      <th>Actions</th>
+                      <!-- <th>Actions</th> -->
                       <th>Kode MK</th>
                       <th>Mata Kuliah</th>
                       <th>Kelas Paralel</th>
                       <th>Hari</th>
                       <th>Jam</th>
                       <th>Durasi</th>
-                      <th>For semester</th>
-                      <th>Semester</th>
-                      <th>Tahun Ajaran</th>
+                      <th>SMS</th>
+                      <th>Ruang</th>
+                      <th>Periode</th>
                     </tr>
                   </thead>
 
@@ -61,11 +61,11 @@
                       <?php if(is_array($jadwal_perkuliahan)) : ?>
                           <?php foreach($jadwal_perkuliahan as $key) : ?>
                             <tr>
-                              <td>
+                              <!-- <td> -->
                               <!-- <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a> -->
                               <!-- <a href="#" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
                               <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
-                              </td>
+                              <!-- </td> -->
                               <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?></td>
                               <td><?= (isset($key['nama_matakuliah'])) ? $key['nama_matakuliah'] : '' ?></td>
                               <td><?= (isset($key['kelas_paralel'])) ? $key['kelas_paralel'] : '' ?></td>
@@ -73,8 +73,8 @@
                               <td><?= (isset($key['jam'])) ? $key['jam'] : '' ?></td>
                               <td><?= (isset($key['durasi'])) ? $key['durasi'] : '' ?></td>
                               <td><?= (isset($key['for_semester'])) ? $key['for_semester'] : '' ?></td>
-                              <td><?= (isset($key['semester'])) ? $key['semester'] : '' ?></td>
-                              <td><?= (isset($key['tahun_ajaran'])) ? $key['tahun_ajaran'] : '' ?></td>
+                              <td><?= (isset($key['ruang'])) ? $key['ruang'] : '' ?></td>
+                              <td><?php if(isset($key['semester'])){ if($key['semester'] == 1) echo "Ganjil"; else echo "Genap";} else echo ''; ?> <?= (isset($key['tahun_ajaran'])) ? $key['tahun_ajaran'] : '' ?></td>
                             </tr>
                           <?php endforeach; ?>
                       <?php endif; ?>

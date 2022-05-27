@@ -18,7 +18,7 @@ class mahasiswa_matakuliah extends CI_Controller {
 		$data['mahasiswa_matakuliah'] = $this->mahasiswa_matakuliah_model->getallopen();
 
 		// var_dump("mahasiswa_matakuliah ", $data['mahasiswa_matakuliah']); exit;
-		$data['title'] = "mahasiswa matakuliah";
+		$data['title'] = "Mahasiswa Matakuliah";
 
 		$this->load->model('informasi_umum_model');
 		
@@ -50,7 +50,7 @@ class mahasiswa_matakuliah extends CI_Controller {
 		$data['mahasiswa_matakuliah'] = $this->mahasiswa_matakuliah_model->viewbylogin($this->session->userdata('user_id'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
 		// var_dump("mahasiswa_matakuliah ", $data['mahasiswa_matakuliah']); exit;
-		$data['title'] = "mahasiswa matakuliah";
+		$data['title'] = "Mahasiswa Matakuliah";
 
 		$this->load->model('informasi_umum_model');
 		

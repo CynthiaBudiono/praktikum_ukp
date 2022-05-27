@@ -53,15 +53,14 @@ class Subject extends CI_Controller {
 				for($row = 2; $row <= $highestRow; $row++){
 					$kode_mk = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
 					$nama = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
-					$for_semester = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
-					$status_praktikum = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
-					$status_responsi = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
-					$status_transfer_nilai = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
-					$informatika = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
-					$sib = $worksheet->getCellByColumnAndRow(7, $row)->getValue();
-					$dsa = $worksheet->getCellByColumnAndRow(8, $row)->getValue();
-					$kelulusan = $worksheet->getCellByColumnAndRow(9, $row)->getValue();
-					$prasyarat = $worksheet->getCellByColumnAndRow(10, $row)->getValue();
+					$informatika = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
+					$sib = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
+					$dsa = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
+					$kelulusan = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
+					$for_semester = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
+					$status_praktikum = $worksheet->getCellByColumnAndRow(7, $row)->getValue();
+					$status_responsi = $worksheet->getCellByColumnAndRow(8, $row)->getValue();
+					$status_transfer_nilai = $worksheet->getCellByColumnAndRow(9, $row)->getValue();
 
 					$data[] = array(
 						'kode_mk' 				=> $kode_mk,
@@ -74,7 +73,6 @@ class Subject extends CI_Controller {
 						'sib'					=> $sib,
 						'dsa'					=> $dsa,
 						'kelulusan'				=> $kelulusan,
-						'prasyarat'				=> $prasyarat
 					);
 				}
 			}
@@ -104,7 +102,7 @@ class Subject extends CI_Controller {
 					"sib"					=> ($data[$i]['sib'] != NULL) ? $data[$i]['sib'] : 0,
 					"dsa"					=> ($data[$i]['dsa'] != NULL) ? $data[$i]['dsa'] : 0,
 					"kelulusan"				=> $data[$i]['kelulusan'],
-					"prasyarat"				=> ($data[$i]['prasyarat'] != NULL) ? $data[$i]['prasyarat'] : "",
+					// "prasyarat"				=> ($data[$i]['prasyarat'] != NULL) ? $data[$i]['prasyarat'] : "",
 					"status" 				=> 1
 				);
 

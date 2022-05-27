@@ -75,7 +75,7 @@ class Jadwal_berhalangan extends CI_Controller {
         // var_dump($pengajar[0]['nama']); exit;  
         $data['pengajar'] = $pengajar;
 
-		$data['title'] = "jadwal berhalangan";
+		$data['title'] = "Jadwal Berhalangan";
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
 		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
@@ -167,7 +167,7 @@ class Jadwal_berhalangan extends CI_Controller {
         $data['role'] = $role;
 
         // var_dump($data['jadwal']);exit;
-        $data['title'] = "Add jadwal berhalangan";
+        $data['title'] = "Add Jadwal Berhalangan";
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
 		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;

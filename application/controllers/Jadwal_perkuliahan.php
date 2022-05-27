@@ -51,21 +51,26 @@ class Jadwal_perkuliahan extends CI_Controller {
 				$highestColumn = $worksheet->getHighestColumn();
 
 				for($row = 2; $row <= $highestRow; $row++){
-					$kode_mk = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
-					$kelas_paralel = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
-					$hari = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
-					$jam = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
-					$durasi = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
+					$hari = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
+					$jam = $worksheet->getCellByColumnAndRow(1, $row);
+					$sampai = $worksheet->getCellByColumnAndRow(2, $row);
+					$kode_mk = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
+					$kelas_paralel = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
 					$for_semester = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
 					$NIP1 = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
 					$NIP2 = $worksheet->getCellByColumnAndRow(7, $row)->getValue();
 					$ruang = $worksheet->getCellByColumnAndRow(8, $row)->getValue();
 
+					$jam_value = PHPExcel_Style_NumberFormat::toFormattedString($jam->getCalculatedValue(), 'hh:mm:ss');
+					$sampai_value = PHPExcel_Style_NumberFormat::toFormattedString($sampai->getCalculatedValue(), 'hh:mm:ss');
+
+					$durasi = (strtotime($sampai_value) - strtotime($jam_value))/60;
+
 					$data[] = array(
 						'kode_mk' 		=> $kode_mk,
 						'kelas_paralel'	=> $kelas_paralel,
 						'hari' 			=> $hari,
-						'jam' 			=> $jam,
+						'jam' 			=> $jam_value,
 						'durasi' 		=> $durasi,
 						'for_semester' 	=> $for_semester,
 						'NIP1' 			=> $NIP1,
@@ -76,7 +81,6 @@ class Jadwal_perkuliahan extends CI_Controller {
 			}
 
 			$this->addupdatedata($data);
-			// var_dump($data[0]); exit;
 		}
 		else{
 			echo "Tidak ada file yang masuk";
@@ -96,10 +100,10 @@ class Jadwal_perkuliahan extends CI_Controller {
 					'hari' 			=> $data[$i]['hari'],
 					'jam' 			=> $data[$i]['jam'],
 					'durasi' 		=> $data[$i]['durasi'],
-					'for_semester' 	=> $data[$i]['for_semester'],
-					'NIP1' 			=> $data[$i]['NIP1'],
+					'for_semester' 	=> ($data[$i]['for_semester'] != NULL) ? $data[$i]['for_semester'] : 99,
+					'NIP1' 			=> ($data[$i]['NIP1'] != NULL) ? $data[$i]['NIP1'] : 0,
 					'NIP2' 			=> ($data[$i]['NIP2'] != NULL) ? $data[$i]['NIP2'] : 0,
-					'ruang' 		=> $data[$i]['ruang'],
+					'ruang' 		=> ($data[$i]['ruang'] != NULL) ? $data[$i]['ruang'] : "-",
 					"semester"      => $this->informasi_umum_model->getsemester(),
                     "tahun_ajaran"  => $this->informasi_umum_model->gettahunajaran(),
 					"status"        => 1

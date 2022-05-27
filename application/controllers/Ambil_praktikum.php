@@ -419,7 +419,7 @@ class ambil_praktikum extends CI_Controller {
 
         $data['detil'] = $res;
         
-        $data['title'] = "Edit ambil_praktikum";
+        $data['title'] = "Edit Ambil Praktikum";
 
         $this->load->model('informasi_umum_model');
 		

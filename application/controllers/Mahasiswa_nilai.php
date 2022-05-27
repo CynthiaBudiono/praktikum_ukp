@@ -32,7 +32,7 @@ class Mahasiswa_nilai extends CI_Controller {
         // var_dump($data['kelas_praktikum_now'][7]['all_pertemuan']); exit;
         
 
-		$data['title'] = "mahasiswa nilai";
+		$data['title'] = "Mahasiswa Nilai";
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
 		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
@@ -73,7 +73,7 @@ class Mahasiswa_nilai extends CI_Controller {
 
         // var_dump($data['kelas_praktikum_now']); exit;
 
-		$data['title'] = "mahasiswa nilai";
+		$data['title'] = "Mahasiswa Nilai";
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
 		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
@@ -168,7 +168,7 @@ class Mahasiswa_nilai extends CI_Controller {
         // var_dump($data['kelas_praktikum_now']); exit;
         
 
-		$data['title'] = "mahasiswa nilai";
+		$data['title'] = "Mahasiswa Nilai";
 		
 		$data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
 		$data['semester']=($this->informasi_umum_model->getsemester() == 1) ? "Ganjil" : "Genap" ;
@@ -204,7 +204,7 @@ class Mahasiswa_nilai extends CI_Controller {
 
         $data['mode'] = 'add';
         
-        $data['title'] = "Tambah mahasiswa_nilai";
+        $data['title'] = "Tambah Mahasiswa Nilai";
 
         $this->load->model('informasi_umum_model');
 		
@@ -265,7 +265,7 @@ class Mahasiswa_nilai extends CI_Controller {
 
         $data['mode'] = 'add';
 
-        $data['title'] = "Add mahasiswa nilai";
+        $data['title'] = "Add Mahasiswa Nilai";
 
         $this->load->model('informasi_umum_model');
 		
@@ -313,7 +313,7 @@ class Mahasiswa_nilai extends CI_Controller {
 
         $data['mode'] = 'update';
         
-        $data['title'] = "Edit mahasiswa_nilai";
+        $data['title'] = "Edit Mahasiswa Nilai";
 
         $data['pertemuan'] = (int)$pertemuan;
 

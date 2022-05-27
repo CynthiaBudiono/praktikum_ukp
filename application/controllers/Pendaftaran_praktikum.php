@@ -20,7 +20,7 @@ class Pendaftaran_praktikum extends CI_Controller {
 
 		$data['pendaftaran_praktikum'] = $this->pendaftaran_praktikum_model->getallopen();
 
-		$data['title'] = "pendaftaran praktikum";
+		$data['title'] = "Pendaftaran Praktikum";
 
 		$this->load->model('informasi_umum_model');
 		
@@ -53,7 +53,7 @@ class Pendaftaran_praktikum extends CI_Controller {
 
         $data['detil'] = $res;
         
-        $data['title'] = "Edit pendaftaran_praktikum";
+        $data['title'] = "Edit Pendaftaran Praktikum";
 
         echo json_encode($data);
 
