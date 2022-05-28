@@ -16,7 +16,7 @@ class Jadwal_berhalangan extends CI_Controller {
 		// $this->load->model('jadwal_berhalangan_model');
 
 		// $data['jadwal_berhalangan'] = $this->jadwal_berhalangan_model->getallopen();
-        if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
+        if($this->session->userdata('user_type') == 'mahasiswa') redirect('dashboard');
 
         $this->load->model('kelas_praktikum_model');
         $this->load->model('dosen_model');
@@ -136,7 +136,7 @@ class Jadwal_berhalangan extends CI_Controller {
         }
         else{ //MAHASISWA
             $jadwal_perkuliahan = $this->mahasiswa_matakuliah_model->getnabrakmahasiswamatakuliah($this->input->post('pengajar'), $this->input->post('hari'), $this->input->post('jam'), $this->input->post('durasi'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
-            var_dump($jadwal_perkuliahan); exit;
+            // var_dump($jadwal_perkuliahan); exit;
         }
         
         $jadwal_berhalangan = $this->jadwal_berhalangan_model->getnabrakjadwalberhalangan($this->input->post('pengajar'), $this->input->post('hari'), $this->input->post('jam'), $this->input->post('durasi'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
@@ -175,7 +175,7 @@ class Jadwal_berhalangan extends CI_Controller {
         // $this->input->post('id_pengajar');
 
         // var_dump($this->input->post('NIP')); exit;
-        $jadwal_berhalangan = $this->jadwal_berhalangan_model->getbyNIP($this->input->post('NIP'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+        $jadwal_berhalangan = $this->jadwal_berhalangan_model->getbyNIP($this->input->post('pengajar'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
         echo json_encode($jadwal_berhalangan);
     }

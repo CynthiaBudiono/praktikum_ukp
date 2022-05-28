@@ -306,7 +306,7 @@
                 $('#ddtahun_ajaran').css('display', 'none');
             }
             else{
-                $('#ddkelas_prak').css('display', 'none');
+                $('#ddkelas_prak').css('display', 'block');
                 $("#ddkelas_prak").change(function(){
                     $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
                         id_kelas_praktikum: $("#ddkelas_prak").val(),

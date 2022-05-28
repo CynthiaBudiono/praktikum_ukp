@@ -132,6 +132,27 @@ class Ambil_praktikum_model extends CI_Model {
 		
 	}
 
+	public function getidwhere($nrp, $kode_mk, $tipe, $semester = null, $tahun_ajaran = null){
+		$this->db->where('ambil_praktikum.NRP', $nrp);
+		$this->db->where('ambil_praktikum.kode_mk', $kode_mk);
+		$this->db->where('ambil_praktikum.tipe', $tipe);
+
+		if($semester != null && $tahun_ajaran != null){
+			$this->db->where('ambil_praktikum.semester', $semester);
+        	$this->db->where('ambil_praktikum.tahun_ajaran', $tahun_ajaran);
+		}
+		
+		$query = $this->db->get('ambil_praktikum');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
 	public function getmahasiswamatkul($id_mahasiswa_matkul, $tipe, $semester = null, $tahun_ajaran = null){
 		$this->db->select('ambil_praktikum.*');
 		

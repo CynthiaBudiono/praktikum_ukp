@@ -205,8 +205,9 @@ class Kelas_praktikum extends CI_Controller {
         $this->load->model('informasi_umum_model');
 
         // mb_check_encoding($this->input->post('id'))
-        $kelas = $this->kelas_praktikum_model->getdetailmahasiswa($this->input->post('id'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+        $kelas = $this->kelas_praktikum_model->getdetailmahasiswa($this->input->post('id_kelas_praktikum'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
+        // var_dump($this->input->post('id')); exit;
         echo json_encode($kelas);
     }
 

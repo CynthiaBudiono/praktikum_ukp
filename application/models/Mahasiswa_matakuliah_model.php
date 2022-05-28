@@ -83,12 +83,12 @@ class Mahasiswa_matakuliah_model extends CI_Model {
 		}
 
 		$query = $this->db->get('mahasiswa_matakuliah');
-
+		// var_dump($query->num_rows()); exit;
 		if ($query->num_rows() > 0){
 			foreach($query->result_array() as $row){
 				$startkuliah = $row['jam'];
 				$endkuliah = date('H:i:s', strtotime($row['jam']. ' +'.$row['durasi'].' minutes'));
-
+				// var_dump("MASUKKKK"); exit;
 				if(($jam >= $startkuliah && $jam <= $endkuliah) || ($jamend >= $startkuliah && $jamend <= $endkuliah)){
 					// return 'yes';
 					$flag = 1;
@@ -145,8 +145,12 @@ class Mahasiswa_matakuliah_model extends CI_Model {
 		$this->db->select('mahasiswa_matakuliah.*, subject.kode_mk as kode_mk, subject.status_praktikum as status_praktikum, subject.status_responsi as status_responsi');
 		$this->db->join('jadwal_perkuliahan', 'jadwal_perkuliahan.id = mahasiswa_matakuliah.id_jadwal_perkuliahan');
 		$this->db->join('subject', 'subject.kode_mk = jadwal_perkuliahan.kode_mk');
-		$this->db->where('subject.status_praktikum', 1);
-		$this->db->or_where('subject.status_responsi', 1);
+
+		$this->db->group_start()
+		  ->or_where('subject.status_praktikum', 1)
+		  ->or_where('subject.status_responsi', 1);
+		$this->db->group_end();
+
 		$this->db->where('mahasiswa_matakuliah.semester', $semester);
         $this->db->where('mahasiswa_matakuliah.tahun_ajaran', $tahun_ajaran);
 		$query = $this->db->get('mahasiswa_matakuliah');
@@ -159,6 +163,24 @@ class Mahasiswa_matakuliah_model extends CI_Model {
 
 			return 0;
 	}
+
+	public function getbyNRP($id, $semester, $tahun_ajaran){
+
+		$this->db->select('jadwal_perkuliahan.*');
+		$this->db->join('jadwal_perkuliahan', 'jadwal_perkuliahan.id = mahasiswa_matakuliah.id_jadwal_perkuliahan');
+
+		$this->db->where('jadwal_perkuliahan.semester', $semester);
+		$this->db->where('jadwal_perkuliahan.tahun_ajaran', $tahun_ajaran);
+        $query = $this->db->where('mahasiswa_matakuliah.NRP', $id)->get('mahasiswa_matakuliah');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+    }
 
 	// public function getbyNRP($id) {
 

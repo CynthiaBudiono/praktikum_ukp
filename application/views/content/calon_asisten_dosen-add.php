@@ -66,7 +66,7 @@
         </div>
         <div class="clearfix"></div>
         <?php if($bukapendaftaran == "tutup"){?>
-            Maaf pendaftaran TUTUP, silahkan menunggu info lanjut pembukaan pendaftaran 
+            Maaf pendaftaran TUTUP, silahkan menunggu info lanjut pembukaan lowongan 
         <?php } else if($bukapendaftaran == "buka"){?>
         <form action="<?php if(isset($detil[0]['id'])){ 
                                 if($detil[0]['id'] != "" || $detil[0]['id'] != NULL){ 

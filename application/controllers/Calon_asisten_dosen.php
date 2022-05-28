@@ -64,6 +64,7 @@ class Calon_asisten_dosen extends CI_Controller {
             $res = $this->calon_asisten_dosen_model->getbynrp($this->session->userdata('user_id'));
         }
         
+        // harusnya ada flash data blng kalo dia blom daftar jdi gak bisa liat menu calon asisten dosen sebelum redirect
         if ($res == 0) redirect('dashboard');
 
         $data['detil'] = $res;
@@ -188,6 +189,7 @@ class Calon_asisten_dosen extends CI_Controller {
         $id = base64_decode($id);
 
         $this->load->model('calon_asisten_dosen_model');
+        $this->load->model('pendaftaran_asisten_dosen_model');
 
         if($this->session->userdata('user_type') == 'admin' || $this->session->userdata('user_type') == 'kepala_lab'){
             $data["bukapendaftaran"] = "buka";

@@ -124,8 +124,10 @@ function generate(){
     //Untuk generate mahasiswa yang semester ini seharusnya mengambil praktikum apa saja
     $.post(baseurl + "ambil_praktikum/generateadd", {},
     function(result) {
-        alert(result);
+        // alert(result);
+        console.log(result);
         if(result == "sukses"){
+            alert(result);
             cetak();
         }
         else{
@@ -155,7 +157,7 @@ function milih(idmatkul, idmhs, idambilprak, idkelasprak, pil){
 
         var idkelasprakterpilih = $("#" + idkolomterpilih).val();
 
-        alert("update quota : " + idkelasprak + " == " + idkelasprakterpilih);
+        // alert("update quota : " + idkelasprak + " == " + idkelasprakterpilih);
         var updatekolomquota;
         if(idkelasprakterpilih != "" || idkelasprakterpilih != null){ //sudah terpilih
             if(idkelasprak != idkelasprakterpilih){ //kalo pilihan yang di klik tidak sama dengan id terpilih
@@ -240,7 +242,7 @@ function simpan(){
         data_ambil_praktikum: arrTerpilih
     },
     function(result) {
-        alert(result);
+        // alert(result);
         if(result == "sukses"){
             view();
         }
@@ -490,7 +492,7 @@ function view(){
 
     },
     function(result) {
-        alert(result);
+        // alert(result);
         console.log(result);
         // $("#detail_kelas").html(result);
         var arr = JSON.parse(result);

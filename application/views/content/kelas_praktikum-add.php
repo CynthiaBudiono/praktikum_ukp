@@ -209,7 +209,7 @@ $(document).ready(function() {
             durasi: $('#durasi' + row).val(),
         },
         function(result) {
-            alert("getjadwalpengajarr : " + result);
+            // alert("getjadwalpengajarr : " + result);
             // console.log("AAAAAAA " + result);
             // var cek = result;
             

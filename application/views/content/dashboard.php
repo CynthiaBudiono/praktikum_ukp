@@ -1,6 +1,7 @@
 <!-- page content -->
 <div class="right_col" role="main">
 
+  <div class="row">
   <?php if(isset($berita)) : ?>
     <?php if(is_array($berita)) : ?>
         <?php foreach($berita as $key) : ?>
@@ -19,7 +20,7 @@
       <?php endforeach; ?>
     <?php endif; ?>
   <?php endif; ?>
-
+  </div>
 
   <?php if($this->session->userdata('user_type') == 'admin' || $this->session->userdata('user_type') == 'dosen' || $this->session->userdata('user_type') == 'kepala_lab' || $this->session->userdata('user_type') == 'asisten_tetap'){ ?>
     <!-- top tiles -->

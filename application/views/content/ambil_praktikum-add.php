@@ -73,7 +73,10 @@
         </div>
 
         <div class="clearfix"></div>
-
+        <?php if($bukapendaftaran == "tutup"){?>
+            Maaf pendaftaran TUTUP, silahkan menunggu info lanjut pembukaan pendaftaran 
+        <?php } else if($bukapendaftaran == "buka"){?>
+        
         <div class="col-md-12 col-sm-12" id="box-add">
                 <div class="x_panel">
                     <div class="x_title">
@@ -174,6 +177,7 @@
                 </div>
             <!-- </div> -->
         </div>
+        <?php }?>
 
         <!-- VIEW -->
         <div class="col-md-12 col-sm-12 ">
@@ -250,7 +254,7 @@
                     nrp: $('#mahasiswa').val()
                 },
                 function(result) {
-                    alert("getambilprakbynrp: " + result);
+                    // alert("getambilprakbynrp: " + result);
                     var arr = JSON.parse(result);
 
                     if (arr != 0){
@@ -289,6 +293,28 @@
                 });
             });
         }
+        else if(usertype == "mahasiswa" || usertype == "asisten_dosen"){
+            $.post(baseurl + "mahasiswa_matakuliah/getsubjectbyNRP", {
+                    nrp: $('#mahasiswa').val(),
+                },
+                function(result) {
+                    var arr = JSON.parse(result);
+                    var kal = '';
+                    // kal +='<ul>';
+                    // for(var i=0; i<arr.length; i++){
+                    //     kal += '<li>'+ arr[i]['kode_mk'] + ' - ' + arr[i]['nama'] +'</li>';
+                    // }
+                    // kal +='</ul>';
+                    // $('#detail_mahasiswa').append(kal);
+                    kalsubject += '<option value="" disabled selected>-- Pilih Mata Kuliah --</option>';
+                    for(var i=0; i<arr.length; i++){
+                        kalsubject +='<option value="'+ arr[i]['kode_mk'] +'">'+ arr[i]['kode_mk'] + ' - ' + arr[i]['nama'] +'</option>';
+                        
+                        // alert("status_responsi" + arr[i]['status_responsi']);
+                    }
+                    $('#subject').html(kalsubject);
+                });
+        }
         
 
         // $.post(baseurl + "mahasiswa_matakuliah/getsubjectbyNRPambilprak", {
@@ -299,6 +325,25 @@
         //     var arr = JSON.parse(result);
             
         // });
+        $('input[type=radio][name=tipe]').change(function() {
+            $.post(baseurl + "kelas_praktikum/getbysubject", {
+                kode_mk: $('#subject').val(),
+                tipe: $("input[name='tipe']:checked").val(),
+            },
+            function(result) {
+                // alert("masuk");
+                var arr = JSON.parse(result);
+                // var subject = []
+                var kal = '';
+                kal +='<option value="placeholder_text" disabled selected>-- Pilih Kelas --</option>';
+                for(var i=0; i<arr.length; i++){
+                    kal +='<option value="'+ arr[i]['id'] +'">'+ arr[i]['kelas_paralel'] + ' | ' + arr[i]['hari'] + ' ' + arr[i]['jam'] + ' (' + arr[i]['terisi'] + '/' + arr[i]['quota_max'] + ')</option>';
+                }
+                $('#pilihan1').html(kal);
+                $('#pilihan2').html(kal);
+                $('#pilihan3').html(kal);
+            });
+        });
 
         $('.subject_input').on("change", function() {
 
@@ -329,6 +374,7 @@
 
                 if(holdindex != -1 && data_jadwal.length > 0){
                     if(data_jadwal[holdindex]['pil1'] != null){
+                        // alert("AAAAAAAA");
                         $('#pilihan1').val(data_jadwal[holdindex]['pil1']).trigger('change');
                     }
                     if(data_jadwal[holdindex]['pil2'] != null){
@@ -337,6 +383,7 @@
                     if(data_jadwal[holdindex]['pil3'] != null){
                         $('#pilihan3').val(data_jadwal[holdindex]['pil3']).trigger('change');
                     }
+                    holdindex = -1;
                 }
                 $.post(baseurl + "subject/get", {
                     kode_mk: $('#subject').val(),
@@ -372,7 +419,7 @@
 
         if($record != null){ //table dari DB, sudah validasi
 
-            alert('pil1berhalangan: ' + $record['pil1_berhalangan']);
+            // alert('pil1berhalangan: ' + $record['pil1_berhalangan']);
             //kalo data null
             if($record['kelas_paralel1'] == null){textpil1 = "";}  else{ textpil1 = $record['kelas_paralel1'] + ' | ' + $record['hari1'] + ' ' + $record['jam1'];}
             if($record['kelas_paralel2'] == null){textpil2 = "";} else{ textpil2 = $record['kelas_paralel2'] + ' | ' + $record['hari2'] + ' ' + $record['jam2'] }
@@ -380,6 +427,8 @@
 
             data = {
                 "id": data_jadwal.length+1,
+                "NRP" : $record['NRP'],
+                "kode_mk": $record['kode_mk'],
                 "subject": $record['kode_mk'] + ' - ' + $record['nama_subject'],
                 "tipe": $record['tipe'],
                 "pil1": $record['pil1'],
@@ -395,11 +444,11 @@
 
             data_jadwal.push(data);
             
-            alert("data_jadwal : " + JSON.stringify(data_jadwal));
+            // alert("data_jadwal : " + JSON.stringify(data_jadwal));
 
-            view();
+            view("fromdb");
         }
-        else{ //add manual
+        else{ //add manual , belum validasi
             var index = -1;
         
             for(var i = 0; i < data_jadwal.length; i++){ //ngecek data kalau sebelumya sdh add data tersebut maka auto update
@@ -422,6 +471,7 @@
                 idkelasprak: $('#pilihan1').val()
             },
             function(result) {
+                // alert("pil1 : " + result);
                 pil1_berhalangan = result;
 
                 $.post(baseurl + "ambil_praktikum/getnabrak", {
@@ -441,6 +491,8 @@
                         data = {
                             // "kode_mk": $('#subject').val(),
                             "id": data_jadwal.length+1,
+                            "NRP": $('#mahasiswa').val(),
+                            "kode_mk": $('#subject option:selected').val(),
                             "subject": $('#subject option:selected').text(),
                             "tipe": $("input[name='tipe']:checked").val(),
                             "pil1": $('#pilihan1').val(),
@@ -468,14 +520,15 @@
                         $('#pilihan3').html(kal);
 
                         $("#subject").prop("disabled", false);
+                        $('#subject').html(kalsubject);
 
+                        $("#radiopraktikum").prop("checked", true);
                         view();
 
                     });
                 });
             });
 
-            $('#subject').html(kalsubject);
         }
     }
 
@@ -484,18 +537,18 @@
     }
 
     function validasi(){
+        console.log(data_jadwal);
         $.post(baseurl + "ambil_praktikum/add", {
             data: data_jadwal,
         },
         function(result) {
-            // alert(result);
+            alert(result);
+            console.log(result);
             if(result == 'success'){
-                view();
-                
-
+                view("fromdb");
             }
             else{
-                alert(result);
+                alert("Error! " + result);
             }
         });
     }
@@ -504,6 +557,53 @@
         holdindex = $index;
         $('#subject').val((data_jadwal[$index]['subject']).split(' - ')[0]).trigger('change');
         $("#subject").prop("disabled", true);
+
+        if(data_jadwal[$index]['tipe'] == "praktikum"){
+            $("#radiopraktikum").prop("checked", true);
+        }
+        else if(data_jadwal[$index]['tipe'] == "responsi"){
+            $("#radioresponsi").prop("checked", true);
+        }
+
+        // $.post(baseurl + "kelas_praktikum/getbysubject", {
+        //     kode_mk: $('#subject').val(),
+        //     tipe: $("input[name='tipe']:checked").val(),
+        // },
+        // function(result) {
+        //     // alert("masuk");
+        //     var arr = JSON.parse(result);
+        //     // var subject = []
+        //     var kal1 = '';
+        //     var kal2 = '';
+        //     var kal3 = '';
+        //     kal1 +='<option value="placeholder_text" disabled selected>-- Pilih Kelas --</option>';
+        //     kal2 +='<option value="placeholder_text" disabled selected>-- Pilih Kelas --</option>';
+        //     kal3 +='<option value="placeholder_text" disabled selected>-- Pilih Kelas --</option>';
+        //     for(var i=0; i<arr.length; i++){
+        //         if(data_jadwal[$index]['pil1'] == arr[i]['id']){
+        //             kal1 +='<option checked value="'+ arr[i]['id'] +'">'+ arr[i]['kelas_paralel'] + ' | ' + arr[i]['hari'] + ' ' + arr[i]['jam'] + ' (' + arr[i]['terisi'] + '/' + arr[i]['quota_max'] + ')</option>';
+        //         }
+        //         else{
+        //             kal1 +='<option value="'+ arr[i]['id'] +'">'+ arr[i]['kelas_paralel'] + ' | ' + arr[i]['hari'] + ' ' + arr[i]['jam'] + ' (' + arr[i]['terisi'] + '/' + arr[i]['quota_max'] + ')</option>';
+        //         }
+        //         if(data_jadwal[$index]['pil2'] == arr[i]['id']){
+        //             kal2 +='<option checked value="'+ arr[i]['id'] +'">'+ arr[i]['kelas_paralel'] + ' | ' + arr[i]['hari'] + ' ' + arr[i]['jam'] + ' (' + arr[i]['terisi'] + '/' + arr[i]['quota_max'] + ')</option>';
+        //         }
+        //         else{
+        //             kal2 +='<option value="'+ arr[i]['id'] +'">'+ arr[i]['kelas_paralel'] + ' | ' + arr[i]['hari'] + ' ' + arr[i]['jam'] + ' (' + arr[i]['terisi'] + '/' + arr[i]['quota_max'] + ')</option>';
+        //         }
+        //         if(data_jadwal[$index]['pil3'] == arr[i]['id']){
+        //             kal3 +='<option checked value="'+ arr[i]['id'] +'">'+ arr[i]['kelas_paralel'] + ' | ' + arr[i]['hari'] + ' ' + arr[i]['jam'] + ' (' + arr[i]['terisi'] + '/' + arr[i]['quota_max'] + ')</option>';
+        //         }
+        //         else{
+        //             kal3 +='<option value="'+ arr[i]['id'] +'">'+ arr[i]['kelas_paralel'] + ' | ' + arr[i]['hari'] + ' ' + arr[i]['jam'] + ' (' + arr[i]['terisi'] + '/' + arr[i]['quota_max'] + ')</option>';
+        //         }
+        //     }
+        //     $('#pilihan1').html(kal1);
+        //     $('#pilihan2').html(kal2);
+        //     $('#pilihan3').html(kal3);
+        // });
+        
     }
 
     function deleterecord($index){
@@ -518,17 +618,18 @@
             kal += '<tr>';
             kal += '<td>';
                 if($fromdb != null){
-                    kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ i +'")><i class="fa fa-pencil"></i> Edit</button>';
-                    kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=deleterecord("'+ i +'")><i class="fa fa-trash-o"></i> Delete</button>';
-                }
-                else{
                     kal += '<button disabled type="button" class="btn btn-sm btn-info btn-action"><i class="fa fa-pencil"></i> Edit</button>';
                     kal += '<button disabled type="button" class="btn btn-sm btn-danger btn-action"><i class="fa fa-trash-o"></i> Delete</button>';
                 }
+                else{
+                    kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ i +'")><i class="fa fa-pencil"></i> Edit</button>';
+                    kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=deleterecord("'+ i +'")><i class="fa fa-trash-o"></i> Delete</button>';
+                }
             kal += '</td>';
+            // alert(data_jadwal[i]['subject']);
             kal += '<td>'+ data_jadwal[i]['subject'] +'</td>';
             kal += '<td>'+ data_jadwal[i]['tipe'] +'</td>';
-            alert("jadwal berhalangan " + data_jadwal[i]['pil1_berhalangan']);
+            // alert("jadwal berhalangan " + data_jadwal[i]['pil1_berhalangan']);
             if(data_jadwal[i]['pil1_berhalangan'] == 'yes'){
                 // alert("masuk IFF");
                 kal += '<td class="bg-yellow">'+ data_jadwal[i]['pil1_text'] + '</td>';

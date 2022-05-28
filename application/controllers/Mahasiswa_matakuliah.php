@@ -204,4 +204,14 @@ class mahasiswa_matakuliah extends CI_Controller {
 		}
         echo json_encode($subject);
 	}
+
+	public function getjadwalbyNRP(){
+		$this->load->model('informasi_umum_model');
+		$this->load->model('mahasiswa_matakuliah_model');
+
+		$pengajar = $this->mahasiswa_matakuliah_model->getbyNRP($this->input->post('NRP'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+		
+		// var_dump($pengajar); exit;
+        echo json_encode($pengajar);
+	}
 }

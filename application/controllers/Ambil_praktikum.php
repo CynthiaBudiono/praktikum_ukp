@@ -99,16 +99,17 @@ class ambil_praktikum extends CI_Controller {
             if($getsubject[$i]['status_responsi'] == 1){
                 $getsubject[$i]['data_mahasiswa_responsi'] = $this->ambil_praktikum_model->getdetailkelas($getsubject[$i]['kode_mk'], "responsi", $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
-                for($j = 0; $j < count($getsubject[$i]['data_mahasiswa_responsi']); $j++){
+                if($getsubject[$i]['data_mahasiswa_responsi'] != 0){
+                    for($j = 0; $j < count($getsubject[$i]['data_mahasiswa_responsi']); $j++){
                     
-                    $getsubject[$i]['data_mahasiswa_responsi'][$j]['jadwalnabrak1'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa_responsi'][$j]['NRP'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['hari1'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['jam1'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['durasi1'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());                    
-                    $getsubject[$i]['data_mahasiswa_responsi'][$j]['jadwalnabrak2'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa_responsi'][$j]['NRP'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['hari2'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['jam2'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['durasi2'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
-                    $getsubject[$i]['data_mahasiswa_responsi'][$j]['jadwalnabrak3'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa_responsi'][$j]['NRP'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['hari3'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['jam3'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['durasi3'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
-                    $getsubject[$i]['data_mahasiswa_responsi'][$j]['jadwalnabrak4'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa_responsi'][$j]['NRP'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['hari4'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['jam4'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['durasi4'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
-                    
-                    for($k = 0; $k < count($getsubject[$i]['kelas_responsi']); $k++){
-                        $getsubject[$i]['data_mahasiswa_responsi'][$j]['nabrak_kelas_praktikum'.$getsubject[$i]['kelas_responsi'][$k]['id'].$getsubject[$i]['data_mahasiswa_responsi'][$j]['NRP']] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa_responsi'][$j]['NRP'], $getsubject[$i]['kelas_responsi'][$k]['hari'], $getsubject[$i]['kelas_responsi'][$k]['jam'], $getsubject[$i]['kelas_responsi'][$k]['durasi'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
-
+                        $getsubject[$i]['data_mahasiswa_responsi'][$j]['jadwalnabrak1'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa_responsi'][$j]['NRP'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['hari1'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['jam1'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['durasi1'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());                    
+                        $getsubject[$i]['data_mahasiswa_responsi'][$j]['jadwalnabrak2'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa_responsi'][$j]['NRP'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['hari2'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['jam2'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['durasi2'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+                        $getsubject[$i]['data_mahasiswa_responsi'][$j]['jadwalnabrak3'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa_responsi'][$j]['NRP'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['hari3'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['jam3'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['durasi3'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+                        $getsubject[$i]['data_mahasiswa_responsi'][$j]['jadwalnabrak4'] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa_responsi'][$j]['NRP'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['hari4'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['jam4'], $getsubject[$i]['data_mahasiswa_responsi'][$j]['durasi4'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+                        
+                        for($k = 0; $k < count($getsubject[$i]['kelas_responsi']); $k++){
+                            $getsubject[$i]['data_mahasiswa_responsi'][$j]['nabrak_kelas_praktikum'.$getsubject[$i]['kelas_responsi'][$k]['id'].$getsubject[$i]['data_mahasiswa_responsi'][$j]['NRP']] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa_responsi'][$j]['NRP'], $getsubject[$i]['kelas_responsi'][$k]['hari'], $getsubject[$i]['kelas_responsi'][$k]['jam'], $getsubject[$i]['kelas_responsi'][$k]['durasi'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+                        }
                     }
                 }
             }
@@ -175,7 +176,8 @@ class ambil_praktikum extends CI_Controller {
 
         $peserta = $this->mahasiswa_matakuliah_model->getpesertapraktikum($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
-        if($peserta > 0){
+        // var_dump($peserta); exit;
+        if($peserta != 0){
 
             // var_dump($peserta); exit;
             for($i = 0; $i < count($peserta); $i++){
@@ -322,6 +324,8 @@ class ambil_praktikum extends CI_Controller {
     public function getnabrak(){ // kembalian dari getnabrak ==> "", "yes", "no"
         $this->load->model('ambil_praktikum_model');
         $this->load->model('kelas_praktikum_model');
+        $this->load->model('mahasiswa_matakuliah_model');
+        $this->load->model('jadwal_berhalangan_model');
         $this->load->model('informasi_umum_model');
 
         if($this->input->post('idkelasprak') == "placeholder_text") { 
@@ -329,10 +333,34 @@ class ambil_praktikum extends CI_Controller {
         }
         else {
             $kelas_praktikum = $this->kelas_praktikum_model->get($this->input->post('idkelasprak'));
+            $nrp = $this->input->post('nrp');
+            // var_dump($kelas_praktikum); exit;
+            // var_dump($this->input->post('nrp')); exit;
+            // $getnabrak = $this->ambil_praktikum_model->getnabrak($this->input->post('nrp'), $kelas_praktikum[0]['hari'], $kelas_praktikum[0]['jam'], $kelas_praktikum[0]['durasi'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
-            $getnabrak = $this->ambil_praktikum_model->getnabrak($this->input->post('nrp'), $kelas_praktikum[0]['hari'], $kelas_praktikum[0]['jam'], $kelas_praktikum[0]['durasi'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+            // var_dump($getnabrak); exit;
+            // echo $getnabrak;
+            // var_dump($kelas_praktikum[0]['hari'], $kelas_praktikum[0]['jam'], $kelas_praktikum[0]['durasi'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
-            echo $getnabrak;
+            $jadwal_perkuliahan = $this->mahasiswa_matakuliah_model->getnabrakmahasiswamatakuliah($nrp, $kelas_praktikum[0]['hari'], $kelas_praktikum[0]['jam'], $kelas_praktikum[0]['durasi'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+        
+            $jadwal_berhalangan = $this->jadwal_berhalangan_model->getnabrakjadwalberhalangan($nrp, $kelas_praktikum[0]['hari'], $kelas_praktikum[0]['jam'], $kelas_praktikum[0]['durasi'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+            $jadwal_praktikum = $this->kelas_praktikum_model->getnabrakkelaspraktikum($nrp, $kelas_praktikum[0]['hari'], $kelas_praktikum[0]['jam'], $kelas_praktikum[0]['durasi'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+
+            // var_dump($jadwal_perkuliahan); exit;
+            //hasil cuman yes and no
+            // kalo 2 2 nya no is no kalo salah satu yes is yes
+            $hasil = "";
+            if($jadwal_perkuliahan == "yes" || $jadwal_berhalangan == "yes" || $jadwal_praktikum == "yes"){
+                $hasil = "yes";
+            }
+            else{
+                $hasil = "no";
+            }
+
+            // echo json_encode($hasil);
+            // var_dump($jadwal_perkuliahan); exit;
+            echo $hasil;
         }
     }
 
@@ -380,8 +408,17 @@ class ambil_praktikum extends CI_Controller {
 
     public function adds(){
 
+        $this->load->model('pendaftaran_praktikum_model');
+
         if($this->session->userdata('user_type') != 'admin' && $this->session->userdata('user_type') != 'asisten_dosen' && $this->session->userdata('user_type') != 'mahasiswa') redirect('dashboard');
         
+        if($this->session->userdata('user_type') == 'admin' || $this->session->userdata('user_type') == 'kepala_lab'){
+            $data["bukapendaftaran"] = "buka";
+        }
+        else{ //MAHASISWA / DOSEN
+            $data["bukapendaftaran"] = $this->pendaftaran_praktikum_model->cekbukapendaftaran();
+        }
+
         $data['title'] = "Add Ambil Praktikum";
 
         $this->load->model('informasi_umum_model');
@@ -412,6 +449,14 @@ class ambil_praktikum extends CI_Controller {
         $id = base64_decode($id);
 
         $this->load->model('ambil_praktikum_model');
+        $this->load->model('pendaftaran_praktikum_model');
+
+        if($this->session->userdata('user_type') == 'admin' || $this->session->userdata('user_type') == 'kepala_lab'){
+            $data["bukapendaftaran"] = "buka";
+        }
+        else{ //MAHASISWA / DOSEN
+            $data["bukapendaftaran"] = $this->pendaftaran_praktikum_model->cekbukapendaftaran();
+        }
 
 		$res = $this->ambil_praktikum_model->get($id);
 
@@ -442,104 +487,119 @@ class ambil_praktikum extends CI_Controller {
     }
 
     public function add(){
-        // var_dump("AAAAAAAAAAAA"); exit;
-        $this->load->helper(array('form', 'url'));
-        // $this->load->library('form_validation');
-        
-        $status = ($this->input->post('status')=='on') ? 1 : 0;
-
-        $data = array(
-            'nama' => $this->input->post('nama'),
-            'status' => $status,
-            'keterangan' => $this->input->post('keterangan'),
-        );
-
-        // var_dump("masuk add ", $data); exit;
 
         $this->load->model('ambil_praktikum_model');
-       
-        //check validasi
-        $this->form_validation->set_data($data);
-        $this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
+        $this->load->model('pendaftaran_praktikum_model');
 
-        if ($this->form_validation->run() == FALSE) {
-            $detil[0] = $data;
-            $this->adds(validation_errors(), $detil);
-        }
-        else {
-            $this->load->helper(array('form', 'url'));
+        // var_dump($this->input->post('data')); exit;
+        // $this->load->library('form_validation');
+        
+        // $status = ($this->input->post('status')=='on') ? 1 : 0;
+        $data_jadwal = $this->input->post('data');
 
-            $this->ambil_praktikum_model->add($data);
+        // var_dump(($data_jadwal[0]['NRP'])); exit;
+        if(count($data_jadwal) > 0){
+            for($i = 0; $i < count($data_jadwal); $i++){
 
+                // var_dump($data_jadwal[$i]['NRP'], $data_jadwal[$i]['kode_mk'], $data_jadwal[$i]['tipe'], $this->informasi_umum_model->getsemester(),$this->informasi_umum_model->gettahunajaran()); exit;
+    
+                $getidwhere = $this->ambil_praktikum_model->getidwhere($data_jadwal[$i]['NRP'], $data_jadwal[$i]['kode_mk'], $data_jadwal[$i]['tipe'], $this->informasi_umum_model->getsemester(),$this->informasi_umum_model->gettahunajaran());
+    
+                if($getidwhere != 0){
+                    $ppactive = $this->pendaftaran_praktikum_model->cekbukapendaftaran();
+    
+                    if($ppactive != 0){
+                        $ppke = $ppactive[0]['PP'];
+                    }
+                    else{
+                        $ppke = 9; //pendaftaran lagi gak buka
+                    }
+                    $data = array(
+                        'id' => $getidwhere[0]['id'],
+                        'pil1' => $data_jadwal[$i]['pil1'],
+                        'pil2' => $data_jadwal[$i]['pil2'],
+                        'pil3' => $data_jadwal[$i]['pil3'],
+                        'PP' => $ppke
+                    );
+                    $this->ambil_praktikum_model->update($data);
+                    $data_insert[] = $data;
+                }
+            }
+            
             // insert log
             $keterangan = '';
-            $keterangan .= json_encode($data).'.';
-
-            $logs_insert = array(
-                "id_user" => $this->session->userdata('user_id'),
-                "table_name" => 'ambil_praktikum',
-                "action" => 'CREATE',
-                "keterangan" => "a new record has been created by ".$this->session->userdata('logged_name')." : ".$keterangan,
-                "created" => date('Y-m-d H:i:s')
-            );
-            $this->load->model('user_history_model');
-            $this->user_history_model->add($logs_insert);
-
-            redirect('ambil_praktikum');
-        }
-    }
-
-    public function update(){
-        // $id = base64_decode($id);
-
-        $status = ($this->input->post('status')=='on') ? 1 : 0;
-
-        $data = array(
-            'id' => $this->input->post('idambilpraktikum'),
-            'nama' => $this->input->post('nama'),
-            'status' => $status,
-            'keterangan' => $this->input->post('keterangan'),
-            "updated" => date('Y-m-d H:i:s')
-        );
-
-        // var_dump("masuk update ", $data);
-
-        //check validasi
-        $this->form_validation->set_data($data);
-        $this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
-
-        if ($this->form_validation->run() == FALSE) {
-            $detil[0] = $data;
-            $this->adds(validation_errors(), $detil);
-            // var_dump("LOHH MASUK SINI"); exit;
-        }
-        else {
-            $this->load->helper(array('form', 'url'));
-
-            $this->load->model('ambil_praktikum_model');
-            // var_dump("AAAAA", $data['id']); exit;
-            $old_data = $this->ambil_praktikum_model->get($data['id']);
-
-            // var_dump("OLD DATA: ", $old_data); exit;
-            $this->ambil_praktikum_model->update($data);
-
-            // insert log
-            $keterangan = '';
-            $keterangan .= $old_data[0]['nama']. ' to '. $data['nama'].'; ';
-            $keterangan .= $old_data[0]['status']. ' to '. $data['status'].';';
-            $keterangan .= $old_data[0]['keterangan']. ' to '. $data['keterangan'].'; ';
-
+            $keterangan .= json_encode($data_insert).'.';
+    
             $logs_insert = array(
                 "id_user" => $this->session->userdata('user_id'),
                 "table_name" => 'ambil_praktikum',
                 "action" => 'UPDATE',
-                "keterangan" => $this->session->userdata('logged_name')." updated record # : ".$data['id']. ": ". $keterangan,
+                "keterangan" => $this->session->userdata('logged_name')." updated record ". $keterangan,
                 "created" => date('Y-m-d H:i:s')
             );
             $this->load->model('user_history_model');
             $this->user_history_model->add($logs_insert);
-
-            redirect('ambil_praktikum');
-        }    
+    
+            // redirect('ambil_praktikum/adds');
+            echo "success";
+        }
+        else{
+            echo "Tidak ada data yang dipilih";
+        }
+        
     }
+
+    // public function update(){
+    //     // $id = base64_decode($id);
+
+    //     $status = ($this->input->post('status')=='on') ? 1 : 0;
+
+    //     $data = array(
+    //         'id' => $this->input->post('idambilpraktikum'),
+    //         'nama' => $this->input->post('nama'),
+    //         'status' => $status,
+    //         'keterangan' => $this->input->post('keterangan'),
+    //         "updated" => date('Y-m-d H:i:s')
+    //     );
+
+    //     // var_dump("masuk update ", $data);
+
+    //     //check validasi
+    //     $this->form_validation->set_data($data);
+    //     $this->form_validation->set_rules('keterangan', 'keterangan', 'trim|max_length[65535]');
+
+    //     if ($this->form_validation->run() == FALSE) {
+    //         $detil[0] = $data;
+    //         $this->adds(validation_errors(), $detil);
+    //         // var_dump("LOHH MASUK SINI"); exit;
+    //     }
+    //     else {
+    //         $this->load->helper(array('form', 'url'));
+
+    //         $this->load->model('ambil_praktikum_model');
+    //         // var_dump("AAAAA", $data['id']); exit;
+    //         $old_data = $this->ambil_praktikum_model->get($data['id']);
+
+    //         // var_dump("OLD DATA: ", $old_data); exit;
+    //         $this->ambil_praktikum_model->update($data);
+
+    //         // insert log
+    //         $keterangan = '';
+    //         $keterangan .= $old_data[0]['nama']. ' to '. $data['nama'].'; ';
+    //         $keterangan .= $old_data[0]['status']. ' to '. $data['status'].';';
+    //         $keterangan .= $old_data[0]['keterangan']. ' to '. $data['keterangan'].'; ';
+
+    //         $logs_insert = array(
+    //             "id_user" => $this->session->userdata('user_id'),
+    //             "table_name" => 'ambil_praktikum',
+    //             "action" => 'UPDATE',
+    //             "keterangan" => $this->session->userdata('logged_name')." updated record # : ".$data['id']. ": ". $keterangan,
+    //             "created" => date('Y-m-d H:i:s')
+    //         );
+    //         $this->load->model('user_history_model');
+    //         $this->user_history_model->add($logs_insert);
+
+    //         redirect('ambil_praktikum');
+    //     }    
+    // }
 }
