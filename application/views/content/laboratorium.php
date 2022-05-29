@@ -150,8 +150,6 @@
                     $('#kodelab').prop("readonly", false);
                     $('#mode').val('add');
                 }
-
-
             }
             else{
                 alert(result);

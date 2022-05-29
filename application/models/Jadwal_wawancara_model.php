@@ -17,16 +17,68 @@ class jadwal_wawancara_model extends CI_Model {
 
 	}
 
-	public function getwithjoin($semester, $tahunajaran){
-		$this->db->select('jadwal_wawancara.*, dosen.nama as nama_dosen, mahasiswa.nama as nama_mahasiswa');
-        $this->db->join('dosen', 'dosen.NIP = jadwal_wawancara.NIP');
+	// public function getwithjoin($semester, $tahunajaran){
+	// 	$this->db->select('jadwal_wawancara.*, dosen.nama as nama_dosen, mahasiswa.nama as nama_mahasiswa');
+    //     $this->db->join('dosen', 'dosen.NIP = jadwal_wawancara.NIP');
+	// 	$this->db->join('calon_asisten_dosen', 'calon_asisten_dosen.id = jadwal_wawancara.id_calon_asisten_dosen');
+    //     $this->db->join('mahasiswa', 'mahasiswa.NRP = calon_asisten_dosen.NRP');
+
+	// 	if($semester != "" && $tahunajaran != ""){
+	// 		$this->db->join('pendaftaran_asisten_dosen', 'pendaftaran_asisten_dosen.id = calon_asisten_dosen.id_pendaftaran_asdos');
+	// 		$this->db->where('pendaftaran_asisten_dosen.semester', $semester);
+	// 		$this->db->where('pendaftaran_asisten_dosen.tahun_ajaran', $tahunajaran);
+	// 	}
+	// 	$query = $this->db->get('jadwal_wawancara');
+
+	// 	if ($query->num_rows() > 0)
+
+	// 		return $query->result_array();
+
+	// 	else
+
+	// 		return 0;
+	// }
+
+	public function getallbelumketerima($semester = null, $tahun_ajaran= null){
+		$this->db->select('jadwal_wawancara.*, dosen.nama as nama_dosen, mahasiswa.nama as nama_mahasiswa, calon_asisten_dosen.created');
+        
+		$this->db->join('dosen', 'dosen.NIP = jadwal_wawancara.NIP');
 		$this->db->join('calon_asisten_dosen', 'calon_asisten_dosen.id = jadwal_wawancara.id_calon_asisten_dosen');
         $this->db->join('mahasiswa', 'mahasiswa.NRP = calon_asisten_dosen.NRP');
+		// $this->db->join('asisten', 'asisten.NRP = calon_asisten_dosen.NRP'. 'left');
 
-		if($semester != "" && $tahunajaran != ""){
-			$this->db->join('pendaftaran_asisten_dosen', 'pendaftaran_asisten_dosen.id = calon_asisten_dosen.id_pendaftaran_asdos');
-			$this->db->where('pendaftaran_asisten_dosen.semester', $semester);
-			$this->db->where('pendaftaran_asisten_dosen.tahun_ajaran', $tahunajaran);
+		// $this->db->where_not_in('calon_asisten_dosen.NRP', $names);
+
+		if($semester != null){
+			$this->db->where('calon_asisten_dosen.semester', $semester);
+		}
+		if($tahun_ajaran != null){
+			$this->db->where('calon_asisten_dosen.tahun_ajaran', $tahun_ajaran);
+		}
+		$query = $this->db->get('jadwal_wawancara');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
+	public function getallhistory($semester = null, $tahun_ajaran= null){
+		$this->db->select('jadwal_wawancara.*, dosen.nama as nama_dosen, mahasiswa.nama as nama_mahasiswa, calon_asisten_dosen.created, asisten.tanggal_diterima');
+        
+		$this->db->join('dosen', 'dosen.NIP = jadwal_wawancara.NIP');
+		$this->db->join('calon_asisten_dosen', 'calon_asisten_dosen.id = jadwal_wawancara.id_calon_asisten_dosen');
+        $this->db->join('mahasiswa', 'mahasiswa.NRP = calon_asisten_dosen.NRP');
+		$this->db->join('asisten', 'asisten.NRP = calon_asisten_dosen.NRP');
+
+		if($semester != null){
+			$this->db->where('calon_asisten_dosen.semester', $semester);
+		}
+		if($tahun_ajaran != null){
+			$this->db->where('calon_asisten_dosen.tahun_ajaran', $tahun_ajaran);
 		}
 		$query = $this->db->get('jadwal_wawancara');
 

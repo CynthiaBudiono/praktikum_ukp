@@ -29,6 +29,7 @@
                         <form action="<?php if(isset($detil[0]['id'])) if($detil[0]['id'] != "" || $detil[0]['id'] != NULL) echo (base_url('jadwal_wawancara/update')); else echo (base_url('jadwal_wawancara/add')); ?>" method="post" class="form-horizontal form-label-left">
                         
                         <input type="hidden" class="form-control" name="mode" id="mode" value="add">
+                        <input type="hidden" class="form-control" name="idjadwal" id="idjadwal">
 
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 ">Dosen Wawancara</label>
@@ -36,9 +37,9 @@
                                     <select class="form-control select2" name="dosen" id="dosen" style="width:100%;">
                                         <option value="" disabled selected>Search dosen</option>
                                     </select>
-                                    <div id="dosen_area" style="display:none;">
+                                    <!-- <div id="dosen_area" style="display:none;">
                                         tabel jadwal dosennnnnnnnn dan info lainnya
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
 
@@ -92,44 +93,10 @@
             <!-- </div> -->
         </div>
 
-        <!-- VIEW NOW-->
+        <!-- VIEW-->
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
                 <div class="x_title" id="data_table_now">
-                    <h2>Data period now</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a></li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="card-box table-responsive">
-                                <table id="datatable-jadwal_wawancara_now" class="table table-striped table-bordered" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>Actions</th>
-                                        <th>Calon Asisten Dosen</th>
-                                        <th>Pewawancara (Dosen)</th>
-                                        <th>Tanggal</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="data_jadwal_wawancara_now">
-                                </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- VIEW -->
-        <div class="col-md-12 col-sm-12 ">
-            <div class="x_panel">
-                <div class="x_title" id="data_table">
                     <h2>Data</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
@@ -137,9 +104,6 @@
                     </ul>
                     <div class="clearfix"></div>
                 </div>
-                <!-- <div>
-                    <a class="btn btn-sm bg-green" href="<?php echo base_url("jadwal_wawancara/adds"); ?>">Tambah</a>
-                </div> -->
                 <div class="x_content">
                     <div class="row">
                         <div class="col-sm-12">
@@ -148,12 +112,46 @@
                                 <thead>
                                     <tr>
                                         <th>Actions</th>
+                                        <th>Tanggal Daftar</th>
                                         <th>Calon Asisten Dosen</th>
                                         <th>Pewawancara (Dosen)</th>
-                                        <th>Tanggal</th>
+                                        <th>Tanggal Wawancara</th>
                                     </tr>
                                 </thead>
                                 <tbody id="data_jadwal_wawancara">
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_panel">
+                <div class="x_title" id="data_table_now">
+                    <h2>History</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card-box table-responsive">
+                                <table id="datatable-jadwal_wawancara_history" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Tanggal Daftar</th>
+                                        <th>Calon Asisten Dosen</th>
+                                        <th>Pewawancara (Dosen)</th>
+                                        <th>Tanggal Wawancara</th>
+                                        <th>Tanggal Diterima</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="data_jadwal_wawancara_history">
                                 </tbody>
                                 </table>
                             </div>
@@ -168,11 +166,15 @@
 <script>
     var baseurl = "<?php echo base_url(); ?>";
     // view();
+    var baru = 0;
+    var baru2 = 0;
+
     $(document).ready(function() {
         $('#keterangan').trumbowyg();	
         // alert("masukkkkkkkk ready");	
-        view()
-        viewperiodnow()
+        view();
+        viewhistory();
+
         $('#dosen').select2();
         $('#calon').select2();
 
@@ -241,6 +243,7 @@
         // alert($('#kodelab').val());
         // alert(baseurl + "jadwal_wawancara/" + $('#mode').val());
         $.post(baseurl + "jadwal_wawancara/" + $('#mode').val(), {
+            id : $('#idjadwal').val(),
             id_dosen: $('#dosen').val(),
             id_calon: $('#calon').val(),
             tanggal: $('#tanggal_wawancara').val(),
@@ -296,12 +299,11 @@
 
             $('#action_title').html(arr['title']);
 
-            // alert("CALONN: " + arr['detil'][0]['id_calon_asisten_dosen']);
+            $('#idjadwal').val(arr['detil'][0]['id']);
             $('#dosen').val(arr['detil'][0]['NIP']).trigger('change');
             $('#calon').val(arr['detil'][0]['id_calon_asisten_dosen']).trigger('change');
             // $('#tanggal_wawancara').val(arr['detil'][0]['tanggal']);
             $('#tanggal_wawancara').val(arr['detil'][0]['tanggal'].replace(" ", "T"));
-            // $('#keterangan').val(arr['detil'][0]['keterangan']);
             $('#keterangan').trumbowyg('html', arr['detil'][0]['keterangan']);
 
             // if(arr['detil'][0]['status'] == 1){
@@ -312,8 +314,8 @@
         });
     }
 
-    function viewperiodnow(){
-        $.post(baseurl + "jadwal_wawancara/getperiodnow", {
+    function view(){
+        $.post(baseurl + "jadwal_wawancara/getallbelumketerima", {
 
         },
         function(result) {
@@ -326,9 +328,10 @@
                     kal += '<tr>';
                     kal += '<td>';
                         kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ arr[i]['id'] +'")><i class="fa fa-pencil"></i> Edit</button>';
-                        kal += '<button type="button" class="btn btn-sm bg-green btn-action" onclick=confirm("'+ arr[i]['id'] +'")><i class="fa fa-check"></i> Lulus</button>';
+                        // kal += '<button type="button" class="btn btn-sm bg-green btn-action" onclick=confirm("'+ arr[i]['id'] +'")><i class="fa fa-check"></i> Lulus</button>';
                         // kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['id'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
                     kal += '</td>';
+                    kal += '<td>'+ arr[i]['created'] +'</td>';
                     kal += '<td>'+ arr[i]['nama_mahasiswa'] +'</td>';
                     kal += '<td>'+ arr[i]['nama_dosen'] +'</td>';
                     kal += '<td>'+ arr[i]['tanggal'] +'</td>';
@@ -338,8 +341,13 @@
                     kal += '</tr>';
                 }
                 
-                $("#data_jadwal_wawancara_now").html(kal);
-                $("#datatable-jadwal_wawancara_now").DataTable({
+                if(baru > 0){
+                    $('#datatable-jadwal_wawancara').DataTable().destroy();
+                }
+                $("#data_jadwal_wawancara").html(kal);
+                baru++;
+
+                $("#datatable-jadwal_wawancara").DataTable({
                     dom: "Blfrtip",
                     buttons: [
                         {
@@ -370,35 +378,33 @@
         });
     }
 
-    function view(){
-        $.post(baseurl + "jadwal_wawancara/get", {
+    function viewhistory(){
+        $.post(baseurl + "jadwal_wawancara/getallhistory", {
 
         },
-		function(result) {
+        function(result) {
             // alert(result);
             if(result != null){
-
                 var arr = JSON.parse(result);
                 var kal = "";
                 
                 for(var i = 0; i < arr.length; i++){
                     kal += '<tr>';
-                    kal += '<td>';
-                        // kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ arr[i]['id'] +'")><i class="fa fa-pencil"></i> Edit</button>';
-                        // kal += '<button type="button" class="btn btn-sm bg-green btn-action" onclick=confirm("'+ arr[i]['id'] +'")><i class="fa fa-check"></i> Lulus</button>';
-                        // kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['id'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
-                    kal += '</td>';
-                    kal += '<td>'+ arr[i]['nama_mahasiswa'] +'</td>';
-                    kal += '<td>'+ arr[i]['nama_dosen'] +'</td>';
-                    kal += '<td>'+ arr[i]['tanggal'] +'</td>';
-                    // kal += '<td>';
-                    //     kal += (arr[i]['status'] == 1) ? '<span class="badge bg-green">active</span>' : '<span class="badge bg-danger">non active</span>';
-                    // kal += '</td>';
+                        kal += '<td>'+ arr[i]['created'] +'</td>';
+                        kal += '<td>'+ arr[i]['nama_mahasiswa'] +'</td>';
+                        kal += '<td>'+ arr[i]['nama_dosen'] +'</td>';
+                        kal += '<td>'+ arr[i]['tanggal'] +'</td>';
+                        kal += '<td>'+ arr[i]['tanggal_diterima'] +'</td>';
                     kal += '</tr>';
                 }
                 
-                $("#data_jadwal_wawancara").html(kal);
-                $("#datatable-jadwal_wawancara").DataTable({
+                if(baru > 0){
+                    $('#datatable-jadwal_wawancara_history').DataTable().destroy();
+                }
+                $("#data_jadwal_wawancara_history").html(kal);
+                baru++;
+
+                $("#datatable-jadwal_wawancara_history").DataTable({
                     dom: "Blfrtip",
                     buttons: [
                         {
@@ -424,8 +430,8 @@
                     ],
                     responsive: true
                 });
-               
             }
+            
         });
     }
 </script>

@@ -89,6 +89,7 @@
                     <div class="x_content">
                         <!-- Smart Wizard -->
                         <p>Pendaftaran Asisten Dosen periode <?= isset($semester) ? $semester : "-" ?> <?= isset($tahun_ajaran) ? $tahun_ajaran : "-" ?></p>
+                        <?php echo validation_errors('<div class="error">', '</div>'); ?>
                         <div id="wizard" class="form_wizard wizard_horizontal">
                         <ul class="wizard_steps">
                             <li>
@@ -141,7 +142,7 @@
                                 <div class="form-group row">
                                     <label for="lineid" class="col-form-label col-md-3 col-sm-3 label-align">No HP<span class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6 ">
-                                        <input type="tel" pattern="\(\d\d\d\d\)-\d\d\d\d\d\d\d\d" name="nohp" id="nohp" class="form-control col" placeholder="(9999)-999999999" required value="<?= (isset($detil[0]['no_hp'])) ? $detil[0]['no_hp']: '' ?>"/>
+                                        <input type="tel" pattern="\(\d\d\d\d\)-\d\d\d\d\d\d\d\d" name="nohp" id="nohp" class="form-control col" placeholder="08.." required value="<?= (isset($detil[0]['no_hp'])) ? $detil[0]['no_hp']: '' ?>"/>
                                     </div>
                                 </div>
                                 <div class="form-group row">

@@ -138,6 +138,26 @@
         </div>
     </div>
 </div>
+<?php if ($this->session->flashdata('msg')) : ?>
+<!-- <div style="margin-top:100px;" class="modal" tabindex="-1" role="dialog" id="infomsg">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <div class="modal-header" style="background-color: #0492c2;">
+        <h4 class="modal-title" id="myModalLabel2" style="color: white;">Notification</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="modal-body">
+        <?= $this->session->flashdata('msg') ?>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div> -->
+<?php endif; ?>
 
 <script>
 $(function() {
@@ -207,6 +227,7 @@ $(function() {
                 }
                 else{
                     alert(result);
+                    // $('#infomsg').modal('show');
                 }
             });
         // }

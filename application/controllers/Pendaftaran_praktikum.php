@@ -88,6 +88,7 @@ class Pendaftaran_praktikum extends CI_Controller {
 
         if($getperiodpendaftaranthissemester != 0){
             echo "Periode Pendaftaran telah ada, silahkan melakukan edit pendaftaran";
+            // $this->session->set_flashdata('msg', "Periode Pendaftaran telah ada, silahkan melakukan edit pendaftaran");
         }
         else{
             $data = array(

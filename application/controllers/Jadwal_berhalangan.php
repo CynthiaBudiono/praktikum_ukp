@@ -25,53 +25,53 @@ class Jadwal_berhalangan extends CI_Controller {
 
         $pengajar = array();
 
-        $data['pengajar'] = $this->kelas_praktikum_model->getpengajar($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+        // $data['pengajar'] = $this->kelas_praktikum_model->getpengajar($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
-        if($data['pengajar'] != 0){ //kalo kelas praktikum sudah di input
-            for($i = 0; $i < count($data['pengajar']); $i++){
-                for($j = 1; $j <= 3; $j++){
-                    if($data['pengajar'][$i]['NIP'.$j] != NULL){
-                        $kembar = false;
-                        for($k = 0; $k < count($pengajar); $k++){
-                            if($pengajar[$k]['kode_pengajar'] == $data['pengajar'][$i]['NIP'.$j]){
-                                $kembar = true;
-                            }
-                        }
+        // if($data['pengajar'] != 0){ //kalo kelas praktikum sudah di input
+        //     for($i = 0; $i < count($data['pengajar']); $i++){
+        //         for($j = 1; $j <= 3; $j++){
+        //             if($data['pengajar'][$i]['NIP'.$j] != NULL){
+        //                 $kembar = false;
+        //                 for($k = 0; $k < count($pengajar); $k++){
+        //                     if($pengajar[$k]['kode_pengajar'] == $data['pengajar'][$i]['NIP'.$j]){
+        //                         $kembar = true;
+        //                     }
+        //                 }
                         
-                        if(!$kembar){
-                            array_push($pengajar, array(
-                                'kode_pengajar' => $data['pengajar'][$i]['NIP'.$j],
-                                'nama' => $data['pengajar'][$i]['nama_dosen'.$j],
-                                'role' => 'Dosen',
-                                'status' => $data['pengajar'][$i]['status_dosen'.$j],
-                                'last_login' => $data['pengajar'][$i]['last_login_dosen'.$j],
-                            ));
-                        }
+        //                 if(!$kembar){
+        //                     array_push($pengajar, array(
+        //                         'kode_pengajar' => $data['pengajar'][$i]['NIP'.$j],
+        //                         'nama' => $data['pengajar'][$i]['nama_dosen'.$j],
+        //                         'role' => 'Dosen',
+        //                         'status' => $data['pengajar'][$i]['status_dosen'.$j],
+        //                         'last_login' => $data['pengajar'][$i]['last_login_dosen'.$j],
+        //                     ));
+        //                 }
                        
-                    }
-                    if($data['pengajar'][$i]['NRP'.$j] != NULL){
+        //             }
+        //             if($data['pengajar'][$i]['NRP'.$j] != NULL){
 
-                        $kembar = false;
-                        for($k = 0; $k < count($pengajar); $k++){
-                            if($pengajar[$k]['kode_pengajar'] == $data['pengajar'][$i]['NRP'.$j]){
-                                $kembar = true;
-                            }
-                        }
+        //                 $kembar = false;
+        //                 for($k = 0; $k < count($pengajar); $k++){
+        //                     if($pengajar[$k]['kode_pengajar'] == $data['pengajar'][$i]['NRP'.$j]){
+        //                         $kembar = true;
+        //                     }
+        //                 }
 
-                        if(!$kembar){
-                            array_push($pengajar, array(
-                                'kode_pengajar' => $data['pengajar'][$i]['NRP'.$j],
-                                'nama' => $data['pengajar'][$i]['nama_mahasiswa'.$j],
-                                'role' => 'Mahasiswa',
-                                'status' => $data['pengajar'][$i]['status_mahasiswa'.$j],
-                                'last_login' => $data['pengajar'][$i]['last_login_mahasiswa'.$j],
-                            ));
-                        }
-                    }
-                }
-            }
-        }
-        else{
+        //                 if(!$kembar){
+        //                     array_push($pengajar, array(
+        //                         'kode_pengajar' => $data['pengajar'][$i]['NRP'.$j],
+        //                         'nama' => $data['pengajar'][$i]['nama_mahasiswa'.$j],
+        //                         'role' => 'Mahasiswa',
+        //                         'status' => $data['pengajar'][$i]['status_mahasiswa'.$j],
+        //                         'last_login' => $data['pengajar'][$i]['last_login_mahasiswa'.$j],
+        //                     ));
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        // else{
             $data['pengajar'] = $this->dosen_model->getallopen();
             if($data['pengajar'] != 0){
                 for($i = 0; $i < count($data['pengajar']); $i++){
@@ -97,7 +97,7 @@ class Jadwal_berhalangan extends CI_Controller {
                 }
             }
             // var_dump(count($data['pengajar'])); exit;
-        }
+        // }
 
 
         // var_dump($pengajar[0]['nama']); exit;  

@@ -268,10 +268,22 @@ class Calon_asisten_dosen extends CI_Controller {
                 //check validasi
                 $this->form_validation->set_data($data);
                 $this->form_validation->set_rules('NRP', 'NRP', 'required');
+                $this->form_validation->set_rules('gender', 'Gender', 'required');
+                $this->form_validation->set_rules('alamat', 'Alamat', 'required');
+                $this->form_validation->set_rules('no_hp', 'Handphone Number', 'required');
+                $this->form_validation->set_rules('line_id', 'ID Line', 'required');
+                $this->form_validation->set_rules('motivasi', 'Motivasi', 'required');
+                $this->form_validation->set_rules('komitmen', 'Komitmen', 'required');
+                $this->form_validation->set_rules('kelebihan', 'Kelebihan', 'required');
+                $this->form_validation->set_rules('kekurangan', 'Kekurangan', 'required');
+                $this->form_validation->set_rules('pengalaman', 'Pengalaman', 'required');
         
                 if ($this->form_validation->run() == FALSE) {
                     $detil[0] = $data;
                     $data['error_msg'] = validation_errors();
+                    $this->session->set_flashdata('msg', validation_errors());
+                    // echo $data['error_msg'];
+                    redirect($_SERVER['HTTP_REFERER']);
                 }
                 else {
                     $this->load->helper(array('form', 'url'));
@@ -329,10 +341,14 @@ class Calon_asisten_dosen extends CI_Controller {
             }
             else{
                 echo "Telah Mendaftar Lowongan, Silahkan edit data yang sudah ada";
+                $this->session->set_flashdata('msg', "Telah Mendaftar Lowongan, Silahkan edit data yang sudah ada");
+                redirect($_SERVER['HTTP_REFERER']);
             }
         }
         else{
             echo "NRP TIDAK VALID";
+            $this->session->set_flashdata('msg', "NRP TIDAK VALID");
+            redirect($_SERVER['HTTP_REFERER']);
         }
         
     }

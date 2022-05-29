@@ -541,9 +541,13 @@ class ambil_praktikum extends CI_Controller {
             $this->user_history_model->add($logs_insert);
     
             // redirect('ambil_praktikum/adds');
+            $this->session->set_flashdata('msg', "Sukses Menambahkan Data");
+            redirect($_SERVER['HTTP_REFERER']);
             echo "success";
         }
         else{
+            $this->session->set_flashdata('msg', "Tidak ada data yang dipilih");
+            redirect($_SERVER['HTTP_REFERER']);
             echo "Tidak ada data yang dipilih";
         }
         

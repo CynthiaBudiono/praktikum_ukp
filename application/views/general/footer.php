@@ -10,6 +10,7 @@
   </div> <!-- /main_container -->
 </div> <!-- /container body -->
 
+
     <!-- jQuery -->
     <!-- <script src="<?= base_url() ?>assets/vendors/jquery/dist/jquery.min.js"></script> -->
     <!-- Bootstrap -->
@@ -120,3 +121,32 @@
     <script src="<?= base_url() ?>assets/vendors/semantic/dist/semantic.min.js"></script>
   </body>
 </html>
+
+
+
+<?php if ($this->session->flashdata('msg')) : ?>
+
+<div style="margin-top:100px;" class="modal" tabindex="-1" role="dialog" id="infomsg">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <div class="modal-header" style="background-color: #0492c2;">
+        <h4 class="modal-title" id="myModalLabel2" style="color: white;">Notification</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="modal-body">
+        <?= $this->session->flashdata('msg') ?>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('#infomsg').modal('show');
+</script>
+
+<?php endif; ?>

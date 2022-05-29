@@ -73,78 +73,87 @@ class Jadwal_wawancara extends CI_Controller {
 
     }
 
-    public function get(){
+    // public function get(){
 
+    //     $this->load->model('jadwal_wawancara_model');
+
+	// 	$jadwal_wawancara = $this->jadwal_wawancara_model->getwithjoin("", "");
+
+    //     echo json_encode($jadwal_wawancara);
+    // }
+
+    public function getallbelumketerima(){
         $this->load->model('jadwal_wawancara_model');
 
-		$jadwal_wawancara = $this->jadwal_wawancara_model->getwithjoin("", "");
+		$jadwal_wawancara = $this->jadwal_wawancara_model->getallbelumketerima();
 
         echo json_encode($jadwal_wawancara);
     }
 
-    public function getperiodnow(){
-
-        $this->load->model('informasi_umum_model');
+    public function getallhistory(){
         $this->load->model('jadwal_wawancara_model');
 
-		$jadwal_wawancara = $this->jadwal_wawancara_model->getwithjoin($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+		$jadwal_wawancara = $this->jadwal_wawancara_model->getallhistory();
 
         echo json_encode($jadwal_wawancara);
     }
+
+    // public function getperiodnow(){
+
+    //     $this->load->model('informasi_umum_model');
+    //     $this->load->model('jadwal_wawancara_model');
+
+	// 	$jadwal_wawancara = $this->jadwal_wawancara_model->getwithjoin($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+
+    //     echo json_encode($jadwal_wawancara);
+    // }
 
     public function add(){
         $this->load->helper(array('form', 'url'));
         // $this->load->library('form_validation');
         
-        $status = ($this->input->post('status')=='true') ? 1 : 0;
-
         $data = array(
-            'id' => strtoupper($this->input->post('id')),
-            'nama' => $this->input->post('nama'),
-            'quota_max' => (int) $this->input->post('quota'),
-            'status' => $status
+            'NIP' => $this->input->post('id_dosen'),
+            'id_calon_asisten_dosen' => $this->input->post('id_calon'),
+            'tanggal' => $this->input->post('tanggal'),
+            'keterangan' => $this->input->post('keterangan')
         );
 
         // var_dump("masuk add ", $data); exit;
 
         $this->load->model('jadwal_wawancara_model');
-        if($this->jadwal_wawancara_model->get($data['id']) == 0){
-            // var_dump("masuk tak kembar"); exit;
-
         
-            //check validasi
-            $this->form_validation->set_data($data);
-            // $this->form_validation->set_rules('id', 'kode lab', 'trim|required|max_length[5]');
+        //check validasi
+        $this->form_validation->set_data($data);
+        $this->form_validation->set_rules('NIP', 'Dosen', 'required');
+        $this->form_validation->set_rules('id_calon_asisten_dosen', 'Calon Dosen', 'required');
+		$this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|max_length[65535]');
 
-            if ($this->form_validation->run() == FALSE) {
-                $detil[0] = $data;
-                echo validation_errors();
-            }
-            else {
-                $this->load->helper(array('form', 'url'));
-
-                $this->jadwal_wawancara_model->add($data);
-
-                // insert log
-                $keterangan = '';
-                $keterangan .= json_encode($data).'.';
-
-                $logs_insert = array(
-                    "id_user" => $this->session->userdata('user_id'),
-                    "table_name" => 'jadwal_wawancara',
-                    "action" => 'CREATE',
-                    "keterangan" => "a new record has been created by ". $this->session->userdata('logged_name') ." : ".$keterangan,
-                    "created" => date('Y-m-d H:i:s')
-                );
-                $this->load->model('user_history_model');
-                $this->user_history_model->add($logs_insert);
-
-                // redirect('jadwal_wawancara');
-                echo 'success';
-            }
+        if ($this->form_validation->run() == FALSE) {
+            $detil[0] = $data;
+            echo validation_errors();
         }
-        else{
-            echo 'data kembar';
+        else {
+            $this->load->helper(array('form', 'url'));
+
+            $this->jadwal_wawancara_model->add($data);
+
+            // insert log
+            $keterangan = '';
+            $keterangan .= json_encode($data).'.';
+
+            $logs_insert = array(
+                "id_user" => $this->session->userdata('user_id'),
+                "table_name" => 'jadwal_wawancara',
+                "action" => 'CREATE',
+                "keterangan" => "a new record has been created by ". $this->session->userdata('logged_name') ." : ".$keterangan,
+                "created" => date('Y-m-d H:i:s')
+            );
+            $this->load->model('user_history_model');
+            $this->user_history_model->add($logs_insert);
+
+            // redirect('jadwal_wawancara');
+            echo 'success';
         }
     }
 
@@ -155,15 +164,19 @@ class Jadwal_wawancara extends CI_Controller {
         $status = ($this->input->post('status')=='true') ? 1 : 0;
 
         $data = array(
-            'id' => strtoupper($this->input->post('id')),
-            'nama' => $this->input->post('nama'),
-            'quota_max' => (int) $this->input->post('quota'),
-            'status' => $status
+            'id' => $this->input->post('id'),
+            'NIP' => $this->input->post('id_dosen'),
+            'id_calon_asisten_dosen' => $this->input->post('id_calon'),
+            'tanggal' => $this->input->post('tanggal'),
+            'keterangan' => $this->input->post('keterangan')
         );
 
         //check validasi
         $this->form_validation->set_data($data);
-        $this->form_validation->set_rules('id', 'kode lab', 'trim|required|max_length[5]');
+        $this->form_validation->set_rules('id', 'ID', 'required');
+        $this->form_validation->set_rules('NIP', 'Dosen', 'required');
+        $this->form_validation->set_rules('id_calon_asisten_dosen', 'Calon Dosen', 'required');
+		$this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|max_length[65535]');
 
         if ($this->form_validation->run() == FALSE) {
             $detil[0] = $data;
@@ -180,9 +193,7 @@ class Jadwal_wawancara extends CI_Controller {
 
             // insert log
             $keterangan = '';
-            $keterangan .= $old_data[0]['nama']. ' to '. $data['nama'].'; ';
-            $keterangan .= $old_data[0]['quota_max']. ' to '. $data['quota_max'].'; ';
-            $keterangan .= $old_data[0]['status']. ' to '. $data['status'].';';
+            $keterangan .= json_encode($old_data). ' to '. json_encode($data).'; ';
 
             $logs_insert = array(
                 "id_user" => $this->session->userdata('user_id'),
