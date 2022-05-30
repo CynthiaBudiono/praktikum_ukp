@@ -57,6 +57,11 @@ class Jadwal_perkuliahan_model extends CI_Model {
 		$this->db->select('subject.*, subject.nama as nama_subject');
 		$this->db->join('subject', 'subject.kode_mk = jadwal_perkuliahan.kode_mk');
 
+		$this->db->group_start()
+		  ->or_where('subject.status_praktikum', 1)
+		  ->or_where('subject.status_responsi', 1);
+		$this->db->group_end();
+
 		$this->db->where('jadwal_perkuliahan.status', 1);
 		if($semester != null){
 			$this->db->where('jadwal_perkuliahan.semester', $semester);

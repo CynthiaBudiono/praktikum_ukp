@@ -15,7 +15,7 @@
     color: #868e96;
   }
   .nav.side-menu>li>a:hover{
-    color: #82b19b !important;
+    color: #1d81be !important;
   }
   /* nav.side-menu>li.current-page, .nav.side-menu>li.active {
     box-shadow: 0 4px 8px #acb5f6;;
@@ -36,21 +36,21 @@
     color: #868e96;
   }
   .nav>li>a:hover, .nav>li>a:focus {
-    color: #82b19b;
+    color: #1d81be;
     background: #F4F9F9;
   }
   .nav li li.current-page a{
-    color: #82b19b;
+    color: #1d81be;
   }
 
   .nav.side-menu>li.current-page, .nav.side-menu>li.active, .current-page.fa, .nav-sm .nav.side-menu li.active-sm {
-    border-right: 5px solid #82b19b;
+    border-right: 5px solid #1d81be;
     border-radius: 5px;
-    color: #82b19b !important;
+    color: #1d81be !important;
   }
 
   .green{
-    color : #82b19b !important;
+    color : #1d81be !important;
   }
 
   .blue{
@@ -62,18 +62,18 @@
   }
 
   .text-green{
-    color : #82b19b !important;
+    color : #1d81be !important;
   }
 
   .border-green{
-    color : #82b19b !important;
+    color : #1d81be !important;
   }
 
   .bg-green{
-    background: #82b19b !important;  
+    background: #1d81be !important;  
     /* greenColor */
     /* background: #60d5e2 !important; */ /* blueColor */
-    border: 1px solid #82b19b !important;
+    border: 1px solid #1d81be !important;
     color: #fff;
   }
 
@@ -103,7 +103,7 @@
     border-radius: 50%;
   }
   /* .nav-md ul.nav.child_menu li.current-page {
-    background: #82b19b;
+    background: #1d81be;
     bottom: auto;
     content: "";
     height: 8px;
@@ -136,15 +136,15 @@ html{
   .daterangepicker td.active, .daterangepicker td.active:hover,
   .daterangepicker .ranges li.active, .daterangepicker .ranges li:hover ,
   .daterangepicker td.active, .daterangepicker td.active:hover {
-    background-color: #82b19b;
+    background-color: #1d81be;
     border : 1px solid #F4F9F9;
   }
 
   input[type=file]::file-selector-button {
-    border: 2px solid #82b19b;
+    border: 2px solid #1d81be;
     padding: .2em .4em;
     border-radius: .2em;
-    background-color: #82b19b;
+    background-color: #1d81be;
     transition: 1s;
     color: #fff;
     }
@@ -200,7 +200,7 @@ html{
   }
   .toggle-switch:checked {
     border-color: #F4F9F9;
-    background: #82b19b;
+    background: #1d81be;
   }
   .toggle-switch:checked:after {
     transform: translatex(10px);

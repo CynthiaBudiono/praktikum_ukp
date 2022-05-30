@@ -296,7 +296,7 @@ class Kelas_praktikum_model extends CI_Model {
 		$this->db->select('ambil_praktikum.*, subject.nama as nama_subject, mahasiswa.NRP as NRP, mahasiswa.nama as nama_mahasiswa');
 		$this->db->join('subject', 'subject.kode_mk = ambil_praktikum.kode_mk');
         $this->db->join('mahasiswa', 'mahasiswa.NRP = ambil_praktikum.NRP');
-		$query = $this->db->where('terpilih', $id)->get('ambil_praktikum', 1, 0);
+		$query = $this->db->where('terpilih', $id)->get('ambil_praktikum');
 
 		if ($query->num_rows() > 0)
 
@@ -322,9 +322,8 @@ class Kelas_praktikum_model extends CI_Model {
 			if($tahun_ajaran != null){
 				$this->db->where('kelas_praktikum.tahun_ajaran', $tahun_ajaran);
 			}
-
-			$query = $this->db->get('kelas_praktikum');
 		}
+		$query = $this->db->get('kelas_praktikum');
 
 		if ($query->num_rows() > 0){
 

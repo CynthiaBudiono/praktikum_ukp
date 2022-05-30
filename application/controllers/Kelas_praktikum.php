@@ -6,7 +6,7 @@ class Kelas_praktikum extends CI_Controller {
 	{
 		parent::__construct();
         if(!$this->session->userdata('logged_in')) redirect('login');
-	    if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
+	    
 	}
 
 
@@ -15,6 +15,8 @@ class Kelas_praktikum extends CI_Controller {
 
 		$this->load->model('kelas_praktikum_model');
         $this->load->model('informasi_umum_model');
+
+        // if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
 
         $data['kelas_praktikum_now'] = $this->kelas_praktikum_model->getallopen($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
@@ -205,9 +207,10 @@ class Kelas_praktikum extends CI_Controller {
         $this->load->model('informasi_umum_model');
 
         // mb_check_encoding($this->input->post('id'))
-        $kelas = $this->kelas_praktikum_model->getdetailmahasiswa($this->input->post('id_kelas_praktikum'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+        $kelas = $this->kelas_praktikum_model->getdetailmahasiswa($this->input->post('id_kelas_praktikum'), $this->input->post('semester'), $this->input->post('tahun_ajaran'));
 
         // var_dump($this->input->post('id')); exit;
+        // var_dump($kelas); exit;
         echo json_encode($kelas);
     }
 
@@ -309,6 +312,9 @@ class Kelas_praktikum extends CI_Controller {
 
     public function add(){
         // var_dump("AAAAAAAAAAAA"); exit;
+
+        if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
+        if($this->session->userdata('user_type') != 'kepala_lab') redirect('dashboard');
         $this->load->helper(array('form', 'url'));
         $this->load->model('kelas_praktikum_model');
         $this->load->model('informasi_umum_model');

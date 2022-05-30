@@ -20,6 +20,23 @@ class Asisten_model extends CI_Model {
 
 	}
 
+	public function getprofile($nrp) {
+
+		$this->db->select('asisten.*, mahasiswa.*');
+		$this->db->join('mahasiswa', 'mahasiswa.NRP = asisten.NRP');
+
+		$this->db->where('asisten.NRP', $nrp);
+		$query = $this->db->get('asisten');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
 	public function getallactive() {
 		$this->db->select('asisten.*, mahasiswa.nama as nama');
 		$this->db->join('mahasiswa', 'mahasiswa.NRP = asisten.NRP');

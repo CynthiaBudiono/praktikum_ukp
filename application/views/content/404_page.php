@@ -1,6 +1,6 @@
 <style>
   body{
-    background: #82b19b !important;
+    background: #1d81be !important;
   }
 
   h1,h2,p{

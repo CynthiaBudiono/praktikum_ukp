@@ -34,8 +34,8 @@
     }
     #radioGanjil:checked:checked ~ .radioGanjil,
     #radioGenap:checked:checked ~ .radioGenap{
-        border-color: #82b19b;
-        background: #82b19b;
+        border-color: #1d81be;
+        background: #1d81be;
     }
     #radioGanjil:checked:checked ~ .radioGanjil .dot,
     #radioGenap:checked:checked ~ .radioGenap .dot{

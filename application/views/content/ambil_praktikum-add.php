@@ -35,8 +35,8 @@
     }
     #radiopraktikum:checked:checked ~ .radiopraktikum,
     #radioresponsi:checked:checked ~ .radioresponsi{
-        border-color: #82b19b;
-        background: #82b19b;
+        border-color: #1d81be;
+        background: #1d81be;
     }
     #radiopraktikum:checked:checked ~ .radiopraktikum .dot,
     #radioresponsi:checked:checked ~ .radioresponsi .dot{
@@ -178,7 +178,6 @@
             <!-- </div> -->
         </div>
         <?php }?>
-
         <!-- VIEW -->
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
@@ -222,6 +221,8 @@
 <script>
     var baseurl = "<?php echo base_url(); ?>";
     var usertype = "<?php echo $this->session->userdata('user_type'); ?>";
+    var bukapendaftaran = "<?php echo $bukapendaftaran; ?>";
+    var userid = "<?php echo $this->session->userdata('user_id'); ?>";
     var data_jadwal = [];
     var baru = 0;
     var kalsubject = '';
@@ -236,7 +237,7 @@
         $('#pilihan2').select2();
         $('#pilihan3').select2();
         
-        // view();
+        view("fromdb");
         if(usertype == "admin" || usertype == 'asisten_tetap'){
             // alert("masuk");
             $('#mahasiswa').select2();
@@ -283,6 +284,7 @@
                     }
                     kal +='</ul>';
                     $('#detail_mahasiswa').append(kal);
+                    kalsubject = '';
                     kalsubject += '<option value="" disabled selected>-- Pilih Mata Kuliah --</option>';
                     for(var i=0; i<arr.length; i++){
                         kalsubject +='<option value="'+ arr[i]['kode_mk'] +'">'+ arr[i]['kode_mk'] + ' - ' + arr[i]['nama'] +'</option>';
@@ -294,8 +296,29 @@
             });
         }
         else if(usertype == "mahasiswa" || usertype == "asisten_dosen"){
+            $.post(baseurl + "ambil_praktikum/getambilprakbynrp", {
+                nrp: userid
+            },
+            function(result) {
+                // alert("getambilprakbynrp: " + result);
+                var arr = JSON.parse(result);
+
+                if (arr != 0){
+                    data_jadwal = [];
+                    // $('#box-component').css('display', 'none');
+                    // $('#btnvalidasi').css('display', 'none');
+
+                    for(var i=0; i<arr.length; i++){
+                        add(arr[i]);
+                    }
+
+                    view("fromdb");
+                }
+                                
+            });
+
             $.post(baseurl + "mahasiswa_matakuliah/getsubjectbyNRP", {
-                    nrp: $('#mahasiswa').val(),
+                    nrp: userid
                 },
                 function(result) {
                     var arr = JSON.parse(result);
@@ -306,6 +329,7 @@
                     // }
                     // kal +='</ul>';
                     // $('#detail_mahasiswa').append(kal);
+                    kalsubject = '';
                     kalsubject += '<option value="" disabled selected>-- Pilih Mata Kuliah --</option>';
                     for(var i=0; i<arr.length; i++){
                         kalsubject +='<option value="'+ arr[i]['kode_mk'] +'">'+ arr[i]['kode_mk'] + ' - ' + arr[i]['nama'] +'</option>';
@@ -356,50 +380,54 @@
                 tipe: $("input[name='tipe']:checked").val(),
             },
             function(result) {
-                // alert("masuk");
-                var arr = JSON.parse(result);
-                // var subject = []
-                var kal = '';
-                kal +='<option value="placeholder_text" disabled selected>-- Pilih Kelas --</option>';
-                for(var i=0; i<arr.length; i++){
-                    kal +='<option value="'+ arr[i]['id'] +'">'+ arr[i]['kelas_paralel'] + ' | ' + arr[i]['hari'] + ' ' + arr[i]['jam'] + ' (' + arr[i]['terisi'] + '/' + arr[i]['quota_max'] + ')</option>';
-                }
-                $('#pilihan1').html(kal);
-                $('#pilihan2').html(kal);
-                $('#pilihan3').html(kal);
+                // alert("masuk ONCHANGEE " + $('#subject').val() + " " + $("input[name='tipe']:checked").val() + result);
+                // console.log(result);
+                if(result != 0){
 
-                $("#mahasiswa").prop("disabled", true);
-                $("#radiopraktikum").prop("disabled", true);
-                $("#radioresponsi").prop("disabled", true);
-
-                if(holdindex != -1 && data_jadwal.length > 0){
-                    if(data_jadwal[holdindex]['pil1'] != null){
-                        // alert("AAAAAAAA");
-                        $('#pilihan1').val(data_jadwal[holdindex]['pil1']).trigger('change');
-                    }
-                    if(data_jadwal[holdindex]['pil2'] != null){
-                        $('#pilihan2').val(data_jadwal[holdindex]['pil2']).trigger('change');
-                    }
-                    if(data_jadwal[holdindex]['pil3'] != null){
-                        $('#pilihan3').val(data_jadwal[holdindex]['pil3']).trigger('change');
-                    }
-                    holdindex = -1;
-                }
-                $.post(baseurl + "subject/get", {
-                    kode_mk: $('#subject').val(),
-                },
-                function(result) {
                     var arr = JSON.parse(result);
-                    if(arr[0]['status_praktikum'] == 1){
-                        // alert('masuk status praktikum');
-                        $("#radiopraktikum").prop("disabled", false);
+                    // var subject = []
+                    var kal = '';
+                    kal +='<option value="placeholder_text" disabled selected>-- Pilih Kelas --</option>';
+                    for(var i=0; i<arr.length; i++){
+                        kal +='<option value="'+ arr[i]['id'] +'">'+ arr[i]['kelas_paralel'] + ' | ' + arr[i]['hari'] + ' ' + arr[i]['jam'] + ' (' + arr[i]['terisi'] + '/' + arr[i]['quota_max'] + ')</option>';
                     }
-                    if(arr[0]['status_responsi'] == 1){
-                        // alert("masuk status responsi");
-                        $("#radioresponsi").prop("disabled", false);
+                    $('#pilihan1').html(kal);
+                    $('#pilihan2').html(kal);
+                    $('#pilihan3').html(kal);
+
+                    $("#mahasiswa").prop("disabled", true);
+                    $("#radiopraktikum").prop("disabled", true);
+                    $("#radioresponsi").prop("disabled", true);
+
+                    if(holdindex != -1 && data_jadwal.length > 0){
+                        if(data_jadwal[holdindex]['pil1'] != null){
+                            // alert("AAAAAAAA");
+                            $('#pilihan1').val(data_jadwal[holdindex]['pil1']).trigger('change');
+                        }
+                        if(data_jadwal[holdindex]['pil2'] != null){
+                            $('#pilihan2').val(data_jadwal[holdindex]['pil2']).trigger('change');
+                        }
+                        if(data_jadwal[holdindex]['pil3'] != null){
+                            $('#pilihan3').val(data_jadwal[holdindex]['pil3']).trigger('change');
+                        }
+                        holdindex = -1;
                     }
-                    
-                });
+                    $.post(baseurl + "subject/get", {
+                        kode_mk: $('#subject').val(),
+                    },
+                    function(result) {
+                        var arr = JSON.parse(result);
+                        if(arr[0]['status_praktikum'] == 1){
+                            // alert('masuk status praktikum');
+                            $("#radiopraktikum").prop("disabled", false);
+                        }
+                        if(arr[0]['status_responsi'] == 1){
+                            // alert("masuk status responsi");
+                            $("#radioresponsi").prop("disabled", false);
+                        }
+                        
+                    });
+                }
             });
         });
         
@@ -545,6 +573,9 @@
             alert(result);
             console.log(result);
             if(result == 'success'){
+                $('#btnvalidasi').css('display', 'none');
+                $('#box-add').css('display', 'none');
+
                 view("fromdb");
             }
             else{
@@ -614,6 +645,10 @@
     function view($fromdb = null){
         var kal = "";
 
+        if($fromdb != null && data_jadwal.length > 0){
+            $('#btnvalidasi').css('display', 'none');
+            $('#box-add').css('display', 'none');
+        }
         for(var i = 0; i < data_jadwal.length; i++){
             kal += '<tr>';
             kal += '<td>';

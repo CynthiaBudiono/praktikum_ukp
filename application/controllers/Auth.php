@@ -99,8 +99,9 @@ class Auth extends CI_Controller
                     }
                     else if($this->input->post('selecttipeuser') == "peter"){
                         //jek blom ganti line 98 hrusnya user_model
-                        $user = $this->dosen_model->get($this->input->post('username'));
+                        $user = $this->user_model->getbynip($this->input->post('username'));
 
+                        // var_dump($user); exit;
                         //KEPALA LABORATORIUM
                         if($user){
                             $data_login = array(
@@ -108,12 +109,18 @@ class Auth extends CI_Controller
                                 'from_table' => 'user',
                                 'user_type' => 'kepala_lab',
                                 'user_id' => $user[0]['NIP'],
-                                'logged_name' => $user[0]['nama'],
+                                'logged_name' => $user[0]['nama_dosen'],
                                 'role' => 'Dosen',
                             );
 
                             $data_last_login = array(
                                 'NIP' => $user[0]['NIP'],
+                                'last_login' => date('Y-m-d H:i:s')
+                            );
+                            $this->dosen_model->update($data_last_login);
+
+                            $data_last_login = array(
+                                'id' => $user[0]['id_user'],
                                 'last_login' => date('Y-m-d H:i:s')
                             );
                             $this->user_model->update($data_last_login);

@@ -45,7 +45,9 @@
                   <thead>
                     <tr>
                       <!-- <th>Actions</th> -->
+                      <?php if($this->session->userdata('user_type') == 'admin' || $this->session->userdata('user_type') == 'dosen' || $this->session->userdata('user_type') == 'kepala_lab'){ ?>
                       <th>Mahasiswa</th>
+                      <?php } ?>
                       <th>Matakuliah</th>
                       <th>Kelas Paralel</th>
                       <th>Semester</th>
@@ -63,7 +65,9 @@
                               <!-- <a href="#" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
                               <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
                               <!-- </td> -->
+                              <?php if($this->session->userdata('user_type') == 'admin' || $this->session->userdata('user_type') == 'dosen' || $this->session->userdata('user_type') == 'kepala_lab'){ ?>
                               <td><?= (isset($key['NRP'])) ? $key['NRP'] : '' ?> ~ <?= (isset($key['nama_mahasiswa'])) ? $key['nama_mahasiswa'] : '' ?></td>
+                              <?php } ?>
                               <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?> ~ <?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?></td>
                               <td><?= (isset($key['kelas_paralel'])) ? $key['kelas_paralel'] : '' ?></td>
                               <td><?= (isset($key['semester'])) ? $key['semester'] : '' ?></td>

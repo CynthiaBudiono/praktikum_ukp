@@ -214,6 +214,41 @@
                                         </div>
                                     <?php } ?> <!-- /LAPORAN DETAIL KELAS -->
                                 <?php } ?>
+
+                                <!-- /LAPORAN TRANSFER NILAI -->
+                                <?php if($function == 'transfer_nilai'){?>
+                                    <div class="card-box table-responsive">
+                                        <table id="datatable_laporan_transfer_nilai" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Actions</th>
+                                                <th>Mahasiswa</th>
+                                                <th>Mata Kuliah</th>
+                                                <th>Nilai Akhir</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="body_table_transfer_nilai"></tbody>
+                                        </table>
+                                    </div>
+                                <?php } ?> <!-- /LAPORAN TRANSFER NILAI -->
+
+                                <!-- /LAPORAN DETAIL TRANSFER NILAI -->
+                                <?php if($function == 'detail_transfer_nilai'){?>
+                                    <div class="card-box table-responsive">
+                                        <table id="datatable_laporan_detail_transfer_nilai" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Pertemuan ke-</th>
+                                                <th>Nilai Awal</th>
+                                                <th>Nilai Materi</th>
+                                                <th>Nilai Tugas</th>
+                                                <th>rata_rata</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="body_table_detail_transfer_nilai"></tbody>
+                                        </table>
+                                    </div>
+                                <?php } ?> <!-- /LAPORAN DETAIL TRANSFER NILAI -->
                         </div>
                     </div>
                 </div>
@@ -227,7 +262,6 @@
     var baseurl = "<?php echo base_url(); ?>";
     var usertype = "<?php echo $this->session->userdata('user_type'); ?>"; 
     var jenislaporan = "<?= $function ?>";
-    var jenislogin = "<?= $this->session->userdata('user_type') ?>";
     // var data_informasi = [];
     var data_laporan = [];
     var baru = 0;
@@ -273,13 +307,26 @@
                     tahun_ajaran : $("#ddtahun_ajaran").val()
                 },
                 function(result) {
-                    alert(result);
+                    // alert(result);
                     var arr = JSON.parse(result);
 
                     data_laporan = arr;
 
                     viewlulus();
                 });
+            });
+            $.post(baseurl + "mahasiswa_nilai/getlulustidaklulus", {
+                id_kelas_praktikum: $("#ddkelas_prak").val(),
+                semester: $("#ddsemester").val(),
+                tahun_ajaran : $("#ddtahun_ajaran").val()
+            },
+            function(result) {
+                // alert(result);
+                var arr = JSON.parse(result);
+
+                data_laporan = arr;
+
+                viewlulus();
             });
         }
         else if(jenislaporan == "tidak_lulus"){
@@ -298,6 +345,18 @@
                     viewtidaklulus();
                 });
             });
+            $.post(baseurl + "mahasiswa_nilai/getlulustidaklulus", {
+                id_kelas_praktikum: $("#ddkelas_prak").val(),
+                semester: $("#ddsemester").val(),
+                tahun_ajaran : $("#ddtahun_ajaran").val()
+            },
+            function(result) {
+                var arr = JSON.parse(result);
+
+                data_laporan = arr;
+
+                viewtidaklulus();
+            });
         }
         else if(jenislaporan == "detail_kelas"){
 
@@ -307,9 +366,43 @@
             }
             else{
                 $('#ddkelas_prak').css('display', 'block');
+                // alert("AAA : " + $("#ddkelas_prak").val());
                 $("#ddkelas_prak").change(function(){
                     $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
                         id_kelas_praktikum: $("#ddkelas_prak").val(),
+                        semester: $("#ddsemester").val(),
+                        tahun_ajaran : $("#ddtahun_ajaran").val()
+                    },
+                    function(result) {
+                        var arr = JSON.parse(result);
+
+                        data_laporan = arr;
+
+                        viewdetailkelas();
+                    });
+                });
+
+                $("#ddsemester").change(function(){
+                // alert("aa" + this.value);
+                    $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
+                        id_kelas_praktikum: $("#ddkelas_prak").val(),
+                        semester: $("#ddsemester").val(),
+                        tahun_ajaran : $("#ddtahun_ajaran").val()
+                    },
+                    function(result) {
+                        var arr = JSON.parse(result);
+
+                        data_laporan = arr;
+
+                        viewdetailkelas();
+                    });
+                });
+
+                $("#ddtahun_ajaran").change(function(){
+                    $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
+                        id_kelas_praktikum: $("#ddkelas_prak").val(),
+                        semester: $("#ddsemester").val(),
+                        tahun_ajaran : $("#ddtahun_ajaran").val()
                     },
                     function(result) {
                         var arr = JSON.parse(result);
@@ -321,18 +414,33 @@
                 });
             }
 
-            $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", { // VIEW ALL
-                id_kelas_praktikum: 0,
+            $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
+                id_kelas_praktikum: $("#ddkelas_prak").val(),
+                semester: $("#ddsemester").val(),
+                tahun_ajaran : $("#ddtahun_ajaran").val()
             },
             function(result) {
-                alert("RESULT : " + result);
+                alert("getdetailmahasiswa : " + result);
                 var arr = JSON.parse(result);
-                alert(arr.length);
+
                 data_laporan = arr;
 
-                // alert(JSON.stringify(data_laporan));
                 viewdetailkelas();
             });
+            // $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", { // VIEW ALL
+            //     id_kelas_praktikum: 0,
+            //     semester: $("#ddsemester").val(),
+            //     tahun_ajaran : $("#ddtahun_ajaran").val()
+            // },
+            // function(result) {
+            //     // alert("RESULT : " + result);
+            //     var arr = JSON.parse(result);
+            //     // alert(arr.length);
+            //     data_laporan = arr;
+
+            //     // alert(JSON.stringify(data_laporan));
+            //     viewdetailkelas();
+            // });
             
         }
         else if(jenislaporan == "mahasiswa"){
@@ -376,22 +484,32 @@
                     tahun_ajaran : $("#ddtahun_ajaran").val()
                 },
                 function(result) {
-                    alert(result);
+                    // alert(result);
                     var arr = JSON.parse(result);
                     data_laporan = arr;
                     viewmahasiswa();
                 });
             });
-
+            $.post(baseurl + "ambil_praktikum/getmahasiswaambil", {
+                id : $('#ddsubject').val(),
+                semester: $("#ddsemester").val(),
+                tahun_ajaran : $("#ddtahun_ajaran").val()
+            },
+            function(result) {
+                // alert(result);
+                var arr = JSON.parse(result);
+                data_laporan = arr;
+                viewmahasiswa();
+            });
         }
         else if(jenislaporan == "mahasiswa_tertolak"){
             viewmahasiswatertolak();
             $('#ddkelas_prak').css('display', 'none');
             $('#ddsubject').css('display', 'block');
 
-            alert("kode_mk : " + $('#ddsubject').val());
-            alert("semester" + $('#ddsemester').val());
-            alert("tahun_ajaran : " + $('#ddtahun_ajaran').val());
+            // alert("kode_mk : " + $('#ddsubject').val());
+            // alert("semester" + $('#ddsemester').val());
+            // alert("tahun_ajaran : " + $('#ddtahun_ajaran').val());
             $('#ddsubject').on("change paste keyup select", function() {
                 $.post(baseurl + "ambil_praktikum/getmahasiswatertolak", {
                     id : $('#ddsubject').val(),
@@ -399,7 +517,7 @@
                     tahun_ajaran : $("#ddtahun_ajaran").val(),
                 },
                 function(result) {
-                    alert(result);
+                    // alert(result);
                     var arr = JSON.parse(result);
                     data_laporan = arr;
                     viewmahasiswatertolak();
@@ -428,7 +546,7 @@
                     tahun_ajaran : $("#ddtahun_ajaran").val()
                 },
                 function(result) {
-                    alert(result);
+                    // alert(result);
                     var arr = JSON.parse(result);
                     data_laporan = arr;
                     viewmahasiswatertolak();
@@ -439,7 +557,7 @@
         else if(jenislaporan == "nilai_kelas"){
             viewnilaikelas();
             $('#ddkelas_prak').css('display', 'block');
-            if(jenislogin == "mahasiswa"){
+            if(usertype == "mahasiswa"){
                 $('#ddmahasiswa').select2();
                 // $('#ddkelas_prak').css('display', 'block');
                 $('#ddkelas_prak').on("change paste keyup select", function() {
@@ -479,7 +597,7 @@
                 },
                 function(result) {
 
-                    alert(result);
+                    // alert(result);
                     var arr = JSON.parse(result);
 
                     data_laporan = arr;
@@ -496,7 +614,7 @@
                     },
                     function(result) {
 
-                        alert(result);
+                        // alert(result);
                         console.log(result);
                         var arr = JSON.parse(result);
 
@@ -506,8 +624,40 @@
                     });
                 });
             }
-            
-            
+        }
+        else if(jenislaporan == "transfer_nilai"){
+            viewtransfernilai();
+            $('#ddkelas_prak').css('display', 'none');
+            $('#ddsubject').css('display', 'none');
+
+            $("#ddsemester").change(function(){
+                // alert("aa" + this.value);
+                $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
+                    semester: $("#ddsemester").val(),
+                    tahun_ajaran : $("#ddtahun_ajaran").val()
+                },
+                function(result) {
+                    var arr = JSON.parse(result);
+
+                    data_laporan = arr;
+
+                    viewtransfernilai();
+                });
+            });
+
+            $("#ddtahun_ajaran").change(function(){
+                $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
+                    semester: $("#ddsemester").val(),
+                    tahun_ajaran : $("#ddtahun_ajaran").val()
+                },
+                function(result) {
+                    var arr = JSON.parse(result);
+
+                    data_laporan = arr;
+
+                    viewtransfernilai();
+                });
+            });
         }
 
     });
@@ -613,7 +763,7 @@
             kal += '</table>';
         }
 
-        alert(kal);
+        // alert(kal);
         
         $("#laporan_detail_kelas").html(kal);        
     }
@@ -759,7 +909,7 @@
         for(var i = 0; i < data_laporan.length; i++){
             hasil = (data_laporan[i]['sum_rata_rata']/data_laporan[i]['jumlah_pertemuan']);
             if(hasil > 56){
-                alert("HASIL AKHIR : " + data_laporan[i]['sum_rata_rata'] + " / " + data_laporan[i]['jumlah_pertemuan']);
+                // alert("HASIL AKHIR : " + data_laporan[i]['sum_rata_rata'] + " / " + data_laporan[i]['jumlah_pertemuan']);
                 kal += '<tr>';
                     kal += '<td>' + data_laporan[i]['NRP'] + ' - ' + data_laporan[i]['nama_mahasiswa'] +'</td>';
                     kal += '<td>' + hasil + '</td>';
@@ -781,6 +931,54 @@
                     kal += '<td>' + hasil + '</td>';
                 kal += '</tr>';
             }
+        }
+
+        initializedatatable(kal);
+    }
+
+    function viewtransfernilai(){
+        var kal = '';
+        var hasil = 0;
+        for(var i = 0; i < data_laporan.length; i++){
+            hasil = (data_laporan[i]['sum_rata_rata']/data_laporan[i]['jumlah_pertemuan']);
+            kal += '<tr>';
+                kal += '<td><a onclick=detailtransfernilai(' + data_laporan[i]['id_kelas_praktikum'] + ',' + data_laporan[i]['NRP'] + ') class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a></td>';
+                kal += '<td>' + data_laporan[i]['NRP'] + ' - ' + data_laporan[i]['nama_mahasiswa'] +'</td>';
+                kal += '<td>' + data_laporan[i]['kode_mk'] + ' - ' + data_laporan[i]['nama_subject'] +'</td>';
+                kal += '<td>' + hasil + '</td>';
+            kal += '</tr>';
+        }
+
+        initializedatatable(kal);
+    }
+
+    function detailtransfernilai($idkelasprak, $nrp){
+        alert("func detailtransfernilai : " + $idkelasprak + " " + $nrp);
+
+        $.post(baseurl + "mahasiswa_nilai/getdetailtransfernilai", {
+            id_kelas_prak: $idkelasprak,
+            nrp : $nrp
+        },
+        function(result) {
+            var arr = JSON.parse(result);
+
+            data_laporan = arr;
+
+            viewdetailtransfernilai();
+        });
+    }
+
+    function viewdetailtransfernilai(){
+        var kal = '';
+        var hasil = 0;
+        for(var i = 0; i < data_laporan.length; i++){
+            hasil = (data_laporan[i]['sum_rata_rata']/data_laporan[i]['jumlah_pertemuan']);
+            kal += '<tr>';
+                kal += '<td><a onclick=detailtransfernilai(' + data_laporan[i]['id_kelas_praktikum'] + ',' + data_laporan[i]['NRP'] + ') class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a></td>';
+                kal += '<td>' + data_laporan[i]['NRP'] + ' - ' + data_laporan[i]['nama_mahasiswa'] +'</td>';
+                kal += '<td>' + data_laporan[i]['kode_mk'] + ' - ' + data_laporan[i]['nama_subject'] +'</td>';
+                kal += '<td>' + hasil + '</td>';
+            kal += '</tr>';
         }
 
         initializedatatable(kal);

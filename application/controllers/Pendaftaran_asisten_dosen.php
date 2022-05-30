@@ -6,7 +6,7 @@ class pendaftaran_asisten_dosen extends CI_Controller {
 	{
 		parent::__construct();
         if(!$this->session->userdata('logged_in')) redirect('login');
-	    if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
+	    if($this->session->userdata('user_type') != 'admin' && $this->session->userdata('user_type') != 'kepala_lab') redirect('dashboard');
 	}
 	
 	public function index()

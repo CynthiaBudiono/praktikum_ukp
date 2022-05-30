@@ -378,12 +378,13 @@ class ambil_praktikum extends CI_Controller {
         $this->load->model('informasi_umum_model');
 
         // $this->input->post('id_subject');
+        // var_dump($this->input->post('id'));exit;
         if($this->input->post('id') != null || $this->input->post('id') != 0){
             $ambil_praktikum = $this->ambil_praktikum_model->getmahasiswaambil($this->input->post('id'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
         }
-        else{
-            $ambil_praktikum = $this->ambil_praktikum_model->getmahasiswaambil(0, $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
-        }
+        // else{
+        //     $ambil_praktikum = $this->ambil_praktikum_model->getmahasiswaambil(0, $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+        // }
         
         echo json_encode($ambil_praktikum);
     }
@@ -417,6 +418,9 @@ class ambil_praktikum extends CI_Controller {
         }
         else{ //MAHASISWA / DOSEN
             $data["bukapendaftaran"] = $this->pendaftaran_praktikum_model->cekbukapendaftaran();
+            $data["bukapendaftaran"] = "buka";
+            // var_dump("MASUKKKKKK");
+            // var_dump($data['bukapendaftaran']); exit;
         }
 
         $data['title'] = "Add Ambil Praktikum";
@@ -490,6 +494,7 @@ class ambil_praktikum extends CI_Controller {
 
         $this->load->model('ambil_praktikum_model');
         $this->load->model('pendaftaran_praktikum_model');
+        $this->load->model('informasi_umum_model');
 
         // var_dump($this->input->post('data')); exit;
         // $this->load->library('form_validation');
@@ -506,7 +511,7 @@ class ambil_praktikum extends CI_Controller {
                 $getidwhere = $this->ambil_praktikum_model->getidwhere($data_jadwal[$i]['NRP'], $data_jadwal[$i]['kode_mk'], $data_jadwal[$i]['tipe'], $this->informasi_umum_model->getsemester(),$this->informasi_umum_model->gettahunajaran());
     
                 if($getidwhere != 0){
-                    $ppactive = $this->pendaftaran_praktikum_model->cekbukapendaftaran();
+                    $ppactive = $this->pendaftaran_praktikum_model->getbukapendaftaran();
     
                     if($ppactive != 0){
                         $ppke = $ppactive[0]['PP'];
@@ -541,13 +546,13 @@ class ambil_praktikum extends CI_Controller {
             $this->user_history_model->add($logs_insert);
     
             // redirect('ambil_praktikum/adds');
-            $this->session->set_flashdata('msg', "Sukses Menambahkan Data");
-            redirect($_SERVER['HTTP_REFERER']);
+            // $this->session->set_flashdata('msg', "Sukses Menambahkan Data");
+            // redirect($_SERVER['HTTP_REFERER']);
             echo "success";
         }
         else{
-            $this->session->set_flashdata('msg', "Tidak ada data yang dipilih");
-            redirect($_SERVER['HTTP_REFERER']);
+            // $this->session->set_flashdata('msg', "Tidak ada data yang dipilih");
+            // redirect($_SERVER['HTTP_REFERER']);
             echo "Tidak ada data yang dipilih";
         }
         

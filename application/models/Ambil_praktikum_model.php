@@ -197,6 +197,8 @@ class Ambil_praktikum_model extends CI_Model {
 		$this->db->where('ambil_praktikum.kode_mk', $kode_mk);
 		$this->db->where('ambil_praktikum.tipe', $tipe);
 
+		$this->db->order_by('mahasiswa.ipk', 'DESC');
+
 		if($semester != null && $tahun_ajaran != null){
 			$this->db->where('ambil_praktikum.semester', $semester);
         	$this->db->where('ambil_praktikum.tahun_ajaran', $tahun_ajaran);
@@ -218,11 +220,12 @@ class Ambil_praktikum_model extends CI_Model {
 		$this->db->join('mahasiswa', 'mahasiswa.NRP = ambil_praktikum.NRP');
 		$this->db->join('subject', 'subject.kode_mk = ambil_praktikum.kode_mk');
 		$this->db->join('kelas_praktikum', 'kelas_praktikum.id = ambil_praktikum.terpilih');
-		$this->db->join('mahasiswa_nilai', 'mahasiswa_nilai.id_kelas_praktikum = kelas_praktikum.id and mahasiswa_nilai.NRP = ambil_praktikum.NRP');
+		
 		$this->db->join('laboratorium', 'laboratorium.kode_lab = kelas_praktikum.kode_lab');
 
 		if($pertemuan != null){
 			$this->db->select('mahasiswa_nilai.*');
+			$this->db->join('mahasiswa_nilai', 'mahasiswa_nilai.id_kelas_praktikum = kelas_praktikum.id and mahasiswa_nilai.NRP = ambil_praktikum.NRP');
 			$this->db->where('mahasiswa_nilai.id_kelas_praktikum', $id_kelas_prak);
 			$this->db->where('mahasiswa_nilai.pertemuan', $pertemuan);
 		}
@@ -337,10 +340,10 @@ class Ambil_praktikum_model extends CI_Model {
 		$this->db->join('kelas_praktikum as kp4', 'kp4.id = ambil_praktikum.pil4', 'left');
 
 		$this->db->join('kelas_praktikum as terpilihdata', 'terpilihdata.id = ambil_praktikum.terpilih', 'left');
-
-		if($kode_mk != 0){
+		// return $kode_mk;
+		// if($kode_mk != 0){
 			$this->db->where('ambil_praktikum.kode_mk', $kode_mk);
-		}
+		// }
 
 		$this->db->where('ambil_praktikum.pil1 is not null');
 

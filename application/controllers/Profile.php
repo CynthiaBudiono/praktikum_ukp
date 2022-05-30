@@ -12,11 +12,31 @@ class Profile extends CI_Controller {
 
 	public function index()
 	{
-        $model = $this->session->userdata('from_table') . "_model";
+		// var_dump($this->session->userdata('user_type')); exit;
+		if($this->session->userdata('user_type') == 'admin' || $this->session->userdata('user_type') == 'dosen' || $this->session->userdata('user_type') == 'mahasiswa'){
+			$model = $this->session->userdata('from_table') . "_model";
 
-		$this->load->model($this->session->userdata('from_table') . '_model');
+			$this->load->model($this->session->userdata('from_table') . '_model');
 
-		$data['profile'] = $this->$model->getprofile($this->session->userdata('user_id'));
+			$data['profile'] = $this->$model->getprofile($this->session->userdata('user_id'));
+
+			// var_dump($data['profile']); exit;
+		}
+		else if($this->session->userdata('user_type') == 'asisten_dosen' || $this->session->userdata('user_type') == 'asisten_tetap'){
+			$this->load->model('asisten_model');
+
+			$data['profile'] = $this->asisten_model->getprofile($this->session->userdata('user_id'));
+
+		}
+		else if($this->session->userdata('user_type') == 'kepala_lab'){
+
+			$this->load->model('user_model');
+
+			$data['profile'] = $this->user_model->getprofilekalab($this->session->userdata('user_id'));
+
+			// var_dump($data['profile']); exit;
+		}
+        
 
 		$data['title'] = "Profile";
 

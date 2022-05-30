@@ -34,8 +34,8 @@
     }
     #radioadmin:checked:checked ~ .radioadmin,
     #radiokelab:checked:checked ~ .radiokelab{
-        border-color: #82b19b;
-        background: #82b19b;
+        border-color: #1d81be;
+        background: #1d81be;
     }
     #radioadmin:checked:checked ~ .radioadmin .dot,
     #radiokelab:checked:checked ~ .radiokelab .dot{

@@ -22,6 +22,8 @@ class Mahasiswa_matakuliah_model extends CI_Model {
 
 	public function viewbylogin($nrp, $semester, $tahun_ajaran){
 
+		$this->db->select('mahasiswa_matakuliah.*, subject.nama as nama_subject');
+		$this->db->join('subject', 'subject.kode_mk = mahasiswa_matakuliah.kode_mk');
 		$this->db->join('jadwal_perkuliahan', 'jadwal_perkuliahan.id = mahasiswa_matakuliah.id_jadwal_perkuliahan');
 
 		$this->db->where('mahasiswa_matakuliah.NRP', $nrp);

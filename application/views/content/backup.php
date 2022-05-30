@@ -27,9 +27,9 @@
           <div class="clearfix"></div>
         </div>
         <div>
-          <!-- <form action="<?= (base_url('mahasiswa/readfile')); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left"> -->
+          <form action="<?= (base_url('backup/dobackup')); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
             <button type="submit" class="btn btn-sm bg-green">Back UP!</button>
-          <!-- </form> -->
+          </form>
         </div>
         <div class="x_content">
           <div class="row">

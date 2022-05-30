@@ -1,6 +1,6 @@
 <style>
     .fa-files-o{
-        color: #82b19b;
+        color: #1d81be;
     }
 </style>
 <!-- page content -->
@@ -37,7 +37,7 @@
 
                             <ul class="list-unstyled user_data">
                                 <?php if($this->session->userdata('from_table') == "user"){ ?>
-                                    <li><i class="fa fa-male user-profile-icon"></i>&nbsp;&nbsp;&nbsp;<?= (isset($profile[0]['nama_user_group'])) ? $profile[0]['nama_user_group'] : '-' ?></li>
+                                    <li><i class="fa fa-male user-profile-icon"></i>&nbsp;&nbsp;&nbsp;<?php if((isset($profile[0]['level']))){ if($profile[0]['level'] == 1) echo "admin"; else echo "kepala laboratorium";} ?></li>
                                     <li><i class="fa fa-envelope user-profile-icon"></i>&nbsp; <?= (isset($profile[0]['email'])) ? $profile[0]['email'] : '-' ?></li>
                                     <li><i class="fa fa-flask user-profile-icon"></i>&nbsp;&nbsp; <?= (isset($profile[0]['nama_laboratorium'])) ? $profile[0]['nama_laboratorium'] : '-' ?></li>
                                     <li><i class="fa fa-sign-in user-profile-icon"></i>&nbsp;&nbsp; <?= (isset($profile[0]['last_login'])) ? $profile[0]['last_login'] : '-' ?></li>
@@ -47,7 +47,20 @@
                                     <li><i class="fa fa-flag user-profile-icon"></i>&nbsp;&nbsp; <?= (isset($profile[0]['ips'])) ? $profile[0]['ips'] : '-' ?></li>
                                     <li><i class="fa fa-flag-o user-profile-icon"></i>&nbsp;&nbsp; <?= (isset($profile[0]['ipk'])) ? $profile[0]['ipk'] : '-' ?></li>
                                     <li><i class="fa fa-sign-in user-profile-icon"></i>&nbsp;&nbsp; <?= (isset($profile[0]['last_login'])) ? $profile[0]['last_login'] : '-' ?></li>
+                                <?php } elseif($this->session->userdata('from_table') == "asisten"){ ?>
+                                    <li><i class="fa fa-id-badge user-profile-icon"></i>&nbsp; asisten <?= (isset($profile[0]['tipe'])) ? $profile[0]['tipe'] : '-' ?></li>
+                                    <li><i class="fa fa-male user-profile-icon"></i>&nbsp;&nbsp;&nbsp;<?= (isset($profile[0]['NRP'])) ? $profile[0]['NRP'] : '-' ?> ~ <?= (isset($profile[0]['nama'])) ? $profile[0]['nama'] : '-' ?></li>
+                                    <li><i class="fa fa-envelope user-profile-icon"></i>&nbsp; <?= (isset($profile[0]['email'])) ? $profile[0]['email'] : '-' ?></li>
+                                    <li><i class="fa fa-flag user-profile-icon"></i>&nbsp;&nbsp; <?= (isset($profile[0]['ips'])) ? $profile[0]['ips'] : '-' ?></li>
+                                    <li><i class="fa fa-flag-o user-profile-icon"></i>&nbsp;&nbsp; <?= (isset($profile[0]['ipk'])) ? $profile[0]['ipk'] : '-' ?></li>
+                                    <li><i class="fa fa-sign-in user-profile-icon"></i>&nbsp;&nbsp; <?= (isset($profile[0]['last_login'])) ? $profile[0]['last_login'] : '-' ?></li>
+                                <?php } elseif($this->session->userdata('from_table') == "dosen"){ ?>
+                                    <li><i class="fa fa-id-badge user-profile-icon"></i>&nbsp; Dosen</li>
+                                    <li><i class="fa fa-male user-profile-icon"></i>&nbsp;&nbsp;&nbsp;<?= (isset($profile[0]['NIP'])) ? $profile[0]['NIP'] : '-' ?> ~ <?= (isset($profile[0]['nama'])) ? $profile[0]['nama'] : '-' ?></li>
+                                    <li><i class="fa fa-envelope user-profile-icon"></i>&nbsp; <?= (isset($profile[0]['email'])) ? $profile[0]['email'] : '-' ?></li>
+                                    <li><i class="fa fa-sign-in user-profile-icon"></i>&nbsp;&nbsp; <?= (isset($profile[0]['last_login'])) ? $profile[0]['last_login'] : '-' ?></li>
                                 <?php } ?>
+
                             </ul>
 
                             <!-- <a class="btn btn-success" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-edit m-right-xs"></i>change password</a> -->

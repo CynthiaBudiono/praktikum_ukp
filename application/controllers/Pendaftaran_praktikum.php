@@ -6,7 +6,8 @@ class Pendaftaran_praktikum extends CI_Controller {
 	{
 		parent::__construct();
         if(!$this->session->userdata('logged_in')) redirect('login');
-	    if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
+        // var_dump($this->session->userdata('user_type')); exit;
+	    if($this->session->userdata('user_type') != 'admin' && $this->session->userdata('user_type') != 'asisten_tetap') redirect('dashboard');
 	}
 	
 	public function index()

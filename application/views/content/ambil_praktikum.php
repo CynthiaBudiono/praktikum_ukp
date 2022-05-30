@@ -23,7 +23,7 @@
 	height:60px;
 	bottom:40px;
 	right:40px;
-	background-color:#82b19b;
+	background-color:#1d81be;
 	color:#FFF;
 	border-radius:50px;
     border-color: #999;
@@ -151,9 +151,9 @@ function milih(idmatkul, idmhs, idambilprak, idkelasprak, pil){
     // alert("namakolomterpilih : " + namakolomterpilih);
 
     var textkolomterisi = ($("#kolomterisi" + idkelasprak).text()).split('/');
-    // alert(textkolomterisi[0] + " < " + textkolomterisi[1]);
+    // alert("terisi : " + textkolomterisi[0] + " < " + textkolomterisi[1]);
 
-    if(textkolomterisi[0] < textkolomterisi[1]){ //kuota tak penuh
+    if(parseInt(textkolomterisi[0]) < parseInt(textkolomterisi[1])){ //kuota tak penuh
 
         var idkelasprakterpilih = $("#" + idkolomterpilih).val();
 
@@ -245,6 +245,10 @@ function simpan(){
         // alert(result);
         if(result == "sukses"){
             view();
+            alert(result);
+        }
+        else{
+            alert("data tidak berhasil disimpan");
         }
     });
 }
@@ -297,9 +301,10 @@ function cetak(kodemk = null) {
                     kal = kal + "<td>"; 
                     kal = kal + "<table class='table table-striped'>"; 
                         kal = kal + "<tr>"; 
-                            kal = kal + "<th>NRP</th>"; 
-                            kal = kal + "<th>Nama</th>"; 
+                            // kal = kal + "<th>NRP</th>"; 
+                            kal = kal + "<th>Mahasiswa</th>"; 
                             kal = kal + "<th>Angkatan</th>"; 
+                            kal = kal + "<th>IPK</th>"; 
                             for(var k = 0; k < arrData[i]['kelas_praktikum'].length; k++) {
                                 kal = kal + "<th style='text-align: center'>" + arrData[i]['kelas_praktikum'][k]['hari'] + ", " + arrData[i]['kelas_praktikum'][k]['jam'] + "</th>"; 
                             }
@@ -307,20 +312,36 @@ function cetak(kodemk = null) {
                         kal = kal + "</tr>"; 
                         for(var j = 0; j < arrData[i]['data_mahasiswa'].length; j++) {
                             kal = kal + "<tr>"; 
-                                kal = kal + "<td>" + arrData[i]['data_mahasiswa'][j]['NRP'] + "</td>"; 
-                                kal = kal + "<td>" + arrData[i]['data_mahasiswa'][j]['nama_mahasiswa'] + "</td>"; 
+                                kal = kal + "<td>"
+                                    kal = kal + "<p style='margin-bottom:0px;'>" + arrData[i]['data_mahasiswa'][j]['NRP'] + "</p>";
+                                    kal = kal + "<p style='margin-bottom:0px;'>" + arrData[i]['data_mahasiswa'][j]['nama_mahasiswa'] + "</p>";
+                                kal = kal + "</td>"; 
                                 kal = kal + "<td>" + arrData[i]['data_mahasiswa'][j]['angkatan'] + "</td>"; 
+                                kal = kal + "<td>" + arrData[i]['data_mahasiswa'][j]['ipk'] + "</td>"; 
                                 for(var k = 0; k < arrData[i]['kelas_praktikum'].length; k++) {
                                     if(arrData[i]['kelas_praktikum'][k]['id'] == arrData[i]['data_mahasiswa'][j]['pil1'] || 
                                     arrData[i]['kelas_praktikum'][k]['id'] == arrData[i]['data_mahasiswa'][j]['pil2'] ||
                                     arrData[i]['kelas_praktikum'][k]['id'] == arrData[i]['data_mahasiswa'][j]['pil3'] ||
                                     arrData[i]['kelas_praktikum'][k]['id'] == arrData[i]['data_mahasiswa'][j]['pil4'])
                                     { 
+                                        var cekpil = "v";
+                                        if(arrData[i]['kelas_praktikum'][k]['id'] == arrData[i]['data_mahasiswa'][j]['pil1']){
+                                            cekpil = "pil1";
+                                        }
+                                        else if(arrData[i]['kelas_praktikum'][k]['id'] == arrData[i]['data_mahasiswa'][j]['pil2']){
+                                            cekpil = "pil2";
+                                        }
+                                        else if(arrData[i]['kelas_praktikum'][k]['id'] == arrData[i]['data_mahasiswa'][j]['pil3']){
+                                            cekpil = "pil3";
+                                        }
+                                        else if(arrData[i]['kelas_praktikum'][k]['id'] == arrData[i]['data_mahasiswa'][j]['pil4']){
+                                            cekpil = "pil4";
+                                        }
                                         if(arrData[i]['data_mahasiswa'][j]['jadwalnabrak'+(k+1)] == 'yes'){
-                                            kal = kal + "<td class='bg-red' style='text-align: center' onclick=milih(" + i + "," + j + ",'"+ arrData[i]['data_mahasiswa'][j]['id'] + "',"+ arrData[i]['kelas_praktikum'][k]['id'] +",'pil"+ (k+1) +"')>v</td>";
+                                            kal = kal + "<td class='bg-red' style='text-align: center' onclick=milih(" + i + "," + j + ",'"+ arrData[i]['data_mahasiswa'][j]['id'] + "',"+ arrData[i]['kelas_praktikum'][k]['id'] +",'pil"+ (k+1) +"')>" + cekpil + "</td>";
                                         }
                                         else{
-                                            kal = kal + "<td class='bg-green' style='text-align: center' onclick=milih(" + i + "," + j + ",'"+ arrData[i]['data_mahasiswa'][j]['id'] + "',"+ arrData[i]['kelas_praktikum'][k]['id'] +",'pil"+ (k+1) +"')>v</td>";  
+                                            kal = kal + "<td class='bg-green' style='text-align: center' onclick=milih(" + i + "," + j + ",'"+ arrData[i]['data_mahasiswa'][j]['id'] + "',"+ arrData[i]['kelas_praktikum'][k]['id'] +",'pil"+ (k+1) +"')>" + cekpil + "</td>";  
                                         }
                                         // kal = kal + "<td class='bg-green' style='text-align: center' onclick=milih('"+ arrData[i]['data_mahasiswa'][j]['NRP'] + "',"+ arrData[i]['kelas_praktikum'][k]['id'] +",'pil"+ l +"')>v</td>"; 
                                     }
@@ -417,9 +438,9 @@ function cetak(kodemk = null) {
                         kal = kal + "<td>"; 
                         kal = kal + "<table class='table table-striped'>"; 
                             kal = kal + "<tr>"; 
-                                kal = kal + "<th>NRP</th>"; 
-                                kal = kal + "<th>Nama</th>"; 
+                                kal = kal + "<th>Mahasiswa</th>"; 
                                 kal = kal + "<th>Angkatan</th>"; 
+                                kal = kal + "<th>IPK</th>"; 
                                 for(var k = 0; k < arrData[i]['kelas_responsi'].length; k++) {
                                     kal = kal + "<th style='text-align: center'>" + arrData[i]['kelas_responsi'][k]['hari'] + ", " + arrData[i]['kelas_responsi'][k]['jam'] + "</th>"; 
                                 }
@@ -427,9 +448,12 @@ function cetak(kodemk = null) {
                             kal = kal + "</tr>"; 
                             for(var j = 0; j < arrData[i]['data_mahasiswa_responsi'].length; j++) {
                                 kal = kal + "<tr>"; 
-                                    kal = kal + "<td>" + arrData[i]['data_mahasiswa_responsi'][j]['NRP'] + "</td>"; 
-                                    kal = kal + "<td>" + arrData[i]['data_mahasiswa_responsi'][j]['nama_mahasiswa'] + "</td>"; 
+                                    kal = kal + "<td>"
+                                        kal = kal + "<p style='margin-bottom:0px;'>" + arrData[i]['data_mahasiswa_responsi'][j]['NRP'] + "</p>";
+                                        kal = kal + "<p style='margin-bottom:0px;'>" + arrData[i]['data_mahasiswa_responsi'][j]['nama_mahasiswa'] + "</p>";
+                                    kal = kal + "</td>"; 
                                     kal = kal + "<td>" + arrData[i]['data_mahasiswa_responsi'][j]['angkatan'] + "</td>"; 
+                                    kal = kal + "<td>" + arrData[i]['data_mahasiswa_responsi'][j]['ipk'] + "</td>"; 
                                     for(var k = 0; k < arrData[i]['kelas_responsi'].length; k++) {
                                         if(arrData[i]['kelas_responsi'][k]['id'] == arrData[i]['data_mahasiswa_responsi'][j]['pil1'] || 
                                         arrData[i]['kelas_responsi'][k]['id'] == arrData[i]['data_mahasiswa_responsi'][j]['pil2'] ||

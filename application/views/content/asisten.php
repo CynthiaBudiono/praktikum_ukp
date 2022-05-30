@@ -45,7 +45,7 @@
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                         </button>
                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        <strong>Warning.</strong> <span id="error_msg'">Hang on, field was not filled. Please try again</span>
+                        <strong>Warning.</strong> <span id="error_msg'">Data ada yang kosong!</span>
                     </div>
                     <form class="form-horizontal form-label-left">
                         
@@ -57,9 +57,25 @@
                             <label class="control-label col-md-3 col-sm-3 ">Tipe</label>
                             <div class="col-md-9 col-sm-9 ">
                                 <select class="form-control" id="tipe" onchange="getdetail()">
-                                    <option value="">--Choose option--</option>
+                                    <option value="">--Pilih Tipe Asisten--</option>
                                     <option value="dosen">Asisten Dosen</option>
                                     <option value="tetap">Asisten Tetap</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 col-sm-3 ">Matakuliah</label>
+                            <div class="col-md-9 col-sm-9 ">
+                                <select class="form-control select2" name ="ddsubject" id="ddsubject" tabindex="-1" style="width:100%;">
+                                    <option value="" disabled selected> -- Pilih Matakuliah Penanggung Jawab -- </option>
+                                    <?php if(isset($ddsubject)) : ?>
+                                        <?php if(is_array($ddsubject)) : ?>
+                                            <?php foreach($ddsubject as $key) : ?>
+                                                <option value="<?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?>"> <?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?> <?= (isset($key['nama'])) ? $key['nama'] : '' ?></option>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
                                 </select>
                             </div>
                         </div>
@@ -158,9 +174,22 @@
     var baru = 0;
     // view();
     $(document).ready(function() {	
-
+        $('#ddsubject').select2();
         $('#mahasiswa').select2();
         view();
+
+        $('#ddsubject').prop('disabled', true);
+        
+        $('#tipe').on("change", function() {
+            // alert($("#tipe").val());
+            // alert('mahasiswa val : ' + $('#mahasiswa').val());
+            if($('#tipe').val() == 'dosen'){
+                $('#ddsubject').prop('disabled', true);
+            }
+            else if($('#tipe').val() == 'tetap'){
+                $('#ddsubject').prop('disabled', false);
+            }
+        });
 
         $.post(baseurl + "calon_asisten_dosen/getdaftarasdos", {},
         function(result) {
@@ -211,17 +240,19 @@
             $.post(baseurl + "asisten/" + $('#mode').val(), {
                 id: $('#id').val(),
                 nrp: $('#mahasiswa').val(),
+                kode_mk: $('#ddsubject').val(),
                 tipe: $('#tipe').val(),
                 tanggal_diterima: $('#tanggal_diterima').val(),
                 status: $('#status').is(':checked'),
             },
             function(result) {
-                alert("resulttt: " + result);
+                alert(result);
                 if(result == 'success'){
                     view();
                     
                     $('#id').val("");
                     $('#mahasiswa').val("").trigger('change');
+                    $('#ddsubject').val("").trigger('change');
                     $('#tipe').val("");
                     $('#tanggal_diterima').val("");
                     $("#status").prop("checked", false);
@@ -231,6 +262,7 @@
                         $('#action_title').html("Add");
                         $('#mode').val('add');
                     }
+                    $("#detail_calon").html("");
                 }
                 else{
                     // alert(result);
@@ -278,6 +310,7 @@
             $('#id').val(arr['detil'][0]['id']);
 
             $('#mahasiswa').val(arr['detil'][0]['NRP']).trigger('change');
+            $('#ddsubject').val(arr['detil'][0]['kode_mk']).trigger('change');
             $('#tipe').val(arr['detil'][0]['tipe']);
             $('#tanggal_diterima').val(arr['detil'][0]['tanggal_diterima']);
 

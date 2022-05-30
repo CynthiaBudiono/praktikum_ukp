@@ -37,4 +37,25 @@ class Backup extends CI_Controller {
 
 		$this->load->view('general/footer', $data);
 	}
+
+	public function dobackup(){
+		// var_dump("masuk"); exit;
+
+		$namefile = 'db-praktikum_ukp-backup-' . date("Y-m-d-H-i-s") . '.sql';
+		exec('mysqldump --u root -p praktikum_ukp > '.getenv('HOMEDRIVE')."\Downloads".$namefile. "'");
+
+		 // insert log
+
+		 $logs_insert = array(
+			 "id_user" => $this->session->userdata('user_id'),
+			 "table_name" => 'all',
+			 "action" => 'CREATE',
+			 "keterangan" => "backup data has been created by ".$this->session->userdata('logged_name'),
+			 "created" => date('Y-m-d H:i:s')
+		 );
+		 $this->load->model('user_history_model');
+		 $this->user_history_model->add($logs_insert);
+
+		 redirect('backup');
+	}
 }

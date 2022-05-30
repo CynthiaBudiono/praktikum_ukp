@@ -11,7 +11,7 @@ class Calon_asisten_dosen extends CI_Controller {
 
 	public function index()
 	{
-        if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
+        if($this->session->userdata('user_type') != 'admin' && $this->session->userdata('user_type') != 'kepala_lab') redirect('dashboard');
 
         $this->load->model('informasi_umum_model');
 		$this->load->model('calon_asisten_dosen_model');
@@ -65,6 +65,7 @@ class Calon_asisten_dosen extends CI_Controller {
         }
         
         // harusnya ada flash data blng kalo dia blom daftar jdi gak bisa liat menu calon asisten dosen sebelum redirect
+        $this->session->set_flashdata('msg', "Silahkan mendaftar lowongan asisten");
         if ($res == 0) redirect('dashboard');
 
         $data['detil'] = $res;
@@ -281,9 +282,9 @@ class Calon_asisten_dosen extends CI_Controller {
                 if ($this->form_validation->run() == FALSE) {
                     $detil[0] = $data;
                     $data['error_msg'] = validation_errors();
-                    $this->session->set_flashdata('msg', validation_errors());
-                    // echo $data['error_msg'];
-                    redirect($_SERVER['HTTP_REFERER']);
+                    // $this->session->set_flashdata('msg', validation_errors());
+                    echo $data['error_msg'];
+                    // redirect($_SERVER['HTTP_REFERER']);
                 }
                 else {
                     $this->load->helper(array('form', 'url'));

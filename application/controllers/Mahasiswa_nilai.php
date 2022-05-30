@@ -21,12 +21,15 @@ class Mahasiswa_nilai extends CI_Controller {
 
         $data['kelas_praktikum_now'] = $this->kelas_praktikum_model->getallopen($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
-        for($i = 0; $i < count($data['kelas_praktikum_now']); $i++ ){
-            // var_dump($data['kelas_praktikum_now'][$i]['id']);
-            $data['kelas_praktikum_now'][$i]['detail_kelas'] = $this->ambil_praktikum_model->getdetailkelasbyidkelasprak($data['kelas_praktikum_now'][$i]['id']);
-            $data['kelas_praktikum_now'][$i]['all_pertemuan'] = $this->mahasiswa_nilai_model->getallpertemuanbyidkelasprak($data['kelas_praktikum_now'][$i]['id']);
-            $data['kelas_praktikum_now'][$i]['detail_nilai'] = $this->mahasiswa_nilai_model->getlastpertemuanbyidkelasprak($data['kelas_praktikum_now'][$i]['id']);
+        if($data['kelas_praktikum_now'] != 0){
+            for($i = 0; $i < count($data['kelas_praktikum_now']); $i++ ){
+                // var_dump($data['kelas_praktikum_now'][$i]['id']);
+                $data['kelas_praktikum_now'][$i]['detail_kelas'] = $this->ambil_praktikum_model->getdetailkelasbyidkelasprak($data['kelas_praktikum_now'][$i]['id']);
+                $data['kelas_praktikum_now'][$i]['all_pertemuan'] = $this->mahasiswa_nilai_model->getallpertemuanbyidkelasprak($data['kelas_praktikum_now'][$i]['id']);
+                $data['kelas_praktikum_now'][$i]['detail_nilai'] = $this->mahasiswa_nilai_model->getlastpertemuanbyidkelasprak($data['kelas_praktikum_now'][$i]['id']);
+            }
         }
+       
 
         // exit;
         // var_dump($data['kelas_praktikum_now'][7]['all_pertemuan']); exit;
@@ -194,9 +197,11 @@ class Mahasiswa_nilai extends CI_Controller {
         $this->load->model('ambil_praktikum_model');
 
 		// $res = $this->mahasiswa_nilai_model->get($id);
-
+        // var_dump($id);
 
         $data['detail_kelas'] = $this->ambil_praktikum_model->getdetailkelasbyidkelasprak($id);
+
+        // var_dump($data['detail_kelas']); exit;
 
         $data['primary'] = $id;
 
@@ -369,7 +374,7 @@ class Mahasiswa_nilai extends CI_Controller {
             "id_user" => $this->session->userdata('user_id'),
             "table_name" => 'mahasiswa_nilai',
             "action" => 'CREATE',
-            "keterangan" => "a new record has been created by ". $this->session->userdata('logged_name') ." : ".$keterangan,
+            "keterangan" => "a new meeting has been created by ". $this->session->userdata('logged_name') ." : ".$keterangan,
             "created" => date('Y-m-d H:i:s')
         );
         $this->load->model('user_history_model');
@@ -410,7 +415,7 @@ class Mahasiswa_nilai extends CI_Controller {
             "id_user" => $this->session->userdata('user_id'),
             "table_name" => 'mahasiswa_nilai',
             "action" => 'UPDATE',
-            "keterangan" => $this->session->userdata('logged_name')." updated record # : ".$data['id']. ": ". $keterangan,
+            "keterangan" => $this->session->userdata('logged_name')." updated record # : 1 pertemuan: ". $keterangan,
             "created" => date('Y-m-d H:i:s')
         );
         $this->load->model('user_history_model');

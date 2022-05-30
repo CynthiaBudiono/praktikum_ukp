@@ -25,9 +25,8 @@
                             <h2>
                                 <?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?> (<?= (isset($key['kelas_paralel'])) ? $key['kelas_paralel'] : '' ?>) <?= (isset($key['hari'])) ? $key['hari'] : '' ?> <?= (isset($key['jam'])) ? $key['jam'] : '' ?> 
                                 <?php if(isset($key['detail_kelas'])){ if($key['detail_kelas'] != 0) echo $key['detail_kelas'][0]['nama_laboratorium']; else echo '';} ?> 
-                                <?= (isset($key['terisi'])) ? $key['terisi'] : '-' ?> Mhs / 
-                                
-                                <?php if(isset($key['detail_kelas'])){ if($key['detail_kelas'] != 0) echo $key['detail_kelas'][0]['quota_max']; else echo '';} ?>
+                                (<?= (isset($key['terisi'])) ? $key['terisi'] : '-' ?> Mhs / 
+                                <?php if(isset($key['detail_kelas'])){ if($key['detail_kelas'] != 0) echo $key['detail_kelas'][0]['quota_max']; else echo '-';} ?>)
                             </h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>

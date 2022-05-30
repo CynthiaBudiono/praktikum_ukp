@@ -164,7 +164,7 @@ class mahasiswa_matakuliah extends CI_Controller {
 	public function viewbylogin()
 	{
 
-		if($this->session->userdata('user_type') != 'mahasiswa') redirect('dashboard');
+		if($this->session->userdata('user_type') != 'mahasiswa' && $this->session->userdata('user_type') != 'asisten_dosen') redirect('dashboard');
 
 		$this->load->model('mahasiswa_matakuliah_model');
 		$this->load->model('informasi_umum_model');

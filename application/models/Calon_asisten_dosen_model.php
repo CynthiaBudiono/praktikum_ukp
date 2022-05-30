@@ -77,20 +77,23 @@ class Calon_asisten_dosen_model extends CI_Model {
 	}
 
 	public function getbelumketerima(){
-		$this->db->select('calon_asisten_dosen.id as id, mahasiswa.NRP as NRP, mahasiswa.nama as nama');
-		$this->db->join('mahasiswa', 'mahasiswa.NRP = calon_asisten_dosen.NRP');
-		// $this->db->join('asisten', 'asisten.NRP = calon_asisten_dosen.NRP');
+		return $this->db->query("select calon_asisten_dosen.id as id, mahasiswa.NRP as NRP, mahasiswa.nama as nama from calon_asisten_dosen JOIN mahasiswa on mahasiswa.NRP = calon_asisten_dosen.NRP where mahasiswa.status = 1 and calon_asisten_dosen.NRP not in (select NRP from asisten)")->result_array();
 
-		// $this->db->where_not_in('calon_asisten_dosen.NRP == asisten.NRP');
-		$query = $this->db->where('mahasiswa.status', 1)->get('calon_asisten_dosen');
 
-		if ($query->num_rows() > 0)
+		// $this->db->select('calon_asisten_dosen.id as id, mahasiswa.NRP as NRP, mahasiswa.nama as nama');
+		// $this->db->join('mahasiswa', 'mahasiswa.NRP = calon_asisten_dosen.NRP');
+		// // $this->db->join('asisten', 'asisten.NRP = calon_asisten_dosen.NRP');
 
-			return $query->result_array();
+		// // $this->db->where_not_in('calon_asisten_dosen.NRP == asisten.NRP');
+		// $query = $this->db->where('mahasiswa.status', 1)->get('calon_asisten_dosen');
 
-		else
+		// if ($query->num_rows() > 0)
 
-			return 0;
+		// 	return $query->result_array();
+
+		// else
+
+		// 	return 0;
 	}
 
 	// public function getactiveperiodnow($idpendaftaran){

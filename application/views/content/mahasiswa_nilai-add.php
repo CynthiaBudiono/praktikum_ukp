@@ -40,7 +40,7 @@
                                     <tr>
                                         <!-- <th>Actions</th> -->
                                         <th>Mahasiswa</th>
-                                        <th>Absen<br><small>M = masuk, I = ijin, A = alpa</small></th>
+                                        <th>Presensi<br><small>M = masuk, I = ijin, A = alpa</small></th>
                                         <th>Nilai Awal</th>
                                         <th>Nilai Materi</th>
                                         <th>Nilai Tugas</th>
@@ -164,16 +164,21 @@
         });
     });
 
+    function pindahpage(){
+        var url = "<?= base_url('mahasiswa_nilai/') ?>";
+        window.location = url;
+    }
+
     function simpan($id, $mode){
-        alert("ID " + $id);
-        alert("MODE " + $mode);
-        alert("Length kelas : " + $("#length_kelas").val());
+        // alert("ID " + $id);
+        // alert("MODE " + $mode);
+        // alert("Length kelas : " + $("#length_kelas").val());
 
         var length = $("#length_kelas").val();
 
         var data_mahasiswa_nilai = [];
 
-        alert(($("#nrp" + "0").html()).split(" - ")[0]);
+        // alert(($("#nrp" + "0").html()).split(" - ")[0]);
         for(var i = 0; i < length; i++){
             var isiarray = {
                 id_mahasiswa_nilai:  $("#idmhsnilai"+ i).val(),
@@ -198,6 +203,9 @@
             },
             function(result) {
                 alert(result);
+                if(result == "sukses"){
+                    pindahpage();
+                }
             });
         }
         if ($mode == 'update'){ //update
@@ -208,8 +216,13 @@
             },
             function(result) {
                 alert(result);
+                if(result == "sukses"){
+                    pindahpage();
+                }
                 // alert("result update : " + result);
             });
         }
     }
+
+    
 </script>

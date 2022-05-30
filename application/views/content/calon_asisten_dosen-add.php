@@ -35,8 +35,8 @@
     }
     #radioPria:checked:checked ~ .radioPria,
     #radioWanita:checked:checked ~ .radioWanita{
-        border-color: #82b19b;
-        background: #82b19b;
+        border-color: #1d81be;
+        background: #1d81be;
     }
     #radioPria:checked:checked ~ .radioPria .dot,
     #radioWanita:checked:checked ~ .radioWanita .dot{
