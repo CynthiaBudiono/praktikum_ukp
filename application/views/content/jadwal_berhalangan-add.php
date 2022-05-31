@@ -3,7 +3,8 @@
     border: 1px solid black !important;
   }
 .bg-blue{
-  background-color: #82b6d9;
+  background-color: #f9a044 !important;
+  /* #82b6d9; */
   border: 1px solid black !important;
 }
 .bg-red{

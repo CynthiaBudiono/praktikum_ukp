@@ -221,7 +221,7 @@
 <script>
     var baseurl = "<?php echo base_url(); ?>";
     var usertype = "<?php echo $this->session->userdata('user_type'); ?>";
-    var bukapendaftaran = "<?php echo $bukapendaftaran; ?>";
+    var bukapendaftaran = "<?php echo $bukapendaftaran; ?>"; //"tutup";
     var userid = "<?php echo $this->session->userdata('user_id'); ?>";
     var data_jadwal = [];
     var baru = 0;
@@ -231,13 +231,14 @@
     $(document).ready(function() {	
         // alert("masukkkkkkkk ready");
         // alert(usertype);
+        alert("buka pendaftaran : " + bukapendaftaran);
 
         $('#subject').select2();
         $('#pilihan1').select2();
         $('#pilihan2').select2();
         $('#pilihan3').select2();
         
-        view("fromdb");
+        
         if(usertype == "admin" || usertype == 'asisten_tetap'){
             // alert("masuk");
             $('#mahasiswa').select2();
@@ -260,8 +261,8 @@
 
                     if (arr != 0){
                         data_jadwal = [];
-                        $('#box-component').css('display', 'none');
-                        $('#btnvalidasi').css('display', 'none');
+                        // $('#box-component').css('display', 'none');
+                        // $('#btnvalidasi').css('display', 'none');
 
                         for(var i=0; i<arr.length; i++){
                             add(arr[i]);
@@ -296,6 +297,18 @@
             });
         }
         else if(usertype == "mahasiswa" || usertype == "asisten_dosen"){
+            // cek apa pendaftaran lagi buka ato tutup
+            // kalo buka blh tambah data dan validasi tapi gk blh edit data yg diambil
+            // cek di ambilprak apa ada data yg terpilih sama data nrp
+            
+            // if(bukapendaftaran == "buka"){
+            //     view("pendaftaranbuka");
+            // }
+            // else{
+            //     view("pendaftarantutup");
+            // }
+            // view("fromdb");
+            // alert("MASUK");
             $.post(baseurl + "ambil_praktikum/getambilprakbynrp", {
                 nrp: userid
             },
@@ -312,7 +325,14 @@
                         add(arr[i]);
                     }
 
-                    view("fromdb");
+                    // view("fromdb");
+                    if(bukapendaftaran == "buka"){
+                        // alert("masukkkk");
+                        view();
+                    }
+                    else{
+                        view("pendaftarantutup");
+                    }
                 }
                                 
             });
@@ -474,7 +494,21 @@
             
             // alert("data_jadwal : " + JSON.stringify(data_jadwal));
 
-            view("fromdb");
+            if(usertype == "admin" || usertype == 'asisten_tetap'){
+                view();
+            }
+            else if(usertype == "mahasiswa" || usertype == "asisten_dosen"){
+                // alert("masuk"); 
+                // view("pendaftaranbuka");
+                if(bukapendaftaran == "buka"){
+                    // alert("masukkkk");
+                    view();
+                }
+                else{
+                    view("pendaftarantutup");
+                }
+            }
+            
         }
         else{ //add manual , belum validasi
             var index = -1;
@@ -573,8 +607,9 @@
             alert(result);
             console.log(result);
             if(result == 'success'){
-                $('#btnvalidasi').css('display', 'none');
-                $('#box-add').css('display', 'none');
+
+                // $('#btnvalidasi').css('display', 'none');
+                // $('#box-add').css('display', 'none');
 
                 view("fromdb");
             }
@@ -646,15 +681,20 @@
         var kal = "";
 
         if($fromdb != null && data_jadwal.length > 0){
-            $('#btnvalidasi').css('display', 'none');
-            $('#box-add').css('display', 'none');
+            if(usertype == "mahasiswa" || usertype == "asisten_dosen"){ //untuk mahasiswa yg sudah validasi pada periode yg telah dibuka
+                $('#btnvalidasi').css('display', 'none');
+                $('#box-add').css('display', 'none');
+            }
+            
         }
         for(var i = 0; i < data_jadwal.length; i++){
             kal += '<tr>';
             kal += '<td>';
                 if($fromdb != null){
-                    kal += '<button disabled type="button" class="btn btn-sm btn-info btn-action"><i class="fa fa-pencil"></i> Edit</button>';
-                    kal += '<button disabled type="button" class="btn btn-sm btn-danger btn-action"><i class="fa fa-trash-o"></i> Delete</button>';
+                    if(usertype == "mahasiswa" || usertype == "asisten_dosen"){
+                        kal += '<button disabled type="button" class="btn btn-sm btn-info btn-action"><i class="fa fa-pencil"></i> Edit</button>';
+                        kal += '<button disabled type="button" class="btn btn-sm btn-danger btn-action"><i class="fa fa-trash-o"></i> Delete</button>';
+                    }
                 }
                 else{
                     kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ i +'")><i class="fa fa-pencil"></i> Edit</button>';

@@ -52,7 +52,8 @@
             <span class="badge bg-green">Bisa</span>
             <span class="badge bg-red">Berhalangan</span>
 
-            <button type="button" onclick="generate()" class="btn bg-green">Generate Mahasiswa</button>
+            <button type="button" onclick="generate()" class="btn btn-sm bg-green">Generate Mahasiswa</button>
+            <button type="button" onclick="pemilihankelas()" class="btn btn-sm bg-green">Pemilihan Kelas</button>
             <a class="btn btn-sm bg-green" href="<?php echo base_url("ambil_praktikum/adds"); ?>">Tambah</a>
         </div>
         <br>
@@ -250,6 +251,29 @@ function simpan(){
         else{
             alert("data tidak berhasil disimpan");
         }
+    });
+}
+
+function pemilihankelas(){
+    $.post(baseurl + "ambil_praktikum/pemilihankelas", {
+        // data_kelas_praktikum: arrPraktikum,
+        // data_ambil_praktikum: arrTerpilih
+        kode_mk:$('#selectmk').val()
+    },
+    function(result) {
+        alert(result);
+        console.log(result);
+        var url = "<?= base_url('ambil_praktikum/') ?>";
+        // alert(url); 
+        window.location = url;
+
+        // if(result == "sukses"){
+        //     view();
+        //     alert(result);
+        // }
+        // else{
+        //     alert("data tidak berhasil disimpan");
+        // }
     });
 }
 

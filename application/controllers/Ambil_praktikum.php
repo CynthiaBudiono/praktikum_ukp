@@ -119,6 +119,147 @@ class ambil_praktikum extends CI_Controller {
         echo json_encode($getsubject);
     }
 
+    public function pemilihankelas(){
+        $this->load->model('ambil_praktikum_model');
+        $this->load->model('informasi_umum_model');
+        $this->load->model('kelas_praktikum_model');
+
+        $kode_mk = $this->input->post('kode_mk');
+
+        //ambil kelas praktikum berdasar kode_mk
+        //di sorting kelas praktikum dari pilihannya mahasiswa di ambil praktikum berdasar ipk dan kuota kelas
+        // selama kuota ada masuk kelas itu sampai kuota memenuhi kelas
+        // kuota max penuh di sort lagi by piihan 2
+        $data_log= [];
+        //KELAS PRAKTIKUM
+        $kelas = $this->kelas_praktikum_model->getbysubject($kode_mk, "praktikum", $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+
+        if($kelas != 0){
+            for($i = 0; $i < count($kelas); $i++){
+                for($k = 0; $k < 4; $k++){
+                    $ambil_praktikum = $this->ambil_praktikum_model->sortbypilnipk($kelas[$i]['id'], "pil".(int)($k+1)); //GET SELAMA TERPILIH = 0 (BELUM TERPILIH)
+                    // var_dump($ambil_praktikum); exit;
+                    if($ambil_praktikum != 0){
+                        $jumygambil = count($ambil_praktikum);
+                        $sisaquotakelas = (int)$kelas[$i]['quota_max'] - (int)$kelas[$i]['terisi'];
+
+                        if($jumygambil <= $sisaquotakelas){ //SELAMA YG AMBIL MENCUKUPI QUOTA
+                            //update smw data ambil prak     
+                            for($j = 0; $j < $jumygambil; $j++){
+                                $dataupdateterpilih = array(
+                                    'id' => $ambil_praktikum[$j]['id'],
+                                    'terpilih' => $kelas[$i]['id']
+                                );
+                                $this->ambil_praktikum_model->update($dataupdateterpilih);
+                            }
+                            //UPDATE QUOTA
+                            $dataupdatequota = array(
+                                'id' => $kelas[$i]['id'],
+                                'terisi' => (int)$kelas[$i]['terisi'] + $jumygambil
+                            );
+                            $this->kelas_praktikum_model->update($dataupdatequota);
+                        }
+                        else { //MELEBIHI QUOTA
+                            //update dta sbyk yg cukup
+
+                            for($j = 0; $j < $sisaquotakelas; $j++){
+                                $dataupdateterpilih = array(
+                                    'id' => $ambil_praktikum[$j]['id'],
+                                    'terpilih' => $kelas[$i]['id']
+                                );
+                                $this->ambil_praktikum_model->update($dataupdateterpilih);
+                            }
+                            //UPDATE QUOTA
+                            $dataupdatequota = array(
+                                'id' => $kelas[$i]['id'],
+                                'terisi' => (int)$kelas[$i]['terisi'] + $sisaquotakelas
+                            );
+                            $this->kelas_praktikum_model->update($dataupdatequota);
+                        }
+                    }
+                    $data_log[] = $ambil_praktikum;
+                }
+                
+            }
+        }
+
+        //KELAS RESPONSI
+        $kelas = $this->kelas_praktikum_model->getbysubject($kode_mk, "responsi", $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+
+        if($kelas != 0){
+            for($i = 0; $i < count($kelas); $i++){
+                for($k = 0; $k < 4; $k++){
+                    $ambil_praktikum = $this->ambil_praktikum_model->sortbypilnipk($kelas[$i]['id'], "pil".(int)($k+1)); //GET SELAMA TERPILIH = 0 (BELUM TERPILIH)
+                    // var_dump($ambil_praktikum); exit;
+                    if($ambil_praktikum != 0){
+                        $jumygambil = count($ambil_praktikum);
+                        $sisaquotakelas = (int)$kelas[$i]['quota_max'] - (int)$kelas[$i]['terisi'];
+
+                        if($jumygambil <= $sisaquotakelas){ //SELAMA YG AMBIL MENCUKUPI QUOTA
+                            //update smw data ambil prak     
+                            for($j = 0; $j < $jumygambil; $j++){
+                                $dataupdateterpilih = array(
+                                    'id' => $ambil_praktikum[$j]['id'],
+                                    'terpilih' => $kelas[$i]['id']
+                                );
+                                $this->ambil_praktikum_model->update($dataupdateterpilih);
+                            }
+                            //UPDATE QUOTA
+                            $dataupdatequota = array(
+                                'id' => $kelas[$i]['id'],
+                                'terisi' => (int)$kelas[$i]['terisi'] + $jumygambil
+                            );
+                            $this->kelas_praktikum_model->update($dataupdatequota);
+                        }
+                        else { //MELEBIHI QUOTA
+                            //update dta sbyk yg cukup
+
+                            for($j = 0; $j < $sisaquotakelas; $j++){
+                                $dataupdateterpilih = array(
+                                    'id' => $ambil_praktikum[$j]['id'],
+                                    'terpilih' => $kelas[$i]['id']
+                                );
+                                $this->ambil_praktikum_model->update($dataupdateterpilih);
+                            }
+                            //UPDATE QUOTA
+                            $dataupdatequota = array(
+                                'id' => $kelas[$i]['id'],
+                                'terisi' => (int)$kelas[$i]['terisi'] + $sisaquotakelas
+                            );
+                            $this->kelas_praktikum_model->update($dataupdatequota);
+                        }
+                    }
+                    $data_log[] = $ambil_praktikum;
+                }
+                
+            }
+        }
+
+        // var_dump($ambil_praktikum); exit;
+
+
+        // insert log
+        $keterangan = '';
+        $keterangan .= json_encode($data_log).'.';
+
+        $logs_insert = array(
+            "id_user" => $this->session->userdata('user_id'),
+            "table_name" => 'ambil_praktikum',
+            "action" => 'CREATE',
+            "keterangan" => "pemilihan kelas have been updated by ".$this->session->userdata('logged_name')." : ".$keterangan,
+            "created" => date('Y-m-d H:i:s')
+        );
+        $this->load->model('user_history_model');
+        $this->user_history_model->add($logs_insert);
+
+        
+        echo "sukses";
+        //langsung redirect buat refresh kalik
+        // $this->session->set_flashdata('msg', "Sukses pemilihan kelas");
+        // redirect('ambil_praktikum');
+        // var_dump($kode_mk); exit;
+    }
+
 
     public function getclassgroup2(){
         $this->load->model('ambil_praktikum_model');

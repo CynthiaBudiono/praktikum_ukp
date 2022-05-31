@@ -132,6 +132,44 @@ class Ambil_praktikum_model extends CI_Model {
 		
 	}
 
+	public function sortbypilnipk($id_kelas_prak, $pil){
+		
+		$this->db->join('mahasiswa', 'mahasiswa.NRP = ambil_praktikum.NRP');
+
+		$this->db->where('ambil_praktikum.terpilih = 0');
+
+		if($pil == "pil1"){
+			$this->db->where('ambil_praktikum.pil1', $id_kelas_prak);
+		}
+		elseif($pil == "pil2"){
+			$this->db->where('ambil_praktikum.pil2', $id_kelas_prak);
+		}
+		elseif($pil == "pil3"){
+			$this->db->where('ambil_praktikum.pil3', $id_kelas_prak);
+		}
+		elseif($pil == "pil4"){
+			$this->db->where('ambil_praktikum.pil4', $id_kelas_prak);
+		}
+		// $this->db->group_start()
+		//   ->or_where('ambil_praktikum.pil1', $id_kelas_prak)
+		//   ->or_where('ambil_praktikum.pil2', $id_kelas_prak)
+		//   ->or_where('ambil_praktikum.pil3', $id_kelas_prak)
+		//   ->or_where('ambil_praktikum.pil4', $id_kelas_prak);
+		// $this->db->group_end();
+
+		$this->db->order_by('mahasiswa.ipk', 'DESC');
+
+		$query = $this->db->get('ambil_praktikum');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
 	public function getidwhere($nrp, $kode_mk, $tipe, $semester = null, $tahun_ajaran = null){
 		$this->db->where('ambil_praktikum.NRP', $nrp);
 		$this->db->where('ambil_praktikum.kode_mk', $kode_mk);
@@ -198,6 +236,7 @@ class Ambil_praktikum_model extends CI_Model {
 		$this->db->where('ambil_praktikum.tipe', $tipe);
 
 		$this->db->order_by('mahasiswa.ipk', 'DESC');
+		// $this->db->order_by('kp1.pil1', 'ASC');
 
 		if($semester != null && $tahun_ajaran != null){
 			$this->db->where('ambil_praktikum.semester', $semester);

@@ -143,8 +143,12 @@ class Kelas_praktikum_model extends CI_Model {
 
 		$this->db->order_by('kelas_paralel', 'ASC');
 
-		$this->db->where('kelas_praktikum.kode_mk', $kode_mk);
-		$this->db->where('kelas_praktikum.tipe', $tipe);
+		if($kode_mk != ""){
+			$this->db->where('kelas_praktikum.kode_mk', $kode_mk);
+		}
+		if($tipe != ""){
+			$this->db->where('kelas_praktikum.tipe', $tipe);
+		}
 		
 		if($semester != null){
 			$this->db->where('kelas_praktikum.semester', $semester);
