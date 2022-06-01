@@ -350,37 +350,43 @@ class Mahasiswa_nilai extends CI_Controller {
         $pertemuan = $this->input->post('pertemuan'); 
         $data = $this->input->post('data');
         // var_dump($data); exit;
-        for($i = 0; $i < count($data); $i++){
-            $isidata = array(
-                'id_kelas_praktikum' => $id,
-                'NRP' => $data[$i]['NRP'],
-                'pertemuan' => $pertemuan,
-                'status_absensi' => $data[$i]['status_absensi'],
-                'nilai_awal' => $data[$i]['nilai_awal'],
-                'nilai_materi' => $data[$i]['nilai_materi'],
-                'nilai_tugas' => $data[$i]['nilai_tugas'],
-                'rata_rata' => (float)(($data[$i]['nilai_awal'] + $data[$i]['nilai_materi'] + $data[$i]['nilai_tugas'])/3),
+        if($data != NULL){
+            for($i = 0; $i < count($data); $i++){
+                $isidata = array(
+                    'id_kelas_praktikum' => $id,
+                    'NRP' => $data[$i]['NRP'],
+                    'pertemuan' => $pertemuan,
+                    'status_absensi' => $data[$i]['status_absensi'],
+                    'nilai_awal' => ($data[$i]['nilai_awal'] != "") ? $data[$i]['nilai_awal'] : 0,
+                    'nilai_materi' => ($data[$i]['nilai_materi'] != "") ? $data[$i]['nilai_materi'] : 0,
+                    'nilai_tugas' => ($data[$i]['nilai_tugas'] != "") ? $data[$i]['nilai_tugas'] : 0,
+                    'rata_rata' => (float)(((($data[$i]['nilai_awal'] != "") ? $data[$i]['nilai_awal'] : 0) + (($data[$i]['nilai_materi'] != "") ? $data[$i]['nilai_materi'] : 0) + (($data[$i]['nilai_tugas'] != "") ? $data[$i]['nilai_tugas'] : 0))/3),
+                );
+    
+                // var_dump($isidata); exit;
+                $this->mahasiswa_nilai_model->add($isidata);
+            }
+            
+            // insert log
+            $keterangan = '';
+            $keterangan .= json_encode($data).'; ';
+    
+            $logs_insert = array(
+                "id_user" => $this->session->userdata('user_id'),
+                "table_name" => 'mahasiswa_nilai',
+                "action" => 'CREATE',
+                "keterangan" => "a new meeting has been created by ". $this->session->userdata('logged_name') ." : ".$keterangan,
+                "created" => date('Y-m-d H:i:s')
             );
-
-            // var_dump($isidata); exit;
-            $this->mahasiswa_nilai_model->add($isidata);
+            $this->load->model('user_history_model');
+            $this->user_history_model->add($logs_insert);
+    
+            echo 'sukses';  
         }
-        
-        // insert log
-        $keterangan = '';
-        $keterangan .= json_encode($data).'; ';
-
-        $logs_insert = array(
-            "id_user" => $this->session->userdata('user_id'),
-            "table_name" => 'mahasiswa_nilai',
-            "action" => 'CREATE',
-            "keterangan" => "a new meeting has been created by ". $this->session->userdata('logged_name') ." : ".$keterangan,
-            "created" => date('Y-m-d H:i:s')
-        );
-        $this->load->model('user_history_model');
-        $this->user_history_model->add($logs_insert);
-
-        echo 'sukses';    
+        else{
+            echo 'tidak ada mahasiswa dalam kelas ini';
+        }
+          
     }
 
     public function update(){

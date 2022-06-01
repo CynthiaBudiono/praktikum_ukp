@@ -313,8 +313,8 @@ class Kelas_praktikum extends CI_Controller {
     public function add(){
         // var_dump("AAAAAAAAAAAA"); exit;
 
-        if($this->session->userdata('user_type') != 'admin') redirect('dashboard');
-        if($this->session->userdata('user_type') != 'kepala_lab') redirect('dashboard');
+        if($this->session->userdata('user_type') != 'admin' && $this->session->userdata('user_type') != 'kepala_lab') redirect('dashboard');
+
         $this->load->helper(array('form', 'url'));
         $this->load->model('kelas_praktikum_model');
         $this->load->model('informasi_umum_model');

@@ -85,8 +85,10 @@ function confirm($id){
     function(result) {
         // alert(result);
         if(result == 'success'){
-            view();
-            
+            // view();
+
+            var url = "<?= base_url('asisten') ?>";
+            window.location = url;
         }
         else{
             alert(result);

@@ -337,19 +337,20 @@ class Calon_asisten_dosen extends CI_Controller {
                     $this->load->model('user_history_model');
                     $this->user_history_model->add($logs_insert);
         
-                    redirect('calon_asisten_dosen');
+                    echo "success";
+                    // redirect('calon_asisten_dosen');
                 }
             }
             else{
                 echo "Telah Mendaftar Lowongan, Silahkan edit data yang sudah ada";
-                $this->session->set_flashdata('msg', "Telah Mendaftar Lowongan, Silahkan edit data yang sudah ada");
-                redirect($_SERVER['HTTP_REFERER']);
+                // $this->session->set_flashdata('msg', "Telah Mendaftar Lowongan, Silahkan edit data yang sudah ada");
+                // redirect($_SERVER['HTTP_REFERER']);
             }
         }
         else{
             echo "NRP TIDAK VALID";
-            $this->session->set_flashdata('msg', "NRP TIDAK VALID");
-            redirect($_SERVER['HTTP_REFERER']);
+            // $this->session->set_flashdata('msg', "NRP TIDAK VALID");
+            // redirect($_SERVER['HTTP_REFERER']);
         }
         
     }

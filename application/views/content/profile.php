@@ -2,6 +2,10 @@
     .fa-files-o{
         color: #1d81be;
     }
+
+    blockquote{
+        word-break: break-word;
+    }
 </style>
 <!-- page content -->
 <div class="right_col" role="main">

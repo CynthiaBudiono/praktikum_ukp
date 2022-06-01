@@ -138,7 +138,7 @@
         function(result) {
             // alert(result);
             if(result == 'success'){
-                view()
+                view();
                 
                 $('#kodelab').val("");
                 $('#nama').val("");
