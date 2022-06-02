@@ -312,7 +312,7 @@ class Mahasiswa_nilai extends CI_Controller {
 
         // var_dump($id." ".$pertemuan);
         // var_dump($data['detail_kelas']);exit;
-        // if ($data['detail_kelas'] == 0) redirect('dashboard');
+        if ($data['detail_kelas'] == 0) redirect('dashboard');
 
         $data['primary'] = $id;
 

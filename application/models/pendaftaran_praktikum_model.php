@@ -20,7 +20,7 @@ class Pendaftaran_praktikum_model extends CI_Model {
 	public function cekbukapendaftaran() {
 		$this->db->where('waktu_start <=',date("Y-m-d 00:00:00"));
 		$this->db->where('waktu_end >=',date("Y-m-d 00:00:00"));
-		$query = $this->db->where('status', 1)->get('pendaftaran_asisten_dosen');
+		$query = $this->db->where('status', 1)->get('pendaftaran_praktikum');
 
 		if ($query->num_rows() > 0)
 			return "buka";
@@ -33,7 +33,7 @@ class Pendaftaran_praktikum_model extends CI_Model {
 	public function getbukapendaftaran() {
 		$this->db->where('waktu_start <=',date("Y-m-d 00:00:00"));
 		$this->db->where('waktu_end >=',date("Y-m-d 00:00:00"));
-		$query = $this->db->where('status', 1)->get('pendaftaran_asisten_dosen');
+		$query = $this->db->where('status', 1)->get('pendaftaran_praktikum');
 
 		if ($query->num_rows() > 0)
 			return $query->result_array();

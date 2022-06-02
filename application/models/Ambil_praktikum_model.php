@@ -158,6 +158,7 @@ class Ambil_praktikum_model extends CI_Model {
 		// $this->db->group_end();
 
 		$this->db->order_by('mahasiswa.ipk', 'DESC');
+		// $this->db->order_by('mahasiswa.NRP', 'DESC');
 
 		$query = $this->db->get('ambil_praktikum');
 
@@ -267,6 +268,7 @@ class Ambil_praktikum_model extends CI_Model {
 			$this->db->join('mahasiswa_nilai', 'mahasiswa_nilai.id_kelas_praktikum = kelas_praktikum.id and mahasiswa_nilai.NRP = ambil_praktikum.NRP');
 			$this->db->where('mahasiswa_nilai.id_kelas_praktikum', $id_kelas_prak);
 			$this->db->where('mahasiswa_nilai.pertemuan', $pertemuan);
+			$this->db->where('mahasiswa_nilai.mahasiswa_nilai_id_transfer', 0);
 		}
 
 		$this->db->where('ambil_praktikum.terpilih', $id_kelas_prak);
