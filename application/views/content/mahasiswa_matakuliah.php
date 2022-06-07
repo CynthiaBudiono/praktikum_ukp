@@ -50,8 +50,8 @@
                       <?php } ?>
                       <th>Matakuliah</th>
                       <th>Kelas Paralel</th>
-                      <th>Semester</th>
-                      <th>Tahun Ajaran</th>
+                      <th>Waktu</th>
+                      <th>Periode</th>
                     </tr>
                   </thead>
 
@@ -70,8 +70,10 @@
                               <?php } ?>
                               <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?> ~ <?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?></td>
                               <td><?= (isset($key['kelas_paralel'])) ? $key['kelas_paralel'] : '' ?></td>
-                              <td><?= (isset($key['semester'])) ? $key['semester'] : '' ?></td>
-                              <td><?= (isset($key['tahun_ajaran'])) ? $key['tahun_ajaran'] : '' ?></td>
+                              <td><?= (isset($key['hari'])) ? $key['hari'] : '' ?>, <?= (isset($key['jam'])) ? $key['jam'] : '' ?>
+                                  <p style="font-size:12px; font-weight: bold;"><?= (isset($key['durasi'])) ? $key['durasi'] : '' ?> menit</p>
+                              </td>
+                              <td><?php if(isset($key['semester'])){ if($key['semester'] == 1) echo "Ganjil"; else echo "Genap";} else echo ''; ?> <?= (isset($key['tahun_ajaran'])) ? $key['tahun_ajaran'] : '' ?></td>
                             </tr>
                           <?php endforeach; ?>
                       <?php endif; ?>

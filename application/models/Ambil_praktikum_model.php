@@ -622,11 +622,13 @@ class Ambil_praktikum_model extends CI_Model {
 		$this->db->select(' kp2.hari as hari2, kp2.jam as jam2, kp2.durasi as durasi2, kp2.kelas_paralel as kelas_paralel2');
 		$this->db->select(' kp3.hari as hari3, kp3.jam as jam3, kp3.durasi as durasi3, kp3.kelas_paralel as kelas_paralel3');
 		$this->db->select(' kp4.hari as hari4, kp4.jam as jam4, kp4.durasi as durasi4, kp4.kelas_paralel as kelas_paralel4');
+		$this->db->select(' kpterpilih.hari as hariterpilih, kpterpilih.jam as jamterpilih, kpterpilih.durasi as durasiterpilih, kpterpilih.kelas_paralel as kelas_paralelterpilih');
 
 		$this->db->join('kelas_praktikum as kp1', 'kp1.id = ambil_praktikum.pil1', 'left');
 		$this->db->join('kelas_praktikum as kp2', 'kp2.id = ambil_praktikum.pil2', 'left');
 		$this->db->join('kelas_praktikum as kp3', 'kp3.id = ambil_praktikum.pil3', 'left');
 		$this->db->join('kelas_praktikum as kp4', 'kp4.id = ambil_praktikum.pil4', 'left');
+		$this->db->join('kelas_praktikum as kpterpilih', 'kpterpilih.id = ambil_praktikum.terpilih', 'left');
 
 		$this->db->join('subject', 'subject.kode_mk = ambil_praktikum.kode_mk');
 

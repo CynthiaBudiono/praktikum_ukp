@@ -207,7 +207,10 @@ class Kelas_praktikum extends CI_Controller {
         $this->load->model('informasi_umum_model');
 
         // mb_check_encoding($this->input->post('id'))
-        $kelas = $this->kelas_praktikum_model->getdetailmahasiswa($this->input->post('id_kelas_praktikum'), $this->input->post('semester'), $this->input->post('tahun_ajaran'));
+        $ta = $this->input->post('tahun_ajaran'). "-" . intval($this->input->post('tahun_ajaran') + 1);
+
+        // var_dump($ta); exit;
+        $kelas = $this->kelas_praktikum_model->getdetailmahasiswa($this->input->post('id_kelas_praktikum'), $this->input->post('semester'), $ta);
 
         // var_dump($this->input->post('id')); exit;
         // var_dump($kelas); exit;

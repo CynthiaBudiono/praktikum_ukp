@@ -202,47 +202,60 @@ class ambil_praktikum extends CI_Controller {
         $kelas = $this->kelas_praktikum_model->getbysubject($kode_mk, "responsi", $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
         if($kelas != 0){
-            for($i = 0; $i < count($kelas); $i++){
-                for($k = 0; $k < 4; $k++){
+            for($k = 0; $k < 4; $k++){
+                for($i = 0; $i < count($kelas); $i++){
                     $ambil_praktikum = $this->ambil_praktikum_model->sortbypilnipk($kelas[$i]['id'], "pil".(int)($k+1)); //GET SELAMA TERPILIH = 0 (BELUM TERPILIH)
                     // var_dump($ambil_praktikum); exit;
                     if($ambil_praktikum != 0){
                         $jumygambil = count($ambil_praktikum);
                         $sisaquotakelas = (int)$kelas[$i]['quota_max'] - (int)$kelas[$i]['terisi'];
 
-                        if($jumygambil <= $sisaquotakelas){ //SELAMA YG AMBIL MENCUKUPI QUOTA
-                            //update smw data ambil prak     
-                            for($j = 0; $j < $jumygambil; $j++){
-                                $dataupdateterpilih = array(
-                                    'id' => $ambil_praktikum[$j]['id'],
-                                    'terpilih' => $kelas[$i]['id']
-                                );
-                                $this->ambil_praktikum_model->update($dataupdateterpilih);
-                            }
-                            //UPDATE QUOTA
-                            $dataupdatequota = array(
-                                'id' => $kelas[$i]['id'],
-                                'terisi' => (int)$kelas[$i]['terisi'] + $jumygambil
+                        for($j = 0; $j < $jumygambil && $j < $sisaquotakelas; $j++){
+                            $dataupdateterpilih = array(
+                                'id' => $ambil_praktikum[$j]['id'],
+                                'terpilih' => $kelas[$i]['id']
                             );
-                            $this->kelas_praktikum_model->update($dataupdatequota);
+                            $this->ambil_praktikum_model->update($dataupdateterpilih);
                         }
-                        else { //MELEBIHI QUOTA
-                            //update dta sbyk yg cukup
+                        //UPDATE QUOTA
+                        $dataupdatequota = array(
+                            'id' => $kelas[$i]['id'],
+                            'terisi' => (int)$kelas[$i]['terisi'] + $j
+                        );
+                        $this->kelas_praktikum_model->update($dataupdatequota);
+                        // if($jumygambil <= $sisaquotakelas){ //SELAMA YG AMBIL MENCUKUPI QUOTA
+                        //     //update smw data ambil prak     
+                        //     for($j = 0; $j < $jumygambil; $j++){
+                        //         $dataupdateterpilih = array(
+                        //             'id' => $ambil_praktikum[$j]['id'],
+                        //             'terpilih' => $kelas[$i]['id']
+                        //         );
+                        //         $this->ambil_praktikum_model->update($dataupdateterpilih);
+                        //     }
+                        //     //UPDATE QUOTA
+                        //     $dataupdatequota = array(
+                        //         'id' => $kelas[$i]['id'],
+                        //         'terisi' => (int)$kelas[$i]['terisi'] + $jumygambil
+                        //     );
+                        //     $this->kelas_praktikum_model->update($dataupdatequota);
+                        // }
+                        // else { //MELEBIHI QUOTA
+                        //     //update dta sbyk yg cukup
 
-                            for($j = 0; $j < $sisaquotakelas; $j++){
-                                $dataupdateterpilih = array(
-                                    'id' => $ambil_praktikum[$j]['id'],
-                                    'terpilih' => $kelas[$i]['id']
-                                );
-                                $this->ambil_praktikum_model->update($dataupdateterpilih);
-                            }
-                            //UPDATE QUOTA
-                            $dataupdatequota = array(
-                                'id' => $kelas[$i]['id'],
-                                'terisi' => (int)$kelas[$i]['terisi'] + $sisaquotakelas
-                            );
-                            $this->kelas_praktikum_model->update($dataupdatequota);
-                        }
+                        //     for($j = 0; $j < $sisaquotakelas; $j++){
+                        //         $dataupdateterpilih = array(
+                        //             'id' => $ambil_praktikum[$j]['id'],
+                        //             'terpilih' => $kelas[$i]['id']
+                        //         );
+                        //         $this->ambil_praktikum_model->update($dataupdateterpilih);
+                        //     }
+                        //     //UPDATE QUOTA
+                        //     $dataupdatequota = array(
+                        //         'id' => $kelas[$i]['id'],
+                        //         'terisi' => (int)$kelas[$i]['terisi'] + $sisaquotakelas
+                        //     );
+                        //     $this->kelas_praktikum_model->update($dataupdatequota);
+                        // }
                     }
                     $data_log[] = $ambil_praktikum;
                 }

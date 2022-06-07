@@ -319,14 +319,14 @@ class Kelas_praktikum_model extends CI_Model {
 		if($id != 0){ // FLITER BY ID KELAS
 			$this->db->where('id', $id); //->get('kelas_praktikum', 1, 0);
 		}
-		else{ //GET ALL KELAS
-			if($semester != null){
-				$this->db->where('kelas_praktikum.semester', $semester);
-			}
-			if($tahun_ajaran != null){
-				$this->db->where('kelas_praktikum.tahun_ajaran', $tahun_ajaran);
-			}
+		// else{ //GET ALL KELAS
+		if($semester != null){
+			$this->db->where('kelas_praktikum.semester', $semester);
 		}
+		if($tahun_ajaran != null){
+			$this->db->where('kelas_praktikum.tahun_ajaran', $tahun_ajaran);
+		}
+		// }
 		$query = $this->db->get('kelas_praktikum');
 
 		if ($query->num_rows() > 0){

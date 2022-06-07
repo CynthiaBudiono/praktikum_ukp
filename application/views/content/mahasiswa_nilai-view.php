@@ -76,11 +76,12 @@
                     </div>
                 </div>
                 <?php endforeach; ?>
+            <?php else : ?>
+                <!-- DATA KOSONG -->
+                Belum ada pertemuan kelas
             <?php endif; ?>
-                <?php //else : ?>
-
-                    <!-- DATA KOSONG -->
-            <?php endif; ?>
+        
+        <?php endif; ?>
         
     </div>
 </div>

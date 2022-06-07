@@ -27,6 +27,8 @@ class Transfer_nilai extends CI_Controller {
 
 		// $getsubjecttransfernilai = $this->jadwal_perkuliahan_model->getsubjecttransfernilai($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 		
+		$data['ddkelasprak'] = $this->kelas_praktikum_model->getallopen($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+		
 		$getsubjecttransfernilai = $this->kelas_praktikum_model->getallopen();
 		
 		$transfer_nilai = [];

@@ -204,6 +204,7 @@
                                         <th>Pilihan 1</th>
                                         <th>Pilihan 2</th>
                                         <th>Pilihan 3</th>
+                                        <th>Terpilih</th>
                                     </tr>
                                 </thead>
                                 <tbody id="data_ambil_praktikum">
@@ -466,13 +467,17 @@
 
 
         if($record != null){ //table dari DB, sudah validasi
-
+            alert("terpilih : " + $record['terpilih']);
             // alert('pil1berhalangan: ' + $record['pil1_berhalangan']);
             //kalo data null
             if($record['kelas_paralel1'] == null){textpil1 = "";}  else{ textpil1 = $record['kelas_paralel1'] + ' | ' + $record['hari1'] + ' ' + $record['jam1'];}
             if($record['kelas_paralel2'] == null){textpil2 = "";} else{ textpil2 = $record['kelas_paralel2'] + ' | ' + $record['hari2'] + ' ' + $record['jam2'] }
             if($record['kelas_paralel3'] == null){textpil3 = "";} else{ textpil3 = $record['kelas_paralel3'] + ' | ' + $record['hari3'] + ' ' + $record['jam3']}
 
+            var textterpilih = '';
+            if($record['kelas_paralelterpilih'] != null){
+                textterpilih = $record['kelas_paralelterpilih'] + ' | '+ $record['hariterpilih'] + ' '+ $record['jamterpilih'];
+            }
             data = {
                 "id": data_jadwal.length+1,
                 "NRP" : $record['NRP'],
@@ -488,6 +493,7 @@
                 "pil3": $record['pil3'],
                 "pil3_berhalangan": $record['pil3_berhalangan'],
                 "pil3_text": textpil3,
+                "terpilih": textterpilih
             };
 
             data_jadwal.push(data);
@@ -566,6 +572,7 @@
                             "pil3": $('#pilihan3').val(),
                             "pil3_berhalangan": pil3_berhalangan,
                             "pil3_text": textpil3,
+                            "terpilih": ""
                         };
 
                         if(index == -1){
@@ -692,13 +699,28 @@
             kal += '<td>';
                 if($fromdb != null){
                     if(usertype == "mahasiswa" || usertype == "asisten_dosen"){
-                        kal += '<button disabled type="button" class="btn btn-sm btn-info btn-action"><i class="fa fa-pencil"></i> Edit</button>';
-                        kal += '<button disabled type="button" class="btn btn-sm btn-danger btn-action"><i class="fa fa-trash-o"></i> Delete</button>';
+                        if(data_jadwal[i]['terpilih'] != ""){
+                            kal += '<button disabled type="button" class="btn btn-sm btn-info btn-action"><i class="fa fa-pencil"></i> Edit</button>';
+                            kal += '<button disabled type="button" class="btn btn-sm btn-danger btn-action"><i class="fa fa-trash-o"></i> Delete</button>';
+                        }
                     }
                 }
                 else{
-                    kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ i +'")><i class="fa fa-pencil"></i> Edit</button>';
-                    kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=deleterecord("'+ i +'")><i class="fa fa-trash-o"></i> Delete</button>';
+                    if(usertype == "mahasiswa" || usertype == "asisten_dosen"){
+                        if(data_jadwal[i]['terpilih'] != ""){
+                            kal += '<button disabled type="button" class="btn btn-sm btn-info btn-action"><i class="fa fa-pencil"></i> Edit</button>';
+                            kal += '<button disabled type="button" class="btn btn-sm btn-danger btn-action"><i class="fa fa-trash-o"></i> Delete</button>';
+                        }
+                        else{
+                            kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ i +'")><i class="fa fa-pencil"></i> Edit</button>';
+                            kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=deleterecord("'+ i +'")><i class="fa fa-trash-o"></i> Delete</button>';
+                        }
+                    }
+                    else{
+                        kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ i +'")><i class="fa fa-pencil"></i> Edit</button>';
+                        kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=deleterecord("'+ i +'")><i class="fa fa-trash-o"></i> Delete</button>';
+                    }
+                    
                 }
             kal += '</td>';
             // alert(data_jadwal[i]['subject']);
@@ -724,6 +746,13 @@
             else{
                 kal += '<td>'+ data_jadwal[i]['pil3_text'] + '</td>';
             }
+            if(data_jadwal[i]['terpilih'] == ''){
+                kal += '<td>&nbsp</td>';
+            }
+            else{
+                kal += '<td>'+ data_jadwal[i]['terpilih'] + '</td>';
+            }
+            
             kal += '</tr>';
         }
         

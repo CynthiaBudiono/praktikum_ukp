@@ -3,7 +3,7 @@
 class Mahasiswa_matakuliah_model extends CI_Model {
 
     public function getallopen() {
-		$this->db->select('mahasiswa_matakuliah.*, mahasiswa.nama as nama_mahasiswa, subject.nama as nama_subject');
+		$this->db->select('mahasiswa_matakuliah.*, mahasiswa.nama as nama_mahasiswa, subject.nama as nama_subject, jadwal_perkuliahan.hari as hari, jadwal_perkuliahan.jam as jam, jadwal_perkuliahan.durasi as durasi');
 		$this->db->join('subject', 'subject.kode_mk = mahasiswa_matakuliah.kode_mk');
 		$this->db->join('mahasiswa', 'mahasiswa.NRP = mahasiswa_matakuliah.NRP');
 		$this->db->join('jadwal_perkuliahan', 'jadwal_perkuliahan.id = mahasiswa_matakuliah.id_jadwal_perkuliahan');

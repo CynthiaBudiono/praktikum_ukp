@@ -71,7 +71,7 @@ class Mahasiswa_nilai_model extends CI_Model {
 	}
 
 	public function getlulustidaklulus($id_kelas_prak = null){ //buat laporan lulus, tidak lulus, transfer_nilai
-		$this->db->select('mahasiswa_nilai.NRP, mahasiswa.nama as nama_mahasiswa, kelas_praktikum.kode_mk, subject.nama as nama_subject, SUM(nilai_awal) as sum_nilai_awal, SUM(nilai_materi) as sum_nilai_materi, SUM(nilai_tugas) as sum_nilai_tugas, SUM(rata_rata) as sum_rata_rata, COUNT(*) as jumlah_pertemuan , (SUM(rata_rata)/COUNT(*)) as hasil_akhir');		
+		$this->db->select('mahasiswa_nilai.id_kelas_praktikum, mahasiswa_nilai.NRP, mahasiswa.nama as nama_mahasiswa, kelas_praktikum.kode_mk, subject.nama as nama_subject, SUM(nilai_awal) as sum_nilai_awal, SUM(nilai_materi) as sum_nilai_materi, SUM(nilai_tugas) as sum_nilai_tugas, SUM(rata_rata) as sum_rata_rata, COUNT(*) as jumlah_pertemuan , (SUM(rata_rata)/COUNT(*)) as hasil_akhir');		
 
 		$this->db->join('mahasiswa', 'mahasiswa.NRP = mahasiswa_nilai.NRP');
 		$this->db->join('kelas_praktikum', 'kelas_praktikum.id = mahasiswa_nilai.id_kelas_praktikum');

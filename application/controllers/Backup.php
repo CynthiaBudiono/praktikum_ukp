@@ -45,7 +45,6 @@ class Backup extends CI_Controller {
 		exec('mysqldump --u root -p praktikum_ukp > '.getenv('HOMEDRIVE')."\Downloads".$namefile. "'");
 
 		 // insert log
-
 		 $logs_insert = array(
 			 "id_user" => $this->session->userdata('user_id'),
 			 "table_name" => 'all',

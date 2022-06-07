@@ -360,13 +360,13 @@
         }
         else if(jenislaporan == "detail_kelas"){
 
-            if(usertype == "mahasiswa" || usertype == "asisten_dosen"){
-                $('#ddsemester').css('display', 'none');
-                $('#ddtahun_ajaran').css('display', 'none');
-            }
-            else{
+            // if(usertype == "mahasiswa" || usertype == "asisten_dosen"){
+            //     $('#ddsemester').css('display', 'none');
+            //     $('#ddtahun_ajaran').css('display', 'none');
+            // }
+            // else{
                 $('#ddkelas_prak').css('display', 'block');
-                // alert("AAA : " + $("#ddkelas_prak").val());
+                // alert("AAA : " + $("#ddtahun_ajaran").val());
                 $("#ddkelas_prak").change(function(){
                     $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
                         id_kelas_praktikum: $("#ddkelas_prak").val(),
@@ -374,6 +374,7 @@
                         tahun_ajaran : $("#ddtahun_ajaran").val()
                     },
                     function(result) {
+                        // alert(result);
                         var arr = JSON.parse(result);
 
                         data_laporan = arr;
@@ -405,6 +406,7 @@
                         tahun_ajaran : $("#ddtahun_ajaran").val()
                     },
                     function(result) {
+                        // alert("getdetailmahasiswa : " + result);
                         var arr = JSON.parse(result);
 
                         data_laporan = arr;
@@ -412,7 +414,7 @@
                         viewdetailkelas();
                     });
                 });
-            }
+            // }
 
             $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
                 id_kelas_praktikum: $("#ddkelas_prak").val(),
@@ -420,7 +422,7 @@
                 tahun_ajaran : $("#ddtahun_ajaran").val()
             },
             function(result) {
-                alert("getdetailmahasiswa : " + result);
+                // alert("getdetailmahasiswa : " + result);
                 var arr = JSON.parse(result);
 
                 data_laporan = arr;
@@ -455,7 +457,7 @@
                     tahun_ajaran : $("#ddtahun_ajaran").val(),
                 },
                 function(result) {
-                    alert(result);
+                    // alert(result);
                     var arr = JSON.parse(result);
                     data_laporan = arr;
                     viewmahasiswa();
@@ -470,7 +472,7 @@
                     tahun_ajaran : $("#ddtahun_ajaran").val()
                 },
                 function(result) {
-                    alert(result);
+                    // alert(result);
                     var arr = JSON.parse(result);
                     data_laporan = arr;
                     viewmahasiswa();
@@ -953,7 +955,7 @@
     }
 
     function detailtransfernilai($idkelasprak, $nrp){
-        alert("func detailtransfernilai : " + $idkelasprak + " " + $nrp);
+        // alert("func detailtransfernilai : " + $idkelasprak + " " + $nrp);
 
         $.post(baseurl + "mahasiswa_nilai/getdetailtransfernilai", {
             id_kelas_prak: $idkelasprak,

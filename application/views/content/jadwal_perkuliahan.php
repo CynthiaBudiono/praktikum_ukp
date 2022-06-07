@@ -47,9 +47,7 @@
                       <th>Kode MK</th>
                       <th>Mata Kuliah</th>
                       <th>KLS</th>
-                      <th>Hari</th>
-                      <th>Jam</th>
-                      <th>Durasi</th>
+                      <th>Waktu</th>
                       <th>Pengajar</th>
                       <th>SMS</th>
                       <th>Ruang</th>
@@ -70,9 +68,9 @@
                               <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?></td>
                               <td><?= (isset($key['nama_matakuliah'])) ? $key['nama_matakuliah'] : '' ?></td>
                               <td><?= (isset($key['kelas_paralel'])) ? $key['kelas_paralel'] : '' ?></td>
-                              <td><?= (isset($key['hari'])) ? $key['hari'] : '' ?></td>
-                              <td><?= (isset($key['jam'])) ? $key['jam'] : '' ?></td>
-                              <td><?= (isset($key['durasi'])) ? $key['durasi'] : '' ?></td>
+                              <td><?= (isset($key['hari'])) ? $key['hari'] : '' ?>, <?= (isset($key['jam'])) ? $key['jam'] : '' ?>
+                                  <p style="font-size:12px; font-weight: bold;"><?= (isset($key['durasi'])) ? $key['durasi'] : '' ?> menit</p>
+                              </td>
                               <td>
                                 <p style="margin-bottom: 0px;"><?= (isset($key['NIP1'])) ? $key['NIP1'] : '' ?> ~ <?= (isset($key['nama_dosen1'])) ? $key['nama_dosen1'] : '' ?></p>
                                 <p style="margin-bottom: 0px;"><?= (isset($key['NIP2'])) ? $key['NIP2'] : '' ?> ~ <?= (isset($key['nama_dosen2'])) ? $key['nama_dosen2'] : '' ?></p>
