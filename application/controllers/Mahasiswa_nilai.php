@@ -29,10 +29,8 @@ class Mahasiswa_nilai extends CI_Controller {
                 $data['kelas_praktikum_now'][$i]['detail_nilai'] = $this->mahasiswa_nilai_model->getlastpertemuanbyidkelasprak($data['kelas_praktikum_now'][$i]['id']);
             }
         }
-       
-
         // exit;
-        // var_dump($data['kelas_praktikum_now'][7]['all_pertemuan']); exit;
+        // var_dump($data['kelas_praktikum_now'][0]['detail_kelas']); exit;
         
 
 		$data['title'] = "Mahasiswa Nilai";
@@ -96,7 +94,7 @@ class Mahasiswa_nilai extends CI_Controller {
 
     }
 
-    public function addtransfernilai($nrp, $kode_mk){
+    public function addtransfernilai(){
 
         $this->load->model('mahasiswa_nilai_model');
 
@@ -104,50 +102,91 @@ class Mahasiswa_nilai extends CI_Controller {
         $this->load->model('ambil_praktikum_model');
         $this->load->model('informasi_umum_model');
 
-        $data = $this->ambil_praktikum_model->getkelaspraktikummahasiswa($nrp, $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran(), $kode_mk);
+        $nrp = $this->input->post('nrp');
+        $idkelasprak = $this->input->post('id_kelas_praktikum');
+        $idtransfer = $this->input->post('mahasiswa_nilai_id_transfer');
 
-        // var_dump($data); exit;
+      
+        $datainsert = $this->mahasiswa_nilai_model->getallnilai($idkelasprak, $nrp);
+        
+        $data = array();
 
-        for($i = 0; $i < count($data); $i++ ){ //DATA NYA PASTI 1
-            $insert = $this->mahasiswa_nilai_model->getallnilai($data[$i]['id_kelas_praktikum'], $nrp);
-
-            for($j = 0; $j < count($insert); $j++){ 
+        if($datainsert != 0){ //&& $getkelas[0]['terisi'] <= $getkelas[0]['quota_max']
+            for($i = 0; $i < count($datainsert); $i++){ 
+                //di for jumlah pertemuan kelas itu.. kalo 
+                // $gettanggalpertemuan
                 $isidata = array(
-                    'id_kelas_praktikum' => $data[$i]['id_kelas_praktikum'],
-                    'NRP' => $data[$i]['NRP'],
-                    'tanggal_pertemuan' => $insert[$j]['tanggal_pertemuan'],
-                    'pertemuan' => $insert[$j]['pertemuan'],
-                    'status_absensi' => $insert[$j]['status_absensi'],
-                    'nilai_awal' => $insert[$j]['nilai_awal'],
-                    'nilai_materi' => $insert[$j]['nilai_materi'],
-                    'nilai_tugas' => $insert[$j]['nilai_tugas'],
-                    'rata_rata' => (float)(($insert[$j]['nilai_awal'] + $insert[$j]['nilai_materi'] + $insert[$j]['nilai_tugas'])/3),
-                    'mahasiswa_nilai_id_transfer' => $insert[$j]['id'],
+                    'id_kelas_praktikum' => $idtransfer,
+                    'NRP' => $datainsert[$i]['NRP'],
+                    'tanggal_pertemuan' => $datainsert[$i]['tanggal_pertemuan'],
+                    'pertemuan' => $datainsert[$i]['pertemuan'],
+                    'status_absensi' => $datainsert[$i]['status_absensi'],
+                    'nilai_awal' => $datainsert[$i]['nilai_awal'],
+                    'nilai_materi' => $datainsert[$i]['nilai_materi'],
+                    'nilai_tugas' => $datainsert[$i]['nilai_tugas'],
+                    'rata_rata' => (float)(($datainsert[$i]['nilai_awal'] + $datainsert[$i]['nilai_materi'] + $datainsert[$i]['nilai_tugas'])/3),
+                    'mahasiswa_nilai_id_transfer' => $idkelasprak,
                 );
-    
+                array_push($data, $isidata);
                 // var_dump($isidata); //exit;
                 $this->mahasiswa_nilai_model->add($isidata);
             }
+
+            //UPDATE QUOTA
+            $get = $this->kelas_praktikum_model->get($idtransfer);
+            $dataupdatequota = array(
+                'id' => $idtransfer,
+                'terisi' => (int)$get[0]['terisi'] + 1
+            );
+            $this->kelas_praktikum_model->update($dataupdatequota);
+
+            // insert log
+            $keterangan = '';
+            $keterangan .= json_encode($data).'; ';
+
+            $logs_insert = array(
+                "id_user" => $this->session->userdata('user_id'),
+                "table_name" => 'mahasiswa_nilai',
+                "action" => 'CREATE',
+                "keterangan" => "record TRANSFER NILAI have been created by ". $this->session->userdata('logged_name') ." : ".$keterangan,
+                "created" => date('Y-m-d H:i:s')
+            );
+            $this->load->model('user_history_model');
+            $this->user_history_model->add($logs_insert);
+
+            echo 'sukses';
         }
-        // exit;
+        else{
+            echo "data nilai belum ada";
+        }
+    }
+
+    public function gettransfernilai(){
+        $this->load->model('mahasiswa_nilai_model');
+        $this->load->model('kelas_praktikum_model');
         
-        // insert log
-        $keterangan = '';
-        $keterangan .= json_encode($data).'; ';
+        $ta = $this->input->post('tahun_ajaran'). "-" . intval($this->input->post('tahun_ajaran') + 1);
+        // $mahasiswa_transfer = [];
+        $datakelas = $this->kelas_praktikum_model->getallopen($this->input->post('semester'), $ta);
+        if($datakelas != 0){
+            for($i = 0; $i < count($datakelas); $i++){
+                $getdata = $this->mahasiswa_nilai_model->gettransfernilai($datakelas[$i]['id']);
+                if($getdata != 0){
+                    // array_push($mahasiswa_transfer, $getdata);
+                    $mahasiswa_transfer[] = $getdata;
+                }
+            }
+        }
+        // var_dump($mahasiswa_transfer); exit;
+        echo json_encode($mahasiswa_transfer);
+    }
 
-        $logs_insert = array(
-            "id_user" => $this->session->userdata('user_id'),
-            "table_name" => 'mahasiswa_nilai',
-            "action" => 'CREATE',
-            "keterangan" => "record TRANSFER NILAI have been created by ". $this->session->userdata('logged_name') ." : ".$keterangan,
-            "created" => date('Y-m-d H:i:s')
-        );
-        $this->load->model('user_history_model');
-        $this->user_history_model->add($logs_insert);
-
-        echo 'sukses';
-        redirect('transfer_nilai');
-
+    public function viewdetailtransfernilai(){
+        $this->load->model('mahasiswa_nilai_model');
+        
+        $detail = $this->mahasiswa_nilai_model->getallnilai($this->input->post('id_kelas_prak'), $this->input->post('nrp'));
+        // var_dump($mahasiswa_transfer); exit;
+        echo json_encode($detail);
     }
 
     public function viewbylogin(){

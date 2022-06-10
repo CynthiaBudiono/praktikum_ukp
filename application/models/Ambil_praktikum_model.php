@@ -236,8 +236,8 @@ class Ambil_praktikum_model extends CI_Model {
 		$this->db->where('ambil_praktikum.kode_mk', $kode_mk);
 		$this->db->where('ambil_praktikum.tipe', $tipe);
 
+		$this->db->order_by('ambil_praktikum.pil1', 'ASC');
 		$this->db->order_by('mahasiswa.ipk', 'DESC');
-		// $this->db->order_by('kp1.pil1', 'ASC');
 
 		if($semester != null && $tahun_ajaran != null){
 			$this->db->where('ambil_praktikum.semester', $semester);
@@ -263,15 +263,21 @@ class Ambil_praktikum_model extends CI_Model {
 		
 		$this->db->join('laboratorium', 'laboratorium.kode_lab = kelas_praktikum.kode_lab');
 
-		if($pertemuan != null){
+		if($pertemuan != null){ //EDIT
 			$this->db->select('mahasiswa_nilai.*');
 			$this->db->join('mahasiswa_nilai', 'mahasiswa_nilai.id_kelas_praktikum = kelas_praktikum.id and mahasiswa_nilai.NRP = ambil_praktikum.NRP');
 			$this->db->where('mahasiswa_nilai.id_kelas_praktikum', $id_kelas_prak);
+			// $this->db->where('mahasiswa_nilai.mahasiswa_nilai_id_transfer', 0);
 			$this->db->where('mahasiswa_nilai.pertemuan', $pertemuan);
-			$this->db->where('mahasiswa_nilai.mahasiswa_nilai_id_transfer', 0);
+
+			// $this->db->group_start()
+			// 	->or_where('mahasiswa_nilai.id_kelas_praktikum', $id_kelas_prak)
+			// 	->or_where('mahasiswa_nilai.mahasiswa_nilai_id_transfer', $id_kelas_prak);
+			// $this->db->group_end();			
 		}
 
 		$this->db->where('ambil_praktikum.terpilih', $id_kelas_prak);
+
 
 		if($semester != null && $tahun_ajaran != null){
 			$this->db->where('ambil_praktikum.semester', $semester);
@@ -282,33 +288,30 @@ class Ambil_praktikum_model extends CI_Model {
 
 		if ($query->num_rows() > 0){
 
-			// $arr= [];
-			// $jumarr = 0;
+			// $arr= $query->result_array();
+			// $jumarr = count($query->result_array());
+
 			// if($pertemuan != null){
-			// 	$this->db->select('mahasiswa_nilai.*');
-			// 	$this->db->where('mahasiswa_nilai.id_kelas_praktikum', $id_kelas_prak);
-			// 	$this->db->where('mahasiswa_nilai.pertemuan', $pertemuan);
-			// 	$query2 = $this->db->get('mahasiswa_nilai');
+			// $this->db->select('mahasiswa_nilai.*, mahasiswa.nama as nama_mahasiswa');
+			// $this->db->join('mahasiswa', 'mahasiswa.NRP = mahasiswa_nilai.NRP');
 
-			// 	if ($query2->num_rows() > 0){
-			// 		$arr[$jumarr] = $query->result_array();
-			// 		$arr[$jumarr]['nilai'] = $query2->result_array();
+			// $this->db->where('mahasiswa_nilai.id_kelas_praktikum', $id_kelas_prak);
+			// $this->db->where('mahasiswa_nilai.mahasiswa_nilai_id_transfer != 0');
 
+			
+			// $this->db->where('mahasiswa_nilai.pertemuan', $pertemuan);
+			// }
+			// $query2 = $this->db->get('mahasiswa_nilai');
 
-			// 		return $arr;
+			// if ($query2->num_rows() > 0){
+			// 	foreach($query2->result_array() as $row) {
+			// 		$arr[$jumarr] = $row;
+			// 		$arr[$jumarr]['transfer'] = "yes";
 			// 	}
+			// 	// var_dump("MASUK");
 			// }
-			// else{
-			// 	return $query->result_array();
-			// }
-
-			// foreach($query->result_array() as $row){
-			// 	$arr[$jumarr] = $row;
-			// 	$arr[$jumarr]['pil1_berhalangan'] = $this->getnabrak($nrp, $row['hari1'], $row['jam1'], $row['durasi1'], $semester, $tahun_ajaran);
-			// 	$arr[$jumarr]['pil2_berhalangan'] = $this->getnabrak($nrp, $row['hari2'], $row['jam2'], $row['durasi2'], $semester, $tahun_ajaran);
-			// 	$arr[$jumarr]['pil3_berhalangan'] = $this->getnabrak($nrp, $row['hari3'], $row['jam3'], $row['durasi3'], $semester, $tahun_ajaran);
-			// 	$jumarr++;
-			// }
+			// var_dump($arr); exit;
+			// return $arr;
 			return $query->result_array();
 
 		}

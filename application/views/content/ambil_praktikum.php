@@ -485,10 +485,10 @@ function cetak(kodemk = null) {
                                         arrData[i]['kelas_responsi'][k]['id'] == arrData[i]['data_mahasiswa_responsi'][j]['pil4'])
                                         { 
                                             if(arrData[i]['data_mahasiswa_responsi'][j]['jadwalnabrak'+(k+1)] == 'yes'){
-                                                kal = kal + "<td class='bg-red' style='text-align: center' onclick=milih(" + i + "," + j + ",'"+ arrData[i]['data_mahasiswa_responsi'][j]['id'] + "',"+ arrData[i]['kelas_responsi'][k]['id'] +",'pil"+ (k+1) +"')>v</td>";
+                                                kal = kal + "<td class='bg-red' style='text-align: center' onclick=milih(" + i + "," + j + ",'"+ arrData[i]['data_mahasiswa_responsi'][j]['id'] + "',"+ arrData[i]['kelas_responsi'][k]['id'] +",'pil"+ (k+1) +"')>" + cekpil + "</td>";
                                             }
                                             else{
-                                                kal = kal + "<td class='bg-green' style='text-align: center' onclick=milih(" + i + "," + j + ",'"+ arrData[i]['data_mahasiswa_responsi'][j]['id'] + "',"+ arrData[i]['kelas_responsi'][k]['id'] +",'pil"+ (k+1) +"')>v</td>";
+                                                kal = kal + "<td class='bg-green' style='text-align: center' onclick=milih(" + i + "," + j + ",'"+ arrData[i]['data_mahasiswa_responsi'][j]['id'] + "',"+ arrData[i]['kelas_responsi'][k]['id'] +",'pil"+ (k+1) +"')>" + cekpil + "</td>";
                                             }
                                             //kal = kal + "<td class='bg-green' onclick=milih('"+ arrData[i]['data_mahasiswa_responsi'][j]['id'] + "',"+ arrData[i]['kelas_responsi'][k]['id'] +") style='text-align: center'>v</td>"; 
                                         

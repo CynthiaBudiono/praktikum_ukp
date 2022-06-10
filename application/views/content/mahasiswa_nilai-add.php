@@ -54,7 +54,10 @@
                                         <?php foreach($detail_kelas as $index => $key) : ?>
                                         <tr>
                                             <input type="text" style="display:none;" name="idmhsnilai" id="idmhsnilai<?= $index ?>" value="<?= $key['id'] ?>">
-                                            <td id="nrp<?= $index ?>"><?= (isset($key['NRP'])) ? $key['NRP']: '' ?> - <?= (isset($key['nama_mahasiswa'])) ? $key['nama_mahasiswa'] : '' ?></td>
+                                            <td id="nrp<?= $index ?>">
+                                                <?= (isset($key['NRP'])) ? $key['NRP']: '' ?> - <?= (isset($key['nama_mahasiswa'])) ? $key['nama_mahasiswa'] : '' ?>
+                                                <?php if(isset($key['transfer'])){ if($key['transfer'] == "yes"){ echo "<b>*transfer</b>";}} ?>
+                                            </td>
                                             <td>
                                             <?php if(isset($key['status_absensi'])){ ?> 
                                                 <!-- MODE EDIT -->

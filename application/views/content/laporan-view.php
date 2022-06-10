@@ -628,13 +628,25 @@
             }
         }
         else if(jenislaporan == "transfer_nilai"){
-            viewtransfernilai();
             $('#ddkelas_prak').css('display', 'none');
             $('#ddsubject').css('display', 'none');
 
+            // $.post(baseurl + "mahasiswa_nilai/gettransfernilai", {
+            //     semester: $("#ddsemester").val(),
+            //     tahun_ajaran : $("#ddtahun_ajaran").val()
+            // },
+            // function(result) {
+            //     alert(result);
+            //     var arr = JSON.parse(result);
+
+            //     data_laporan = arr;
+
+            //     viewtransfernilai();
+            // });
+
             $("#ddsemester").change(function(){
                 // alert("aa" + this.value);
-                $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
+                $.post(baseurl + "mahasiswa_nilai/gettransfernilai", {
                     semester: $("#ddsemester").val(),
                     tahun_ajaran : $("#ddtahun_ajaran").val()
                 },
@@ -648,11 +660,13 @@
             });
 
             $("#ddtahun_ajaran").change(function(){
-                $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
+                $.post(baseurl + "mahasiswa_nilai/gettransfernilai", {
                     semester: $("#ddsemester").val(),
                     tahun_ajaran : $("#ddtahun_ajaran").val()
                 },
                 function(result) {
+                    alert(result);
+                    console.log(result);
                     var arr = JSON.parse(result);
 
                     data_laporan = arr;
@@ -941,13 +955,13 @@
     function viewtransfernilai(){
         var kal = '';
         var hasil = 0;
-        for(var i = 0; i < data_laporan.length; i++){
-            hasil = (data_laporan[i]['sum_rata_rata']/data_laporan[i]['jumlah_pertemuan']);
+        for(var i = 0; i < data_laporan[0].length; i++){
+            hasil = (data_laporan[0][i]['sum_rata_rata']/data_laporan[0][i]['jumlah_pertemuan']);
             kal += '<tr>';
-                kal += '<td><a onclick=detailtransfernilai(' + data_laporan[i]['id_kelas_praktikum'] + ',' + data_laporan[i]['NRP'] + ') class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a></td>';
-                kal += '<td>' + data_laporan[i]['NRP'] + ' - ' + data_laporan[i]['nama_mahasiswa'] +'</td>';
-                kal += '<td>' + data_laporan[i]['kode_mk'] + ' - ' + data_laporan[i]['nama_subject'] +'</td>';
-                kal += '<td>' + hasil + '</td>';
+                kal += '<td><a onclick=detailtransfernilai(' + data_laporan[0][i]['id_kelas_praktikum'] + ',' + data_laporan[0][i]['NRP'] + ') class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a></td>';
+                kal += '<td>' + data_laporan[0][i]['NRP'] + ' - ' + data_laporan[0][i]['nama_mahasiswa'] +'</td>';
+                kal += '<td>' + data_laporan[0][i]['kode_mk'] + ' - ' + data_laporan[0][i]['nama_subject'] +'</td>';
+                kal += '<td>' + data_laporan[0][i]['hasil_akhir'] + '</td>';
             kal += '</tr>';
         }
 
@@ -976,10 +990,10 @@
         for(var i = 0; i < data_laporan.length; i++){
             hasil = (data_laporan[i]['sum_rata_rata']/data_laporan[i]['jumlah_pertemuan']);
             kal += '<tr>';
-                kal += '<td><a onclick=detailtransfernilai(' + data_laporan[i]['id_kelas_praktikum'] + ',' + data_laporan[i]['NRP'] + ') class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a></td>';
-                kal += '<td>' + data_laporan[i]['NRP'] + ' - ' + data_laporan[i]['nama_mahasiswa'] +'</td>';
-                kal += '<td>' + data_laporan[i]['kode_mk'] + ' - ' + data_laporan[i]['nama_subject'] +'</td>';
-                kal += '<td>' + hasil + '</td>';
+                kal += '<td>' + data_laporan[i]['pertemuan'] + '</td>';
+                kal += '<td>' + data_laporan[i]['nilai_awal'] + '</td>';
+                kal += '<td>' + data_laporan[i]['nilai_materi'] + '</td>';
+                kal += '<td>' + data_laporan[i]['nilai_tugas'] + '</td>';
             kal += '</tr>';
         }
 

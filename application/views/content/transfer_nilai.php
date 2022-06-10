@@ -58,7 +58,7 @@
                             <tr>
                               <td>
                               <a href="<?= (base_url('mahasiswa_nilai/viewdetail')); ?>/<?= (isset($key['NRP'])) ? $key['NRP'] : '' ?>/<?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?>" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a>
-                              <a data-toggle="modal" data-target=".bs-example-modal-sm" class="btn bg-green btn-sm btn-action" style="color: white;"><i class="fa fa-exchange" style="color: white;" onclick=transfer("<?= (isset($key['NRP'])) ? $key['NRP'] : '' ?>","<?= (isset($key['id_kelas_praktikum'])) ? $key['id_kelas_praktikum'] : '' ?>")></i> Transfer </a>
+                              <a onclick=transfer("<?= (isset($key['NRP'])) ? $key['NRP'] : '' ?>","<?= (isset($key['id_kelas_praktikum'])) ? $key['id_kelas_praktikum'] : '' ?>") data-toggle="modal" data-target=".bs-example-modal-sm" class="btn bg-green btn-sm btn-action" style="color: white;"><i class="fa fa-exchange" style="color: white;"></i> Transfer </a>
                               <!-- <a href="#" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
                               <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
                               </td>
@@ -95,6 +95,10 @@
       </div>
       <div class="modal-body">
         <h4>Pilih Kelas Transfer</h4>
+        <!-- <input type="text" class="form-control" name="nrp" id="nrp"> -->
+        <input type="hidden" class="form-control" name="idkelas" id="idkelas">
+        <h5 id="nrp"></h5>
+
         <select class="select2_single" name ="ddkelasprak" id="ddkelasprak" tabindex="-1">
             <?php if(isset($ddkelasprak)) : ?>
                 <?php if(is_array($ddkelasprak)) : ?>
@@ -104,24 +108,52 @@
                 <?php endif; ?>
             <?php endif; ?>
         </select>
+        <br>
+        <span id="error_msg" style="color: red;"></span>
       </div>
       <div class="modal-footer">
         <a data-dismiss="modal" class="btn btn-secondary btn-sm"> Close </a>
-        <a href="<?= (base_url('mahasiswa_nilai/addtransfernilai')); ?>/<?= (isset($key['NRP'])) ? $key['NRP'] : '' ?>/<?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?>" class="btn bg-green btn-sm btn-action"><i class="fa fa-exchange"></i> Transfer </a>
+        <button onclick=addtransfer() class="btn bg-green btn-sm"><i class="fa fa-exchange"></i> Transfer </button>
       </div>
     </div>
   </div>
 </div>
 <!-- /modals -->
 
-<script>
+<script type="text/javascript">
+  var baseurl = "<?php echo base_url(); ?>";
   $('#ddkelasprak').select2();
 
   function transfer($nrp, $id_kelas_prak){
-    alert("AAAAAAAAAAAAAAA");
-    // alert($nrp);
-    // alert($id_kelas_prak);
-
-
+    $("#nrp").html($nrp);
+    $("#idkelas").val($id_kelas_prak);
   }
+
+  function addtransfer(){
+    // alert($("#nrp").html());
+    // alert($("#idkelas").val());
+    // alert($('#ddkelasprak').val());
+
+    if($("#idkelas").val() == $('#ddkelasprak').val()){
+      $("#error_msg").html("kelas yang dipilih sama dengan kelas yang saat ini, silahkan pilih kelas lain");
+    }
+    else{
+       $.post(baseurl + "mahasiswa_nilai/addtransfernilai", {
+        nrp : $("#nrp").html(),
+        id_kelas_praktikum : $("#idkelas").val(),
+        mahasiswa_nilai_id_transfer : $('#ddkelasprak').val()
+      },
+      function(result) {
+        if(result == "sukses"){
+          var url = "<?= base_url('laporan/transfer_nilai') ?>";
+          window.location = url;
+        }
+        else{
+          alert(result);
+        }
+      });
+    }
+   
+  }
+  
 </script>
