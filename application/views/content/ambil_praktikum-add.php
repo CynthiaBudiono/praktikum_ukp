@@ -92,7 +92,7 @@
                     <div class="x_content" id="content-add">
                         <br />
                         <!-- <input type="hidden" class="form-control" name="mode" id="mode" value="add"> -->
-                            <?php if($this->session->userdata('user_type') == 'admin' || $this->session->userdata('user_type') == 'asisten_tetap'){ ?>
+                            <?php if($this->session->userdata('user_type') == 'admin'){ ?>
 
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 ">Mahasiswa</label>
@@ -102,7 +102,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <?php } elseif($this->session->userdata('user_type') == 'mahasiswa' || $this->session->userdata('user_type') == 'asisten_dosen'){ ?>
+                            <?php } elseif($this->session->userdata('user_type') == 'mahasiswa' || $this->session->userdata('user_type') == 'asisten_dosen' || $this->session->userdata('user_type') == 'asisten_tetap'){ ?>
                                 <input type="hidden" class="form-control" name="mahasiswa" id="mahasiswa" value="<?= $this->session->userdata('user_id')?>">
                             <?php }?>
 
@@ -185,7 +185,7 @@
                     <h2>Kelas</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li style="margin: 15px 20px 0px 0px;"><span class="badge bg-yellow">Berhalangan</span></li>
-                        <li><button type="button" class="btn bg-green" id="btnvalidasi" onclick="validasi()">Validasi</button></li>
+                        <li><button type="button" class="btn bg-success" id="btnvalidasi" onclick="validasi()" <?php if($bukapendaftaran == "tutup"){?>style="display: none;"<?php } else if($bukapendaftaran == "buka"){?>style="display: none;"<?php }?>>Validasi</button></li>
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                     </ul>
                     <div class="clearfix"></div>
@@ -232,7 +232,7 @@
     $(document).ready(function() {	
         // alert("masukkkkkkkk ready");
         // alert(usertype);
-        alert("buka pendaftaran : " + bukapendaftaran);
+        // alert("buka pendaftaran : " + bukapendaftaran);
 
         $('#subject').select2();
         $('#pilihan1').select2();
@@ -240,7 +240,7 @@
         $('#pilihan3').select2();
         
         
-        if(usertype == "admin" || usertype == 'asisten_tetap'){
+        if(usertype == "admin"){
             // alert("masuk");
             $('#mahasiswa').select2();
             $.post(baseurl + "mahasiswa/getpesertapraktikum", {},
@@ -258,18 +258,19 @@
                 },
                 function(result) {
                     // alert("getambilprakbynrp: " + result);
-                    var arr = JSON.parse(result);
+                    if(result != 0){
+                        var arr = JSON.parse(result);
 
-                    if (arr != 0){
-                        data_jadwal = [];
-                        // $('#box-component').css('display', 'none');
-                        // $('#btnvalidasi').css('display', 'none');
+                        if (arr != 0){
+                            data_jadwal = [];
+                            // $('#box-component').css('display', 'none');
+                            // $('#btnvalidasi').css('display', 'none');
 
-                        for(var i=0; i<arr.length; i++){
-                            add(arr[i]);
+                            for(var i=0; i<arr.length; i++){
+                                add(arr[i]);
+                            }
                         }
-                    }
-                                    
+                    }               
                 });
             
 
@@ -278,26 +279,28 @@
                     nrp: $('#mahasiswa').val(),
                 },
                 function(result) {
-                    var arr = JSON.parse(result);
-                    var kal = '';
-                    kal +='<ul>';
-                    for(var i=0; i<arr.length; i++){
-                        kal += '<li>'+ arr[i]['kode_mk'] + ' - ' + arr[i]['nama'] +'</li>';
+                    if(result != 0){
+                        var arr = JSON.parse(result);
+                        var kal = '';
+                        kal +='<ul>';
+                        for(var i=0; i<arr.length; i++){
+                            kal += '<li>'+ arr[i]['kode_mk'] + ' - ' + arr[i]['nama'] +'</li>';
+                        }
+                        kal +='</ul>';
+                        $('#detail_mahasiswa').append(kal);
+                        kalsubject = '';
+                        kalsubject += '<option value="" disabled selected>-- Pilih Mata Kuliah --</option>';
+                        for(var i=0; i<arr.length; i++){
+                            kalsubject +='<option value="'+ arr[i]['kode_mk'] +'">'+ arr[i]['kode_mk'] + ' - ' + arr[i]['nama'] +'</option>';
+                            
+                            // alert("status_responsi" + arr[i]['status_responsi']);
+                        }
+                        $('#subject').html(kalsubject);
                     }
-                    kal +='</ul>';
-                    $('#detail_mahasiswa').append(kal);
-                    kalsubject = '';
-                    kalsubject += '<option value="" disabled selected>-- Pilih Mata Kuliah --</option>';
-                    for(var i=0; i<arr.length; i++){
-                        kalsubject +='<option value="'+ arr[i]['kode_mk'] +'">'+ arr[i]['kode_mk'] + ' - ' + arr[i]['nama'] +'</option>';
-                        
-                        // alert("status_responsi" + arr[i]['status_responsi']);
-                    }
-                    $('#subject').html(kalsubject);
                 });
             });
         }
-        else if(usertype == "mahasiswa" || usertype == "asisten_dosen"){
+        else if(usertype == "mahasiswa" || usertype == "asisten_dosen" || usertype == 'asisten_tetap'){
             // cek apa pendaftaran lagi buka ato tutup
             // kalo buka blh tambah data dan validasi tapi gk blh edit data yg diambil
             // cek di ambilprak apa ada data yg terpilih sama data nrp
@@ -315,25 +318,33 @@
             },
             function(result) {
                 // alert("getambilprakbynrp: " + result);
-                var arr = JSON.parse(result);
+                if(result != 0){
+                    var arr = JSON.parse(result);
 
-                if (arr != 0){
-                    data_jadwal = [];
-                    // $('#box-component').css('display', 'none');
-                    // $('#btnvalidasi').css('display', 'none');
+                    if (arr != 0){
+                        data_jadwal = [];
+                        // $('#box-component').css('display', 'none');
+                        // $('#btnvalidasi').css('display', 'none');
 
-                    for(var i=0; i<arr.length; i++){
-                        add(arr[i]);
-                    }
+                        for(var i=0; i<arr.length; i++){
+                            add(arr[i]);
+                        }
 
-                    // view("fromdb");
-                    if(bukapendaftaran == "buka"){
-                        // alert("masukkkk");
-                        view();
+                        // view("fromdb");
+                        if(bukapendaftaran == "buka"){
+                            // alert("masukkkk");
+                            // $('#btnvalidasi').css('display', 'block');
+                            view();
+                        }
+                        else{
+                            view("pendaftarantutup");
+                        }
                     }
-                    else{
-                        view("pendaftarantutup");
-                    }
+                }
+                else{
+                    $('#btnvalidasi').css('display', 'none');
+                    $('#box-add').css('display', 'none');
+                    view("pendaftarantutup");
                 }
                                 
             });
@@ -342,22 +353,25 @@
                     nrp: userid
                 },
                 function(result) {
-                    var arr = JSON.parse(result);
-                    var kal = '';
-                    // kal +='<ul>';
-                    // for(var i=0; i<arr.length; i++){
-                    //     kal += '<li>'+ arr[i]['kode_mk'] + ' - ' + arr[i]['nama'] +'</li>';
-                    // }
-                    // kal +='</ul>';
-                    // $('#detail_mahasiswa').append(kal);
-                    kalsubject = '';
-                    kalsubject += '<option value="" disabled selected>-- Pilih Mata Kuliah --</option>';
-                    for(var i=0; i<arr.length; i++){
-                        kalsubject +='<option value="'+ arr[i]['kode_mk'] +'">'+ arr[i]['kode_mk'] + ' - ' + arr[i]['nama'] +'</option>';
-                        
-                        // alert("status_responsi" + arr[i]['status_responsi']);
+                    // alert(result);
+                    if(result != 0){
+                        var arr = JSON.parse(result);
+                        var kal = '';
+                        // kal +='<ul>';
+                        // for(var i=0; i<arr.length; i++){
+                        //     kal += '<li>'+ arr[i]['kode_mk'] + ' - ' + arr[i]['nama'] +'</li>';
+                        // }
+                        // kal +='</ul>';
+                        // $('#detail_mahasiswa').append(kal);
+                        kalsubject = '';
+                        kalsubject += '<option value="" disabled selected>-- Pilih Mata Kuliah --</option>';
+                        for(var i=0; i<arr.length; i++){
+                            kalsubject +='<option value="'+ arr[i]['kode_mk'] +'">'+ arr[i]['kode_mk'] + ' - ' + arr[i]['nama'] +'</option>';
+                            
+                            // alert("status_responsi" + arr[i]['status_responsi']);
+                        }
+                        $('#subject').html(kalsubject);
                     }
-                    $('#subject').html(kalsubject);
                 });
         }
         
@@ -377,16 +391,18 @@
             },
             function(result) {
                 // alert("masuk");
-                var arr = JSON.parse(result);
-                // var subject = []
-                var kal = '';
-                kal +='<option value="placeholder_text" disabled selected>-- Pilih Kelas --</option>';
-                for(var i=0; i<arr.length; i++){
-                    kal +='<option value="'+ arr[i]['id'] +'">'+ arr[i]['kelas_paralel'] + ' | ' + arr[i]['hari'] + ' ' + arr[i]['jam'] + ' (' + arr[i]['terisi'] + '/' + arr[i]['quota_max'] + ')</option>';
+                if(result != 0){
+                    var arr = JSON.parse(result);
+                    // var subject = []
+                    var kal = '';
+                    kal +='<option value="placeholder_text" disabled selected>-- Pilih Kelas --</option>';
+                    for(var i=0; i<arr.length; i++){
+                        kal +='<option value="'+ arr[i]['id'] +'">'+ arr[i]['kelas_paralel'] + ' | ' + arr[i]['hari'] + ' ' + arr[i]['jam'] + ' (' + arr[i]['terisi'] + '/' + arr[i]['quota_max'] + ')</option>';
+                    }
+                    $('#pilihan1').html(kal);
+                    $('#pilihan2').html(kal);
+                    $('#pilihan3').html(kal);
                 }
-                $('#pilihan1').html(kal);
-                $('#pilihan2').html(kal);
-                $('#pilihan3').html(kal);
             });
         });
 
@@ -455,7 +471,7 @@
     });
 
     function add($record = null){
-
+        // alert("WOI");
 
         var pil1_berhalangan = '';
         var pil2_berhalangan = '';
@@ -467,7 +483,7 @@
 
 
         if($record != null){ //table dari DB, sudah validasi
-            alert("terpilih : " + $record['terpilih']);
+            // alert("terpilih : " + $record['terpilih']);
             // alert('pil1berhalangan: ' + $record['pil1_berhalangan']);
             //kalo data null
             if($record['kelas_paralel1'] == null){textpil1 = "";}  else{ textpil1 = $record['kelas_paralel1'] + ' | ' + $record['hari1'] + ' ' + $record['jam1'];}
@@ -500,10 +516,10 @@
             
             // alert("data_jadwal : " + JSON.stringify(data_jadwal));
 
-            if(usertype == "admin" || usertype == 'asisten_tetap'){
+            if(usertype == "admin"){ //|| usertype == 'asisten_tetap'
                 view();
             }
-            else if(usertype == "mahasiswa" || usertype == "asisten_dosen"){
+            else if(usertype == "mahasiswa" || usertype == "asisten_dosen" || usertype == 'asisten_tetap'){
                 // alert("masuk"); 
                 // view("pendaftaranbuka");
                 if(bukapendaftaran == "buka"){
@@ -606,7 +622,7 @@
     }
 
     function validasi(){
-        console.log(data_jadwal);
+        // console.log(data_jadwal);
         $.post(baseurl + "ambil_praktikum/add", {
             data: data_jadwal,
         },
@@ -687,13 +703,18 @@
     function view($fromdb = null){
         var kal = "";
 
-        if($fromdb != null && data_jadwal.length > 0){
-            if(usertype == "mahasiswa" || usertype == "asisten_dosen"){ //untuk mahasiswa yg sudah validasi pada periode yg telah dibuka
+        if($fromdb != null){
+            if(usertype == "mahasiswa" || usertype == "asisten_dosen" || usertype == "asisten_tetap"){ //untuk mahasiswa yg sudah validasi pada periode yg telah dibuka
                 $('#btnvalidasi').css('display', 'none');
-                $('#box-add').css('display', 'none');
+                if(data_jadwal.length > 0){
+                    $('#box-add').css('display', 'none');
+                }
             }
-            
         }
+        // alert(usertype + " " + bukapendaftaran);
+        // if(usertype == "asisten_tetap" && bukapendaftaran == "tutup"){
+        //     $('#btnvalidasi').css('display', 'none');
+        // }
         for(var i = 0; i < data_jadwal.length; i++){
             kal += '<tr>';
             kal += '<td>';

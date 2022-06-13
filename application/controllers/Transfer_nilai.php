@@ -24,30 +24,47 @@ class Transfer_nilai extends CI_Controller {
 		$this->load->model('jadwal_perkuliahan_model');
 		$this->load->model('informasi_umum_model');
 		$this->load->model('kelas_praktikum_model');
+		$this->load->model('ambil_praktikum_model');
 
 		// $getsubjecttransfernilai = $this->jadwal_perkuliahan_model->getsubjecttransfernilai($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 		
-		$data['ddkelasprak'] = $this->kelas_praktikum_model->getallopen($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+		// $data['ddkelasprak'] = $this->kelas_praktikum_model->getallopen($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 		
 		$getsubjecttransfernilai = $this->kelas_praktikum_model->getallopen();
 		
+		//munculin mhs yang sdh ambil praktikum && prnh ambil praktikum itu sebelumnya by kode mk
+		//dropdownnya kelas by subject
+
 		$transfer_nilai = [];
 		// var_dump($getsubjecttransfernilai); exit;
 		if($getsubjecttransfernilai != 0){
 			for($i = 0; $i < count($getsubjecttransfernilai); $i++){
-				$laporan = $this->mahasiswa_nilai_model->getlulustidaklulus($getsubjecttransfernilai[$i]['id']);
+				//where saat ini juga sama semester sebelumnya di compare
+				$laporan = $this->ambil_praktikum_model->gettransfernilai($getsubjecttransfernilai[$i]['kode_mk'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+
 				if($laporan != 0){
-					for($j = 0; $j < count($laporan); $j ++){
-						array_push($transfer_nilai, $laporan[$j]);
+					for($j = 0; $j < count($laporan); $j++){
+						$mahasiswatransfer = $this->mahasiswa_nilai_model->getlulusbynrp($laporan[$j]['NRP'], $laporan[$j]['terpilih']);
+						if($mahasiswatransfer[0]['hasil_akhir'] > 56){
+							array_push($transfer_nilai, $mahasiswatransfer);
+						}
+						
 					}
-					// array_push($transfer_nilai, $laporan);
 				}
+				
+				// $laporan = $this->mahasiswa_nilai_model->getlulustidaklulus($getsubjecttransfernilai[$i]['id']);
+				// if($laporan != 0){
+				// 	for($j = 0; $j < count($laporan); $j ++){
+				// 		array_push($transfer_nilai, $laporan[$j]);
+				// 	}
+				// 	// array_push($transfer_nilai, $laporan);
+				// }
 			}
 		}
 
 		$data['mahasiswa'] = $transfer_nilai;
 
-		// var_dump("MAHASISWA ", $data['mahasiswa']); exit;
+		var_dump("MAHASISWA ", $data['mahasiswa']); exit;
 
 		$data['title'] = "Transfer Nilai";
 		

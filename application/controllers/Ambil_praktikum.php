@@ -580,7 +580,7 @@ class ambil_praktikum extends CI_Controller {
 
         $this->load->model('pendaftaran_praktikum_model');
 
-        if($this->session->userdata('user_type') != 'admin' && $this->session->userdata('user_type') != 'asisten_dosen' && $this->session->userdata('user_type') != 'mahasiswa') redirect('dashboard');
+        if($this->session->userdata('user_type') != 'admin' && $this->session->userdata('user_type') != 'asisten_dosen' && $this->session->userdata('user_type') != 'asisten_tetap' && $this->session->userdata('user_type') != 'mahasiswa') redirect('dashboard');
         
         if($this->session->userdata('user_type') == 'admin' || $this->session->userdata('user_type') == 'kepala_lab'){
             $data["bukapendaftaran"] = "buka";

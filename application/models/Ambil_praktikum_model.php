@@ -321,6 +321,41 @@ class Ambil_praktikum_model extends CI_Model {
 			return 0;
 	}
 
+	public function gettransfernilai($kode_mk, $semester, $tahun_ajaran){
+		//tahun sebelumnya
+		$this->db->where('ambil_praktikum.kode_mk ', $kode_mk);
+		$this->db->where('ambil_praktikum.terpilih != 0');
+		$this->db->where('ambil_praktikum.semester !=', $semester);
+		$this->db->where('ambil_praktikum.tahun_ajaran !=', $tahun_ajaran);
+
+		$query = $this->db->get('ambil_praktikum');
+
+		if ($query->num_rows() > 0){
+
+			$arr= [];
+			$jumarr = 0;
+			foreach($query->result_array() as $row){
+				//tahun ini
+				$this->db->where('ambil_praktikum.kode_mk ', $kode_mk);
+				$this->db->where('ambil_praktikum.NRP ', $row['NRP']);
+				$this->db->where('ambil_praktikum.semester', $semester);
+				$this->db->where('ambil_praktikum.tahun_ajaran', $tahun_ajaran);
+
+				$query2 = $this->db->get('ambil_praktikum');
+				
+				if($query2->num_rows() > 0){ //mengecek apakah mahasiswa mengambil saat ini
+					$arr[$jumarr] = $row; //return ambil praktikum sebelumnya
+				}
+				$jumarr++;
+			}
+
+			return $arr;
+		}
+		else
+
+			return 0;
+	}
+
 	public function getjadwalterpilih(){
 		
 	}
