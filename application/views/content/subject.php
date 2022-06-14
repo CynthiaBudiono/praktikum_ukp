@@ -20,7 +20,13 @@
                     <div class="clearfix"></div>
                 </div>
                 <div>
-                    <p>Download template, to get the template file <a href="<?php echo base_url("assets/template/matakuliah_template.xlsx"); ?>" download>Download Template</a></p>
+                    <?php 
+                        $t = base_url("assets/template/matakuliah_template.xlsx");
+                        $t = str_replace("https://","http://",$t);
+                    ?>
+                    <p>Download template, to get the template file <a href="<?php echo $t; ?>" download>Download Template</a></p>
+
+                    <!-- <p>Download template, to get the template file <a href="<?php echo base_url("assets/template/matakuliah_template.xlsx"); ?>" download>Download Template</a></p> -->
 
                     <form action="<?= (base_url('subject/readfile')); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
                         <input type="file" id="subject_file" name="subject_file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>

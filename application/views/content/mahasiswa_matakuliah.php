@@ -28,7 +28,12 @@
         </div>
         <div>
           <?php if($this->session->userdata('user_type') == 'admin'){ ?>
-            <p>Download template, to get the template file <a href="<?php echo base_url("assets/template/PRS_template.xlsx"); ?>" download>Download Template</a></p>
+              <?php 
+                $t = base_url("assets/template/PRS_template.xlsx");
+                $t = str_replace("https://","http://",$t);
+            ?>
+            <p>Download template, to get the template file <a href="<?php echo $t; ?>" download>Download Template</a></p>
+            <!-- <p>Download template, to get the template file <a href="<?php echo base_url("assets/template/PRS_template.xlsx"); ?>" download>Download Template</a></p> -->
 
             <form action="<?= (base_url('mahasiswa_matakuliah/readfile')); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
                 <input type="file" id="mahasiswa_matakuliah_file" name="mahasiswa_matakuliah_file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>

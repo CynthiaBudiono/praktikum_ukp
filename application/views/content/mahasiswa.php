@@ -27,7 +27,13 @@
           <div class="clearfix"></div>
         </div>
         <div>
-          <p>Download template, to get the template file <a href="<?php echo base_url("assets/template/mahasiswa_template.xlsx"); ?>" download>Download Template</a></p>
+          <?php 
+              $t = base_url("assets/template/mahasiswa_template.xlsx");
+              $t = str_replace("https://","http://",$t);
+          ?>
+          <p>Download template, to get the template file <a href="<?php echo $t; ?>" download>Download Template</a></p>
+
+          <!-- <p>Download template, to get the template file <a href="<?php echo base_url("assets/template/mahasiswa_template.xlsx"); ?>" download>Download Template</a></p> -->
 
           <form action="<?= (base_url('mahasiswa/readfile')); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
 
