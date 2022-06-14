@@ -52,25 +52,26 @@ class Mahasiswa_nilai extends CI_Controller {
 		$this->load->view('general/footer', $data);
 	}
 
-    public function viewdetail($nrp, $kode_mk){
+    public function viewdetail($nrp, $id_kelas_prak){ //transfernilai
         // var_dump($kode_mk);
         // var_dump($nrp); exit;
+        $id_kelas_prak = base64_decode($id_kelas_prak);
 
         $this->load->model('mahasiswa_nilai_model');
 
-		$this->load->model('kelas_praktikum_model');
-        $this->load->model('ambil_praktikum_model');
+		// $this->load->model('kelas_praktikum_model');
+        // $this->load->model('ambil_praktikum_model');
         $this->load->model('informasi_umum_model');
 
-        $data['kelas_praktikum_now'] = $this->ambil_praktikum_model->getkelaspraktikummahasiswa($nrp, $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran(), $kode_mk);
+        // $data['kelas_praktikum_now'] = $this->ambil_praktikum_model->getkelaspraktikummahasiswa($nrp, $id_kelas_prak);
 
         // var_dump($data['kelas_praktikum_now']); exit;
 
-        for($i = 0; $i < count($data['kelas_praktikum_now']); $i++ ){
+        // for($i = 0; $i < count($data['kelas_praktikum_now']); $i++ ){
             // var_dump($data['kelas_praktikum_now'][$i]['id']);
 
-            $data['kelas_praktikum_now'][0]['detail_nilai'] = $this->mahasiswa_nilai_model->getallnilai($data['kelas_praktikum_now'][$i]['id_kelas_praktikum'], $nrp);
-        }
+            $data['detail_nilai'] = $this->mahasiswa_nilai_model->getallnilai($id_kelas_prak, $nrp);
+        // }
 
         // var_dump($data['kelas_praktikum_now']); exit;
 
@@ -88,7 +89,7 @@ class Mahasiswa_nilai extends CI_Controller {
 
 		$this->load->view('general/navbar', $data);
 
-		$this->load->view('content/mahasiswa_nilai-view', $data);
+		$this->load->view('content/mahasiswa_nilai_transfer-view', $data);
 
 		$this->load->view('general/footer', $data);
 
@@ -106,9 +107,10 @@ class Mahasiswa_nilai extends CI_Controller {
         $idkelasprak = $this->input->post('id_kelas_praktikum');
         $idtransfer = $this->input->post('mahasiswa_nilai_id_transfer');
 
-      
+        
         $datainsert = $this->mahasiswa_nilai_model->getallnilai($idkelasprak, $nrp);
         
+        // var_dump($datainsert); exit;
         $data = array();
 
         if($datainsert != 0){ //&& $getkelas[0]['terisi'] <= $getkelas[0]['quota_max']
@@ -166,11 +168,11 @@ class Mahasiswa_nilai extends CI_Controller {
         $this->load->model('kelas_praktikum_model');
         
         $ta = $this->input->post('tahun_ajaran'). "-" . intval($this->input->post('tahun_ajaran') + 1);
-        // $mahasiswa_transfer = [];
+        $mahasiswa_transfer = [];
         $datakelas = $this->kelas_praktikum_model->getallopen($this->input->post('semester'), $ta);
         if($datakelas != 0){
             for($i = 0; $i < count($datakelas); $i++){
-                $getdata = $this->mahasiswa_nilai_model->gettransfernilai($datakelas[$i]['id']);
+                $getdata = $this->mahasiswa_nilai_model->getdatamahasiswatransfer($datakelas[$i]['id']);
                 if($getdata != 0){
                     // array_push($mahasiswa_transfer, $getdata);
                     $mahasiswa_transfer[] = $getdata;

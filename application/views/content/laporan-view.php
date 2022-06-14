@@ -631,18 +631,26 @@
             $('#ddkelas_prak').css('display', 'none');
             $('#ddsubject').css('display', 'none');
 
-            // $.post(baseurl + "mahasiswa_nilai/gettransfernilai", {
-            //     semester: $("#ddsemester").val(),
-            //     tahun_ajaran : $("#ddtahun_ajaran").val()
-            // },
-            // function(result) {
-            //     alert(result);
-            //     var arr = JSON.parse(result);
+            $.post(baseurl + "mahasiswa_nilai/gettransfernilai", {
+                semester: $("#ddsemester").val(),
+                tahun_ajaran : $("#ddtahun_ajaran").val()
+            },
+            function(result) {
+                // alert(result);
+                if(result != "[]"){
+                    var arr = JSON.parse(result);
 
-            //     data_laporan = arr;
+                    data_laporan = arr;
 
-            //     viewtransfernilai();
-            // });
+                    viewtransfernilai();
+                }
+                else{
+                    data_laporan[0] = [];
+
+                    viewtransfernilai();
+                }
+                
+            });
 
             $("#ddsemester").change(function(){
                 // alert("aa" + this.value);
@@ -651,11 +659,19 @@
                     tahun_ajaran : $("#ddtahun_ajaran").val()
                 },
                 function(result) {
-                    var arr = JSON.parse(result);
+                    if(result != "[]"){
 
-                    data_laporan = arr;
+                        var arr = JSON.parse(result);
 
-                    viewtransfernilai();
+                        data_laporan = arr;
+
+                        viewtransfernilai();
+                    }
+                    else{
+                        data_laporan[0] = [];
+
+                        viewtransfernilai();
+                    }
                 });
             });
 
@@ -665,13 +681,20 @@
                     tahun_ajaran : $("#ddtahun_ajaran").val()
                 },
                 function(result) {
-                    alert(result);
-                    console.log(result);
-                    var arr = JSON.parse(result);
+                    // alert(result);
+                    // console.log(result);
+                    if(result != "[]"){
+                        var arr = JSON.parse(result);
 
-                    data_laporan = arr;
+                        data_laporan = arr;
 
-                    viewtransfernilai();
+                        viewtransfernilai();
+                    }
+                    else{
+                        data_laporan[0] = [];
+
+                        viewtransfernilai();
+                    }
                 });
             });
         }
@@ -958,7 +981,8 @@
         for(var i = 0; i < data_laporan[0].length; i++){
             hasil = (data_laporan[0][i]['sum_rata_rata']/data_laporan[0][i]['jumlah_pertemuan']);
             kal += '<tr>';
-                kal += '<td><a onclick=detailtransfernilai(' + data_laporan[0][i]['id_kelas_praktikum'] + ',' + data_laporan[0][i]['NRP'] + ') class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a></td>';
+                kal += '<td><a href="<?= (base_url('mahasiswa_nilai/viewdetail')); ?>/' + data_laporan[0][i]['NRP'] + '/' + btoa(data_laporan[0][i]['id_kelas_praktikum']) + '" style="color:white" class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a></td>';
+                // kal += '<td><a onclick=detailtransfernilai(' + data_laporan[0][i]['id_kelas_praktikum'] + ',' + data_laporan[0][i]['NRP'] + ') style="color:white" class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a></td>';
                 kal += '<td>' + data_laporan[0][i]['NRP'] + ' - ' + data_laporan[0][i]['nama_mahasiswa'] +'</td>';
                 kal += '<td>' + data_laporan[0][i]['kode_mk'] + ' - ' + data_laporan[0][i]['nama_subject'] +'</td>';
                 kal += '<td>' + data_laporan[0][i]['hasil_akhir'] + '</td>';
@@ -970,34 +994,34 @@
 
     function detailtransfernilai($idkelasprak, $nrp){
         // alert("func detailtransfernilai : " + $idkelasprak + " " + $nrp);
+        
+        // $.post(baseurl + "mahasiswa_nilai/getdetailtransfernilai", {
+        //     id_kelas_prak: $idkelasprak,
+        //     nrp : $nrp
+        // },
+        // function(result) {
+        //     var arr = JSON.parse(result);
 
-        $.post(baseurl + "mahasiswa_nilai/getdetailtransfernilai", {
-            id_kelas_prak: $idkelasprak,
-            nrp : $nrp
-        },
-        function(result) {
-            var arr = JSON.parse(result);
+        //     data_laporan = arr;
 
-            data_laporan = arr;
-
-            viewdetailtransfernilai();
-        });
+        //     viewdetailtransfernilai();
+        // });
     }
 
     function viewdetailtransfernilai(){
-        var kal = '';
-        var hasil = 0;
-        for(var i = 0; i < data_laporan.length; i++){
-            hasil = (data_laporan[i]['sum_rata_rata']/data_laporan[i]['jumlah_pertemuan']);
-            kal += '<tr>';
-                kal += '<td>' + data_laporan[i]['pertemuan'] + '</td>';
-                kal += '<td>' + data_laporan[i]['nilai_awal'] + '</td>';
-                kal += '<td>' + data_laporan[i]['nilai_materi'] + '</td>';
-                kal += '<td>' + data_laporan[i]['nilai_tugas'] + '</td>';
-            kal += '</tr>';
-        }
+        // var kal = '';
+        // var hasil = 0;
+        // for(var i = 0; i < data_laporan.length; i++){
+        //     hasil = (data_laporan[i]['sum_rata_rata']/data_laporan[i]['jumlah_pertemuan']);
+        //     kal += '<tr>';
+        //         kal += '<td>' + data_laporan[i]['pertemuan'] + '</td>';
+        //         kal += '<td>' + data_laporan[i]['nilai_awal'] + '</td>';
+        //         kal += '<td>' + data_laporan[i]['nilai_materi'] + '</td>';
+        //         kal += '<td>' + data_laporan[i]['nilai_tugas'] + '</td>';
+        //     kal += '</tr>';
+        // }
 
-        initializedatatable(kal);
+        // initializedatatable(kal);
     }
 
     function initializedatatable($kal){

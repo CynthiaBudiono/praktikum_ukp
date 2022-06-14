@@ -542,6 +542,15 @@ class ambil_praktikum extends CI_Controller {
         echo json_encode($ambil_praktikum);
     }
 
+    public function cekambilprak(){
+        $this->load->model('ambil_praktikum_model');
+        $this->load->model('informasi_umum_model');
+
+        $ambil_praktikum = $this->ambil_praktikum_model->getambilprakbynrpnkodemk($this->input->post('nrp'), $this->input->post('kode_mk'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+
+        echo json_encode($ambil_praktikum);
+    }
+
     public function getmahasiswaambil(){
         $this->load->model('ambil_praktikum_model');
         $this->load->model('informasi_umum_model');

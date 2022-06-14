@@ -327,7 +327,7 @@ class Ambil_praktikum_model extends CI_Model {
 		$this->db->where('ambil_praktikum.terpilih != 0');
 		$this->db->where('ambil_praktikum.semester !=', $semester);
 		$this->db->where('ambil_praktikum.tahun_ajaran !=', $tahun_ajaran);
-
+		$this->db->order_by('ambil_praktikum.id', 'DESC');
 		$query = $this->db->get('ambil_praktikum');
 
 		if ($query->num_rows() > 0){
@@ -340,17 +340,44 @@ class Ambil_praktikum_model extends CI_Model {
 				$this->db->where('ambil_praktikum.NRP ', $row['NRP']);
 				$this->db->where('ambil_praktikum.semester', $semester);
 				$this->db->where('ambil_praktikum.tahun_ajaran', $tahun_ajaran);
-
+				
 				$query2 = $this->db->get('ambil_praktikum');
 				
 				if($query2->num_rows() > 0){ //mengecek apakah mahasiswa mengambil saat ini
 					$arr[$jumarr] = $row; //return ambil praktikum sebelumnya
+					$jumarr++;
 				}
-				$jumarr++;
+				
 			}
 
 			return $arr;
 		}
+		else
+
+			return 0;
+	}
+
+	public function getambilprakbynrpnkodemk($nrp, $kode_mk, $semester = null, $tahun_ajaran = null){
+
+
+		$this->db->select('ambil_praktikum.terpilih, kelas_praktikum.hari as hari, kelas_praktikum.jam as jam, kelas_praktikum.durasi as durasi');
+
+		$this->db->join('kelas_praktikum', 'kelas_praktikum.id = ambil_praktikum.terpilih', 'left');
+
+		$this->db->where('ambil_praktikum.NRP', $nrp);
+        $this->db->where('ambil_praktikum.kode_mk', $kode_mk);
+
+		if($semester != null && $tahun_ajaran != null){
+			$this->db->where('ambil_praktikum.semester', $semester);
+        	$this->db->where('ambil_praktikum.tahun_ajaran', $tahun_ajaran);
+		}
+
+		$query = $this->db->get('ambil_praktikum');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
 		else
 
 			return 0;

@@ -57,8 +57,8 @@
                           <?php foreach($mahasiswa as $key) : ?>
                             <tr>
                               <td>
-                              <a href="<?= (base_url('mahasiswa_nilai/viewdetail')); ?>/<?= (isset($key['NRP'])) ? $key['NRP'] : '' ?>/<?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?>" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a>
-                              <a onclick=transfer("<?= (isset($key['NRP'])) ? $key['NRP'] : '' ?>","<?= (isset($key['id_kelas_praktikum'])) ? $key['id_kelas_praktikum'] : '' ?>") data-toggle="modal" data-target=".bs-example-modal-sm" class="btn bg-green btn-sm btn-action" style="color: white;"><i class="fa fa-exchange" style="color: white;"></i> Transfer </a>
+                              <a href="<?= (base_url('mahasiswa_nilai/viewdetail')); ?>/<?= (isset($key['NRP'])) ? $key['NRP'] : '' ?>/<?= (isset($key['id_kelas_praktikum'])) ? base64_encode($key['id_kelas_praktikum']) : '' ?>" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a>
+                              <a onclick=transfer("<?= (isset($key['NRP'])) ? $key['NRP'] : '' ?>","<?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?>","<?= (isset($key['id_kelas_praktikum'])) ? $key['id_kelas_praktikum'] : '' ?>") data-toggle="modal" data-target=".bs-example-modal-sm" class="btn bg-green btn-sm btn-action" style="color: white;"><i class="fa fa-exchange" style="color: white;"></i> Transfer </a>
                               <!-- <a href="#" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
                               <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
                               </td>
@@ -96,18 +96,11 @@
       <div class="modal-body">
         <h4>Pilih Kelas Transfer</h4>
         <!-- <input type="text" class="form-control" name="nrp" id="nrp"> -->
-        <input type="hidden" class="form-control" name="idkelas" id="idkelas">
+        <input type="hidden" class="form-control" name="id_kelas_prak" id="id_kelas_prak">
+        <input type="hidden" class="form-control" name="id_kelas_transfer" id="id_kelas_transfer">
         <h5 id="nrp"></h5>
-
-        <select class="select2_single" name ="ddkelasprak" id="ddkelasprak" tabindex="-1">
-            <?php if(isset($ddkelasprak)) : ?>
-                <?php if(is_array($ddkelasprak)) : ?>
-                    <?php foreach($ddkelasprak as $key) : ?>
-                      <option value="<?= (isset($key['id'])) ? $key['id'] : '' ?>"> <?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?> (<?= (isset($key['kelas_paralel'])) ? $key['kelas_paralel'] : '' ?>) <?= (isset($key['tipe'])) ? $key['tipe'] : '' ?></option>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            <?php endif; ?>
-        </select>
+        Mahasiswa mengambil mata kuliah ini di kelas <b id="kelas_prak"></b> 
+        apakah anda yakin mentransfer data nilai sebelumnya?
         <br>
         <span id="error_msg" style="color: red;"></span>
       </div>
@@ -122,26 +115,44 @@
 
 <script type="text/javascript">
   var baseurl = "<?php echo base_url(); ?>";
-  $('#ddkelasprak').select2();
 
-  function transfer($nrp, $id_kelas_prak){
+  function transfer($nrp, $kode_mk, $id_kelas_prak){
     $("#nrp").html($nrp);
-    $("#idkelas").val($id_kelas_prak);
+    $("#kode_mk").val($kode_mk);
+    $("#id_kelas_prak").val($id_kelas_prak);
+
+    $.post(baseurl + "ambil_praktikum/cekambilprak", {
+      nrp : $("#nrp").html(),
+      kode_mk : $kode_mk
+    },
+    function(result) {
+      
+      if(result != 0){
+        var arr = JSON.parse(result);
+        var html = arr[0]['hari'] + " " + arr[0]['jam'] + " (" + arr[0]['durasi'] + " menit)";
+        $("#kelas_prak").html(html);
+
+        $("#id_kelas_transfer").val(arr[0]['terpilih']);
+      }
+      else{
+        alert(result);
+      }
+    });
   }
 
   function addtransfer(){
     // alert($("#nrp").html());
-    // alert($("#idkelas").val());
-    // alert($('#ddkelasprak').val());
+    // alert($("#id_kelas_prak").val());
+    // alert($('#id_kelas_transfer').val());
 
-    if($("#idkelas").val() == $('#ddkelasprak').val()){
-      $("#error_msg").html("kelas yang dipilih sama dengan kelas yang saat ini, silahkan pilih kelas lain");
-    }
-    else{
+    // if($("#idkelas").val() == $('#ddkelasprak').val()){
+    //   $("#error_msg").html("kelas yang dipilih sama dengan kelas yang saat ini, silahkan pilih kelas lain");
+    // }
+    // else{
        $.post(baseurl + "mahasiswa_nilai/addtransfernilai", {
         nrp : $("#nrp").html(),
-        id_kelas_praktikum : $("#idkelas").val(),
-        mahasiswa_nilai_id_transfer : $('#ddkelasprak').val()
+        id_kelas_praktikum : $("#id_kelas_prak").val(),
+        mahasiswa_nilai_id_transfer : $('#id_kelas_transfer').val()
       },
       function(result) {
         if(result == "sukses"){
@@ -152,7 +163,7 @@
           alert(result);
         }
       });
-    }
+    // }
    
   }
   

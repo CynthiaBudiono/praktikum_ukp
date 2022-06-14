@@ -3,8 +3,8 @@
 class Calon_asisten_dosen_model extends CI_Model {
 
     public function getallopen() {
-		$this->db->select('calon_asisten_dosen.*');
-
+		$this->db->select('calon_asisten_dosen.*, mahasiswa.nama as nama_mahasiswa');
+		$this->db->join('mahasiswa', 'mahasiswa.NRP = calon_asisten_dosen.NRP');
 		$query = $this->db->get('calon_asisten_dosen');
 
 		if ($query->num_rows() > 0)

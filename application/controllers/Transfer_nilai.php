@@ -30,7 +30,7 @@ class Transfer_nilai extends CI_Controller {
 		
 		// $data['ddkelasprak'] = $this->kelas_praktikum_model->getallopen($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 		
-		$getsubjecttransfernilai = $this->kelas_praktikum_model->getallopen();
+		$getsubjecttransfernilai = $this->kelas_praktikum_model->getallopen($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 		
 		//munculin mhs yang sdh ambil praktikum && prnh ambil praktikum itu sebelumnya by kode mk
 		//dropdownnya kelas by subject
@@ -42,29 +42,25 @@ class Transfer_nilai extends CI_Controller {
 				//where saat ini juga sama semester sebelumnya di compare
 				$laporan = $this->ambil_praktikum_model->gettransfernilai($getsubjecttransfernilai[$i]['kode_mk'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
+				// var_dump($laporan); exit;
 				if($laporan != 0){
 					for($j = 0; $j < count($laporan); $j++){
 						$mahasiswatransfer = $this->mahasiswa_nilai_model->getlulusbynrp($laporan[$j]['NRP'], $laporan[$j]['terpilih']);
-						if($mahasiswatransfer[0]['hasil_akhir'] > 56){
-							array_push($transfer_nilai, $mahasiswatransfer);
-						}
-						
+						// var_dump($mahasiswatransfer);exit;
+						if($mahasiswatransfer[0] != null){
+							if((int)$mahasiswatransfer[0]['hasil_akhir'] > 56){
+								// var_dump("masukk"); exit;
+								array_push($transfer_nilai, $mahasiswatransfer[0]);
+							}
+						}	
 					}
 				}
-				
-				// $laporan = $this->mahasiswa_nilai_model->getlulustidaklulus($getsubjecttransfernilai[$i]['id']);
-				// if($laporan != 0){
-				// 	for($j = 0; $j < count($laporan); $j ++){
-				// 		array_push($transfer_nilai, $laporan[$j]);
-				// 	}
-				// 	// array_push($transfer_nilai, $laporan);
-				// }
 			}
 		}
 
 		$data['mahasiswa'] = $transfer_nilai;
 
-		var_dump("MAHASISWA ", $data['mahasiswa']); exit;
+		// var_dump("MAHASISWA ", $data['mahasiswa']); exit;
 
 		$data['title'] = "Transfer Nilai";
 		
