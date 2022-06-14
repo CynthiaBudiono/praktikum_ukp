@@ -367,6 +367,7 @@
             // else{
                 $('#ddkelas_prak').css('display', 'block');
                 // alert("AAA : " + $("#ddtahun_ajaran").val());
+                
                 $("#ddkelas_prak").change(function(){
                     $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
                         id_kelas_praktikum: $("#ddkelas_prak").val(),
@@ -375,6 +376,8 @@
                     },
                     function(result) {
                         // alert(result);
+
+
                         var arr = JSON.parse(result);
 
                         data_laporan = arr;
@@ -385,6 +388,24 @@
 
                 $("#ddsemester").change(function(){
                 // alert("aa" + this.value);
+
+                    $.post(baseurl + "kelas_praktikum/getperiod", {
+                        semester: $("#ddsemester").val(),
+                        tahun_ajaran : $("#ddtahun_ajaran").val()
+                    },
+                    function(result) {
+                        // alert(result);
+                        var arr = JSON.parse(result);
+                        var html = '<option val="" disabled>-Pilih Kelas-</option>';
+
+                        for(var i = 0; i < arr.length; i++){
+                            html += '<option value="' + arr[i]['id'] + '">' + arr[i]['nama_subject'] + ' (' + arr[i]['kelas_paralel'] + ') ' + arr[i]['tipe'] +'</option>';
+                        }
+
+                        $('#ddkelas_prak').html(html);
+                    });
+                    
+
                     $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
                         id_kelas_praktikum: $("#ddkelas_prak").val(),
                         semester: $("#ddsemester").val(),
@@ -400,6 +421,23 @@
                 });
 
                 $("#ddtahun_ajaran").change(function(){
+
+                    $.post(baseurl + "kelas_praktikum/getperiod", {
+                        semester: $("#ddsemester").val(),
+                        tahun_ajaran : $("#ddtahun_ajaran").val()
+                    },
+                    function(result) {
+                        // alert(result);
+                        var arr = JSON.parse(result);
+                        var html = '<option val="" disabled>-Pilih Kelas-</option>';
+
+                        for(var i = 0; i < arr.length; i++){
+                            html += '<option value="' + arr[i]['id'] + '">' + arr[i]['nama_subject'] + ' (' + arr[i]['kelas_paralel'] + ') ' + arr[i]['tipe'] +'</option>';
+                        }
+
+                        $('#ddkelas_prak').html(html);
+                    });
+
                     $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
                         id_kelas_praktikum: $("#ddkelas_prak").val(),
                         semester: $("#ddsemester").val(),

@@ -217,6 +217,10 @@ class Kelas_praktikum extends CI_Controller {
         echo json_encode($kelas);
     }
 
+    // public function getopenperiodnow(){
+
+    // }
+
     // public function updatesall(){
     //     // $this->load->model('kelas_praktikum_model');
     //     $this->load->model('informasi_umum_model');
