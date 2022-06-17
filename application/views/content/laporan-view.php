@@ -315,6 +315,38 @@
                     viewlulus();
                 });
             });
+            $("#ddsemester").change(function(){
+                // alert("aa" + this.value);
+                $.post(baseurl + "mahasiswa_nilai/getlulustidaklulus", {
+                    id_kelas_praktikum: $("#ddkelas_prak").val(),
+                    semester: $("#ddsemester").val(),
+                    tahun_ajaran : $("#ddtahun_ajaran").val()
+                },
+                function(result) {
+                    // alert(result);
+                    var arr = JSON.parse(result);
+
+                    data_laporan = arr;
+
+                    viewlulus();
+                });
+            });
+            $("#ddtahun_ajaran").change(function(){
+                // alert("aa" + this.value);
+                $.post(baseurl + "mahasiswa_nilai/getlulustidaklulus", {
+                    id_kelas_praktikum: $("#ddkelas_prak").val(),
+                    semester: $("#ddsemester").val(),
+                    tahun_ajaran : $("#ddtahun_ajaran").val()
+                },
+                function(result) {
+                    // alert(result);
+                    var arr = JSON.parse(result);
+
+                    data_laporan = arr;
+
+                    viewlulus();
+                });
+            });
             $.post(baseurl + "mahasiswa_nilai/getlulustidaklulus", {
                 id_kelas_praktikum: $("#ddkelas_prak").val(),
                 semester: $("#ddsemester").val(),
@@ -343,6 +375,38 @@
                     data_laporan = arr;
 
                     viewtidaklulus();
+                });
+            });
+            $("#ddsemester").change(function(){
+                // alert("aa" + this.value);
+                $.post(baseurl + "mahasiswa_nilai/getlulustidaklulus", {
+                    id_kelas_praktikum: $("#ddkelas_prak").val(),
+                    semester: $("#ddsemester").val(),
+                    tahun_ajaran : $("#ddtahun_ajaran").val()
+                },
+                function(result) {
+                    // alert(result);
+                    var arr = JSON.parse(result);
+
+                    data_laporan = arr;
+
+                    viewlulus();
+                });
+            });
+            $("#ddtahun_ajaran").change(function(){
+                // alert("aa" + this.value);
+                $.post(baseurl + "mahasiswa_nilai/getlulustidaklulus", {
+                    id_kelas_praktikum: $("#ddkelas_prak").val(),
+                    semester: $("#ddsemester").val(),
+                    tahun_ajaran : $("#ddtahun_ajaran").val()
+                },
+                function(result) {
+                    // alert(result);
+                    var arr = JSON.parse(result);
+
+                    data_laporan = arr;
+
+                    viewlulus();
                 });
             });
             $.post(baseurl + "mahasiswa_nilai/getlulustidaklulus", {
@@ -496,6 +560,7 @@
                 },
                 function(result) {
                     // alert(result);
+                    changekelasbyperiod();
                     var arr = JSON.parse(result);
                     data_laporan = arr;
                     viewmahasiswa();
@@ -511,6 +576,7 @@
                 },
                 function(result) {
                     // alert(result);
+                    changekelasbyperiod();
                     var arr = JSON.parse(result);
                     data_laporan = arr;
                     viewmahasiswa();
@@ -525,6 +591,7 @@
                 },
                 function(result) {
                     // alert(result);
+                    changekelasbyperiod();
                     var arr = JSON.parse(result);
                     data_laporan = arr;
                     viewmahasiswa();
@@ -595,7 +662,7 @@
 
         }
         else if(jenislaporan == "nilai_kelas"){
-            viewnilaikelas();
+            // viewnilaikelas();
             $('#ddkelas_prak').css('display', 'block');
             if(usertype == "mahasiswa"){
                 $('#ddmahasiswa').select2();
@@ -633,24 +700,73 @@
             }
             else{
                 $.post(baseurl + "mahasiswa_nilai/getsummary", {
-                    id : $('#ddkelas_prak').val()
+                    id : $('#ddkelas_prak').val(),
+                    semester: $("#ddsemester").val(),
+                    tahun_ajaran : $("#ddtahun_ajaran").val()
                 },
                 function(result) {
 
                     // alert(result);
-                    var arr = JSON.parse(result);
+                    changekelasbyperiod("viewnilaikelassummary");
+                    // var arr = JSON.parse(result);
 
-                    data_laporan = arr;
+                    // data_laporan = arr;
 
-                    viewnilaikelassummary();
+                    // viewnilaikelassummary();
                     // viewnilaikelassummaryall();
                 });
+                $("#ddsemester").change(function(){
+                    $.post(baseurl + "mahasiswa_nilai/getsummary", {
+                        id : $('#ddkelas_prak').val(),
+                        semester: $("#ddsemester").val(),
+                        tahun_ajaran : $("#ddtahun_ajaran").val()
+                    },
+                    function(result) {
+                        changekelasbyperiod("viewnilaikelassummary");
+                        // var arr = JSON.parse(result);
+                        // data_laporan = arr;
+                        // viewnilaikelassummary();
+                    });
+                });
 
+                $("#ddtahun_ajaran").change(function(){
+                    $.post(baseurl + "mahasiswa_nilai/getsummary", {
+                        id : $('#ddkelas_prak').val(),
+                        semester: $("#ddsemester").val(),
+                        tahun_ajaran : $("#ddtahun_ajaran").val()
+                    },
+                    function(result) {
+                        // changekelasbyperiod("viewnilaikelassummary");
+                        changekelasbyperiod();
+                        // $.post(baseurl + "kelas_praktikum/getperiod", {
+                        //     semester: $("#ddsemester").val(),
+                        //     tahun_ajaran : $("#ddtahun_ajaran").val()
+                        // },
+                        // function(result) {
+                        //     // alert(result);
+                        //     var arr = JSON.parse(result);
+                        //     var html = '<option val="" disabled>-Pilih Kelas-</option>';
+
+                        //     for(var i = 0; i < arr.length; i++){
+                        //         html += '<option value="' + arr[i]['id'] + '">' + arr[i]['nama_subject'] + ' (' + arr[i]['kelas_paralel'] + ') ' + arr[i]['tipe'] +'</option>';
+                        //     }
+
+                        //     $('#ddkelas_prak').html(html);
+
+                        // });
+
+                        // var arr = JSON.parse(result);
+                        // data_laporan = arr;
+                        // viewnilaikelassummary();
+                    });
+                });
                 
                 $('#ddkelas_prak').on("change paste keyup select", function() {
                     // alert($('#ddkelas_prak').val());
                     $.post(baseurl + "mahasiswa_nilai/getsummary", {
-                        id : $('#ddkelas_prak').val()
+                        id : $('#ddkelas_prak').val(),
+                        semester: $("#ddsemester").val(),
+                        tahun_ajaran : $("#ddtahun_ajaran").val()
                     },
                     function(result) {
 
@@ -912,6 +1028,42 @@
         }
 
         initializedatatable(kal);
+    }
+
+    function changekelasbyperiod($viewfunc = ""){
+        $.post(baseurl + "kelas_praktikum/getperiod", {
+            semester: $("#ddsemester").val(),
+            tahun_ajaran : $("#ddtahun_ajaran").val()
+        },
+        function(result) {
+            // alert(result);
+            var arr = JSON.parse(result);
+            // var html = '';
+            var html = '<option val="" disabled selected>-Pilih Kelas-</option>';
+
+            for(var i = 0; i < arr.length; i++){
+                html += '<option value="' + arr[i]['id'] + '">' + arr[i]['nama_subject'] + ' (' + arr[i]['kelas_paralel'] + ') ' + arr[i]['tipe'] +'</option>';
+            }
+
+            $('#ddkelas_prak').html(html);
+
+            if($viewfunc == "viewnilaikelassummary"){
+                $.post(baseurl + "mahasiswa_nilai/getsummary", {
+                    id : $('#ddkelas_prak').val(),
+                    semester: $("#ddsemester").val(),
+                    tahun_ajaran : $("#ddtahun_ajaran").val()
+                },
+                function(result) {
+
+                    var arr = JSON.parse(result);
+                    data_laporan = arr;
+                    viewnilaikelassummary();
+                });
+            }
+
+        });
+
+
     }
 
     function viewnilaikelas(){

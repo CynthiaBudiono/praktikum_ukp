@@ -37,12 +37,14 @@
 
           <form action="<?= (base_url('mahasiswa/readfile')); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
 
-          <input type="file" id="mahasiswa_file" name="mahasiswa_file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
-          <br><br>
-          <button type="submit" class="btn btn-sm bg-green">Update All!</button>
-
+            <input type="file" id="mahasiswa_file" name="mahasiswa_file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+            <br><br>
+            <button type="submit" onclik=loadloader() class="btn btn-sm bg-green">Update All!</button>
+            <div class="loader" style="display: none;"></div>
+          
           </form>
         </div>
+        
         <div class="x_content">
           <div class="row">
             <div class="col-sm-12">
@@ -95,3 +97,9 @@
   </div>
 </div>
 <!-- /page content -->
+
+<script>
+  function loadloader(){
+    $('#loader').css('display', 'block');
+  }
+</script>

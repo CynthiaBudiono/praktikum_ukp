@@ -557,8 +557,9 @@ class ambil_praktikum extends CI_Controller {
 
         // $this->input->post('id_subject');
         // var_dump($this->input->post('id'));exit;
+        $tahun_ajaran = $this->input->post('tahun_ajaran'). "-" . intval($this->input->post('tahun_ajaran') + 1);
         if($this->input->post('id') != null || $this->input->post('id') != 0){
-            $ambil_praktikum = $this->ambil_praktikum_model->getmahasiswaambil($this->input->post('id'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+            $ambil_praktikum = $this->ambil_praktikum_model->getmahasiswaambil($this->input->post('id'), $this->input->post('semester'), $tahun_ajaran);
         }
         // else{
         //     $ambil_praktikum = $this->ambil_praktikum_model->getmahasiswaambil(0, $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());

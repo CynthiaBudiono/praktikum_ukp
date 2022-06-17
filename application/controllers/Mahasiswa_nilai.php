@@ -294,7 +294,8 @@ class Mahasiswa_nilai extends CI_Controller {
     public function getlulustidaklulus(){
         $this->load->model('mahasiswa_nilai_model');
 
-        $mahasiswa_nilai = $this->mahasiswa_nilai_model->getlulustidaklulus($this->input->post('id_kelas_praktikum'));
+        $ta = $this->input->post('tahun_ajaran'). "-" . intval($this->input->post('tahun_ajaran') + 1);
+        $mahasiswa_nilai = $this->mahasiswa_nilai_model->getlulustidaklulus($this->input->post('id_kelas_praktikum'), $this->input->post('semester'), $ta);
 
         echo json_encode($mahasiswa_nilai);
     }
@@ -302,7 +303,8 @@ class Mahasiswa_nilai extends CI_Controller {
     public function getsummary(){
         $this->load->model('mahasiswa_nilai_model');
 
-        $mahasiswa_nilai = $this->mahasiswa_nilai_model->getsummary($this->input->post('id'));
+        $ta = $this->input->post('tahun_ajaran'). "-" . intval($this->input->post('tahun_ajaran') + 1);
+        $mahasiswa_nilai = $this->mahasiswa_nilai_model->getsummary($this->input->post('id'), $this->input->post('semester'), $ta);
 
         echo json_encode($mahasiswa_nilai);
     }
