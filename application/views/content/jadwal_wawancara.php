@@ -332,7 +332,7 @@
                         // kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['id'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
                     kal += '</td>';
                     kal += '<td>'+ arr[i]['created'] +'</td>';
-                    kal += '<td>'+ arr[i]['nama_mahasiswa'] +'</td>';
+                    kal += '<td>'+ arr[i]['NRP'] + ' ~ ' + arr[i]['nama_mahasiswa'] +'</td>';
                     kal += '<td>'+ arr[i]['nama_dosen'] +'</td>';
                     kal += '<td>'+ arr[i]['tanggal'] +'</td>';
                     // kal += '<td>';
@@ -391,7 +391,7 @@
                 for(var i = 0; i < arr.length; i++){
                     kal += '<tr>';
                         kal += '<td>'+ arr[i]['created'] +'</td>';
-                        kal += '<td>'+ arr[i]['nama_mahasiswa'] +'</td>';
+                        kal += '<td>'+ arr[i]['NRP'] + ' ~ ' + arr[i]['nama_mahasiswa'] +'</td>';
                         kal += '<td>'+ arr[i]['nama_dosen'] +'</td>';
                         kal += '<td>'+ arr[i]['tanggal'] +'</td>';
                         kal += '<td>'+ arr[i]['tanggal_diterima'] +'</td>';

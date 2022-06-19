@@ -440,11 +440,11 @@ class Mahasiswa_nilai extends CI_Controller {
         $this->load->model('mahasiswa_nilai_model');
 
         $data = $this->input->post('data');
-        // var_dump($data); exit;
+        
         for($i = 0; $i < count($data); $i++){
             $isidata = array(
                 'id' => $data[$i]['id_mahasiswa_nilai'],
-                'NRP' => $data[$i]['NRP'],
+                'NRP' => trim($data[$i]['NRP']),
                 'status_absensi' => $data[$i]['status_absensi'],
                 'nilai_awal' => $data[$i]['nilai_awal'],
                 'nilai_materi' => $data[$i]['nilai_materi'],

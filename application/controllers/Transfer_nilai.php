@@ -47,13 +47,15 @@ class Transfer_nilai extends CI_Controller {
 					for($j = 0; $j < count($laporan); $j++){
 						$mahasiswatransfer = $this->mahasiswa_nilai_model->getlulusbynrp($laporan[$j]['NRP'], $laporan[$j]['terpilih']);
 						// var_dump($mahasiswatransfer);exit;
-						if($mahasiswatransfer[0] != null){
-							if((int)$mahasiswatransfer[0]['hasil_akhir'] > 56){
-								// var_dump("masukk"); exit;
-								array_push($transfer_nilai, $mahasiswatransfer[0]);
-								// print_r("MASUK". $i . $j. " ");
-							}
-						}	
+						if($mahasiswatransfer != 0){
+							if($mahasiswatransfer[0] != null){
+								if((int)$mahasiswatransfer[0]['hasil_akhir'] > 56){
+									// var_dump("masukk"); exit;
+									array_push($transfer_nilai, $mahasiswatransfer[0]);
+									// print_r("MASUK". $i . $j. " ");
+								}
+							}	
+						}
 					}
 				}
 			}

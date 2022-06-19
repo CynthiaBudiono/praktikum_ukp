@@ -142,6 +142,7 @@ class Jadwal_berhalangan extends CI_Controller {
         $jadwal_berhalangan = $this->jadwal_berhalangan_model->getnabrakjadwalberhalangan($this->input->post('pengajar'), $this->input->post('hari'), $this->input->post('jam'), $this->input->post('durasi'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
         $jadwal_praktikum = $this->kelas_praktikum_model->getnabrakkelaspraktikum($this->input->post('pengajar'), $this->input->post('hari'), $this->input->post('jam'), $this->input->post('durasi'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
+        // var_dump($jadwal_berhalangan); exit;
         // var_dump($jadwal_perkuliahan); exit;
         //hasil cuman yes and no
         // kalo 2 2 nya no is no kalo salah satu yes is yes

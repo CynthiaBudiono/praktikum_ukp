@@ -141,7 +141,7 @@ class Jadwal_berhalangan_model extends CI_Model {
 				$startkuliah = $row['jam'];
 				$endkuliah = date('H:i:s', strtotime($row['jam']. ' +'.$row['durasi'].' minutes'));
 
-				if(($jam > $startkuliah && $jam < $endkuliah) || ($jamend > $startkuliah && $jamend < $endkuliah)){
+				if(($jam >= $startkuliah && $jam <= $endkuliah) || ($jamend >= $startkuliah && $jamend <= $endkuliah)){
 					// return 'yes';
 					$flag = 1;
 				}

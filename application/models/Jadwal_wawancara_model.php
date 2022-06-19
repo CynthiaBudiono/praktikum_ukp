@@ -40,7 +40,7 @@ class jadwal_wawancara_model extends CI_Model {
 	// }
 
 	public function getallbelumketerima($semester = null, $tahun_ajaran= null){
-		return $this->db->query("select jadwal_wawancara.*, dosen.nama as nama_dosen, mahasiswa.nama as nama_mahasiswa, calon_asisten_dosen.created from jadwal_wawancara, dosen, calon_asisten_dosen, mahasiswa where dosen.NIP = jadwal_wawancara.NIP and calon_asisten_dosen.id = jadwal_wawancara.id_calon_asisten_dosen and mahasiswa.NRP = calon_asisten_dosen.NRP and calon_asisten_dosen.NRP not in (select NRP from asisten)")->result_array();
+		return $this->db->query("select jadwal_wawancara.*, dosen.nama as nama_dosen, mahasiswa.nama as nama_mahasiswa, mahasiswa.NRP, calon_asisten_dosen.created from jadwal_wawancara, dosen, calon_asisten_dosen, mahasiswa where dosen.NIP = jadwal_wawancara.NIP and calon_asisten_dosen.id = jadwal_wawancara.id_calon_asisten_dosen and mahasiswa.NRP = calon_asisten_dosen.NRP and calon_asisten_dosen.NRP not in (select NRP from asisten)")->result_array();
 
 		// $this->db->select('jadwal_wawancara.*, dosen.nama as nama_dosen, mahasiswa.nama as nama_mahasiswa, calon_asisten_dosen.created');
         
@@ -69,7 +69,7 @@ class jadwal_wawancara_model extends CI_Model {
 	}
 
 	public function getallhistory($semester = null, $tahun_ajaran= null){
-		$this->db->select('jadwal_wawancara.*, dosen.nama as nama_dosen, mahasiswa.nama as nama_mahasiswa, calon_asisten_dosen.created, asisten.tanggal_diterima');
+		$this->db->select('jadwal_wawancara.*, dosen.nama as nama_dosen, mahasiswa.nama as nama_mahasiswa, calon_asisten_dosen.created, asisten.tanggal_diterima, mahasiswa.NRP');
         
 		$this->db->join('dosen', 'dosen.NIP = jadwal_wawancara.NIP');
 		$this->db->join('calon_asisten_dosen', 'calon_asisten_dosen.id = jadwal_wawancara.id_calon_asisten_dosen');

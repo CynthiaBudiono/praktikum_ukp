@@ -1071,6 +1071,7 @@
         var ratarata = 0;
         var jumlah = 0;
         for(var i = 0; i < data_laporan.length; i++){
+            // alert(data_laporan[i]['pertemuan']);
             kal += '<tr>';
                 kal += '<td>' + data_laporan[i]['pertemuan'] + '</td>';
                 kal += '<td>' + data_laporan[i]['nilai_awal'] + '</td>';
@@ -1108,6 +1109,7 @@
         var jumlah = 0;
         // datatable_laporan_nilai_kelas
         if(data_laporan.length > 0){
+            // alert("NILAII" + data_laporan[0]['nilai'].length);
             $("#tr_table_nilai_kelas").html("<th>Nama</th>"); 
             for(var j = 0; j < data_laporan[0]['nilai'].length; j++){
                 $("#tr_table_nilai_kelas").append("<th>P"+ data_laporan[0]['nilai'][j]['pertemuan'] +"</th>");

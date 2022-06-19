@@ -41,11 +41,25 @@ class Backup extends CI_Controller {
 	public function dobackup(){
 		// var_dump("masuk"); exit;
 
-		$namefile = 'db-praktikum_ukp-backup-' . date("Y-m-d-H-i-s") . '.sql';
+		$namefile = getenv('HOMEDRIVE')."/Downloads/".'db-praktikum_ukp-backup-' . date("Y-m-d-H-i-s") . '.sql';
 		// exec('d:\xampp\mysql\bin\mysqldump -u root -p praktikum_ukp > '.$namefile);
-		exec('d:\mysqldump -u c14180210 -p GFH457 c14180210 > '.$namefile);
+		// exec('d:\mysqldump -uc14180210 -pGFH457 c14180210 > '.$namefile);
 
-		echo "sukses";
+		exec("(mysqldump -uroot -p praktikum_ukp > ". $namefile . ") 2>&1", $output, $exit_status);
+
+		// exec("/usr/bin/mysqldump -u mysql-user -h 123.145.167.189 -pmysql-pass database_name", $output);
+		// /* $output will have sql backup, then save file with these codes */
+		// $h=fopen("/path-to-export/file.sql", "w+");
+		// fputs($h, $output);
+		// fclose($h);
+
+		echo $output;
+
+		// $return_var = NULL;
+		// $output = NULL;
+		// $command = "/usr/bin/mysqldump -u mysql-user -h 123.145.167.189 -pmysql-pass database_name > /path-to-export/file.sql";
+		// exec($command, $output, $return_var);
+
 		 // insert log
 		//  $logs_insert = array(
 		// 	 "id_user" => $this->session->userdata('user_id'),

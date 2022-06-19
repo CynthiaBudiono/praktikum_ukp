@@ -708,6 +708,29 @@ class ambil_praktikum extends CI_Controller {
                     $this->ambil_praktikum_model->update($data);
                     $data_insert[] = $data;
                 }
+                else{
+                    $ppactive = $this->pendaftaran_praktikum_model->getbukapendaftaran();
+    
+                    if($ppactive != 0){
+                        $ppke = $ppactive[0]['PP'];
+                    }
+                    else{
+                        $ppke = 9; //pendaftaran lagi gak buka
+                    }
+                    $data = array(
+                        'NRP'  => $data_jadwal[$i]['NRP'],
+                        'kode_mk' => $data_jadwal[$i]['kode_mk'],
+                        'tipe' => $data_jadwal[$i]['tipe'],
+                        'pil1' => $data_jadwal[$i]['pil1'],
+                        'pil2' => $data_jadwal[$i]['pil2'],
+                        'pil3' => $data_jadwal[$i]['pil3'],
+                        'PP' => $ppke,
+                        'semester' => $this->informasi_umum_model->getsemester(),
+                        'tahun_ajaran' => $this->informasi_umum_model->gettahunajaran()
+                    );
+                    $this->ambil_praktikum_model->add($data);
+                    $data_insert[] = $data;
+                }
             }
             
             // insert log
