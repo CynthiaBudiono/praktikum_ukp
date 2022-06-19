@@ -53,7 +53,7 @@ class Ambil_praktikum_model extends CI_Model {
 		// parameternya jadwal kelas praktikum dari pilihan mahasiswa itu
 
 		$flag = 0;
-		$jamend = date('H:i:s', strtotime($jam. ' +'.$durasi.' minutes'));
+		$jamend = date('H:i:s', strtotime($jam. ' +'.((int)$durasi-10).' minutes'));
 
 		$this->db->select('jadwal_perkuliahan.*');
 		$this->db->join('jadwal_perkuliahan', 'jadwal_perkuliahan.id = mahasiswa_matakuliah.id_jadwal_perkuliahan');
@@ -79,6 +79,9 @@ class Ambil_praktikum_model extends CI_Model {
 					// return 'yes';
 					$flag = 1;
 				}
+				// if(($jam >= $startkuliah && $jam <= $endkuliah) || ($jamend > $startkuliah && $jamend < $endkuliah)){
+				// 	$flag = 1;
+				// }
 			}
 		}
 

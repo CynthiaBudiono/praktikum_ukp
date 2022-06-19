@@ -371,7 +371,7 @@ function cetak(kodemk = null) {
                                     }
                                     else 
                                     {
-                                        // console.log("LIHAT DATA "+ (arrData[i]['kelas_praktikum'][k]['id']) + " " + (arrData[i]['data_mahasiswa'][j]['NRP']) + ": " + arrData[i]['data_mahasiswa'][j]['nabrak_kelas_praktikum'+(arrData[i]['kelas_praktikum'][k]['id'])+(arrData[i]['data_mahasiswa'][j]['NRP'])]);
+                                        console.log("LIHAT DATA "+ (arrData[i]['kelas_praktikum'][k]['id']) + " " + (arrData[i]['data_mahasiswa'][j]['NRP']) + ": " + arrData[i]['data_mahasiswa'][j]['nabrak_kelas_praktikum'+(arrData[i]['kelas_praktikum'][k]['id'])+(arrData[i]['data_mahasiswa'][j]['NRP'])]);
                                         if(arrData[i]['data_mahasiswa'][j]['nabrak_kelas_praktikum'+(arrData[i]['kelas_praktikum'][k]['id'])+(arrData[i]['data_mahasiswa'][j]['NRP'])] == 'yes'){
                                             kal = kal + "<td class='bg-red' style='text-align: center' onclick=milih(" + i + "," + j + ",'"+ arrData[i]['data_mahasiswa'][j]['id'] + "',"+ arrData[i]['kelas_praktikum'][k]['id'] +",'pil"+ (k+1) +"')>&nbsp;</td>";
                                         }

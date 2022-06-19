@@ -79,6 +79,7 @@ class ambil_praktikum extends CI_Controller {
                             $getsubject[$i]['data_mahasiswa'][$j]['nabrak_kelas_praktikum'.$getsubject[$i]['kelas_praktikum'][$k]['id'].$getsubject[$i]['data_mahasiswa'][$j]['NRP']] = $this->ambil_praktikum_model->getnabrak($getsubject[$i]['data_mahasiswa'][$j]['NRP'], $getsubject[$i]['kelas_praktikum'][$k]['hari'], $getsubject[$i]['kelas_praktikum'][$k]['jam'], $getsubject[$i]['kelas_praktikum'][$k]['durasi'], $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 
                         }
+                        // var_dump($getsubject[$i]['data_mahasiswa']); exit;
                         // var_dump($getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak1']);
                         
                         // var_dump($getsubject[$i]['data_mahasiswa'][$j]['jadwalnabrak1']);
