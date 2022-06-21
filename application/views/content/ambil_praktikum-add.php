@@ -184,7 +184,7 @@
                 <div class="x_title" id="data_table">
                     <h2>Kelas</h2>
                     <ul class="nav navbar-right panel_toolbox">
-                        <li style="margin: 15px 20px 0px 0px;"><span class="badge bg-yellow">Berhalangan</span></li>
+                        <li style="margin: 15px 20px 0px 0px;"><span class="badge bg-yellow">Bentrok</span></li>
                         <li><button type="button" class="btn bg-success" id="btnvalidasi" onclick="validasi()" <?php if($this->session->userdata('user_type') == 'mahasiswa' || $this->session->userdata('user_type') == 'asisten_dosen' || $this->session->userdata('user_type') == 'asisten_tetap'){if($bukapendaftaran == "tutup"){?>style="display: none;"<?php } else if($bukapendaftaran == "buka"){?>style="display: block;"<?php }}?>>Validasi</button></li>
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                     </ul>
