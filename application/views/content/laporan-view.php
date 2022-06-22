@@ -134,6 +134,7 @@
                                                 <th>Pil1</th>
                                                 <th>Pil2</th>
                                                 <th>Pil3</th>
+                                                <th>Terpilih</th>
                                             </tr>
                                         </thead>
                                         <tbody id="body_table_mahasiswa_tertolak"></tbody>
@@ -1020,6 +1021,12 @@
                 }
                 if(data_laporan[i]['pil3'] != null){
                     kal += '<td>' + data_laporan[i]['hari3'] + ", " + data_laporan[i]['jam3'] + '</td>';
+                }
+                else{
+                    kal += '<td></td>';
+                }
+                if(data_laporan[i]['terpilih'] != 0){
+                    kal += '<td>' + data_laporan[i]['hariterpilih'] + ", " + data_laporan[i]['jamterpilih'] + '</td>';
                 }
                 else{
                     kal += '<td></td>';

@@ -397,7 +397,7 @@ class Mahasiswa_nilai extends CI_Controller {
             for($i = 0; $i < count($data); $i++){
                 $isidata = array(
                     'id_kelas_praktikum' => $id,
-                    'NRP' => $data[$i]['NRP'],
+                    'NRP' => trim($data[$i]['NRP']),
                     'pertemuan' => $pertemuan,
                     'status_absensi' => $data[$i]['status_absensi'],
                     'nilai_awal' => ($data[$i]['nilai_awal'] != "") ? $data[$i]['nilai_awal'] : 0,

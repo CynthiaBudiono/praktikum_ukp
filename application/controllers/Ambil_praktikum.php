@@ -41,6 +41,70 @@ class ambil_praktikum extends CI_Controller {
 		$this->load->view('general/footer', $data);
 	}
 
+    public function readfiledatalama(){
+        $this->load->library('excel');
+
+		if((!empty($_FILES)) && !empty($_FILES['ambil_prak_file']['name'])) {
+
+			$path = $_FILES["ambil_prak_file"]["tmp_name"];
+			$object = PHPExcel_IOFactory::load($path);
+			foreach($object->getWorksheetIterator() as $worksheet){
+				$highestRow = $worksheet->getHighestRow();
+				$highestColumn = $worksheet->getHighestColumn();
+
+				for($row = 2; $row <= $highestRow; $row++){
+					$nrp = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
+					$kode_mk = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
+					$pil1 = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
+                    $pil2 = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
+                    $pil3 = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
+                    $pil4 = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
+					$data[] = array(
+						'NRP' 		=> $nrp,
+						'kode_mk' 	=> $kode_mk,
+						'pil1' 	    => $pil1,
+                        'pil2' 	    => $pil2,
+                        'pil3' 	    => $pil3,
+                        'pil4' 	    => $pil4,
+					);
+				}
+			}
+
+			$this->addupdatedata($data);
+			// var_dump($data[0]); exit;
+		}
+		else{
+			echo "Tidak ada file yang masuk";
+		}
+    }
+
+    private function addupdatedata($data){
+
+		$this->load->model('ambil_praktikum_model');
+        $this->load->model('kelas_praktikum_model');
+		if($data != null){
+			for($i = 0; $i < count($data); $i++){
+				$get = $this->ambil_praktikum_model->getbynrpnkodemkntipe($data[$i]['NRP'], $data[$i]['kode_mk'], "praktikum");
+
+                $pil1 = $this->kelas_praktikum_model->getbykodekelas($data[$i]['pil1'])[0]['id'];
+                $pil2 = $this->kelas_praktikum_model->getbykodekelas($data[$i]['pil2'])[0]['id'];
+                $pil3 = $this->kelas_praktikum_model->getbykodekelas($data[$i]['pil3'])[0]['id'];
+                $pil4 = $this->kelas_praktikum_model->getbykodekelas($data[$i]['pil4'])[0]['id'];
+
+				$datavalue = array(
+					"id"		=> $get[0]['id'],
+					"pil1"		=> $pil1,
+                    "pil2"		=> $pil2,
+                    "pil3"		=> $pil3,
+                    "pil4"		=> $pil4,
+				);
+
+				$this->ambil_praktikum_model->update($datavalue);
+			}
+		}
+		redirect("ambil_praktikum");
+	}
+
     public function getclassgroup(){
         $this->load->model('ambil_praktikum_model');
         $this->load->model('informasi_umum_model');
@@ -137,6 +201,9 @@ class ambil_praktikum extends CI_Controller {
 
         if($kelas != 0){
             for($k = 0; $k < 4; $k++){
+
+                $kelas = $this->kelas_praktikum_model->getbysubject($kode_mk, "praktikum", $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+
                 for($i = 0; $i < count($kelas); $i++){
                 
                     $ambil_praktikum = $this->ambil_praktikum_model->sortbypilnipk($kelas[$i]['id'], "pil".(int)($k+1)); //GET SELAMA TERPILIH = 0 (BELUM TERPILIH)
@@ -151,7 +218,9 @@ class ambil_praktikum extends CI_Controller {
                                 'terpilih' => $kelas[$i]['id']
                             );
                             $this->ambil_praktikum_model->update($dataupdateterpilih);
+                            // $this->db->query("update kelas_praktikum set terisi = terisi + 1 where id = ". $kelas[$i]['id']);
                         }
+                        
                         //UPDATE QUOTA
                         $dataupdatequota = array(
                             'id' => $kelas[$i]['id'],
@@ -204,6 +273,9 @@ class ambil_praktikum extends CI_Controller {
 
         if($kelas != 0){
             for($k = 0; $k < 4; $k++){
+
+                $kelas = $this->kelas_praktikum_model->getbysubject($kode_mk, "responsi", $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+                
                 for($i = 0; $i < count($kelas); $i++){
                     $ambil_praktikum = $this->ambil_praktikum_model->sortbypilnipk($kelas[$i]['id'], "pil".(int)($k+1)); //GET SELAMA TERPILIH = 0 (BELUM TERPILIH)
                     // var_dump($ambil_praktikum); exit;

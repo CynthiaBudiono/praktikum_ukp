@@ -136,9 +136,11 @@
                             <div class="form-group">
                                 <div class="col-md-9 col-sm-9">
                                     <button type="reset" class="btn btn-warning">Reset</button>
-                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <button type="button" onclick=confirm() class="btn btn-success">Submit</button>
                                 </div>
                             </div>
+
+
                         </form>
                     </div> <!-- /x_content -->
                 </div>
@@ -174,7 +176,7 @@
     // $("#tahun_ajaran").on("change" , function () {
     //     alert($('#tahun_ajaran').val());
     // });
-
+    function confirm(){}
 
     function tampilkanPreview(userfile, idpreview){
 

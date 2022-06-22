@@ -44,7 +44,7 @@ class Backup extends CI_Controller {
 		// $url = $_GET['path'];
 		$namefile = 'db-praktikum_ukp-backup-' . date("Y-m-d-H-i-s") . '.sql';
 		
-		// exec('mysqldump c14180210 -uc14180210 -pGFH457 > '.$namefile);
+		// exec('mysqldump c14180210 -uc14180210 -pGFH457 > 'public_html/assets/backup/.$namefile);
 
 		// readfile($url, $namefile);
 
@@ -56,7 +56,7 @@ class Backup extends CI_Controller {
 			 "id_user" => $this->session->userdata('user_id'),
 			 "table_name" => 'all',
 			 "action" => 'CREATE',
-			 "keterangan" => "backup data has been created by ".$this->session->userdata('logged_name'),
+			 "keterangan" => $namefile,
 			 "created" => date('Y-m-d H:i:s')
 		 );
 		 $this->load->model('user_history_model');

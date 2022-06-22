@@ -40,6 +40,22 @@ class Kelas_praktikum_model extends CI_Model {
 
 	}
 
+	public function getbykodekelas($kode_kelas){
+		$this->db->select('kelas_praktikum.id');
+		
+		$this->db->where('kelas_praktikum.kode_kelas_praktikum', $kode_kelas);
+
+		$query = $this->db->get('kelas_praktikum');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
 	public function getsubject($semester = null, $tahun_ajaran = null){
 		$this->db->distinct();
 		$this->db->select('kelas_praktikum.kode_mk');

@@ -58,6 +58,14 @@
         </div>
         <br>
         <br>
+        <form action="<?= (base_url('ambil_praktikum/readfile')); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
+
+            <input type="file" id="ambil_praktikum_file" name="ambil_praktikum_file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+            <br><br>
+            <button type="submit" class="btn btn-sm bg-green">Update All!</button>
+
+        </form>
+
         <select class="form-control" id="selectmk" onchange="getbymk()">
             <option value="">All</option>
         </select>

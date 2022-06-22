@@ -39,6 +39,7 @@
                   <thead>
                     <tr>
                       <th>Tanggal</th>
+                      <th>File sql</th>
                     </tr>
                   </thead>
 
@@ -48,6 +49,11 @@
                           <?php foreach($user_history as $key) : ?>
                             <tr>
                               <td><?= (isset($key['created'])) ? $key['created'] : '' ?></td>
+                              <?php 
+                                  $t = base_url("assets/backup/").(isset($key['keterangan'])) ? $key['keterangan'] : '-';
+                                  $t = str_replace("https://","http://",$t);
+                              ?>
+                              <td>Download the sql, <a href="<?php echo $t; ?>" download><?= (isset($key['keterangan'])) ? $key['keterangan'] : '-' ?></a></td>
                             </tr>
                           <?php endforeach; ?>
                       <?php endif; ?>

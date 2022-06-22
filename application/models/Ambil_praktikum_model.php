@@ -25,6 +25,24 @@ class Ambil_praktikum_model extends CI_Model {
 
 	}
 
+	public function getbynrpnkodemkntipe($nrp, $kode_mk, $tipe){
+		$this->db->select('ambil_praktikum.id');
+		$this->db->where('ambil_praktikum.NRP', $nrp);
+		$this->db->where('ambil_praktikum.kode_mk', $kode_mk);
+		$this->db->where('ambil_praktikum.tipe', $tipe);
+
+		$query = $this->db->get('ambil_praktikum');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+
+	}
+
 	public function getclassgroup($semester = null, $tahun_ajaran = null) {
 
 		$this->db->select('count(id) as jumlah_daftar, ambil_praktikum.*');
@@ -485,7 +503,7 @@ class Ambil_praktikum_model extends CI_Model {
 		$this->db->select(' kp2.hari as hari2, kp2.jam as jam2, kp2.durasi as durasi2');
 		$this->db->select(' kp3.hari as hari3, kp3.jam as jam3, kp3.durasi as durasi3');
 		$this->db->select(' kp4.hari as hari4, kp4.jam as jam4, kp4.durasi as durasi4');
-
+		$this->db->select(' kpterpilih.hari as hariterpilih, kpterpilih.jam as jamterpilih, kpterpilih.durasi as durasiterpilih');
 
 		$this->db->join('mahasiswa', 'mahasiswa.NRP = mahasiswa_matakuliah.nrp');
 		$this->db->join('ambil_praktikum', 'ambil_praktikum.id_mahasiswa_matakuliah = mahasiswa_matakuliah.id');
@@ -497,6 +515,7 @@ class Ambil_praktikum_model extends CI_Model {
 		$this->db->join('kelas_praktikum as kp2', 'kp2.id = ambil_praktikum.pil2', 'left');
 		$this->db->join('kelas_praktikum as kp3', 'kp3.id = ambil_praktikum.pil3', 'left');
 		$this->db->join('kelas_praktikum as kp4', 'kp4.id = ambil_praktikum.pil4', 'left');
+		$this->db->join('kelas_praktikum as kpterpilih', 'kpterpilih.id = ambil_praktikum.terpilih', 'left');
 		
 		$this->db->where('jadwal_perkuliahan.kode_mk', $kode_mk);
 
