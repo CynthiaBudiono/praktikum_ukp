@@ -232,6 +232,23 @@ $(document).ready(function() {
         });
     }
 
+    function cekparalel(row){
+        alert($("#kelas_paralel"+ row).val());
+        $.post(baseurl + "kelas_praktikum/cekkelasparalel", { //SDH di cek dengan jadwal perkuliahan
+            kode_mk: $('#subject'+ row).val(),
+            kelas_paralel: $('#kelas_paralel' + row).val(),
+            tipe: $("input[name='tipe"+ row +"']:checked").val()
+        },
+        function(result) {
+            alert("cekparalel : " + result);
+            if(result != 0){
+                //ALERT DAN GAK BISA SUBMIT == disabled
+                $('#div_alert_paralel' + row).css('display', 'block');
+            }
+            $('#div_alert_paralel' + row).css('display', 'block');
+        });
+    }
+
     function addrow(){
         row +=1;
         var kal ='';
@@ -252,6 +269,13 @@ $(document).ready(function() {
                     kal +='<div class="clearfix"></div>';
                 kal +='</div>';
                 kal +='<div class="x_content collapse" id="datacollapse' + row + '">';
+                    kal +='<div class="alert alert-danger pop-over-style" role="alert" id="div_alert_paralel' + row + '" style="display:none;">';
+                        kal +='<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>';
+                        kal +='</button>';
+                        kal +='<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>';
+                        kal +='<strong>Danger.</strong> <span id="error_msgparalel' + row + '">Kelas Paralel telah ada</span>';
+                    kal +='</div>';
+
                     kal +='<div class="alert alert-dismissible pop-over-style" role="alert" id="div_alert' + row + '" style="display:none;">';
                         kal +='<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>';
                         kal +='</button>';
@@ -283,8 +307,17 @@ $(document).ready(function() {
                     kal +='<div class="form-group row">';
                         kal +='<label class="col-form-label col-md-3 col-sm-3 ">Kelas Paralel</label>';
                         kal +='<div class="col-md-9 col-sm-9 form-group has-feedback">';
-                            kal +='<input type="text" id="kelas_paralel' + row + '" name="kelas_paralel' + row + '" placeholder="ex. A" class="kelas_paralel_input form-control" required="required" maxlength="1">';
-                            kal +='<span class="fa fa-gavel form-control-feedback right" aria-hidden="true"></span>';
+                            kal +='<select class="kelas_paralel_input form-control select2" onchange=cekparalel('+ row +') name="kelas_paralel' + row + '" id="kelas_paralel' + row + '" style="width:100%;">';
+                                kal +='<option value="" disabled selected>-- Pilih Paralel --</option>';
+                                kal +='<option value="A">A</option>';
+                                kal +='<option value="B">B</option>';
+                                kal +='<option value="C">C</option>';
+                                kal +='<option value="D">D</option>';
+                                kal +='<option value="E">E</option>';
+                                kal +='<option value="F">F</option>';
+                            kal +='</select>';
+                            // kal +='<input type="text" id="kelas_paralel' + row + '" name="kelas_paralel' + row + '" placeholder="ex. A" class="kelas_paralel_input form-control" required="required" maxlength="1">';
+                            // kal +='<span class="fa fa-gavel form-control-feedback right" aria-hidden="true"></span>';
                         kal +='</div>';
                     kal +='</div>';
 
@@ -404,6 +437,8 @@ $(document).ready(function() {
             //     }
             // });
         });
+
+        $('#kelas_paralel' + row).select2();
 
         $('#laboratorium' + row).select2();
 

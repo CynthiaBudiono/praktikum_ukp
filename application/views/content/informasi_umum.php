@@ -136,10 +136,29 @@
                             <div class="form-group">
                                 <div class="col-md-9 col-sm-9">
                                     <button type="reset" class="btn btn-warning">Reset</button>
-                                    <button type="button" onclick=confirm() class="btn btn-success">Submit</button>
+                                    <button type="button" data-toggle="modal" data-target=".bs-example-modal-sm" onclick=confirm() class="btn btn-success">Submit</button>
                                 </div>
                             </div>
 
+                            <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="myModalLabel2">Apakah sudah benar?</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" id="modal_body">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Yakin</button>
+                                    </div>
+
+                                </div>
+                                </div>
+                            </div>
 
                         </form>
                     </div> <!-- /x_content -->
@@ -176,7 +195,15 @@
     // $("#tahun_ajaran").on("change" , function () {
     //     alert($('#tahun_ajaran').val());
     // });
-    function confirm(){}
+
+    function confirm(){
+        var html = '';
+        html += ' <p> Semester : ' + (($("input[name='semester']:checked").val() == 1) ? 'Ganjil' : 'Genap') + '</p>';
+        html += ' <p> Tahun Ajaran : ' + $("#tahun_ajaran").val() + '</p>';
+        html += '<h4>Masukkan password, jika sudah yakin</h4>';
+        html += '<input type="password" class="form-control" placeholder="password" name="password"/>';
+        $("#modal_body").html(html);
+    }
 
     function tampilkanPreview(userfile, idpreview){
 

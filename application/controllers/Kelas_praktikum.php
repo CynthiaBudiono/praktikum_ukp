@@ -160,6 +160,15 @@ class Kelas_praktikum extends CI_Controller {
 
     }
 
+    public function cekkelasparalel(){
+        $this->load->model('kelas_praktikum_model');
+        $this->load->model('informasi_umum_model');
+
+        $kelas = $this->kelas_praktikum_model->cekkelasparalel($this->input->post('kode_mk'), $this->input->post('kelas_paralel'), $this->input->post('tipe'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+
+        echo json_encode($kelas);
+    }
+
     public function getperiodnow(){
         $this->load->model('kelas_praktikum_model');
         $this->load->model('informasi_umum_model');

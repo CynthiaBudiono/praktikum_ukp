@@ -56,6 +56,30 @@ class Kelas_praktikum_model extends CI_Model {
 			return 0;
 	}
 
+	public function cekkelasparalel($kode_mk, $kelas_paralel, $tipe, $semester, $tahun_ajaran){
+		
+		$this->db->where('kelas_praktikum.kode_mk', $kode_mk);
+		$this->db->where('kelas_praktikum.kelas_paralel', $kelas_paralel);
+		$this->db->where('kelas_praktikum.tipe', $tipe);
+
+		if($semester != null){
+			$this->db->where('kelas_praktikum.semester', $semester);
+		}
+		if($tahun_ajaran != null){
+			$this->db->where('kelas_praktikum.tahun_ajaran', $tahun_ajaran);
+		}
+
+		$query = $this->db->get('kelas_praktikum');
+
+		if ($query->num_rows() > 0)
+
+			return $query->result_array();
+
+		else
+
+			return 0;
+	}
+
 	public function getsubject($semester = null, $tahun_ajaran = null){
 		$this->db->distinct();
 		$this->db->select('kelas_praktikum.kode_mk');
