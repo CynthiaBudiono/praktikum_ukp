@@ -31,7 +31,7 @@
 
             <div class="title_right" style="float:right;">
                 <button type="button" class="btn btn-danger">Cancel</button>
-                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="submit" class="btn btn-success" id="cekbtnsubmit">Submit</button>
             </div>
  
             <div id="container-form">
@@ -61,7 +61,7 @@
                         <div class="form-group row">
                             <label class="col-form-label col-md-3 col-sm-3 ">Matakuliah</label>
                             <div class="col-md-5 col-sm-5 form-group has-feedback">
-                                <select class="subject_input form-control select2" name="subject" id="subject" style="width:100%;">
+                                <select class="subject_input form-control select2" disabled name="subject" id="subject" style="width:100%;">
                                     <option value="" disabled selected>Search subject</option>
                                     <?php if(isset($subject)) : ?>
                                         <?php if(is_array($subject)) : ?>
@@ -93,7 +93,17 @@
                         <div class="form-group row">
                             <label class="col-form-label col-md-3 col-sm-3 ">Kelas Paralel</label>
                             <div class="col-md-9 col-sm-9 form-group has-feedback">
-                                <input type="text" id="kelas_paralel" name="kelas_paralel" placeholder="ex. A" class="kelas_paralel_input form-control" required="required" maxlength="1" value="<?= (isset($detil[0]['kelas_paralel'])) ? $detil[0]['kelas_paralel'] : '' ?>">
+                                <!-- <select class="kelas_paralel_input form-control select2" disabled name="kelas_paralel" id="kelas_paralel" style="width:100%;">
+                                    <option value="" disabled selected>-- Pilih Paralel --</option>
+                                    <?= (isset($detil[0]['kelas_paralel'])) ? $detil[0]['kelas_paralel'] : '' ?>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                    <option value="E">E</option>
+                                    <option value="F">F</option>
+                                </select> -->
+                                <input type="text" id="kelas_paralel" name="kelas_paralel" disabled placeholder="ex. A" class="kelas_paralel_input form-control" required="required" maxlength="1" value="<?= (isset($detil[0]['kelas_paralel'])) ? $detil[0]['kelas_paralel'] : '' ?>">
                                 <span class="fa fa-gavel form-control-feedback right" aria-hidden="true"></span>
                             </div>
                         </div>

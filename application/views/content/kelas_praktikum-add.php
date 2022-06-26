@@ -85,10 +85,13 @@
                 <button type="button" onclick="addrow()" class="btn bg-green">Tambah</button>
                 <a class="btn btn-danger" href="<?php echo base_url("kelas_praktikum"); ?>">Cancel</a>
                 <button type="reset" class="btn btn-warning">Reset</button>
-                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="submit" class="btn btn-success" id="cekbtnsubmit">Submit</button>
             </div>
- 
             <div id="container-form">
+                <br><br><br>
+                <div class="row">
+                    <h6>NB: Tidak boleh ada yang error <i class="fa fa-hand-paper-o" aria-hidden="true"></i></h6>
+                </div>
                 <input type="hidden" id="total_row" name="total_row">
             </div> <!-- /conteiner-form -->
         </form>
@@ -142,6 +145,13 @@ $(document).ready(function() {
         // });
     }
 
+    // $('#cekbtnsubmit').click(function() {
+
+    //     alert($('#cekbtnsubmit').prop('disabled'));
+    //     if($('#cekbtnsubmit').prop('disabled') == true){
+    //         alert("Mohon diperhatikan, masih ada yang error");
+    //     }
+    // });
 
     // $("#status").prop("checked", false);
 
@@ -232,20 +242,27 @@ $(document).ready(function() {
         });
     }
 
+
     function cekparalel(row){
-        alert($("#kelas_paralel"+ row).val());
+        // alert($("#kelas_paralel"+ row).val());
         $.post(baseurl + "kelas_praktikum/cekkelasparalel", { //SDH di cek dengan jadwal perkuliahan
             kode_mk: $('#subject'+ row).val(),
             kelas_paralel: $('#kelas_paralel' + row).val(),
             tipe: $("input[name='tipe"+ row +"']:checked").val()
         },
         function(result) {
-            alert("cekparalel : " + result);
+            // alert("cekparalel : " + result);
             if(result != 0){
                 //ALERT DAN GAK BISA SUBMIT == disabled
+                $('#have_danger' + row).css('display', 'block');
                 $('#div_alert_paralel' + row).css('display', 'block');
+                $('#cekbtnsubmit').attr("disabled", true);
             }
-            $('#div_alert_paralel' + row).css('display', 'block');
+            else{
+                $('#have_danger' + row).css('display', 'none');
+                $('#div_alert_paralel' + row).css('display', 'none');
+                $('#cekbtnsubmit').attr("disabled", false);
+            }
         });
     }
 
@@ -261,6 +278,7 @@ $(document).ready(function() {
                         kal +='<ul class="nav navbar-right panel_toolbox">';
                             kal +='<li style="margin-right: 6px; padding-top: 6px;"><input type="checkbox" class="toggle-switch" name="status' + row + '" id="status' + row + '" checked></li>';
                             kal +='<li name="have_warning' + row + '" id="have_warning' + row + '" style="margin: 0px 10px; padding-top: 4px; display:none;"><i class="fa fa-exclamation-circle fa-2x" aria-hidden="true" style="color:#ee9500;"></i></li>';
+                            kal +='<li name="have_danger' + row + '" id="have_danger' + row + '" style="margin: 0px 10px; padding-top: 4px; display:none;"><i class="fa fa-hand-paper-o fa-2x" aria-hidden="true" style="color:#ee9500;"></i></li>';
                             kal +='<li style="margin: 0px 10px; padding-top: 4px;"><i class="fa fa-trash color-red fa-2x" onclick=confirmdelete(this,' + row + ') aria-hidden="true"></i></li>';
                             kal +='<li><a data-toggle="collapse" href="#datacollapse' + row + '" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-chevron-up"></i></a></li>';
                         kal +='</ul>';
@@ -269,11 +287,11 @@ $(document).ready(function() {
                     kal +='<div class="clearfix"></div>';
                 kal +='</div>';
                 kal +='<div class="x_content collapse" id="datacollapse' + row + '">';
-                    kal +='<div class="alert alert-danger pop-over-style" role="alert" id="div_alert_paralel' + row + '" style="display:none;">';
+                    kal +='<div class="alert alert-danger alert-dismissible" role="alert" id="div_alert_paralel' + row + '" style="display:none;">';
                         kal +='<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>';
                         kal +='</button>';
-                        kal +='<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>';
-                        kal +='<strong>Danger.</strong> <span id="error_msgparalel' + row + '">Kelas Paralel telah ada</span>';
+                        kal +='<i class="fa fa-hand-paper-o" aria-hidden="true"></i>';
+                        kal +='&nbsp<strong>Danger.</strong> <span id="error_msgparalel' + row + '">Kelas Paralel telah ada</span>';
                     kal +='</div>';
 
                     kal +='<div class="alert alert-dismissible pop-over-style" role="alert" id="div_alert' + row + '" style="display:none;">';
@@ -287,7 +305,7 @@ $(document).ready(function() {
                     kal +='<div class="form-group row">';
                         kal +='<label class="col-form-label col-md-3 col-sm-3 ">Matakuliah</label>';
                         kal +='<div class="col-md-5 col-sm-5 form-group has-feedback">';
-                            kal +='<select class="subject_input form-control select2" name="subject' + row + '" id="subject' + row + '" style="width:100%;">';
+                            kal +='<select class="subject_input form-control select2" onchange=cekparalel('+ row +') name="subject' + row + '" id="subject' + row + '" style="width:100%;">';
                                 kal +='<option value="" disabled selected>Search subject</option>';
                             kal +='</select>';
                             kal +='<span class="fa fa-book form-control-feedback right" aria-hidden="true"></span>';
