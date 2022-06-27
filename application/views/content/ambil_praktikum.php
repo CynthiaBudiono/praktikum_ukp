@@ -50,7 +50,7 @@
 
             <!-- <span class="badge bg-blue">Kuliah</span> -->
             <span class="badge bg-green">Bisa</span>
-            <span class="badge bg-red">Berhalangan</span>
+            <span class="badge bg-red">Bentrok</span>
 
             <button type="button" onclick="generate()" class="btn btn-sm bg-green">Generate Mahasiswa</button>
             <button type="button" onclick="pemilihankelas()" class="btn btn-sm bg-green">Pemilihan Kelas</button>
@@ -58,13 +58,13 @@
         </div>
         <br>
         <br>
-        <form action="<?= (base_url('ambil_praktikum/readfile')); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
+        <!-- <form action="<?= (base_url('ambil_praktikum/readfiledatalama')); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
 
-            <input type="file" id="ambil_praktikum_file" name="ambil_praktikum_file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+            <input type="file" id="ambil_prak_file" name="ambil_prak_file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
             <br><br>
             <button type="submit" class="btn btn-sm bg-green">Update All!</button>
 
-        </form>
+        </form> -->
 
         <select class="form-control" id="selectmk" onchange="getbymk()">
             <option value="">All</option>

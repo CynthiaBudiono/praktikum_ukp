@@ -28,7 +28,7 @@
         <div class="title_right" style="float:right; text-align:right; margin-top:8px;">
             <span class="badge bg-blue">Kuliah</span>
             <span class="badge bg-green">Bisa</span>
-            <span class="badge bg-red">Berhalangan</span>
+            <span class="badge bg-red">Bentrok</span>
         </div>
 
     </div>

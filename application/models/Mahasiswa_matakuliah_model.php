@@ -126,6 +126,12 @@ class Mahasiswa_matakuliah_model extends CI_Model {
 		$this->db->join('subject', 'subject.kode_mk = jadwal_perkuliahan.kode_mk');
 		$this->db->where('mahasiswa_matakuliah.NRP', $nrp);
 
+		$this->db->group_start()
+			->or_where('subject.status_praktikum', 1)
+		  	->or_where('subject.status_responsi', 1);
+		$this->db->group_end();
+		
+
 		if($semester != null){
 			$this->db->where('mahasiswa_matakuliah.semester', $semester);
 		}

@@ -366,10 +366,12 @@ class Kelas_praktikum extends CI_Controller {
                 // check validasi
                 $this->form_validation->set_data($data);
                 $this->form_validation->set_rules('kode_mk', 'Mata Kuliah', 'required');
+                $this->form_validation->set_rules('kode_lab', 'Laboratorium', 'required');
 
                 if ($this->form_validation->run() == FALSE) {
                     $detil[0] = $data;
                     $this->adds(validation_errors(), $detil);
+                    $this->session->set_flashdata('msg', "Gagal Menambahkan! <br>" .validation_errors());
                 }
                 else {
                     $this->load->helper(array('form', 'url'));
@@ -415,8 +417,8 @@ class Kelas_praktikum extends CI_Controller {
         $data = array(
             'id' => $this->input->post('idkelasprak'),
             'kode_kelas_praktikum' => $this->input->post('subject').strtoupper($this->input->post('kelas_paralel')),
-            'kode_mk' => $this->input->post('subject'),
-            'kelas_paralel' => strtoupper($this->input->post('kelas_paralel')),
+            // 'kode_mk' => $this->input->post('subject'),
+            // 'kelas_paralel' => strtoupper($this->input->post('kelas_paralel')),
             'kode_lab' => $this->input->post('laboratorium'),
             'hari' => $this->input->post('hari'),
             'jam' => $this->input->post('jam'),
@@ -431,17 +433,18 @@ class Kelas_praktikum extends CI_Controller {
             'status' => (($this->input->post('status')=='on') ? 1 : 0),
         );
 
-        var_dump("masuk update ", $data);
+        // var_dump("masuk update ", $data);
 
         //check validasi
         $this->form_validation->set_data($data);
-        $this->form_validation->set_rules('kode_mk', 'Mata Kuliah', 'required');
+        $this->form_validation->set_rules('kode_lab', 'Laboratorium', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $detil[0] = $data;
             $this->adds(validation_errors(), $detil);
             // var_dump("LOHH MASUK SINI"); exit;
-            echo validation_errors();
+            // echo validation_errors();
+            $this->session->set_flashdata('msg', "Gagal Update! <br>" .validation_errors());
         }
         else {
             $this->load->helper(array('form', 'url'));
