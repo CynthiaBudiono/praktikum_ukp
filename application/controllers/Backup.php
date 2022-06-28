@@ -44,7 +44,7 @@ class Backup extends CI_Controller {
 		// $url = $_GET['path'];
 		$namefile = 'db-praktikum_ukp-backup-' . date("Y-m-d-H-i-s") . '.sql';
 		
-		// exec('mysqldump c14180210 -uc14180210 -pGFH457 > 'public_html/assets/backup/.$namefile);
+		exec('mysqldump nama_table -unama_user -pnama_password > '.$namefile);
 
 		// readfile($url, $namefile);
 
