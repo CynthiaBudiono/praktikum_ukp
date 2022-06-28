@@ -128,7 +128,7 @@
 <script type="text/javascript">
 
     var baseurl = "<?php echo base_url(); ?>";
-
+    var usertype = "<?php echo $this->session->userdata('user_type'); ?>"; 
     // DATERANGEPICKER
     $(function() {
 
@@ -149,14 +149,16 @@
             var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             var kal = "";
             // alert(arr.length);
-            if(arr.length>1){
+            if(arr.length>=1){
                 for(var i = 0; i < arr.length; i++){
                     kal += '<li>';
                         kal += '<div class="row">';
                             kal += '<div class="col-md-10">';
                                 kal += '<div class="message_wrapper">';
                                     kal += '<h4 class="heading">'+ arr[i]['table_name'] +'  <small> ~ '+ arr[i]['action'] +'</small></h4>';
-                                    kal += '<blockquote class="message">'+ arr[i]['keterangan'] +'</blockquote>';
+                                    if(usertype != 'mahasiswa' && usertype != 'asisten_dosen'){
+                                        kal += '<blockquote class="message">'+ arr[i]['keterangan'] +'</blockquote>';
+                                    }
                                     kal += '<br />';
                                 kal += '</div>';
                             kal += '</div>';
@@ -176,7 +178,7 @@
                     kal += '<div class="col-md-12 col-sm-12">';
                         kal += '<div class="card text-center shadow p-3 mb-5 rounded" style="width:100%">';
                             kal += '<h3><i class="fa fa-files-o fa-4x" aria-hidden="true"></i></h3>';
-                            kal += '<h4 style="margin-bottom: 0; font-weight:bold;">Nothing to shown</h4>';
+                            kal += '<h4 style="margin-bottom: 0; font-weight:bold;">Nothing to show</h4>';
                         kal += '</div>';
                     kal += '</div>';
                 kal += '</div>';

@@ -57,7 +57,7 @@
     </div>
   </div><!-- /top tiles -->
   <?php } else if($this->session->userdata('user_type') == 'mahasiswa' || $this->session->userdata('user_type') == 'asisten_dosen'){ ?> <!-- MAHASISWA --> <!-- VIEW KELAS PRAK/MAHASISWA --> 
-    <div class="row">
+  <div class="row">
     <div class="col-md-12 col-sm-12 ">
       <div class="x_panel">
         <div class="x_title">
@@ -105,7 +105,84 @@
       </div>
     </div>
   </div>
-  <?php } ?> <!-- /USER TYPE MAHASISWA -->
+  <div class="row">
+    <div class="col-md-12 col-sm-12 ">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Mahasiswa Tertolak</h2><small>/semester</small>
+          <ul class="nav navbar-right panel_toolbox">
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </li>
+            <li><a class="close-link"><i class="fa fa-close"></i></a>
+            </li>
+          </ul>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="card-box table-responsive">
+                <table id="datatable_laporan_mahasiswa_tertolak" class="table table-striped table-bordered" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>NRP</th>
+                      <th>Nama</th>
+                      <th>Mata Kuliah</th>
+                    </tr>
+                  </thead>
+                  <tbody id="body_table_mahasiswa_tertolak">
+                    <?php if(isset($mahasiswa_tertolak)) : ?>
+                      <?php if(is_array($mahasiswa_tertolak)) : ?>
+                          <?php foreach($mahasiswa_tertolak as $key) : ?>
+                          <tr>
+                            <td><?= (isset($key['NRP'])) ? $key['NRP'] : '' ?></td>
+                            <td><?= (isset($key['nama_mahasiswa'])) ? $key['nama_mahasiswa'] : '' ?></td>
+                            <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?> ~ <?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                      <?php endif; ?>
+                    <?php endif; ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div> 
+        </div> <!-- /x-content -->
+      </div>
+    </div>
+  </div>
+  <script>
+    $(document).ready(function() {
+      $("#datatable_laporan_mahasiswa_tertolak").DataTable({
+        dom: "Blfrtip",
+        buttons: [
+          {
+              extend: "copy",
+              className: "btn-sm"
+          },
+          {
+              extend: "csv",
+              className: "btn-sm"
+          },
+          {
+              extend: "excel",
+              className: "btn-sm"
+          },
+          {
+              extend: "pdfHtml5",
+              className: "btn-sm"
+          },
+          {
+              extend: "print",
+              className: "btn-sm"
+          },
+        ],
+        responsive: true
+      });
+    });
+    
+  </script>
+  <?php } ?> <!-- /USER TYPE MAHASISWA / ASISTEN DOSEN-->
   
   <br />
 

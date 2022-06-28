@@ -69,6 +69,7 @@ class Profile extends CI_Controller {
 
 		$activities = $this->user_history_model->getbyfilter($this->session->userdata('user_id'), $start_date, $end_date);
 
+		// var_dump($activities); exit;
 		echo json_encode($activities);
 
 	}

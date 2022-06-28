@@ -25,6 +25,7 @@ class Dashboard extends CI_Controller {
 		}
 		else if($this->session->userdata('user_type') == 'mahasiswa' || $this->session->userdata('user_type') == 'asisten_dosen'){
 			$data['kelas_praktikum_mahasiswa'] = $this->ambil_praktikum_model->getkelaspraktikummahasiswa($this->session->userdata('user_id'), $this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
+			$data['mahasiswa_tertolak'] = $this->ambil_praktikum_model->getmahasiswatertolakall($this->informasi_umum_model->getsemester(), $this->informasi_umum_model->gettahunajaran());
 		}
 		
 

@@ -87,6 +87,7 @@
                     </ul>
                     <div class="clearfix"></div>
                 </div>
+                <?php if($this->session->userdata('user_type') != 'mahasiswa' && $this->session->userdata('user_type') != 'asisten_dosen'){?>
                 <div>
                     <a class="btn btn-sm bg-green" href="<?php echo base_url("kelas_praktikum/adds"); ?>">Tambah</a>
                     <!-- <a class="btn btn-sm bg-green" href="<?php //echo base_url("kelas_praktikum/addwexcel"); ?>">Tambah w/ Excel</a> -->
@@ -102,6 +103,7 @@
                     <!-- <a class="btn btn-info btn-sm" href="<?php //echo base_url("kelas_praktikum/updatesall"); ?>">Edit</a> -->
                     <?php //}}?>
                 </div>
+                <?php }?>
                 <div class="x_content">
                     <div class="row">
                         <div class="col-sm-12">
@@ -109,14 +111,18 @@
                                 <table id="datatable-periode-ini" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Actions</th>
+                                        <?php if($this->session->userdata('user_type') != 'mahasiswa' && $this->session->userdata('user_type') != 'asisten_dosen'){?>
+                                            <th>Actions</th>
+                                        <?php }?>
                                         <th>Waktu</th>
                                         <th>Laboratorium</th>
                                         <th>Mata Kuliah</th>
                                         <th>Kelas</th>
                                         <th>Terisi</th>
-                                        <th>Pengajar</th>
-                                        <th>Status</th>
+                                        <?php if($this->session->userdata('user_type') != 'mahasiswa' && $this->session->userdata('user_type') != 'asisten_dosen'){?>
+                                            <th>Pengajar</th>
+                                            <th>Status</th>
+                                        <?php } ?>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -124,11 +130,14 @@
                                     <?php if(is_array($kelas_praktikum_now)) : ?>
                                         <?php foreach($kelas_praktikum_now as $key) : ?>
                                         <tr>
+                                            <?php if($this->session->userdata('user_type') != 'mahasiswa' && $this->session->userdata('user_type') != 'asisten_dosen'){?>
                                             <td>
                                                 <!-- <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a> -->
+                                                
                                                 <a href="<?php echo base_url("kelas_praktikum/updates/"); echo base64_encode($key['id']);?>" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
                                                 <!-- <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
                                             </td>
+                                            <?php } ?>
                                             <!-- <td><?= (isset($key['kode_kelas_praktikum'])) ? $key['kode_kelas_praktikum'] : '' ?></td> -->
                                             <!-- <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?></td> -->
                                             <td><?= (isset($key['hari'])) ? $key['hari'] : '' ?>, <?= (isset($key['jam'])) ? $key['jam'] : '' ?>
@@ -140,6 +149,7 @@
                                             </td>
                                             <td><?= (isset($key['kelas_paralel'])) ? $key['kelas_paralel'] : '' ?></td>
                                             <td><?= (isset($key['terisi'])) ? $key['terisi'] : '' ?></td>
+                                            <?php if($this->session->userdata('user_type') != 'mahasiswa' && $this->session->userdata('user_type') != 'asisten_dosen'){?>
                                             <td><p><?php if($key['nama_dosen1'] != NULL){ echo $key['nama_dosen1']; } elseif($key['nama_mahasiswa1'] != NULL) {echo $key['nama_mahasiswa1']; }?></p>
                                                 <p><?php if($key['nama_dosen2'] != NULL){ echo $key['nama_dosen2']; } elseif($key['nama_mahasiswa2'] != NULL) {echo $key['nama_mahasiswa2']; }?></p>
                                                 <p><?php if($key['nama_dosen3'] != NULL){ echo $key['nama_dosen3']; } elseif($key['nama_mahasiswa3'] != NULL) {echo $key['nama_mahasiswa3']; }?></p>
@@ -148,6 +158,7 @@
                                                 <?php 
                                                     if(isset($key['status'])) if($key['status']==1) echo '<span class="badge bg-green">active</span>'; else echo '<span class="badge bg-danger">non active</span>';?>
                                             </td>
+                                            <?php } ?>
                                         </tr>
                                         <?php endforeach; ?>
                                     <?php endif; ?>
@@ -163,6 +174,7 @@
 
 
         <!-- VIEW -->
+        <?php if($this->session->userdata('user_type') != 'mahasiswa' && $this->session->userdata('user_type') != 'asisten_dosen'){?>
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
                 <div class="x_title">
@@ -242,6 +254,7 @@
                 </div>
             </div>
         </div>
+        <?php }?>
     </div>
 </div>
 

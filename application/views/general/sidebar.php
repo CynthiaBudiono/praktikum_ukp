@@ -286,7 +286,7 @@ html{
                 <?php if($this->session->userdata('user_type') == 'mahasiswa'){?>
                   <li><a><i class="fa fa-desktop"></i> Praktikum <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <!-- <li><a href="<?= base_url('kelas_praktikum') ?>">Kelas Praktikum</a></li> -->
+                      <li><a href="<?= base_url('kelas_praktikum') ?>">Kelas Praktikum</a></li>
                       <li><a href="<?= base_url('ambil_praktikum/adds') ?>">Daftar Praktikum</a></li>
                       <li><a href="<?= base_url('mahasiswa_nilai/viewbylogin') ?>">Presensi & Nilai</a></li>
                       <li><a href="<?= base_url('mahasiswa_matakuliah/viewbylogin') ?>">PRS Mahasiswa</a></li>
@@ -304,7 +304,7 @@ html{
                 <?php if($this->session->userdata('user_type') == 'asisten_dosen'){?>
                   <li><a><i class="fa fa-desktop"></i> Praktikum <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <!-- <li><a href="<?= base_url('kelas_praktikum') ?>">Kelas Praktikum</a></li> -->
+                      <li><a href="<?= base_url('kelas_praktikum') ?>">Kelas Praktikum</a></li>
                       <li><a href="<?= base_url('ambil_praktikum/adds') ?>">Daftar Praktikum</a></li>
                       <li><a href="<?= base_url('mahasiswa_nilai/viewbylogin') ?>">Presensi & Nilai</a></li>
                       <li><a href="<?= base_url('mahasiswa_matakuliah/viewbylogin') ?>">PRS Mahasiswa</a></li>
@@ -318,7 +318,7 @@ html{
                       <li><a href="<?= base_url('mahasiswa_nilai') ?>">Presensi & Penilaian</a></li>
                     </ul>
                   </li>
-                  <li><a href="<?= base_url('laporan') ?>"><i class="fa fa-archive"></i> Laporan</span></a></li>
+                  <li><a href="<?= base_url('laporan') ?>"><i class="fa fa-archive"></i> Laporan </span></a></li>
                 <?php }?> <!-- ASISTEN DOSEN -->
                 <?php if($this->session->userdata('user_type') == 'asisten_tetap'){?>
                   <li><a><i class="fa fa-desktop"></i> Praktikum <span class="fa fa-chevron-down"></span></a>

@@ -139,32 +139,32 @@
     var baseurl = "<?php echo base_url(); ?>";
 
     $(document).ready(function() {
-        $('#datatable-add').DataTable( {
-            dom: "Blfrtip",
-            buttons: [
-                {
-                    extend: "copy",
-                    className: "btn-sm"
-                },
-                {
-                    extend: "csv",
-                    className: "btn-sm"
-                },
-                {
-                    extend: "excel",
-                    className: "btn-sm"
-                },
-                {
-                    extend: "pdfHtml5",
-                    className: "btn-sm"
-                },
-                {
-                    extend: "print",
-                    className: "btn-sm"
-                },
-            ],
-            responsive: true
-        });
+        // $('#datatable-add').DataTable( {
+        //     dom: "Blfrtip",
+        //     buttons: [
+        //         {
+        //             extend: "copy",
+        //             className: "btn-sm"
+        //         },
+        //         {
+        //             extend: "csv",
+        //             className: "btn-sm"
+        //         },
+        //         {
+        //             extend: "excel",
+        //             className: "btn-sm"
+        //         },
+        //         {
+        //             extend: "pdfHtml5",
+        //             className: "btn-sm"
+        //         },
+        //         {
+        //             extend: "print",
+        //             className: "btn-sm"
+        //         },
+        //     ],
+        //     responsive: true
+        // });
     });
 
     function pindahpage(){
@@ -173,7 +173,7 @@
     }
 
     function simpan($id, $mode){
-        // alert("ID " + $id);
+        // alert($.trim(($("#nrp0").html()).split(" - ")[0]));
         // alert("MODE " + $mode);
         // alert("Length kelas : " + $("#length_kelas").val());
 
@@ -183,9 +183,10 @@
 
         // alert(($("#nrp" + "0").html()).split(" - ")[0]);
         for(var i = 0; i < length; i++){
+            // alert($.trim(($("#nrp"+ i +"").html()).split(" - ")[0]));
             var isiarray = {
                 id_mahasiswa_nilai:  $("#idmhsnilai"+ i).val(),
-                NRP: ($("#nrp"+ i).html()).split(" - ")[0],
+                NRP: $.trim(($("#nrp"+ i +"").html()).split(" - ")[0]),
                 status_absensi: $("input[name='inlineRadioOptions" + i + "']:checked").val(),
                 nilai_awal: $("#nilai_awal"+ i).val(),
                 nilai_materi: $("#nilai_materi"+ i).val(),
