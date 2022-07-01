@@ -131,7 +131,7 @@ class Subject extends CI_Controller {
         $this->load->model('user_history_model');
         $this->user_history_model->add($logs_insert);
 
-		$this->session->set_flashdata('msg', "Sukses Menambahkan Data");
+		$this->session->set_flashdata('msg', "Sukses Menambahkan/Mengubah Data");
 		redirect("subject");
 	}
 

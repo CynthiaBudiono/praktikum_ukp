@@ -54,7 +54,7 @@
       <nav class="nav navbar-nav">
         <!-- <span>Periode</span> -->
         <ul class=" navbar-right">
-          <li class="nav-item dropdown open" style="padding-left: 15px;">
+          <li class="nav-item dropdown open">
             <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
               <img src="<?= base_url() ?>/assets/images/user.png" alt=""><?= $this->session->userdata('logged_name');?>
             </a>
@@ -64,7 +64,7 @@
             </div>
           </li>
           <li class="nav-item">
-              <h6 style="margin-top:5px; margin-bottom:0px;"><?= isset($semester) ? $semester : "-" ?> <?= isset($tahun_ajaran) ? $tahun_ajaran : "-" ?></h6>
+              <h6 style="margin-top:5px; margin-bottom:0px; margin-right: 15px;"><?= isset($semester) ? $semester : "-" ?> <?= isset($tahun_ajaran) ? $tahun_ajaran : "-" ?></h6>
           </li>
         </ul>
     </nav>
