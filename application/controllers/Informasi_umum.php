@@ -177,8 +177,13 @@ class Informasi_umum extends CI_Controller {
                 $this->load->model('user_history_model');
                 $this->user_history_model->add($logs_insert);
     
+                $this->session->set_flashdata('msg', "<h4>Berhasil mengubah</h4>");
                 redirect('informasi_umum');
             }
+        }
+        else{
+            $this->session->set_flashdata('msg', "Gagal mengubah, <b>password salah!</b> Silahkan ulangi lagi");
+            redirect('informasi_umum');
         }
 	}
 }
