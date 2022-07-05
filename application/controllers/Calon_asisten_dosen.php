@@ -64,9 +64,10 @@ class Calon_asisten_dosen extends CI_Controller {
             $res = $this->calon_asisten_dosen_model->getbynrp($this->session->userdata('user_id'));
         }
         
-        // harusnya ada flash data blng kalo dia blom daftar jdi gak bisa liat menu calon asisten dosen sebelum redirect
-        $this->session->set_flashdata('msg', "Silahkan mendaftar lowongan asisten");
-        if ($res == 0) redirect('dashboard');
+        if ($res == 0){
+            $this->session->set_flashdata('msg', "Anda belum pernah mendaftar, Silahkan mendaftar lowongan asisten");
+            redirect('dashboard');
+        } 
 
         $data['detil'] = $res;
 
@@ -150,16 +151,21 @@ class Calon_asisten_dosen extends CI_Controller {
 
         $this->load->model('informasi_umum_model');
         $this->load->model('pendaftaran_asisten_dosen_model');
+        $this->load->model('calon_asisten_dosen_model');
 
         if($this->session->userdata('user_type') == 'admin' || $this->session->userdata('user_type') == 'kepala_lab'){
             $data["bukapendaftaran"] = "buka";
         }
         else{ //MAHASISWA / DOSEN
             $data["bukapendaftaran"] = $this->pendaftaran_asisten_dosen_model->cekbukapendaftaran();
+            $data["detil"] = $this->calon_asisten_dosen_model->getbynrp($this->session->userdata('user_id'));
+        
+            if($data["detil"] != 0) {$data["primary"] = $data["detil"][0]["id"];} else {$data["detil"] = array(array("NRP" => $this->session->userdata('user_id')));}
+            // var_dump($data["bukapendaftaran"]); exit;
+
         }
 
-        // var_dump($data["bukapendaftaran"]); exit;
-
+        
         $data['title'] = "Add Calon Asisten Dosen";
 
         $data['logo']=$this->informasi_umum_model->get(1)[0]['nilai'];
@@ -235,16 +241,26 @@ class Calon_asisten_dosen extends CI_Controller {
         $this->load->model('mahasiswa_model');
         $this->load->model('informasi_umum_model');
 
-        $getmahasiswa = $this->mahasiswa_model->get(strtoupper($this->input->post('nrp')));
+        // var_dump(strtoupper($this->input->post('nrp'))); exit;
+        $nrp = strtoupper($this->input->post('nrp'));
+        if($this->session->userdata('user_type') == 'mahasiswa'){
+            if($nrp != $this->session->userdata('user_id') ){
+                $this->session->set_flashdata('msg', "NRP tidak sesuai dengan yang login");
+                redirect('calon_asisten_dosen/adds');
+                // $nrp = $this->session->userdata('user_id');
+            }
+        }
+
+        $getmahasiswa = $this->mahasiswa_model->get($nrp);
 
         if($getmahasiswa != 0){
 
-            $cekpernahdaftar = $this->calon_asisten_dosen_model->getbynrp(strtoupper($this->input->post('nrp')));
+            $cekpernahdaftar = $this->calon_asisten_dosen_model->getbynrp($nrp);
 
             if($cekpernahdaftar == 0){ //ADD
 
                 $data = array(
-                    'NRP' => strtoupper($this->input->post('nrp')),
+                    'NRP' => $nrp,
                     // 'id_pendaftaran_praktikum' => $this->input->post('id_pendaftaran_praktikum'),
                     'gender' => $this->input->post('gender'),
                     'alamat' => $this->input->post('alamat'),
@@ -282,8 +298,9 @@ class Calon_asisten_dosen extends CI_Controller {
                 if ($this->form_validation->run() == FALSE) {
                     $detil[0] = $data;
                     $data['error_msg'] = validation_errors();
-                    // $this->session->set_flashdata('msg', validation_errors());
-                    echo $data['error_msg'];
+                    $this->session->set_flashdata('msg', validation_errors());
+                    redirect('dashboard');
+                    // echo $data['error_msg'];
                     // redirect($_SERVER['HTTP_REFERER']);
                 }
                 else {
@@ -337,22 +354,28 @@ class Calon_asisten_dosen extends CI_Controller {
                     $this->load->model('user_history_model');
                     $this->user_history_model->add($logs_insert);
         
-                    echo "success";
-                    // redirect('calon_asisten_dosen');
+                    $this->session->set_flashdata('msg', "Berhasil Daftar");
+                    // echo "success";
+                    
                 }
             }
             else{
-                echo "Telah Mendaftar Lowongan, Silahkan edit data yang sudah ada";
+                $this->session->set_flashdata('msg', "Telah Mendaftar Lowongan, Silahkan edit data yang sudah ada");
+                // echo "Telah Mendaftar Lowongan, Silahkan edit data yang sudah ada";
                 // $this->session->set_flashdata('msg', "Telah Mendaftar Lowongan, Silahkan edit data yang sudah ada");
                 // redirect($_SERVER['HTTP_REFERER']);
+                
             }
         }
         else{
-            echo "NRP TIDAK VALID";
-            // $this->session->set_flashdata('msg', "NRP TIDAK VALID");
+            // echo "NRP TIDAK VALID";
+            $this->session->set_flashdata('msg', "NRP TIDAK VALID");
             // redirect($_SERVER['HTTP_REFERER']);
         }
-        
+
+        if($this->session->userdata('user_type') == 'mahasiswa') redirect('calon_asisten_dosen/getdetail');
+
+        redirect('calon_asisten_dosen');
     }
 
     public function update(){
@@ -361,9 +384,18 @@ class Calon_asisten_dosen extends CI_Controller {
         // $getmahasiswa = $this->mahasiswa_model->get(strtoupper($this->input->post('nrp')));
         $this->load->model('informasi_umum_model');
 
+        $nrp = strtoupper($this->input->post('nrp'));
+        if($this->session->userdata('user_type') == 'mahasiswa'){
+            if($nrp != $this->session->userdata('user_id') ){
+                $this->session->set_flashdata('msg', "NRP tidak sesuai dengan yang login");
+                redirect('calon_asisten_dosen/adds');
+                // $nrp = $this->session->userdata('user_id');
+            }
+        }
+
         $data = array(
             'id' => $this->input->post('idcalon'),
-            'NRP' => strtoupper($this->input->post('nrp')),
+            'NRP' => $nrp,
             // 'id_pendaftaran_praktikum' => $this->input->post('id_pendaftaran_praktikum'),
             'gender' => $this->input->post('gender'),
             'alamat' => $this->input->post('alamat'),
@@ -448,6 +480,7 @@ class Calon_asisten_dosen extends CI_Controller {
             $this->load->model('user_history_model');
             $this->user_history_model->add($logs_insert);
 
+            $this->session->set_flashdata('msg', "Berhasil Edit");
             redirect('calon_asisten_dosen');
         }    
     }

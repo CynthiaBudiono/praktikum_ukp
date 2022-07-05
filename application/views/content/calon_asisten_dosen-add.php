@@ -129,7 +129,7 @@
                                 <div class="form-group row">
                                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="full-name">NRP <span class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6 ">
-                                        <input type="text" id="nrp" name="nrp" required="required" class="form-control" value="<?= (isset($detil[0]['NRP'])) ? $detil[0]['NRP']: '' ?>">
+                                        <input type="text" id="nrp" name="nrp" required="required" class="form-control" value="<?= (isset($detil[0]['NRP'])) ? $detil[0]['NRP']: '' ?>" <?php if($this->session->userdata('user_type') == 'mahasiswa') echo "readonly='true'";?>>
                                     </div>
                                 </div>
                                 <div class="form-group row">
