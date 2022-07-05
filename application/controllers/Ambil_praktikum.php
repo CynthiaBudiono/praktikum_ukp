@@ -526,12 +526,23 @@ class ambil_praktikum extends CI_Controller {
         $kelas_praktikum = $this->input->post("data_kelas_praktikum");
         $ambil_praktikum = $this->input->post("data_ambil_praktikum");
 
+        // var_dump($kelas_praktikum); exit;
         for($i = 0; $i < count($kelas_praktikum); $i++){
             $this->kelas_praktikum_model->update($kelas_praktikum[$i]);
         }
 
         for($i = 0; $i < count($ambil_praktikum); $i++){
             $this->ambil_praktikum_model->update($ambil_praktikum[$i]);
+        }
+
+        //CEK NGULANG QUOTA
+        for($i = 0; $i < count($kelas_praktikum); $i++){
+            $getcountmahasiswa = $this->ambil_praktikum_model->getcountterpilih($kelas_praktikum[$i]);
+            $data = array(
+                'id' => $kelas_praktikum[$i],
+                'terisi' => $getcountmahasiswa[0]['jumlah_terpilih']
+            );
+            $this->kelas_praktikum_model->update($data);
         }
 
         //insertlogs
@@ -695,6 +706,14 @@ class ambil_praktikum extends CI_Controller {
 
 		$this->load->view('general/footer', $data);
 
+    }
+
+    public function getterpilihbyid(){
+        $this->load->model('ambil_praktikum_model');
+
+        $ambil_praktikum = $this->ambil_praktikum_model->get($this->input->post('idambilprak'));
+
+        echo $ambil_praktikum[0]['terpilih'];
     }
 
     public function updates($id = null){

@@ -134,7 +134,7 @@ function generate(){
     $.post(baseurl + "ambil_praktikum/generateadd", {},
     function(result) {
         // alert(result);
-        console.log(result);
+        // console.log(result);
         if(result == "sukses"){
             alert(result);
             cetak();
@@ -153,85 +153,179 @@ function milih(idmatkul, idmhs, idambilprak, idkelasprak, pil){
     // alert("func milih " + idmatkul + " " + idmhs + " " + idambilprak +" "+ idkelasprak + " " + pil);
 
     //update kuota dan terpilih
+    //cek sek apa sdh ke update ato belum
+    
+    $.post(baseurl + "ambil_praktikum/getterpilihbyid", {
+        idambilprak: idambilprak
+    },
+    function(result) {
+        // alert(result);
+        var namakolomterpilih = "kolomterpilih" + arrData[idmatkul]['kode_mk'] + arrData[idmatkul]['data_mahasiswa'][idmhs]['NRP'] + idambilprak; 
+        var idkolomterpilih = "idkelasprakterpilih" + arrData[idmatkul]['kode_mk'] + arrData[idmatkul]['data_mahasiswa'][idmhs]['NRP'] + idambilprak;
 
-    // cek dulu sebelumnya dia sdh milih ato belum, kalo sdh milih kurangin kuota kelas sebelumnya, kalo blom milih yaudah langsung +
-    var namakolomterpilih = "kolomterpilih" + arrData[idmatkul]['kode_mk'] + arrData[idmatkul]['data_mahasiswa'][idmhs]['NRP'] + idambilprak; 
-    var idkolomterpilih = "idkelasprakterpilih" + arrData[idmatkul]['kode_mk'] + arrData[idmatkul]['data_mahasiswa'][idmhs]['NRP'] + idambilprak;
-    // alert("namakolomterpilih : " + namakolomterpilih);
-
-    var textkolomterisi = ($("#kolomterisi" + idkelasprak).text()).split('/');
-    // alert("terisi : " + textkolomterisi[0] + " < " + textkolomterisi[1]);
-
-    if(parseInt(textkolomterisi[0]) < parseInt(textkolomterisi[1])){ //kuota tak penuh
-
-        var idkelasprakterpilih = $("#" + idkolomterpilih).val();
-
-        // alert("update quota : " + idkelasprak + " == " + idkelasprakterpilih);
-        var updatekolomquota;
-        if(idkelasprakterpilih != "" || idkelasprakterpilih != null){ //sudah terpilih
-            if(idkelasprak != idkelasprakterpilih){ //kalo pilihan yang di klik tidak sama dengan id terpilih
-                updatekolomquota = ($("#kolomterisi" + idkelasprakterpilih).text()).split('/');
-                $("#kolomterisi" + idkelasprakterpilih).html((parseInt(updatekolomquota[0])-1) + "/" + updatekolomquota[1]);
-                var isi = parseInt(textkolomterisi[0])+1;
-                $("#kolomterisi" + idkelasprak).html(isi + "/" + textkolomterisi[1]);
-            }
+        // alert($("#" + namakolomterpilih).html());
+        // console.log($("#" + namakolomterpilih).html());
+        // if(kolomterpilih != 0){}
+        if (result==0){ // yang masih kosong
+            // cek dulu sebelumnya dia sdh milih ato belum, kalo sdh milih kurangin kuota kelas sebelumnya, kalo blom milih yaudah langsung +
             
-        }
-        else{ //kolom terpilih kosong
-            updatekolomquota = ($("#kolomterisi" + idkelasprak).text()).split('/');
-            $("#kolomterisi" + idkelasprakterpilih).html((parseInt(updatekolomquota[0])-1) + "/" + updatekolomquota[1]);
-            var isi = parseInt(textkolomterisi[0])+1;
-            $("#kolomterisi" + idkelasprak).html(isi + "/" + textkolomterisi[1]);
-        }
+            // alert("namakolomterpilih : " + namakolomterpilih);
 
-        var belumada = 0;
-        for(var i = 0; i< arrTerpilih.length; i++){
-            // alert("arrterpilih : " + arrTerpilih[i]["id_ambil_prak"] + " == " + idambilprak);
-            if(arrTerpilih[i]["id_ambil_prak"] == idambilprak){ //agar data tidak kembar
-                var data = {
-                    "id": idambilprak,
-                    "terpilih": idkelasprak, //kelas yang terpilih
-                    //"pil": pil, //sbg pil brp di ambilprak
-                };
-                arrTerpilih[i] = data;
-                belumada = 1;
+            var textkolomterisi = ($("#kolomterisi" + idkelasprak).text()).split('/');
+            // alert("terisi : " + textkolomterisi[0] + " < " + textkolomterisi[1]);
+
+            if(parseInt(textkolomterisi[0]) < parseInt(textkolomterisi[1])){ //kuota tak penuh
+
+                var idkelasprakterpilih = $("#" + idkolomterpilih).val();
+
+                // alert("update quota : " + idkelasprak + " == " + idkelasprakterpilih);
+                var updatekolomquota;
+                if(idkelasprakterpilih != "" || idkelasprakterpilih != null){ //sudah terpilih
+                    if(idkelasprak != idkelasprakterpilih){ //kalo pilihan yang di klik tidak sama dengan id terpilih
+                        updatekolomquota = ($("#kolomterisi" + idkelasprakterpilih).text()).split('/');
+                        $("#kolomterisi" + idkelasprakterpilih).html((parseInt(updatekolomquota[0])-1) + "/" + updatekolomquota[1]);
+                        var isi = parseInt(textkolomterisi[0])+1;
+                        $("#kolomterisi" + idkelasprak).html(isi + "/" + textkolomterisi[1]);
+                    }
+                    
+                }
+                else{ //kolom terpilih kosong
+                    updatekolomquota = ($("#kolomterisi" + idkelasprak).text()).split('/');
+                    $("#kolomterisi" + idkelasprakterpilih).html((parseInt(updatekolomquota[0])-1) + "/" + updatekolomquota[1]);
+                    var isi = parseInt(textkolomterisi[0])+1;
+                    $("#kolomterisi" + idkelasprak).html(isi + "/" + textkolomterisi[1]);
+                }
+
+                var belumada = 0;
+                for(var i = 0; i< arrTerpilih.length; i++){
+                    // alert("arrterpilih : " + arrTerpilih[i]["id_ambil_prak"] + " == " + idambilprak);
+                    if(arrTerpilih[i]["id_ambil_prak"] == idambilprak){ //agar data tidak kembar
+                        var data = {
+                            "id": idambilprak,
+                            "terpilih": idkelasprak, //kelas yang terpilih
+                            //"pil": pil, //sbg pil brp di ambilprak
+                        };
+                        arrTerpilih[i] = data;
+                        belumada = 1;
+                    }
+                }
+                
+                if(arrTerpilih.length == 0 || belumada == 0){
+                    var data = {
+                        "id": idambilprak,
+                        "terpilih": idkelasprak, //kelas yang terpilih
+                        //"pil": pil, //sbg pil brp di ambilprak
+                    };
+                    arrTerpilih.push(data);
+                }
+                
+                
+
+                var namahari = ""; 
+                for(var k = 0; k < arrData[idmatkul]['kelas_praktikum'].length; k++) {
+                    if(arrData[idmatkul]['kelas_praktikum'][k]['id'] == idkelasprak) {
+                        namahari = arrData[idmatkul]['kelas_praktikum'][k]['hari'] + ", " + arrData[idmatkul]['kelas_praktikum'][k]['jam'];
+                    }
+                }
+                for(var k = 0; k < arrData[idmatkul]['kelas_responsi'].length; k++) {
+                    if(arrData[idmatkul]['kelas_responsi'][k]['id'] == idkelasprak) {
+                        namahari = arrData[idmatkul]['kelas_responsi'][k]['hari'] + ", " + arrData[idmatkul]['kelas_responsi'][k]['jam'];
+                    }
+                }
+
+                $("#" + namakolomterpilih).html(namahari); 
+                // alert("idkelasprak : "+ idkelasprak);
+                $("#" + idkolomterpilih).val(idkelasprak);
+            }
+            else{ //kuota penuh
+                alert("Kuota Penuh");
             }
         }
-        
-        if(arrTerpilih.length == 0 || belumada == 0){
-            var data = {
-                "id": idambilprak,
-                "terpilih": idkelasprak, //kelas yang terpilih
-                //"pil": pil, //sbg pil brp di ambilprak
-            };
-            arrTerpilih.push(data);
-        }
-        
-        
+        else{
+            // alert("masuk");
+            if($("#" + namakolomterpilih).html() != ""){
 
-        var namahari = ""; 
-        for(var k = 0; k < arrData[idmatkul]['kelas_praktikum'].length; k++) {
-            if(arrData[idmatkul]['kelas_praktikum'][k]['id'] == idkelasprak) {
-                namahari = arrData[idmatkul]['kelas_praktikum'][k]['hari'] + ", " + arrData[idmatkul]['kelas_praktikum'][k]['jam'];
+                var textkolomterisi = ($("#kolomterisi" + idkelasprak).text()).split('/');
+                // alert("terisi : " + textkolomterisi[0] + " < " + textkolomterisi[1]);
+
+                if(parseInt(textkolomterisi[0]) < parseInt(textkolomterisi[1])){ //kuota tak penuh
+
+                    var idkelasprakterpilih = $("#" + idkolomterpilih).val();
+
+                    // alert("update quota : " + idkelasprak + " == " + idkelasprakterpilih);
+                    var updatekolomquota;
+                    if(idkelasprakterpilih != "" || idkelasprakterpilih != null){ //sudah terpilih
+                        if(idkelasprak != idkelasprakterpilih){ //kalo pilihan yang di klik tidak sama dengan id terpilih
+                            updatekolomquota = ($("#kolomterisi" + idkelasprakterpilih).text()).split('/');
+                            $("#kolomterisi" + idkelasprakterpilih).html((parseInt(updatekolomquota[0])-1) + "/" + updatekolomquota[1]);
+                            var isi = parseInt(textkolomterisi[0])+1;
+                            $("#kolomterisi" + idkelasprak).html(isi + "/" + textkolomterisi[1]);
+                        }
+                        
+                    }
+                    else{ //kolom terpilih kosong
+                        updatekolomquota = ($("#kolomterisi" + idkelasprak).text()).split('/');
+                        $("#kolomterisi" + idkelasprakterpilih).html((parseInt(updatekolomquota[0])-1) + "/" + updatekolomquota[1]);
+                        var isi = parseInt(textkolomterisi[0])+1;
+                        $("#kolomterisi" + idkelasprak).html(isi + "/" + textkolomterisi[1]);
+                    }
+
+                    var belumada = 0;
+                    for(var i = 0; i< arrTerpilih.length; i++){
+                        // alert("arrterpilih : " + arrTerpilih[i]["id_ambil_prak"] + " == " + idambilprak);
+                        if(arrTerpilih[i]["id_ambil_prak"] == idambilprak){ //agar data tidak kembar
+                            var data = {
+                                "id": idambilprak,
+                                "terpilih": idkelasprak, //kelas yang terpilih
+                                //"pil": pil, //sbg pil brp di ambilprak
+                            };
+                            arrTerpilih[i] = data;
+                            belumada = 1;
+                        }
+                    }
+                    
+                    if(arrTerpilih.length == 0 || belumada == 0){
+                        var data = {
+                            "id": idambilprak,
+                            "terpilih": idkelasprak, //kelas yang terpilih
+                            //"pil": pil, //sbg pil brp di ambilprak
+                        };
+                        arrTerpilih.push(data);
+                    }
+                    
+                    
+
+                    var namahari = ""; 
+                    for(var k = 0; k < arrData[idmatkul]['kelas_praktikum'].length; k++) {
+                        if(arrData[idmatkul]['kelas_praktikum'][k]['id'] == idkelasprak) {
+                            namahari = arrData[idmatkul]['kelas_praktikum'][k]['hari'] + ", " + arrData[idmatkul]['kelas_praktikum'][k]['jam'];
+                        }
+                    }
+                    for(var k = 0; k < arrData[idmatkul]['kelas_responsi'].length; k++) {
+                        if(arrData[idmatkul]['kelas_responsi'][k]['id'] == idkelasprak) {
+                            namahari = arrData[idmatkul]['kelas_responsi'][k]['hari'] + ", " + arrData[idmatkul]['kelas_responsi'][k]['jam'];
+                        }
+                    }
+
+                    $("#" + namakolomterpilih).html(namahari); 
+                    // alert("idkelasprak : "+ idkelasprak);
+                    $("#" + idkolomterpilih).val(idkelasprak);
+                }
+                else{ //kuota penuh
+                    alert("Kuota Penuh");
+                }
+
+            }
+            else{
+                alert("User lain telah memilihkan kelas pada mahasiswa tersebut. Silahkan refresh halaman ini.");
             }
         }
-        for(var k = 0; k < arrData[idmatkul]['kelas_responsi'].length; k++) {
-            if(arrData[idmatkul]['kelas_responsi'][k]['id'] == idkelasprak) {
-                namahari = arrData[idmatkul]['kelas_responsi'][k]['hari'] + ", " + arrData[idmatkul]['kelas_responsi'][k]['jam'];
-            }
-        }
-
-        $("#" + namakolomterpilih).html(namahari); 
-        // alert("idkelasprak : "+ idkelasprak);
-        $("#" + idkolomterpilih).val(idkelasprak);
-    }
-    else{ //kuota penuh
-        alert("Kuota Penuh");
-    }
+    });
 }
 
 function simpan(){
     // alert(arrTerpilih.length);
+
     var arrPraktikum = [];
     for(var j = 0; j < arrData.length; j++){
         for(var k = 0; k < arrData[j]['kelas_praktikum'].length; k++) {
@@ -270,7 +364,7 @@ function pemilihankelas(){
     },
     function(result) {
         alert(result);
-        console.log(result);
+        // console.log(result);
         var url = "<?= base_url('ambil_praktikum/') ?>";
         // alert(url); 
         window.location = url;
@@ -379,7 +473,7 @@ function cetak(kodemk = null) {
                                     }
                                     else 
                                     {
-                                        console.log("LIHAT DATA "+ (arrData[i]['kelas_praktikum'][k]['id']) + " " + (arrData[i]['data_mahasiswa'][j]['NRP']) + ": " + arrData[i]['data_mahasiswa'][j]['nabrak_kelas_praktikum'+(arrData[i]['kelas_praktikum'][k]['id'])+(arrData[i]['data_mahasiswa'][j]['NRP'])]);
+                                        // console.log("LIHAT DATA "+ (arrData[i]['kelas_praktikum'][k]['id']) + " " + (arrData[i]['data_mahasiswa'][j]['NRP']) + ": " + arrData[i]['data_mahasiswa'][j]['nabrak_kelas_praktikum'+(arrData[i]['kelas_praktikum'][k]['id'])+(arrData[i]['data_mahasiswa'][j]['NRP'])]);
                                         if(arrData[i]['data_mahasiswa'][j]['nabrak_kelas_praktikum'+(arrData[i]['kelas_praktikum'][k]['id'])+(arrData[i]['data_mahasiswa'][j]['NRP'])] == 'yes'){
                                             kal = kal + "<td class='bg-red' style='text-align: center' onclick=milih(" + i + "," + j + ",'"+ arrData[i]['data_mahasiswa'][j]['id'] + "',"+ arrData[i]['kelas_praktikum'][k]['id'] +",'pil"+ (k+1) +"')>&nbsp;</td>";
                                         }
@@ -549,7 +643,7 @@ function view(){
     },
     function(result) {
         // alert(result);
-        console.log(result);
+        // console.log(result);
         // $("#detail_kelas").html(result);
         var arr = JSON.parse(result);
         arrData  = arr; 

@@ -589,6 +589,20 @@ class Ambil_praktikum_model extends CI_Model {
 	   //  return 0;
 	}
 
+	public function getcountterpilih($id_kelas_prak){
+		$this->db->select('count(ambil_praktikum.id) as jumlah_terpilih');
+		$this->db->where('ambil_praktikum.terpilih', $id_kelas_prak);
+		$query = $this->db->get('ambil_praktikum');
+	  
+		if ($query->num_rows() > 0)
+	  
+			return $query->result_array();
+	  
+		else
+	  
+			return 0;
+	}
+
 	public function getmahasiswatertolakall($semester = null, $tahun_ajaran = null){
 		$this->db->select('
 			ambil_praktikum.*,
