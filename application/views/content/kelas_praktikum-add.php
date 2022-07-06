@@ -251,12 +251,14 @@ $(document).ready(function() {
             tipe: $("input[name='tipe"+ row +"']:checked").val()
         },
         function(result) {
-            // alert("cekparalel : " + result);
+            alert("cekparalel : " + result);
             if(result != 0){
                 //ALERT DAN GAK BISA SUBMIT == disabled
                 $('#have_danger' + row).css('display', 'block');
                 $('#div_alert_paralel' + row).css('display', 'block');
                 $('#cekbtnsubmit').attr("disabled", true);
+
+                $('error_msgparalel'+ row).html("Kelas Paralel telah ada " + " ");
             }
             else{
                 $('#have_danger' + row).css('display', 'none');
@@ -291,7 +293,7 @@ $(document).ready(function() {
                         kal +='<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>';
                         kal +='</button>';
                         kal +='<i class="fa fa-hand-paper-o" aria-hidden="true"></i>';
-                        kal +='&nbsp<strong>Danger.</strong> <span id="error_msgparalel' + row + '">Kelas Paralel telah ada</span>';
+                        kal +='&nbsp<strong>Danger.</strong> <span id="error_msgparalel' + row + '"></span>';
                     kal +='</div>';
 
                     kal +='<div class="alert alert-dismissible pop-over-style" role="alert" id="div_alert' + row + '" style="display:none;">';

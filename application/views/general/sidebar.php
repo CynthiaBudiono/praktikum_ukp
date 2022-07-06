@@ -330,11 +330,12 @@ html{
                       <li><a href="<?= base_url('laporan/transfer_nilai') ?>">Transfer Nilai</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-desktop"></i> Praktikum <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-desktop"></i> Manage Praktikum <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="<?= base_url('pendaftaran_praktikum') ?>">Periode Praktikum</a></li>
                       <li><a href="<?= base_url('kelas_praktikum') ?>">Kelas Praktikum</a></li>
                       <li><a href="<?= base_url('ambil_praktikum') ?>">Ambil Praktikum</a></li>
+                      <li><a href="<?= base_url('mahasiswa_nilai') ?>">Presensi & Penilaian</a></li>
                     </ul>
                   </li>
                   <li><a href="<?= base_url('laporan') ?>"><i class="fa fa-archive"></i> Laporan</span></a></li>
