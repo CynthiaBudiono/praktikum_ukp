@@ -21,8 +21,8 @@
           <ul class="nav navbar-right panel_toolbox">
             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
             </li>
-            <li><a class="close-link"><i class="fa fa-close"></i></a>
-            </li>
+            <!-- <li><a class="close-link"><i class="fa fa-close"></i></a>
+            </li> -->
           </ul>
           <div class="clearfix"></div>
         </div>
@@ -31,7 +31,7 @@
               $t = base_url("assets/template/mahasiswa_template.xlsx");
               $t = str_replace("https://","http://",$t);
           ?>
-          <p>Download template, to get the template file <a href="<?php echo $t; ?>" download>Download Template</a></p>
+          <p>Download template, to get the template file <a href="<?php echo $t; ?>" download style="color:red;">Download Template</a></p>
 
           <!-- <p>Download template, to get the template file <a href="<?php echo base_url("assets/template/mahasiswa_template.xlsx"); ?>" download>Download Template</a></p> -->
 
@@ -39,10 +39,12 @@
 
             <input type="file" id="mahasiswa_file" name="mahasiswa_file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
             <br><br>
-            <button type="submit" onclik=loadloader() class="btn btn-sm bg-green">Update All!</button>
+            <button type="submit" class="btn btn-sm bg-green">Update All!</button>
+            <!-- onclick=loadloader() -->
             <div class="loader" style="display: none;"></div>
           
           </form>
+          <button type="button" data-toggle="modal" data-target=".bs-example-modal-sm" class="btn btn-sm btn-danger">Delete All!</button>
         </div>
         
         <div class="x_content">
@@ -97,6 +99,29 @@
   </div>
 </div>
 <!-- /page content -->
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+
+          <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel2">Konfirmasi</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+              </button>
+          </div>
+          <div class="modal-body" id="modal_body">
+            <h5>Apakah yakin mereset data mahasiswa ?</h5>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <form action="<?= (base_url('mahasiswa/deleteall')); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
+                <button type="submit" class="btn btn-primary">Yakin</button>
+              </form>
+          </div>
+
+      </div>
+    </div>
+</div>
 
 <script>
   function loadloader(){

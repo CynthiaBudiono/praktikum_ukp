@@ -222,7 +222,7 @@ html{
           <!-- menu profile quick info -->
           <div class="profile clearfix">
             <div class="profile_pic">
-              <img src="<?= base_url() ?>/assets/images/user.png" alt="..." class="img-circle profile_img">
+              <a href="<?= base_url('profile') ?>"><img src="<?= base_url() ?>/assets/images/user.png" alt="..." class="img-circle profile_img"></a>              
             </div>
             <div class="profile_info">
               <a data-toggle="tooltip" data-placement="top" title="Logout" href="<?= base_url('auth/logout') ?>" style="float : right">

@@ -22,6 +22,9 @@
                     <ul class="nav navbar-right panel_toolbox">
                         <li style="margin: 0px 10px; padding-top: 4px;"> <!-- UNTUK LAPORAN DETAIL KELAS, NILAI KELAS -->
                             <select class="select2_single" name ="ddkelas_prak" id="ddkelas_prak" tabindex="-1" style="display: none;">
+                                <?php if($function == 'detail_kelas'){?>
+                                    <option value="0"> ALL </option>
+                                <?php } ?>
                                 <!-- <option value="all"> ALL </option> -->
                                 <?php if(isset($ddkelasprak)) : ?>
                                     <?php if(is_array($ddkelasprak)) : ?>
@@ -60,7 +63,7 @@
                             </select>
                         </li>
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                        <!-- <li><a class="close-link"><i class="fa fa-close"></i></a></li> -->
                     </ul>
                     <div class="clearfix"></div>
                 </div>
@@ -162,7 +165,7 @@
                                 <?php } ?> <!-- /LAPORAN MAHASISWA -->
                                 
 
-                                <!-- /LAPORAN DETAIL KELAS -->
+                                <!-- /LAPORAN DETAIL NILAI KELAS -->
                                 <?php if($this->session->userdata('user_type') == 'mahasiswa'){ ?>
                                     <?php if($function == 'nilai_kelas'){?>
                                         <select class="mahasiswa_input form-control select2" name="ddmahasiswa" id="ddmahasiswa" style="width:100%;">
@@ -191,7 +194,7 @@
                                                 <h2 id="ratarata"></h2>
                                             </div>
                                         </div>
-                                    <?php } ?> <!-- /LAPORAN DETAIL KELAS -->
+                                    <?php } ?> <!-- /LAPORAN DETAIL NILAI KELAS -->
                                 <?php }else { ?>
                                     <?php if($function == 'nilai_kelas'){?>
                                         <div class="card-box table-responsive">
@@ -461,7 +464,7 @@
                     function(result) {
                         // alert(result);
                         var arr = JSON.parse(result);
-                        var html = '<option val="" disabled>-Pilih Kelas-</option>';
+                        var html = '<option val="0">ALL</option> <option val="" disabled>-Pilih Kelas-</option>';
 
                         for(var i = 0; i < arr.length; i++){
                             html += '<option value="' + arr[i]['id'] + '">' + arr[i]['nama_subject'] + ' (' + arr[i]['kelas_paralel'] + ') ' + arr[i]['tipe'] +'</option>';
@@ -494,7 +497,7 @@
                     function(result) {
                         // alert(result);
                         var arr = JSON.parse(result);
-                        var html = '<option val="" disabled>-Pilih Kelas-</option>';
+                        var html = '<option val="0">ALL</option> <option val="" disabled>-Pilih Kelas-</option>';
 
                         for(var i = 0; i < arr.length; i++){
                             html += '<option value="' + arr[i]['id'] + '">' + arr[i]['nama_subject'] + ' (' + arr[i]['kelas_paralel'] + ') ' + arr[i]['tipe'] +'</option>';
@@ -532,6 +535,20 @@
 
                 viewdetailkelas();
             });
+
+            // $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", {
+            //     id_kelas_praktikum: $("#ddkelas_prak").val(),
+            //     semester: $("#ddsemester").val(),
+            //     tahun_ajaran : $("#ddtahun_ajaran").val()
+            // },
+            // function(result) {
+            //     // alert("getdetailmahasiswa : " + result);
+            //     var arr = JSON.parse(result);
+
+            //     data_laporan = arr;
+
+            //     viewdetailkelas();
+            // });
             // $.post(baseurl + "kelas_praktikum/getdetailmahasiswa", { // VIEW ALL
             //     id_kelas_praktikum: 0,
             //     semester: $("#ddsemester").val(),
@@ -929,12 +946,12 @@
         for(var i = 0; i < data_laporan.length; i++){
             // alert("MASUK" + data_laporan[i]["kode_kelas_praktikum"]);
             kal += '<div class="col-md-6 col-sm-12">';
-                kal += '<p> Kode Kelas Praktikum : ' + data_laporan[i]["kode_kelas_praktikum"] + '</p>';
-                kal += '<p> Kode Laboratorium &nbsp : ' + data_laporan[i]["kode_lab"] + '</p>';
+                kal += '<p> <b>Kode Kelas Praktikum : </b>' + data_laporan[i]["kode_kelas_praktikum"] + '</p>';
+                kal += '<p> <b>Kode Laboratorium &nbsp : </b>' + data_laporan[i]["kode_lab"] + '</p>';
             kal += '</div>';
             kal += '<div class="col-md-6 col-sm-12">';
-                kal += '<p> Nama Kelas Praktikum : ' + data_laporan[i]["nama_subject"] + ' ' + data_laporan[i]["kelas_paralel"] + ' (' + data_laporan[i]["tipe"] +')</p>';
-                kal += '<p> Waktu &nbsp &nbsp &nbsp :' + data_laporan[i]["hari"] + ' ' + data_laporan[i]["jam"] + '</p>';
+                kal += '<p> <b>Nama Kelas Praktikum : </b>' + data_laporan[i]["nama_subject"] + ' ' + data_laporan[i]["kelas_paralel"] + ' (' + data_laporan[i]["tipe"] +')</p>';
+                kal += '<p> <b>Waktu &nbsp &nbsp &nbsp : </b>' + data_laporan[i]["hari"] + ' ' + data_laporan[i]["jam"] + '</p>';
             kal += '</div>';
 
             kal += '<table id="datatable_laporan_detail_kelas" class="table table-striped table-bordered" style="width:100%">';
@@ -958,8 +975,38 @@
         }
 
         // alert(kal);
-        
-        $("#laporan_detail_kelas").html(kal);        
+
+        // initializedatatable(kal);
+        $("#laporan_detail_kelas").html(kal);   
+
+        if(data_laporan.length == 1){
+            $('#datatable_laporan_detail_kelas').DataTable( {
+                dom: "Blfrtip",
+                buttons: [
+                    {
+                        extend: "copy",
+                        className: "btn-sm"
+                    },
+                    // {
+                    //     extend: "csv",
+                    //     className: "btn-sm"
+                    // },
+                    {
+                        extend: "excel",
+                        className: "btn-sm"
+                    },
+                    {
+                        extend: "pdfHtml5",
+                        className: "btn-sm"
+                    },
+                    {
+                        extend: "print",
+                        className: "btn-sm"
+                    },
+                ],
+                responsive: true
+            });
+        }
     }
 
     function viewmahasiswa(){
@@ -1237,10 +1284,10 @@
                     extend: "copy",
                     className: "btn-sm"
                 },
-                {
-                    extend: "csv",
-                    className: "btn-sm"
-                },
+                // {
+                //     extend: "csv",
+                //     className: "btn-sm"
+                // },
                 {
                     extend: "excel",
                     className: "btn-sm"

@@ -2495,10 +2495,10 @@ function init_DataTables() {
                         extend: "copy",
                         className: "btn-sm"
                     },
-                    {
-                        extend: "csv",
-                        className: "btn-sm"
-                    },
+                    // {
+                    //     extend: "csv",
+                    //     className: "btn-sm"
+                    // },
                     {
                         extend: "excel",
                         className: "btn-sm"

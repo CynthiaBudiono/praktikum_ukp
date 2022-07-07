@@ -143,4 +143,13 @@ class Mahasiswa extends CI_Controller {
 		
         echo json_encode($mahasiswa);
 	}
+
+	public function deleteall(){
+		$this->load->model('mahasiswa_model');
+
+		$this->mahasiswa_model->deleteall();
+
+		$this->session->set_flashdata('msg', "Sukses menghapus semua data mahasiswa");
+		redirect('mahasiswa');
+	}
 }

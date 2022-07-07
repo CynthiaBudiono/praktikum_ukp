@@ -34,8 +34,8 @@
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-down" id='collapse-add'></i></a>
                         </li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
-                        </li>
+                        <!-- <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li> -->
                     </ul>
                     <div class="clearfix"></div>
                 </div>
@@ -135,7 +135,7 @@
                     <h2><?= isset($title) ? $title : "-" ?></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                        <!-- <li><a class="close-link"><i class="fa fa-close"></i></a></li> -->
                     </ul>
                     <div class="clearfix"></div>
                 </div>
@@ -373,10 +373,10 @@
                         extend: "copy",
                         className: "btn-sm"
                     },
-                    {
-                        extend: "csv",
-                        className: "btn-sm"
-                    },
+                    // {
+                    //     extend: "csv",
+                    //     className: "btn-sm"
+                    // },
                     {
                         extend: "excel",
                         className: "btn-sm"

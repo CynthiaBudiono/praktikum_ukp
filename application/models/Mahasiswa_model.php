@@ -114,4 +114,10 @@ class Mahasiswa_model extends CI_Model {
 
 		$this->db->where('NRP = '.$nrp)->delete('mahasiswa');
 	}
+
+	public function deleteall(){
+
+		$this->db->empty_table('mahasiswa');
+		
+	}
 }

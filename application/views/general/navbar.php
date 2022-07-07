@@ -51,8 +51,7 @@
       <div class="nav toggle">
         <a id="menu_toggle"><i class="fa fa-bars"></i></a>
       </div>
-      <nav class="nav navbar-nav">
-        <!-- <span>Periode</span> -->
+      <!-- <nav class="nav navbar-nav">
         <ul class=" navbar-right">
           <li class="nav-item dropdown open">
             <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
@@ -67,7 +66,7 @@
               <h6 style="margin-top:5px; margin-bottom:0px; margin-right: 15px;"><?= isset($semester) ? $semester : "-" ?> <?= isset($tahun_ajaran) ? $tahun_ajaran : "-" ?></h6>
           </li>
         </ul>
-    </nav>
+      </nav> -->
   </div>
 </div>
 <!-- /top navigation -->

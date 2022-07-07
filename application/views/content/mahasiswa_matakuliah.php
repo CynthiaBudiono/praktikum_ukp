@@ -21,8 +21,8 @@
           <ul class="nav navbar-right panel_toolbox">
             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
             </li>
-            <li><a class="close-link"><i class="fa fa-close"></i></a>
-            </li>
+            <!-- <li><a class="close-link"><i class="fa fa-close"></i></a>
+            </li> -->
           </ul>
           <div class="clearfix"></div>
         </div>
@@ -32,7 +32,7 @@
                 $t = base_url("assets/template/PRS_template.xlsx");
                 $t = str_replace("https://","http://",$t);
             ?>
-            <p>Download template, to get the template file <a href="<?php echo $t; ?>" download>Download Template</a></p>
+            <p>Download template, to get the template file <a href="<?php echo $t; ?>" download style="color:red;">Download Template</a></p>
             <!-- <p>Download template, to get the template file <a href="<?php echo base_url("assets/template/PRS_template.xlsx"); ?>" download>Download Template</a></p> -->
 
             <form action="<?= (base_url('mahasiswa_matakuliah/readfile')); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
