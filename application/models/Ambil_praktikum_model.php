@@ -801,9 +801,15 @@ class Ambil_praktikum_model extends CI_Model {
 		$this->db->where('nrp', $nrp);
 
 		// mhs telah memilih jadwal praktikum
-		$this->db->where('(pil1 IS NOT null');
-		$this->db->or_where('pil2 IS NOT null');
-		$this->db->or_where('pil3 IS NOT null)');
+		// $this->db->group_start()
+		// 	->or_where('(pil1 IS NOT null')
+		// 	->or_where('pil2 IS NOT null')
+		// 	->or_where('pil3 IS NOT null');
+		// $this->db->group_end();
+		
+		$this->db->where('((pil1 IS NOT null and pil1 != 0)');
+		$this->db->or_where('(pil2 IS NOT null and pil2 != 0)');
+		$this->db->or_where('(pil3 IS NOT null and pil3 != 0))');
 
 		if($semester != null && $tahun_ajaran != null){
 			$this->db->where('ambil_praktikum.semester', $semester);

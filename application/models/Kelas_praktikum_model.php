@@ -76,6 +76,7 @@ class Kelas_praktikum_model extends CI_Model {
 			$this->db->where('kelas_praktikum.kode_mk', $kode_mk);
 			$this->db->where('kelas_praktikum.tipe', $tipe);
 			$this->db->where('kelas_praktikum.status', 1);
+			$this->db->order_by('kelas_praktikum.kelas_paralel', "ASC");
 
 			if($semester != null){
 				$this->db->where('kelas_praktikum.semester', $semester);

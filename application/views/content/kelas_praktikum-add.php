@@ -251,14 +251,19 @@ $(document).ready(function() {
             tipe: $("input[name='tipe"+ row +"']:checked").val()
         },
         function(result) {
-            alert("cekparalel : " + result);
+            // alert("cekparalel : " + result);
             if(result != 0){
                 //ALERT DAN GAK BISA SUBMIT == disabled
+                var arr = JSON.parse(result);
+                var kelas = "";
+                for(var i=0; i<arr.length; i++){
+                    kelas +=  arr[i]['kelas_paralel'] + " ";
+                }
                 $('#have_danger' + row).css('display', 'block');
-                $('#div_alert_paralel' + row).css('display', 'block');
-                $('#cekbtnsubmit').attr("disabled", true);
 
-                $('error_msgparalel'+ row).html("Kelas Paralel telah ada " + " ");
+                $('#error_msgparalel'+ row).html("Kelas Paralel telah ada (" + kelas +")");
+                $('#div_alert_paralel' + row).css('display', 'block');
+                $('#cekbtnsubmit').attr("disabled", true);                
             }
             else{
                 $('#have_danger' + row).css('display', 'none');
