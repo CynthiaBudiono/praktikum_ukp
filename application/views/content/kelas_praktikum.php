@@ -91,7 +91,7 @@
                 <div>
                     <a class="btn btn-sm bg-green" href="<?php echo base_url("kelas_praktikum/adds"); ?>">Tambah</a>
                     <!-- <a class="btn btn-sm bg-green" href="<?php //echo base_url("kelas_praktikum/addwexcel"); ?>">Tambah w/ Excel</a> -->
-                    <p>Download template, to get the template file <a href="<?php echo base_url("assets/template/jadwal_praktikum_template.xlsx"); ?>" download>Download Template</a></p>
+                    <p>Download template, to get the template file <a href="<?php echo base_url("assets/template/jadwal_praktikum_template.xlsx"); ?>" download style="color:red;">Download Template</a></p>
 
                     <form action="<?= (base_url('kelas_praktikum/readfile')); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
                         <input type="file" id="kelas_praktikum_file" name="kelas_praktikum_file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
