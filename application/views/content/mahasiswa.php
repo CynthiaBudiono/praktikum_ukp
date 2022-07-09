@@ -31,7 +31,7 @@
               $t = base_url("assets/template/mahasiswa_template.xlsx");
               $t = str_replace("https://","http://",$t);
           ?>
-          <p>Download template, to get the template file <a href="<?php echo $t; ?>" download style="color:red;">Download Template</a></p>
+          <p>Download template, to get the template file <a href="<?php echo $t; ?>" download style="color:red; border: 1px solid black; padding: 1px;">Download Template</a></p>
 
           <!-- <p>Download template, to get the template file <a href="<?php echo base_url("assets/template/mahasiswa_template.xlsx"); ?>" download>Download Template</a></p> -->
 
@@ -110,7 +110,7 @@
               </button>
           </div>
           <div class="modal-body" id="modal_body">
-            <h5>Apakah yakin mereset data mahasiswa ?</h5>
+            <h5>Apakah anda yakin mereset data mahasiswa ?</h5>
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

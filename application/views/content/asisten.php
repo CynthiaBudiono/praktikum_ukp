@@ -149,12 +149,13 @@
                                 <table id="datatable-asisten" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Actions</th>
+                                        
                                         <th>id</th>
                                         <th>Mahasiswa</th>
                                         <th>tipe</th>
                                         <th>status</th>
                                         <th>Tanggal Diterima</th>
+                                        <th>Actions</th>
                                         <!-- <th>periode pendaftaran</th> -->
                                     </tr>
                                 </thead>
@@ -336,10 +337,7 @@
             
             for(var i = 0; i < arr.length; i++){
                 kal += '<tr>';
-                kal += '<td>';
-                    kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ arr[i]['id'] +'")><i class="fa fa-pencil"></i> Edit</button>';
-                    // kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['id'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
-                kal += '</td>';
+                
                 kal += '<td>'+ arr[i]['id'] +'</td>';
                 kal += '<td>'+ arr[i]['NRP'] + ' - ' + arr[i]['nama_mahasiswa'] +'</td>';
                 kal += '<td>'+ arr[i]['tipe'] +'</td>';
@@ -356,6 +354,10 @@
                 //     }
                 //     kal += arr[i]['tahun_ajaran_pendaftaran_asdos'];
                 // kal+= '</td>';
+                kal += '<td>';
+                    kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ arr[i]['id'] +'")><i class="fa fa-pencil"></i> Edit</button>';
+                    // kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['id'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
+                kal += '</td>';
                 kal += '</tr>';
             }
             

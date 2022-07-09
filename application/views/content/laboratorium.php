@@ -97,11 +97,12 @@
                                 <table id="datatable-laboratorium" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Actions</th>
+                                        
                                         <th>Kode lab</th>
                                         <th>Nama</th>
                                         <th>Quota</th>
                                         <th>Status</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="data_laboratorium">
@@ -212,15 +213,16 @@
             
             for(var i = 0; i < arr.length; i++){
                 kal += '<tr>';
-                kal += '<td>';
-                    kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ arr[i]['kode_lab'] +'")><i class="fa fa-pencil"></i> Edit</button>';
-                    // kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['kode_lab'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
-                kal += '</td>';
+                
                 kal += '<td>'+ arr[i]['kode_lab'] +'</td>';
                 kal += '<td>'+ arr[i]['nama'] +'</td>';
                 kal += '<td>'+ arr[i]['quota_max'] +'</td>';
                 kal += '<td>';
                     kal += (arr[i]['status'] == 1) ? '<span class="badge bg-green">active</span>' : '<span class="badge bg-danger">non active</span>';
+                kal += '</td>';
+                kal += '<td>';
+                    kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ arr[i]['kode_lab'] +'")><i class="fa fa-pencil"></i> Edit</button>';
+                    // kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['kode_lab'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
                 kal += '</td>';
                 kal += '</tr>';
             }

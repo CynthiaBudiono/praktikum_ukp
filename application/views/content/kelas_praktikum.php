@@ -91,7 +91,7 @@
                 <div>
                     <a class="btn btn-sm bg-green" href="<?php echo base_url("kelas_praktikum/adds"); ?>">Tambah</a>
                     <!-- <a class="btn btn-sm bg-green" href="<?php //echo base_url("kelas_praktikum/addwexcel"); ?>">Tambah w/ Excel</a> -->
-                    <p>Download template, to get the template file <a href="<?php echo base_url("assets/template/jadwal_praktikum_template.xlsx"); ?>" download style="color:red;">Download Template</a></p>
+                    <p>Download template, to get the template file <a href="<?php echo base_url("assets/template/jadwal_praktikum_template.xlsx"); ?>" download style="color:red; border: 1px solid black; padding: 1px;">Download Template</a></p>
 
                     <form action="<?= (base_url('kelas_praktikum/readfile')); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
                         <input type="file" id="kelas_praktikum_file" name="kelas_praktikum_file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
@@ -111,9 +111,7 @@
                                 <table id="datatable-periode-ini" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <?php if($this->session->userdata('user_type') != 'mahasiswa' && $this->session->userdata('user_type') != 'asisten_dosen'){?>
-                                            <th>Actions</th>
-                                        <?php }?>
+                                        
                                         <th>Waktu</th>
                                         <th>Laboratorium</th>
                                         <th>Mata Kuliah</th>
@@ -123,6 +121,9 @@
                                             <th>Pengajar</th>
                                             <th>Status</th>
                                         <?php } ?>
+                                        <?php if($this->session->userdata('user_type') != 'mahasiswa' && $this->session->userdata('user_type') != 'asisten_dosen'){?>
+                                            <th>Actions</th>
+                                        <?php }?>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -130,14 +131,7 @@
                                     <?php if(is_array($kelas_praktikum_now)) : ?>
                                         <?php foreach($kelas_praktikum_now as $key) : ?>
                                         <tr>
-                                            <?php if($this->session->userdata('user_type') != 'mahasiswa' && $this->session->userdata('user_type') != 'asisten_dosen'){?>
-                                            <td>
-                                                <!-- <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a> -->
-                                                
-                                                <a href="<?php echo base_url("kelas_praktikum/updates/"); echo base64_encode($key['id']);?>" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
-                                                <!-- <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
-                                            </td>
-                                            <?php } ?>
+                                            
                                             <!-- <td><?= (isset($key['kode_kelas_praktikum'])) ? $key['kode_kelas_praktikum'] : '' ?></td> -->
                                             <!-- <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?></td> -->
                                             <td><?= (isset($key['hari'])) ? $key['hari'] : '' ?>, <?= (isset($key['jam'])) ? $key['jam'] : '' ?>
@@ -157,6 +151,14 @@
                                             <td>
                                                 <?php 
                                                     if(isset($key['status'])) if($key['status']==1) echo '<span class="badge bg-green">active</span>'; else echo '<span class="badge bg-danger">non active</span>';?>
+                                            </td>
+                                            <?php } ?>
+                                            <?php if($this->session->userdata('user_type') != 'mahasiswa' && $this->session->userdata('user_type') != 'asisten_dosen'){?>
+                                            <td>
+                                                <!-- <a href="#" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a> -->
+                                                
+                                                <a href="<?php echo base_url("kelas_praktikum/updates/"); echo base64_encode($key['id']);?>" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
+                                                <!-- <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
                                             </td>
                                             <?php } ?>
                                         </tr>

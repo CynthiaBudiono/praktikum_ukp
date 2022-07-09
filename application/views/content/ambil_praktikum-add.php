@@ -197,7 +197,7 @@
                                 <table id="datatable-ambil_praktikum" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Action</th>
+                                        
                                         <!-- <th>Kode MK</th> -->
                                         <th>Mata Kuliah</th>
                                         <th>Tipe</th>
@@ -205,6 +205,7 @@
                                         <th>Pilihan 2</th>
                                         <th>Pilihan 3</th>
                                         <th>Terpilih</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="data_ambil_praktikum">
@@ -718,33 +719,7 @@
         // }
         for(var i = 0; i < data_jadwal.length; i++){
             kal += '<tr>';
-            kal += '<td>';
-                if($fromdb != null){
-                    if(usertype == "mahasiswa" || usertype == "asisten_dosen"){
-                        if(data_jadwal[i]['terpilih'] != ""){
-                            kal += '<button disabled type="button" class="btn btn-sm btn-info btn-action"><i class="fa fa-pencil"></i> Edit</button>';
-                            kal += '<button disabled type="button" class="btn btn-sm btn-danger btn-action"><i class="fa fa-trash-o"></i> Delete</button>';
-                        }
-                    }
-                }
-                else{
-                    if(usertype == "mahasiswa" || usertype == "asisten_dosen"){
-                        if(data_jadwal[i]['terpilih'] != ""){
-                            kal += '<button disabled type="button" class="btn btn-sm btn-info btn-action"><i class="fa fa-pencil"></i> Edit</button>';
-                            kal += '<button disabled type="button" class="btn btn-sm btn-danger btn-action"><i class="fa fa-trash-o"></i> Delete</button>';
-                        }
-                        else{
-                            kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ i +'")><i class="fa fa-pencil"></i> Edit</button>';
-                            kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=deleterecord("'+ i +'")><i class="fa fa-trash-o"></i> Delete</button>';
-                        }
-                    }
-                    else{
-                        kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ i +'")><i class="fa fa-pencil"></i> Edit</button>';
-                        kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=deleterecord("'+ i +'")><i class="fa fa-trash-o"></i> Delete</button>';
-                    }
-                    
-                }
-            kal += '</td>';
+            
             // alert(data_jadwal[i]['subject']);
             kal += '<td>'+ data_jadwal[i]['subject'] +'</td>';
             kal += '<td>'+ data_jadwal[i]['tipe'] +'</td>';
@@ -774,7 +749,33 @@
             else{
                 kal += '<td>'+ data_jadwal[i]['terpilih'] + '</td>';
             }
-            
+            kal += '<td>';
+                if($fromdb != null){
+                    if(usertype == "mahasiswa" || usertype == "asisten_dosen"){
+                        if(data_jadwal[i]['terpilih'] != ""){
+                            kal += '<button disabled type="button" class="btn btn-sm btn-info btn-action"><i class="fa fa-pencil"></i> Edit</button>';
+                            kal += '<button disabled type="button" class="btn btn-sm btn-danger btn-action"><i class="fa fa-trash-o"></i> Delete</button>';
+                        }
+                    }
+                }
+                else{
+                    if(usertype == "mahasiswa" || usertype == "asisten_dosen"){
+                        if(data_jadwal[i]['terpilih'] != ""){
+                            kal += '<button disabled type="button" class="btn btn-sm btn-info btn-action"><i class="fa fa-pencil"></i> Edit</button>';
+                            kal += '<button disabled type="button" class="btn btn-sm btn-danger btn-action"><i class="fa fa-trash-o"></i> Delete</button>';
+                        }
+                        else{
+                            kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ i +'")><i class="fa fa-pencil"></i> Edit</button>';
+                            kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=deleterecord("'+ i +'")><i class="fa fa-trash-o"></i> Delete</button>';
+                        }
+                    }
+                    else{
+                        kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ i +'")><i class="fa fa-pencil"></i> Edit</button>';
+                        kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=deleterecord("'+ i +'")><i class="fa fa-trash-o"></i> Delete</button>';
+                    }
+                    
+                }
+            kal += '</td>';
             kal += '</tr>';
         }
         

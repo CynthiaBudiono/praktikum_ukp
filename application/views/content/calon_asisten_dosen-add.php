@@ -222,10 +222,10 @@
                         <div id="step-3">
                             <h2 class="StepTitle">Information</h2>
                             <p>
-                                Jadwal wawancara akan dikontak langsung oleh dosen
+                                Jadwal wawancara akan dihubungi melalui Email
                             </p>
                             <p>
-                                Informasi lebih lanjut silahkan hubungi koordinator
+                                Informasi lebih lanjut silahkan hubungi Kepala Lab atau Asisten Tetap Lab
                             </p>
                         </div>
                         </div><!-- End SmartWizard Content -->

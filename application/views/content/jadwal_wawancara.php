@@ -111,11 +111,12 @@
                                 <table id="datatable-jadwal_wawancara" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Actions</th>
+                                        
                                         <th>Tanggal Daftar</th>
                                         <th>Calon Asisten Dosen</th>
                                         <th>Pewawancara (Dosen)</th>
                                         <th>Tanggal Wawancara</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="data_jadwal_wawancara">
@@ -326,15 +327,16 @@
                 
                 for(var i = 0; i < arr.length; i++){
                     kal += '<tr>';
+                    
+                    kal += '<td>'+ arr[i]['created'] +'</td>';
+                    kal += '<td>'+ arr[i]['NRP'] + ' ~ ' + arr[i]['nama_mahasiswa'] +'</td>';
+                    kal += '<td>'+ arr[i]['nama_dosen'] +'</td>';
+                    kal += '<td>'+ arr[i]['tanggal'] +'</td>';
                     kal += '<td>';
                         kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ arr[i]['id'] +'")><i class="fa fa-pencil"></i> Edit</button>';
                         // kal += '<button type="button" class="btn btn-sm bg-green btn-action" onclick=confirm("'+ arr[i]['id'] +'")><i class="fa fa-check"></i> Lulus</button>';
                         // kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['id'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
                     kal += '</td>';
-                    kal += '<td>'+ arr[i]['created'] +'</td>';
-                    kal += '<td>'+ arr[i]['NRP'] + ' ~ ' + arr[i]['nama_mahasiswa'] +'</td>';
-                    kal += '<td>'+ arr[i]['nama_dosen'] +'</td>';
-                    kal += '<td>'+ arr[i]['tanggal'] +'</td>';
                     // kal += '<td>';
                     //     kal += (arr[i]['status'] == 1) ? '<span class="badge bg-green">active</span>' : '<span class="badge bg-danger">non active</span>';
                     // kal += '</td>';

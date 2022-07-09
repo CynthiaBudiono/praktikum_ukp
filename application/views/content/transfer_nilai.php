@@ -44,10 +44,11 @@
                 <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
                   <thead>
                     <tr>
-                      <th>Actions</th>
+                      
                       <th>Mahasiswa</th>
                       <th>Mata Kuliah</th>
                       <th>Nilai Akhir</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
 
@@ -56,15 +57,16 @@
                       <?php if(is_array($mahasiswa)) : ?>
                           <?php foreach($mahasiswa as $key) : ?>
                             <tr>
+                              
+                              <td><?= (isset($key['NRP'])) ? $key['NRP'] : '' ?> ~ <?= (isset($key['nama_mahasiswa'])) ? $key['nama_mahasiswa'] : '' ?></td>
+                              <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?> ~ <?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?></td>
+                              <td><?= (isset($key['hasil_akhir'])) ? $key['hasil_akhir'] : '' ?></td>
                               <td>
                               <a href="<?= (base_url('mahasiswa_nilai/viewdetail')); ?>/<?= (isset($key['NRP'])) ? $key['NRP'] : '' ?>/<?= (isset($key['id_kelas_praktikum'])) ? base64_encode($key['id_kelas_praktikum']) : '' ?>" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a>
                               <a onclick=transfer("<?= (isset($key['NRP'])) ? $key['NRP'] : '' ?>","<?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?>","<?= (isset($key['id_kelas_praktikum'])) ? $key['id_kelas_praktikum'] : '' ?>") data-toggle="modal" data-target=".bs-example-modal-sm" class="btn bg-green btn-sm btn-action" style="color: white;"><i class="fa fa-exchange" style="color: white;"></i> Transfer </a>
                               <!-- <a href="#" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
                               <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
                               </td>
-                              <td><?= (isset($key['NRP'])) ? $key['NRP'] : '' ?> ~ <?= (isset($key['nama_mahasiswa'])) ? $key['nama_mahasiswa'] : '' ?></td>
-                              <td><?= (isset($key['kode_mk'])) ? $key['kode_mk'] : '' ?> ~ <?= (isset($key['nama_subject'])) ? $key['nama_subject'] : '' ?></td>
-                              <td><?= (isset($key['hasil_akhir'])) ? $key['hasil_akhir'] : '' ?></td>
                             </tr>
                           <?php endforeach; ?>
                       <?php endif; ?>

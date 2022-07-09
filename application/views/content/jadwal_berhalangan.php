@@ -29,12 +29,13 @@
                   <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                       <tr>
-                        <th>Actions</th>
+                        
                         <th>NRP/NIP</th>
                         <th>Nama</th>
                         <th>Role</th>
                         <th>Status</th>
                         <th>last login</th>
+                        <th>Actions</th>
                       </tr>
                     </thead>
 
@@ -44,11 +45,7 @@
                             <?php for($i = 0; $i < count($pengajar); $i++) { ?>
                               <?php //var_dump($pengajar[1][0]['kode_pengajar']); exit;?>
                               <tr>
-                                <td>
-                                  <a href="<?php echo base_url("jadwal_berhalangan/adds/"); echo base64_encode($pengajar[$i]['kode_pengajar']).'/'.base64_encode($pengajar[$i]['role']);?>" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View  </a>
-                                <!-- <a href="#" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
-                                <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
-                                </td>
+                                
                                 <td><?= (isset($pengajar[$i]['kode_pengajar'])) ? $pengajar[$i]['kode_pengajar'] : '' ?></td>
                                 <td><?= (isset($pengajar[$i]['nama'])) ? $pengajar[$i]['nama'] : '' ?></td>
                                 <td><?= (isset($pengajar[$i]['role'])) ? $pengajar[$i]['role'] : '' ?></td>
@@ -58,6 +55,11 @@
                                   ?>
                                 </td>
                                 <td><?= (isset($pengajar[$i]['last_login'])) ? $pengajar[$i]['last_login'] : '' ?></td>
+                                <td>
+                                  <a href="<?php echo base_url("jadwal_berhalangan/adds/"); echo base64_encode($pengajar[$i]['kode_pengajar']).'/'.base64_encode($pengajar[$i]['role']);?>" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View  </a>
+                                <!-- <a href="#" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
+                                <a href="#" class="btn btn-danger btn-sm btn-action"><i class="fa fa-trash-o"></i> Delete </a> -->
+                                </td>
                               </tr>
                         <?php } endif; ?>
                     <?php endif; ?>

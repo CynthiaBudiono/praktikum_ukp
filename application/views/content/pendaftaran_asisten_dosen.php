@@ -95,12 +95,13 @@
                                 <table id="datatable_pendaftaran_asisten_dosen" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Actions</th>
+                                        
                                         <th>Start</th>
                                         <th>End</th>
                                         <th>Semester</th>
                                         <th>Tahun Ajaran </th>
                                         <!-- <th>Status</th> -->
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="data_pendaftaran_asisten_dosen">
@@ -250,11 +251,7 @@ $(function() {
             
             for(var i = 0; i < arr.length; i++){
                 kal += '<tr>';
-                kal += '<td>';
-                    // kal += '<button type="button" class="btn btn-sm btn-primary btn-action" onclick=view("'+ arr[i]['id'] +'")><i class="fa fa-eye"></i> View</button>';
-                    kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ arr[i]['id'] +'")><i class="fa fa-pencil"></i> Edit</button>';
-                    // kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['id'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
-                kal += '</td>';
+                
                 kal += '<td>'+ arr[i]['waktu_start'] +'</td>';
                 kal += '<td>'+ arr[i]['waktu_end'] +'</td>';
                 kal += '<td>'+ arr[i]['semester'] +'</td>';
@@ -262,6 +259,11 @@ $(function() {
                 // kal += '<td>';
                 //     kal += (arr[i]['status'] == 1) ? '<span class="badge bg-green">active</span>' : '<span class="badge bg-danger">non active</span>';
                 // kal += '</td>';
+                kal += '<td>';
+                    // kal += '<button type="button" class="btn btn-sm btn-primary btn-action" onclick=view("'+ arr[i]['id'] +'")><i class="fa fa-eye"></i> View</button>';
+                    kal += '<button type="button" class="btn btn-sm btn-info btn-action" onclick=updates("'+ arr[i]['id'] +'")><i class="fa fa-pencil"></i> Edit</button>';
+                    // kal += '<button type="button" class="btn btn-sm btn-danger btn-action" onclick=delete("'+ arr[i]['id'] +'")><i class="fa fa-trash-o"></i> Delete</button>';
+                kal += '</td>';
                 kal += '</tr>';
             }
             

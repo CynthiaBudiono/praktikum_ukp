@@ -31,7 +31,7 @@
               $t = base_url("assets/template/jadwal_kuliah_template.xlsx");
               $t = str_replace("https://","http://",$t);
           ?>
-          <p>Download template, to get the template file <a href="<?php echo $t; ?>" download style="color:red;">Download Template</a></p>
+          <p>Download template, to get the template file <a href="<?php echo $t; ?>" download style="color:red; border: 1px solid black; padding: 1px;">Download Template</a></p>
 
           <!-- <p>Download template, to get the template file <a href="<?php echo base_url("assets/template/jadwal_kuliah_template.xlsx"); ?>" download>Download Template</a></p> -->
 

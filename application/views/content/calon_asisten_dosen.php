@@ -30,11 +30,12 @@
                                 <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Actions</th>
-                                        <th>id</th>
+                                        
+                                        <th>No.</th>
                                         <th>Mahasiswa</th>
                                         <th>created</th>
                                         <th>updated</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -42,6 +43,11 @@
                                     <?php if(is_array($calon_asisten_dosen)) : ?>
                                         <?php foreach($calon_asisten_dosen as $key) : ?>
                                         <tr>
+                                            
+                                            <td><?= (isset($key['id'])) ? $key['id'] : '' ?></td>
+                                            <td><?= (isset($key['NRP'])) ? $key['NRP'] : '' ?> <?= (isset($key['nama_mahasiswa'])) ? $key['nama_mahasiswa'] : '' ?></td>
+                                            <td><?= (isset($key['created'])) ? $key['created'] : '' ?></td>
+                                            <td><?= (isset($key['updated'])) ? $key['updated'] : '' ?></td>
                                             <td>
                                                 <a href="<?= base_url('calon_asisten_dosen/getdetail/'); ?><?= (isset($key['NRP'])) ? $key['NRP'] : '' ?>" class="btn btn-primary btn-sm btn-action"><i class="fa fa-eye"></i> View </a>
                                                 <a href="<?php echo base_url("calon_asisten_dosen/updates/"); echo base64_encode($key['id']);?>" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a>
@@ -50,10 +56,6 @@
                                                     <a href="#" onclick=confirm(<?= (isset($key['id'])) ? $key['id'] : '' ?>) class="btn btn-success btn-sm btn-action"><i class="fa fa-check"></i> Confirm </a>
                                                 <?php } }?>
                                             </td>
-                                            <td><?= (isset($key['id'])) ? $key['id'] : '' ?></td>
-                                            <td><?= (isset($key['NRP'])) ? $key['NRP'] : '' ?> <?= (isset($key['nama_mahasiswa'])) ? $key['nama_mahasiswa'] : '' ?></td>
-                                            <td><?= (isset($key['created'])) ? $key['created'] : '' ?></td>
-                                            <td><?= (isset($key['updated'])) ? $key['updated'] : '' ?></td>
                                         </tr>
                                         <?php endforeach; ?>
                                     <?php endif; ?>

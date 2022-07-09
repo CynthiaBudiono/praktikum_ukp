@@ -50,11 +50,12 @@
                                         <table id="datatable-periode-ini" class="table table-striped table-bordered" style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th>Action</th>
+                                                
                                                 <th>Pertemuan Ke-</th>
                                                 <th>Tanggal</th>
                                                 <!-- <th>NRP</th>
                                                 <th>Nama</th> -->
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -62,11 +63,12 @@
                                             <?php if(is_array($key['all_pertemuan'])) : ?>
                                                 <?php foreach($key['all_pertemuan'] as $key_detail) : ?>
                                                     <tr>
+                                                        
+                                                        <td><?= (isset($key_detail['pertemuan'])) ? $key_detail['pertemuan'] : '' ?></td>
+                                                        <td><?= (isset($key_detail['tanggal_pertemuan'])) ? $key_detail['tanggal_pertemuan'] : '' ?></td>
                                                         <td>
                                                             <a href="<?php echo base_url("mahasiswa_nilai/updates/"); echo base64_encode($key_detail['id_kelas_praktikum'])."/".($key_detail['pertemuan']);?>" class="btn btn-info btn-sm btn-action"><i class="fa fa-pencil"></i> Edit </a> 
                                                         </td>
-                                                        <td><?= (isset($key_detail['pertemuan'])) ? $key_detail['pertemuan'] : '' ?></td>
-                                                        <td><?= (isset($key_detail['tanggal_pertemuan'])) ? $key_detail['tanggal_pertemuan'] : '' ?></td>
                                                     </tr>
                                         <?php //if(isset($key['detail_kelas'])) : ?>
                                             <?php //if(is_array($key['detail_kelas'])) : ?>

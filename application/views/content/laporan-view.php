@@ -225,10 +225,11 @@
                                         <table id="datatable_laporan_transfer_nilai" class="table table-striped table-bordered" style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th>Actions</th>
+                                                
                                                 <th>Mahasiswa</th>
                                                 <th>Mata Kuliah</th>
                                                 <th>Nilai Akhir</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody id="body_table_transfer_nilai"></tbody>
@@ -1227,11 +1228,12 @@
         for(var i = 0; i < data_laporan[0].length; i++){
             hasil = (data_laporan[0][i]['sum_rata_rata']/data_laporan[0][i]['jumlah_pertemuan']);
             kal += '<tr>';
-                kal += '<td><a href="<?= (base_url('mahasiswa_nilai/viewdetail')); ?>/' + data_laporan[0][i]['NRP'] + '/' + btoa(data_laporan[0][i]['id_kelas_praktikum']) + '" style="color:white" class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a></td>';
+                
                 // kal += '<td><a onclick=detailtransfernilai(' + data_laporan[0][i]['id_kelas_praktikum'] + ',' + data_laporan[0][i]['NRP'] + ') style="color:white" class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a></td>';
                 kal += '<td>' + data_laporan[0][i]['NRP'] + ' - ' + data_laporan[0][i]['nama_mahasiswa'] +'</td>';
                 kal += '<td>' + data_laporan[0][i]['kode_mk'] + ' - ' + data_laporan[0][i]['nama_subject'] +'</td>';
                 kal += '<td>' + data_laporan[0][i]['hasil_akhir'] + '</td>';
+                kal += '<td><a href="<?= (base_url('mahasiswa_nilai/viewdetail')); ?>/' + data_laporan[0][i]['NRP'] + '/' + btoa(data_laporan[0][i]['id_kelas_praktikum']) + '" style="color:white" class="btn btn-primary btn-sm btn-action"><i class="fa fa-folder"></i> View </a></td>';
             kal += '</tr>';
         }
 
